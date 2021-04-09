@@ -1,0 +1,379 @@
+﻿
+@model PagedList.IPagedList<InteriorDesign.Models.BankAndBranch>
+@using PagedList.Mvc;
+
+@using InteriorDesign.Repository;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Html.RenderPartial("MenuView");
+    ViewBag.Title = "Bank & Branch";
+}
+
+
+<table class="table alert-warning" width="100%">
+
+    <tr>
+        <td width="20%">
+            <div>
+
+                <a onclick='GetPDF();'>
+                    PDF
+                </a>
+
+                @{
+
+                    HtmlString hostAddress = new HtmlString(Session["HostAddress"].ToString());
+
+                }
+
+
+                <script type='text/javascript'>
+
+                                    function GetPDF() {
+
+                                        var url = "@hostAddress/BankAndBranches/MatureReport?ReportType=PDF&FromReceiveDate=" + $('#FromReceiveDate').val() + "&ToReceiveDate=" + $('#ToReceiveDate').val();
+                                        window.open(url, '_blank');
+
+                                    }
+
+                </script>
+
+
+            </div>
+
+        </td>
+        <td width="20%">
+
+            <a onclick='GetExcel();'>
+                Excel
+            </a>
+
+
+            <script type='text/javascript'>
+
+                                    function GetExcel() {
+
+                                        var url = "@hostAddress/BankAndBranches/MatureReport?ReportType=EXCEL&FromReceiveDate=" + $('#FromReceiveDate').val() + "&ToReceiveDate=" + $('#ToReceiveDate').val();
+                                        window.open(url, '_blank');
+
+                                    }
+
+            </script>
+
+        </td>
+        <td width="20%">
+
+            <a onclick='GetExcelRecord();'>
+                Excel Record
+            </a>
+
+
+            <script type='text/javascript'>
+
+                                    function GetExcelRecord() {
+
+                                        var url = "@hostAddress/BankAndBranches/MatureReport?ReportType=EXCELRECORD&FromReceiveDate=" + $('#FromReceiveDate').val() + "&ToReceiveDate=" + $('#ToReceiveDate').val();
+                                        window.open(url, '_blank');
+
+                                    }
+
+            </script>
+
+        </td>
+        <td width="20%">
+
+            <a onclick='GetWord();'>
+                Word
+            </a>
+
+
+            <script type='text/javascript'>
+
+                                    function GetWord() {
+
+                                        var url = "@hostAddress/BankAndBranches/MatureReport?ReportType=WORD&FromReceiveDate=" + $('#FromReceiveDate').val() + "&ToReceiveDate=" + $('#ToReceiveDate').val();
+                                        window.open(url, '_blank');
+
+                                    }
+
+            </script>
+
+
+        </td>
+
+        <td width="20%">
+
+            <a onclick='GetVisualised();'>
+                Visualize
+            </a>
+            <script type='text/javascript'>
+
+                                    function GetVisualised() {
+
+                                        var url = "@hostAddress/ShowChart/Index";
+                                        window.open(url, '_blank');
+
+                                    }
+
+            </script>
+        </td>
+
+    </tr>
+    <tr>
+        <td width="20%">
+
+
+         
+
+        </td>
+        <td width="20%">
+
+      
+        </td>
+
+        <td width="20%">
+
+
+            <div class="alert-success">
+
+                From Receive Date :
+
+            </div>
+
+            <div class="alert-danger">
+
+                @Html.JQueryUI().Datepicker("FromReceiveDate")
+
+
+            </div>
+
+
+
+        </td>
+        <td width="20%">
+
+            <div class="alert-success">
+
+                To Receive Date :
+
+            </div>
+
+            <div class="alert-danger">
+                @Html.JQueryUI().Datepicker("ToReceiveDate")
+
+
+            </div>
+
+        </td>
+        <td width="20%">
+
+        </td>
+    </tr>
+</table>
+
+
+
+<link href="~/Content/TableStyle.css" rel="stylesheet" />
+
+<h2> Bank & Branch  </h2>
+
+
+
+<div class="alert-primary" style="color:black;">
+
+
+    @using (Html.BeginForm("Index", "BankAndBranches", FormMethod.Get))
+    {
+
+        <table>
+            <tr>
+                <td width="30%">
+                    Select Parameter : @Html.DropDownList("selectionItems", (SelectList)ViewBag.selectionItems)
+
+                    <br />
+
+                    <input type="submit" value="Search" class="btn-danger" />
+                    <input type="button" value="Reset" class="btn-success" id="bReset" />
+
+                </td>
+                <td width="70%">
+
+                    <div id="selectionDivToShow" style="border:dotted; color:black; background-color:Highlight;">
+
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+
+        <p>
+            <table id="SearchInfoTable" class="table" style="color:black;">
+                <tr>
+
+                    <td>
+                        Find by BankName: @Html.TextBox("BankName", ViewBag.BankName as string)
+
+                    </td>
+
+
+                </tr>
+                <tr>
+                    <td>
+                        Find by BranchName: @Html.TextBox("BranchName", ViewBag.BranchName as string)
+                    </td>
+
+                </tr>
+             
+                <tr>
+                    <td>
+                        <input type="submit" value="Search" /> <button type="button"> @Html.ActionLink("Refresh", "Index")  </button>
+                    </td>
+
+                </tr>
+
+            </table>
+
+        </p>
+                            }
+
+</div>
+
+
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+
+
+        $('#bReset').click(function () {
+
+
+            $('#BankName').val('');
+            $('#BranchName').val('');
+           
+            sessionStorage.setItem("BankAndBranches_BankName", '');
+            sessionStorage.setItem("BankAndBranches_BranchName", '');
+           
+        });
+
+
+
+
+        var BankAndBranches_BankName_value = sessionStorage.getItem("BankAndBranches_BankName");
+        if (BankAndBranches_BankName_value == null)
+        {
+            sessionStorage.setItem("BankAndBranches_BankName", '');
+        } else
+        {
+            sessionStorage.setItem("BankAndBranches_BankName", BankAndBranches_BankName_value);
+        }
+
+
+        var BankAndBranches_BranchName_value = sessionStorage.getItem("BankAndBranches_BranchName");
+        if (BankAndBranches_BranchName_value == null) {
+            sessionStorage.setItem("BankAndBranches_BranchName", '');
+        } else {
+            sessionStorage.setItem("BankAndBranches_BranchName", BankAndBranches_BranchName_value);
+        }
+
+
+      
+
+        $('#BankName').change(function () {
+
+            sessionStorage.setItem("BankAndBranches_BankName", $('#BankName').val());
+        });
+
+        $('#BranchName').change(function () {
+
+            sessionStorage.setItem("BankAndBranches_BranchName", $('#BranchName').val());
+        });
+
+      
+
+
+
+        $("#SearchInfoTable tr").each(function () {
+                $(this).hide();
+        });
+
+        $("#selectionItems").change(function () {
+
+            $("#SearchInfoTable tr").each(function () {
+                var row_index = $(this).index();
+                var ddlValue = $("#selectionItems").val();
+                if (ddlValue.toString() == row_index.toString())
+                {
+                    $(this).show();
+                }
+                else
+                {
+                    $(this).hide();
+                }
+
+            });
+
+
+            var BankName = sessionStorage.getItem("BankAndBranches_BankName");
+            var BranchName = sessionStorage.getItem("BankAndBranches_BranchName");
+          
+
+
+            var ListOfSelectedValue = 'Bank Name : ' + BankName + '||  Branch Name : ' + BranchName;
+
+             $('#selectionDivToShow').html(ListOfSelectedValue.toString());
+
+
+        });
+
+
+
+
+
+    });
+</script>
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+    <table class="table">
+        <tr>
+            <th>
+                Bank Name
+            </th>
+            <th>
+                Branch Name
+            </th>
+            <th></th>
+        </tr>
+    
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.BankName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BranchName)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+            </td>
+        </tr>
+    }
+    
+    </table>
+
+ Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index", new
+{
+    page,
+
+    BankName = ViewBag.BankName,
+    BranchName = ViewBag.BranchName
+
+}))

@@ -1,0 +1,71 @@
+<?xml version="1.0" standalone="yes"?>
+<MatureReport>
+  <xs:schema id="MatureReport" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xs:element name="MatureReport" msdata:IsDataSet="true" msdata:UseCurrentLocale="true">
+      <xs:complexType>
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+          <xs:element name="usp_ReportHeader">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="Id" type="xs:int" minOccurs="0" />
+                <xs:element name="CompanyName" type="xs:string" minOccurs="0" />
+                <xs:element name="CompanyLogoPath" type="xs:string" minOccurs="0" />
+                <xs:element name="AddressLineOne" type="xs:string" minOccurs="0" />
+                <xs:element name="AddressLineTwo" type="xs:string" minOccurs="0" />
+                <xs:element name="AddressLineThree" type="xs:string" minOccurs="0" />
+                <xs:element name="Telephone" type="xs:string" minOccurs="0" />
+                <xs:element name="Fax" type="xs:string" minOccurs="0" />
+                <xs:element name="Email" type="xs:string" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="usp_MatureInfoReport">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="Id" type="xs:int" minOccurs="0" />
+                <xs:element name="BankName" type="xs:string" minOccurs="0" />
+                <xs:element name="BranchName" type="xs:string" minOccurs="0" />
+                <xs:element name="Id1" type="xs:int" minOccurs="0" />
+                <xs:element name="BankAndBranchId" type="xs:int" minOccurs="0" />
+                <xs:element name="OpenDate" type="xs:dateTime" minOccurs="0" />
+                <xs:element name="TotalArea" type="xs:decimal" minOccurs="0" />
+                <xs:element name="QuotationSubmit" type="xs:boolean" minOccurs="0" />
+                <xs:element name="TotalBillAmount" type="xs:decimal" minOccurs="0" />
+                <xs:element name="MatureDate" type="xs:dateTime" minOccurs="0" />
+                <xs:element name="MatureTotalTaka" type="xs:decimal" minOccurs="0" />
+                <xs:element name="Notes" type="xs:string" minOccurs="0" />
+                <xs:element name="MatureInfoId" type="xs:int" minOccurs="0" />
+                <xs:element name="Amount" type="xs:decimal" minOccurs="0" />
+                <xs:element name="MatureInfoId1" type="xs:int" minOccurs="0" />
+                <xs:element name="ReceiveAmount" type="xs:decimal" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:choice>
+      </xs:complexType>
+    </xs:element>
+  </xs:schema>
+  <usp_ReportHeader>
+    <Id>1</Id>
+    <CompanyName>SILVER COMPOSITE TEXTILE MILLS LTD. (UNIT-3)</CompanyName>
+    <AddressLineOne>B.K. BARI, TALTOLI, MONIPUR , MIRZAPUR,GAZIPUR.</AddressLineOne>
+  </usp_ReportHeader>
+  <usp_MatureInfoReport>
+    <Id>13</Id>
+    <BankName>AA</BankName>
+    <BranchName>AA</BranchName>
+    <Id1>15</Id1>
+    <BankAndBranchId>13</BankAndBranchId>
+    <OpenDate>2019-08-25T00:00:00+06:00</OpenDate>
+    <TotalArea>15000.000</TotalArea>
+    <QuotationSubmit>false</QuotationSubmit>
+    <TotalBillAmount>65000.000</TotalBillAmount>
+    <MatureDate>2019-09-04T00:00:00+06:00</MatureDate>
+    <MatureTotalTaka>6500.000</MatureTotalTaka>
+    <Notes>Urgent</Notes>
+    <MatureInfoId>15</MatureInfoId>
+    <Amount>65000.000</Amount>
+    <MatureInfoId1>15</MatureInfoId1>
+    <ReceiveAmount>6500.000</ReceiveAmount>
+  </usp_MatureInfoReport>
+</MatureReport>

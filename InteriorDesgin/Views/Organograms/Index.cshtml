@@ -1,0 +1,241 @@
+﻿@model PagedList.IPagedList<InteriorDesign.Models.Organogram>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Html.RenderPartial("MenuView");
+    ViewBag.Title = "Organogram";
+}
+
+<link href="~/Content/TableStyle.css" rel="stylesheet" />
+
+
+
+@using (Html.BeginForm("Index", "Organograms", FormMethod.Get))
+{
+
+    <div class="alert-primary">
+
+        <table>
+            <tr>
+                <td width="30%">
+                    Select Parameter : @Html.DropDownList("selectionItems", (SelectList)ViewBag.selectionItems)
+
+                    <br />
+
+                    <input type="submit" value="Search" class="btn-danger" />
+                    <input type="button" value="Reset" class="btn-success" id="bReset" />
+
+                </td>
+                <td width="70%">
+
+                    <div id="selectionDivToShow" style="border:dotted; color:black; background-color:Highlight;">
+
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+
+
+        <table id="SearchInfoTable" class="table" style="color:black;">
+            <tr>
+                <td>
+                    Find by Department : @Html.TextBox("Depart", ViewBag.Depart as string)
+                </td>
+            </tr>
+            <tr>
+                <td>
+
+                    Find by Role: @Html.TextBox("Role", ViewBag.Role as string)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Find by Upper Role: @Html.TextBox("UpperRole", ViewBag.UpperRole as string)
+                </td>
+            </tr>
+
+
+
+
+        </table>
+
+    </div>
+
+
+}
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+
+
+        $('#bReset').click(function () {
+
+            $('#Depart').val('');
+            $('#Role').val('');
+            $('#UpperRole').val('');
+
+
+            sessionStorage.setItem("Organogram_Depart", '');
+            sessionStorage.setItem("Organogram_Role", '');
+            sessionStorage.setItem("Organogram_UpperRole", '');
+
+
+
+
+        });
+
+
+
+
+        var Organogram_Depart_value = sessionStorage.getItem("Organogram_Depart");
+        if (Organogram_Depart_value == null) {
+            sessionStorage.setItem("Organogram_Depart", '');
+        } else {
+            sessionStorage.setItem("Organogram_Depart", Organogram_Depart_value);
+        }
+
+
+        var Organogram_Role_value = sessionStorage.getItem("Organogram_Role");
+        if (Organogram_Role_value == null) {
+            sessionStorage.setItem("Organogram_Role", '');
+        } else {
+            sessionStorage.setItem("Organogram_Role", Organogram_Role_value);
+        }
+
+
+
+
+        var Organogram_UpperRole_value = sessionStorage.getItem("Organogram_UpperRole");
+        if (Organogram_UpperRole_value == null) {
+            sessionStorage.setItem("Organogram_UpperRole", '');
+        } else {
+            sessionStorage.setItem("Organogram_UpperRole", Organogram_UpperRole_value);
+        }
+
+
+
+
+
+
+
+
+
+
+        $('#Depart').change(function () {
+
+            sessionStorage.setItem("Organogram_Depart", $('#Depart').val());
+        });
+
+        $('#Role').change(function () {
+
+            sessionStorage.setItem("Organogram_Role", $('#Role').val());
+        });
+
+        $('#UpperRole').change(function () {
+
+            sessionStorage.setItem("Organogram_UpperRole", $('#UpperRole').val());
+        });
+
+
+
+
+
+        $("#SearchInfoTable tr").each(function () {
+            $(this).hide();
+        });
+
+        $("#selectionItems").change(function () {
+
+            $("#SearchInfoTable tr").each(function () {
+                var row_index = $(this).index();
+                var ddlValue = $("#selectionItems").val();
+                if (ddlValue.toString() == row_index.toString()) {
+                    $(this).show();
+                }
+                else {
+                    $(this).hide();
+                }
+
+            });
+
+
+            var Depart = sessionStorage.getItem("Organogram_Depart");
+            var Role = sessionStorage.getItem("Organogram_Role");
+            var UpperRole = sessionStorage.getItem("Organogram_UpperRole");
+
+
+            var ListOfSelectedValue = 'Department : ' + Depart + '||  Role : ' + Role + '||  Upper Role : ' + UpperRole;
+
+            $('#selectionDivToShow').html(ListOfSelectedValue.toString());
+
+
+        });
+
+
+
+
+
+
+
+
+
+    });
+</script>
+
+
+<p>
+    @Html.ActionLink("Create New", "Create") | @Html.ActionLink("Refresh", "OrganoRefresh")
+   
+</p>
+<table class="table-bordered" style="background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+    <tr>
+        <th>
+            <h5>Depart</h5>
+        </th>
+        <th>
+            <h5> Role </h5>
+        </th>
+        <th>
+            <h5>Upper Role</h5>
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Depart)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Role)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UpperRole)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+    }
+
+</table>
+
+ Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page, Depart = ViewBag.Depart, Role = ViewBag.Role, UpperRole = ViewBag.UpperRole, selectionItems = "" }))
+
+
+
+@{
+    
+    Html.RenderPartial("OrganogramsPartial");
+   
+}

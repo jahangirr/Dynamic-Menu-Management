@@ -1,0 +1,102 @@
+﻿@model InteriorDesign.Models.RoleMenuMapping
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+   
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Details</title>
+</head>
+<body>
+    <div>
+        <h4>RoleMenuMapping</h4>
+        <hr />
+        <dl class="dl-horizontal" style="background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+            <dt>
+                @Html.DisplayNameFor(model => model.RoleId)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.RoleId)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.RoleIdText)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.RoleIdText)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.MenuInfoId)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.MenuInfoId)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.MenuInfoIdText)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.MenuInfoIdText)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Active)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Active)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.CanView)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.CanView)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.CanCreate)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.CanCreate)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.CanEdit)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.CanEdit)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.CanDelete)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.CanDelete)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.CanClose)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.CanClose)
+            </dd>
+    
+        </dl>
+    </div>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+</body>
+</html>

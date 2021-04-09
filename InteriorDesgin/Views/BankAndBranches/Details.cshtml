@@ -1,0 +1,43 @@
+﻿@model InteriorDesign.Models.BankAndBranch
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Details</title>
+</head>
+<body>
+    <div>
+        <h4>BankAndBranch</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.BankName)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.BankName)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.BranchName)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.BranchName)
+            </dd>
+    
+        </dl>
+    </div>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+</body>
+</html>

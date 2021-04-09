@@ -1,0 +1,559 @@
+﻿@model PagedList.IPagedList<InteriorDesign.Models.ArtWork>
+@using PagedList.Mvc;
+@using InteriorDesign.Repository;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Html.RenderPartial("MenuView");
+    ViewBag.Title = "List of Item";
+}
+
+<link href="~/Content/TableStyle.css" rel="stylesheet" />
+
+
+
+@using (Html.BeginForm("Index", "ArtWorks", FormMethod.Get))
+{
+
+    <div class="alert-primary">
+
+        <table>
+            <tr>
+                <td width="30%">
+                    Select Parameter : @Html.DropDownList("selectionItems", (SelectList)ViewBag.selectionItems)
+
+                    <br />
+
+                    <input type="submit" value="Search" class="btn-danger" />
+                    <input type="button" value="Reset" class="btn-success" id="bReset" />
+
+                </td>
+                <td width="70%">
+
+                    <div id="selectionDivToShow" style="border:dotted; color:black; background-color:Highlight;">
+
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+
+
+        <table id="SearchInfoTable" class="table" style="color:black;">
+            <tr>
+                <td>
+                    Find by Department : @Html.TextBox("ArtWorkType", ViewBag.ArtWorkType as string)
+                </td>
+            </tr>
+            <tr>
+                <td>
+
+                    Find by Description : @Html.TextBox("ArtWorkTypeDescribtion", ViewBag.ArtWorkTypeDescribtion as string)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @{
+                        bool CanAccessByGeneral = false;
+                        try
+                        {
+                            CanAccessByGeneral = Convert.ToBoolean(ViewBag.CanAccessByGeneral);
+                        }
+                        catch (Exception ex)
+                        {
+
+                        }
+                    }
+                    Find by Is Pubic: @Html.CheckBox("CanAccessByGeneral", CanAccessByGeneral)
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    Find by Doc Reference : @Html.TextBox("DocReference", ViewBag.DocReference as string)
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    @{
+                        bool IsUpDown = false;
+                        try
+                        {
+                            IsUpDown = Convert.ToBoolean(ViewBag.IsUpDown);
+                        }
+                        catch (Exception ex)
+                        {
+
+                        }
+                    }
+                    Find by Is UpDown: @Html.CheckBox("IsUpDown", IsUpDown)
+                </td>
+            </tr>
+
+
+
+            <tr>
+                <td>
+                    Find by Valid Department : @Html.TextBox("ValidDepartment", ViewBag.DocReference as string)
+                </td>
+            </tr>
+            <tr>
+                <td>
+
+                    @{
+
+                        GlobCreatedFunction globbCreFunc = new GlobCreatedFunction();
+
+                        DateTime? CreateTime = null;
+
+                        try
+                        {
+                            CreateTime = globbCreFunc.GetDate(ViewBag.StoreIssueDate);
+
+
+                        }
+                        catch (Exception ex)
+                        {
+
+                        }
+
+
+
+
+                    }
+                    Find by Create Date : @Html.JQueryUI().Datepicker("CreateTime", CreateTime)
+
+
+                </td>
+            </tr>
+
+            <tr>
+                <td></td>
+            </tr>
+
+            <tr>
+                <td></td>
+            </tr>
+
+
+
+
+        </table>
+
+    </div>
+
+
+                        }
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+
+
+        $('#bReset').click(function () {
+
+            $('#ArtWorkType').val('');
+            $('#ArtWorkTypeDescribtion').val('');
+            $('#CanAccessByGeneral').val('false');
+            $('#DocReference').val('');
+            $('#ValidDepartment').val('');
+            $('#IsUpDown').val('false');
+            $('#CreateTime').val('');
+
+
+
+            sessionStorage.setItem("ArtWork_ArtWorkType", '');
+            sessionStorage.setItem("ArtWork_ArtWorkTypeDescribtion", '');
+            sessionStorage.setItem("ArtWork_CanAccessByGeneral", 'false');
+            sessionStorage.setItem("ArtWork_DocReference", '');
+            sessionStorage.setItem("ArtWork_IsUpDown", 'false');
+            sessionStorage.setItem("ArtWork_ValidDepartment", '');
+            sessionStorage.setItem("ArtWork_CreateTime", '');
+
+
+
+
+
+        });
+
+
+
+
+        var ArtWork_ArtWorkType_value = sessionStorage.getItem("ArtWork_ArtWorkType");
+        if (ArtWork_ArtWorkType_value == null) {
+            sessionStorage.setItem("ArtWork_ArtWorkType", '');
+        } else {
+            sessionStorage.setItem("ArtWork_ArtWorkType", ArtWork_ArtWorkType_value);
+        }
+
+
+        var ArtWork_ArtWorkTypeDescribtion_value = sessionStorage.getItem("ArtWork_ArtWorkTypeDescribtion");
+        if (ArtWork_ArtWorkTypeDescribtion_value == null) {
+            sessionStorage.setItem("ArtWork_ArtWorkTypeDescribtion", '');
+        } else {
+            sessionStorage.setItem("ArtWork_ArtWorkTypeDescribtion", ArtWork_ArtWorkTypeDescribtion_value);
+        }
+
+
+        var ArtWork_CanAccessByGeneral_value = sessionStorage.getItem("ArtWork_CanAccessByGeneral");
+        if (ArtWork_CanAccessByGeneral_value == null) {
+            sessionStorage.setItem("ArtWork_CanAccessByGeneral", 'false');
+        } else {
+
+
+            sessionStorage.setItem("ArtWork_CanAccessByGeneral", ArtWork_CanAccessByGeneral_value.toString());
+        }
+
+
+
+        var ArtWork_IsUpDown_value = sessionStorage.getItem("ArtWork_IsUpDown");
+        if (ArtWork_IsUpDown_value == null) {
+            sessionStorage.setItem("ArtWork_IsUpDown", 'false');
+        } else {
+
+            if ($(this).prop("checked")) {
+                sessionStorage.setItem("ArtWork_IsUpDown", 'true');
+
+            } else {
+                sessionStorage.setItem("ArtWork_IsUpDown", 'false');
+
+            }
+           
+        }
+
+
+
+
+        var ArtWork_ValidDepartment_value = sessionStorage.getItem("ArtWork_ValidDepartment");
+        if (ArtWork_ValidDepartment_value == null) {
+            sessionStorage.setItem("ArtWork_ValidDepartment", '');
+        } else {
+            sessionStorage.setItem("ArtWork_ValidDepartment", ArtWork_ValidDepartment_value);
+        }
+
+
+      
+
+
+
+        var ArtWork_DocReference_value = sessionStorage.getItem("ArtWork_DocReference");
+        if (ArtWork_DocReference_value == null) {
+            sessionStorage.setItem("ArtWork_DocReference", '');
+        } else {
+            sessionStorage.setItem("ArtWork_DocReference", ArtWork_DocReference_value);
+        }
+
+
+
+
+
+        var ArtWork_CreateTime_value = sessionStorage.getItem("ArtWork_CreateTime");
+        if (ArtWork_CreateTime_value == null) {
+            sessionStorage.setItem("ArtWork_CreateTime", '');
+        } else {
+            sessionStorage.setItem("ArtWork_CreateTime", ArtWork_CreateTime_value);
+        }
+
+
+
+
+
+
+
+        $('#ArtWorkType').change(function () {
+
+            sessionStorage.setItem("ArtWork_ArtWorkType", $('#ArtWorkType').val());
+        });
+
+        $('#ArtWorkTypeDescribtion').change(function () {
+
+            sessionStorage.setItem("ArtWork_ArtWorkTypeDescribtion", $('#ArtWorkTypeDescribtion').val());
+        });
+
+        $('#CanAccessByGeneral').change(function () {
+
+            var CanAccessByGeneralTemp = sessionStorage.getItem("ArtWork_CanAccessByGeneral");
+
+            if (CanAccessByGeneralTemp != null) {
+                if (CanAccessByGeneralTemp.toString() == 'false') {
+                    sessionStorage.setItem("ArtWork_CanAccessByGeneral", 'true');
+                } else {
+                    sessionStorage.setItem("ArtWork_CanAccessByGeneral", 'false');
+                }
+            } else {
+
+
+                if ($(this).prop("checked")) {
+                    sessionStorage.setItem("ArtWork_CanAccessByGeneral", 'true');
+
+                } else {
+                    sessionStorage.setItem("ArtWork_CanAccessByGeneral", 'false');
+
+                }
+
+            }
+        });
+
+        $('#DocReference').change(function () {
+
+            sessionStorage.setItem("ArtWork_DocReference", $('#DocReference').val());
+        });
+
+
+        $('#IsUpDown').change(function () {
+
+            var IsUpDownTemp = sessionStorage.getItem("ArtWork_IsUpDown");
+
+            if (IsUpDownTemp != null) {
+                if (IsUpDownTemp.toString() == 'false') {
+                    sessionStorage.setItem("ArtWork_IsUpDown", 'true');
+                } else {
+                    sessionStorage.setItem("ArtWork_IsUpDown", 'false');
+                }
+            } else {
+
+                if ($(this).prop("checked")) {
+                    sessionStorage.setItem("ArtWork_IsUpDown", 'true');
+
+                } else {
+                    sessionStorage.setItem("ArtWork_IsUpDown", 'false');
+
+                }
+
+
+                
+            }
+
+
+
+
+        });
+
+        $('#ValidDepartment').change(function () {
+
+            sessionStorage.setItem("ArtWork_ValidDepartment", $('#ValidDepartment').val());
+        });
+
+
+        $('#CreateTime').change(function () {
+
+            sessionStorage.setItem("ArtWork_CreateTime", $('#CreateTime').val());
+
+        });
+
+
+
+
+        $("#SearchInfoTable tr").each(function () {
+            $(this).hide();
+        });
+
+        $("#selectionItems").change(function () {
+
+            $("#SearchInfoTable tr").each(function () {
+                var row_index = $(this).index();
+                var ddlValue = $("#selectionItems").val();
+                if (ddlValue.toString() == row_index.toString()) {
+                    $(this).show();
+                }
+                else {
+                    $(this).hide();
+                }
+
+            });
+
+
+            var ArtWorkType = sessionStorage.getItem("ArtWork_ArtWorkType");
+            var ArtWorkTypeDescribtion = sessionStorage.getItem("ArtWork_ArtWorkTypeDescribtion");
+            var CanAccessByGeneral = sessionStorage.getItem("ArtWork_CanAccessByGeneral");
+            var DocReference = sessionStorage.getItem("ArtWork_DocReference");
+            var IsUpDown = sessionStorage.getItem("ArtWork_IsUpDown");
+            var ValidDepartment = sessionStorage.getItem("ArtWork_ValidDepartment");
+            var CreateTime = sessionStorage.getItem("ArtWork_CreateTime");
+
+
+            var ListOfSelectedValue = 'Department : ' + ArtWorkType + '||  Description : ' + ArtWorkTypeDescribtion + '||  Is Public : ' + CanAccessByGeneral.toString() + '||  Doc Reference : ' + DocReference + '||  Is UpDown : ' + IsUpDown.toString() + '||  ValidDepartment : ' + ValidDepartment + '||  CreateTime : ' + CreateTime;
+
+            $('#selectionDivToShow').html(ListOfSelectedValue.toString());
+
+
+        });
+
+
+
+
+
+
+
+
+
+    });
+</script>
+
+
+
+
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<link href="~/Content/TableStyle.css" rel="stylesheet" />
+
+<div class="alert-success" id="sendMailMess">
+
+</div>
+<table class="table-bordered" style="background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+
+    <tr>
+
+        <th>
+            <h5> Document </h5>
+        </th>
+        <th>
+            <h5> Department </h5>
+
+        </th>
+        <th>
+            <h5> Description </h5>
+
+        </th>
+        <th>
+            <h5> Is Public </h5>
+
+        </th>
+        <th>
+            <h5> Doc Reference </h5>
+
+        </th>
+
+        <th>
+            <h5> Is UpDown </h5>
+
+        </th>
+        <th>
+            <h5> Valid Department </h5>
+
+        </th>
+        <th>
+            <h5> Create Date </h5>
+
+        </th>
+
+        <th>
+            <h5> Mail </h5>
+
+        </th>
+
+        <th>
+            <h5>  File Send </h5>
+
+        </th>
+
+        <th>Action</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+
+            <td>
+                <img src="@Url.Action("GetThumbnailImage", "ArtWorks", new {Id =  item.Id })" alt="Document Image" />
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.ArtWorkType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ArtWorkTypeDescribtion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CanAccessByGeneral)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DocReference)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsUpDown)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ValidDepartment)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreateTime)
+            </td>
+
+            <td>
+                @Html.HiddenFor(modelItem => item.Id, new { @class = "Id" })
+                @Html.TextBox("Email_Textbox_" + item.Id, null, new { @class = "RowId" })
+
+            </td>
+            <td>
+
+                <input type="button" value="Send" name="Command" />
+
+            </td>
+
+            <td>
+                @Html.ActionLink("Download", "DownloadFile", new { id = item.Id }) 
+
+            </td>
+        </tr>
+    }
+
+</table>
+
+
+<script>
+
+    $(document).ready(function () {
+
+
+        $('input[name=Command]').click(function () {
+            var EmailAddress = $(this).closest('tr').find(".RowId").val();
+            var Id = $(this).closest('tr').find(".Id").val().toString();
+
+            
+
+            $.ajax({
+                url: '@Url.Action("sendFileThoughMail", "ArtWorks")',
+                type: "GET",
+                dataType: "JSON",
+                data: {
+                    reciverEmailAddress: EmailAddress ,
+                    FileId : Id
+                },
+                success: function (data) {
+
+                    $("#sendMailMess").text("File sent");
+                  
+                   
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    //debugger;
+                    $("#sendMailMess").text("File not sent");
+                }
+            });
+
+
+
+           
+
+        });
+
+    })
+
+</script>
+
+
+
+
+
+<br />
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page, ArtWorkType = ViewBag.ArtWorkType, ArtWorkTypeDescribtion = ViewBag.ArtWorkTypeDescribtion, CanAccessByGeneral = ViewBag.CanAccessByGeneral, DocReference = ViewBag.DocReference, IsUpDown = ViewBag.IsUpDown, ValidDepartment = ViewBag.ValidDepartment, CreateTime = ViewBag.CreateTime, selectionItems = "" }))
+
+

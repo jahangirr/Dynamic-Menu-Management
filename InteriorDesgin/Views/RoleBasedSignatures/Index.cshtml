@@ -1,0 +1,184 @@
+﻿@model PagedList.IPagedList<InteriorDesign.Models.RoleBasedSignature>
+@using PagedList.Mvc;
+@using InteriorDesign.Repository;
+
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Html.RenderPartial("MenuView");
+    ViewBag.Title = "Role Based Signature";
+}
+
+<link href="~/Content/TableStyle.css" rel="stylesheet" />
+
+<h2>  Role Based Signature  </h2>
+
+<div class="alert-primary" style="color:black;">
+
+
+    @using (Html.BeginForm("Index", "RoleBasedSignatures", FormMethod.Get))
+    {
+
+        <table>
+            <tr>
+                <td width="30%">
+                    Select Parameter : @Html.DropDownList("selectionItems", (SelectList)ViewBag.selectionItems)
+
+                    <br />
+
+                    <input type="submit" value="Search" class="btn-danger" />
+                    <input type="button" value="Reset" class="btn-success" id="bReset" />
+
+                </td>
+                <td width="70%">
+
+                    <div id="selectionDivToShow" style="border:dotted; color:black; background-color:Highlight;">
+
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+
+        <p>
+            <table id="SearchInfoTable" class="table" style="color:black;">
+                <tr>
+
+                    <td>
+                        Find by RoleName : @Html.TextBox("RoleName", ViewBag.RoleName as string)
+
+                    </td>
+
+
+                </tr>
+            
+                <tr>
+                    <td>
+                        <input type="submit" value="Search" /> <button type="button"> @Html.ActionLink("Refresh", "Index")  </button>
+                    </td>
+
+                </tr>
+
+            </table>
+
+        </p>
+                            }
+
+</div>
+
+
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+
+
+        $('#bReset').click(function () {
+            $('#RoleName').val('');
+            sessionStorage.setItem("RoleBasedSignature_RoleName", '');
+
+        });
+
+        sessionStorage.setItem("RoleBasedSignature_RoleName", '');
+
+
+        var RoleBasedSignature_RoleName_Value = sessionStorage.getItem("RoleBasedSignature_RoleName");
+        if (RoleBasedSignature_RoleName_Value == null) {
+            sessionStorage.setItem("RoleBasedSignature_RoleName", '');
+        } else {
+            sessionStorage.setItem("RoleBasedSignature_RoleName", RoleBasedSignature_RoleName_Value);
+        }
+
+
+
+        $('#RoleName').change(function () {
+
+            sessionStorage.setItem("RoleBasedSignature_RoleName", $('#RoleName').val());
+        });
+
+      
+
+
+        $("#SearchInfoTable tr").each(function () {
+                $(this).hide();
+        });
+
+        $("#selectionItems").change(function () {
+
+            $("#SearchInfoTable tr").each(function () {
+                var row_index = $(this).index();
+                var ddlValue = $("#selectionItems").val();
+                if (ddlValue.toString() == row_index.toString())
+                {
+                    $(this).show();
+                }
+                else
+                {
+                    $(this).hide();
+                }
+
+            });
+
+
+            var RoleName = sessionStorage.getItem("RoleBasedSignature_RoleName");
+            var ListOfSelectedValue = 'RoleName : ' + RoleName;
+
+             $('#selectionDivToShow').html(ListOfSelectedValue.toString());
+
+
+        });
+
+    });
+</script>
+
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table-bordered" style="background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+    <tr>
+        <th>
+           Role Name
+        </th>
+        <th>
+            Signature
+        </th>
+        
+       
+        <th>
+           Is Acive
+        </th>
+       
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.RoleName)
+        </td>
+       
+        <td>
+            <img src="@Url.Action("GetDigitalSignature", "RoleBasedSignatures", new {Id =  item.Id ,  Width = 320 ,   Height = 80 })" alt="Digital Signature" />
+        </td>
+        
+        <td>
+            @Html.DisplayFor(modelItem => item.IsAcive)
+        </td>
+       
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>
+
+<br />
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page, RoleName = ViewBag.RoleName }))

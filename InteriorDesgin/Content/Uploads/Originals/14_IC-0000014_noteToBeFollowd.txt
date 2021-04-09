@@ -1,0 +1,11 @@
+
+1. We will create another screen for Item Loan which will be used in giving item as loan as well as taking item back to Store . So not to inspire the users to use the portion  of loan right now.
+
+**** Note  is made towards operating the software in manageable way......
+ 1.  To have the intellisence of the concerned item on SPR , first of all , Item Status on the specified date needs to see.
+ 2.  Users are not allowed to do spr or indent having different item . If they do , at the time of doing PO , if any item of the SPR or Indent is left ,
+ it will get another PO as PO being generated automatically sequencially which would be the cause of having single SPR in Multiple PO , However, getting sure of doing 
+PO based on all the items that usually be with the same SPR OR Indent at a time , User is allowed.
+
+
+

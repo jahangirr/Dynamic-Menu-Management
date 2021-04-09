@@ -1,0 +1,67 @@
+﻿@model InteriorDesign.Models.RoleBasedSignature
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>RoleBasedSignature</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.RoleName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RoleName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SignatureMimeType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SignatureMimeType)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SignatureData)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SignatureData)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FileAddressInfo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FileAddressInfo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsAcive)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsAcive)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CreateTime)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreateTime)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

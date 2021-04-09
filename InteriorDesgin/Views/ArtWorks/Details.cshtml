@@ -1,0 +1,75 @@
+﻿@model InteriorDesign.Models.ArtWork
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>ArtWork</h4>
+    <hr />
+    <dl class="dl-horizontal btn-success" style="color:red;">
+        <dt>
+            @Html.DisplayNameFor(model => model.ArtWorkType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ArtWorkType)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ArtWorkTypeDescribtion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ArtWorkTypeDescribtion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CanAccessByGeneral)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CanAccessByGeneral)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DocReference)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DocReference)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ImageMimeType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ImageMimeType)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ImageData)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ImageData)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ArtworkThumbnail)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ArtworkThumbnail)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -1,0 +1,170 @@
+﻿@model InteriorDesign.Models.ArtWork
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Create</h2>
+
+
+
+@using (Html.BeginForm("Create", "ArtWorks", FormMethod.Post, new { @enctype = "multipart/form-data", @id = "myForm" }))
+{
+
+
+    <div class="form-horizontal alert-info">
+        <h4>Document Management</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.ArtWorkType, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.ArtWorkType, new { htmlAttributes = new { @class = "form-control", style = "width:250px;" } })
+                @Html.ValidationMessageFor(model => model.ArtWorkType, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ArtWorkTypeDescribtion, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.ArtWorkTypeDescribtion, 10, 55, null)
+                @Html.ValidationMessageFor(model => model.ArtWorkTypeDescribtion, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CanAccessByGeneral, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="checkbox">
+                    @Html.CheckBoxFor(model => model.CanAccessByGeneral, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.CanAccessByGeneral, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.IsUpDown, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="checkbox">
+                    @Html.CheckBoxFor(model => model.IsUpDown, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.IsUpDown, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+
+
+            <table>
+                <tr>
+                    <td width="50%" style="text-align:right">Dep to see   : </td>
+                    <td width="50%" style="border-color:green; border-width:2px; border: 2px solid red;padding: 10px;   border-bottom-right-radius: 50px 20px;">
+
+                        @foreach (var item in Model.Departments)
+                        {
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox"
+                                           name="Departments"
+                                           value="@item.value" /> @item.value
+                                </label>
+                            </div>
+                        }
+
+                     
+                    </td>
+                </tr>
+            </table>
+
+
+        </div>
+
+
+
+
+
+
+
+
+        <div class="form-group">
+            <div class="control-label col-md-2">
+                Document Reference
+            </div>
+
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.DocReference, new { htmlAttributes = new { @class = "form-control", style = "width:250px;" } })
+
+                @Html.ValidationMessageFor(model => model.DocReference, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ImageData, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input name="Image" type="file" />
+                @Html.ValidationMessageFor(model => model.ImageData)
+            </div>
+        </div>
+
+        <div style="border:groove;background-color:gray;color:maroon;visibility:hidden;">
+            <strong>Create Date:</strong>
+            @Html.JQueryUI().DatepickerFor(model => model.CreateTime)
+            @Html.ValidationMessageFor(model => model.CreateTime, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+
+
+        $("#ArtWorkType").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("GetDepartment", "Departments")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        DepartmentName: $('#ArtWorkType').val()
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                        );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+    });
+</script>
+

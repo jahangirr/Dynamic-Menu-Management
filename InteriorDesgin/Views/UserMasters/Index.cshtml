@@ -1,0 +1,397 @@
+﻿@model PagedList.IPagedList<InteriorDesign.Models.UserMaster>
+
+@using PagedList.Mvc;
+
+@using InteriorDesign.Repository;
+
+
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Html.RenderPartial("MenuView");
+    ViewBag.Title = "User Master";
+}
+
+<link href="~/Content/TableStyle.css" rel="stylesheet" />
+
+<h2> User Master   </h2>
+
+<div class="alert-primary" style="color:black;">
+
+
+    @using (Html.BeginForm("UserUpdate", "UserMasters", FormMethod.Get))
+    {
+        <table class="table">
+            <tr>
+                <td>
+                    Select User : @Html.DropDownList("ShowUserId", (SelectList)ViewBag.ShowUserId)
+
+                    <div id="ShowRoleName">
+
+                    </div>
+                </td>
+                <td>
+                    Email : @Html.TextBox("ShowEmail",null, new { @style = "width: 300px;" })
+                </td>
+                <td>
+                    Cell : @Html.TextBox("UserCell", null, new { @style = "width: 300px;" })
+                </td>
+                <td>
+                    Active : @Html.CheckBox("ShowActive")
+                </td>
+
+                <td>
+                    Password Reset : @Html.CheckBox("ShowPasswordReset")
+                </td>
+                <td>
+                    <input type="submit" value="Update" onclick="javascript: return Before__Submit();" />
+
+
+                    <script type="text/javascript">
+
+                        function Before__Submit() {
+
+                            var r = confirm("Are you sure you want to update?");
+                            if (r == false) {
+                                return false;
+                            }
+                        }
+
+                    </script>
+
+
+
+
+
+
+
+                </td>
+            </tr>
+        </table>
+
+    }
+
+
+
+    @using (Html.BeginForm("Index", "UserMasters", FormMethod.Get))
+    {
+
+        <table>
+            <tr>
+                <td width="30%">
+                    Select Parameter : @Html.DropDownList("selectionItems", (SelectList)ViewBag.selectionItems)
+
+                    <br />
+
+                    <input type="submit" value="Search" class="btn-danger" />
+                    <input type="button" value="Reset" class="btn-success" id="bReset" />
+
+                </td>
+                <td width="70%">
+
+                    <div id="selectionDivToShow" style="border:dotted; color:black; background-color:Highlight;">
+
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+        <p>
+            <table id="SearchInfoTable" class="table" style="color:black;">
+                <tr>
+
+                    <td>
+                        Find by : @Html.TextBox("RoleName", ViewBag.RoleName as string)
+
+                    </td>
+
+
+                </tr>
+
+                <tr>
+
+                    <td>
+                        Find by : @Html.TextBox("Name", ViewBag.Name as string)
+
+                    </td>
+
+
+                </tr>
+
+                <tr>
+
+                    <td>
+                        Find by  Active : @Html.CheckBox("Active", Convert.ToBoolean(ViewBag.Active as string))
+
+                    </td>
+
+
+                </tr>
+
+                <tr>
+
+                    <td>
+                        
+
+                        Find by Cell : @Html.TextBox("UserCell", ViewBag.UserCell as string)
+                       
+
+                    </td>
+
+
+                </tr>
+
+                <tr>
+                    <td>
+                        <input type="submit" value="Search" /> <button type="button"> @Html.ActionLink("Refresh", "Index")  </button>
+                    </td>
+
+                </tr>
+
+            </table>
+
+        </p>
+    }
+
+</div>
+
+
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+
+        $("#ShowUserId").on("change", function () {
+
+
+            $.ajax({
+                url: '@Url.Action("GetShowUserId")',
+                type: "GET",
+                dataType: "JSON",
+                data: {
+                    ShowUserId: $('#ShowUserId').val()
+                },
+                success: function (data) {
+                    $('#ShowRoleName').val(data.RoleName);
+                    $('#ShowEmail').val(data.Email);
+                    $('#UserCell').val(data.UserCell);
+                    if (data.Active == true)
+                    {
+                        $('#ShowActive').prop('checked', true);
+                    }else
+                    {
+                        $('#ShowActive').prop('checked', false);
+                    }
+                    
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    //debugger;
+                    alert(textStatus);
+                }
+            });
+        });
+
+
+
+
+
+
+        $('#bReset').click(function () {
+
+            $('#RoleName').val('');
+            $('#Name').val('');
+            $('#Active').val('false');
+            $('#UserCell').val('');
+            
+
+            sessionStorage.setItem("User_RoleName", '');
+            sessionStorage.setItem("User_Name", '');
+            sessionStorage.setItem("User_Active", 'false');
+            sessionStorage.setItem("User_UserCell", '');
+
+        });
+
+
+
+
+        var User_RoleName_value = sessionStorage.getItem("User_RoleName");
+        if (User_RoleName_value == null) {
+            sessionStorage.setItem("User_RoleName", '');
+        } else {
+            sessionStorage.setItem("User_RoleName", User_RoleName_value);
+        }
+
+        var User_Name_value = sessionStorage.getItem("User_Name");
+        if (User_Name_value == null) {
+            sessionStorage.setItem("User_Name", '');
+        } else {
+            sessionStorage.setItem("User_Name", User_Name_value);
+        }
+
+
+        var User_Active_value = sessionStorage.getItem("User_Active");
+        if (User_Active_value == null) {
+            sessionStorage.setItem("User_Active", 'false');
+        } else {
+            sessionStorage.setItem("User_Active", User_Active_value);
+        }
+
+
+        var User_UserCell_value = sessionStorage.getItem("User_UserCell");
+        if (User_UserCell_value == null) {
+            sessionStorage.setItem("User_UserCell", '');
+        } else {
+            sessionStorage.setItem("User_UserCell", User_UserCell_value);
+        }
+
+
+
+
+
+        $('#RoleName').change(function () {
+
+            sessionStorage.setItem("User_RoleName", $('#RoleName').val());
+        });
+
+        $('#Name').change(function () {
+
+            sessionStorage.setItem("User_Name", $('#Name').val());
+        });
+
+        $('#Active').change(function () {
+
+            if ($(this).prop("checked")) {
+                sessionStorage.setItem("User_Active", 'true');
+
+            } else {
+                sessionStorage.setItem("User_Active", 'false');
+
+            }
+
+
+
+        });
+
+        $('#UserCell').change(function () {
+
+            sessionStorage.setItem("User_UserCell", $('#UserCell').val());
+        });
+
+
+
+
+
+
+        $("#SearchInfoTable tr").each(function () {
+            $(this).hide();
+        });
+
+        $("#selectionItems").change(function () {
+
+            $("#SearchInfoTable tr").each(function () {
+                var row_index = $(this).index();
+                var ddlValue = $("#selectionItems").val();
+                if (ddlValue.toString() == row_index.toString()) {
+                    $(this).show();
+                }
+                else {
+                    $(this).hide();
+                }
+
+            });
+
+            var Role = sessionStorage.getItem("User_RoleName");
+            var Name = sessionStorage.getItem("User_Name");
+            var Active = sessionStorage.getItem("User_Active");
+            var UserCell = sessionStorage.getItem("User_UserCell");
+            var ListOfSelectedValue = 'Role : ' + Role + 'Name : ' + Name + '||  Active : ' + Active + '||  UserCell : ' + UserCell;
+
+            $('#selectionDivToShow').html(ListOfSelectedValue.toString());
+
+
+        });
+
+
+
+
+
+    });
+</script>
+<!DOCTYPE html>
+
+<html>
+<head>
+
+    <link href="~/Content/TableStyle.css" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body>
+    <p>
+        @Html.ActionLink("Create New", "Register", "Account")
+    </p>
+    <link href="~/Content/TableStyle.css" rel="stylesheet" />
+    <table class="table-bordered" style="background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+        <tr>
+
+
+            <th>
+                User Name :
+            </th>
+
+            <th>
+                Role Name :
+            </th>
+            <th>
+                Cell :
+            </th>
+            <th>
+                Active :
+            </th>
+           
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.RoleMaster.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserCell)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Active)
+                </td>
+                <td>
+                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                </td>
+            </tr>
+        }
+
+    </table>
+</body>
+</html>
+
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index", new
+{
+    page,
+    RoleName = ViewBag.RoleName,
+    Name = ViewBag.Name,
+    Active = ViewBag.Active,
+    UserCell = ViewBag.UserCell
+
+
+}))

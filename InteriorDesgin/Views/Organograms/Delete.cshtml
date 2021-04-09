@@ -1,0 +1,52 @@
+﻿@model InteriorDesign.Models.Organogram
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div class="alert-warning">
+    <h4>Organogram</h4>
+   
+
+        <hr />
+        <dl class="dl-horizontal btn-danger" style="background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+            <dt>
+                @Html.DisplayNameFor(model => model.Depart)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Depart)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Role)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Role)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.UpperRole)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.UpperRole)
+            </dd>
+
+        </dl>
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-actions no-color">
+                <input type="submit" value="Delete" class="btn btn-default" /> |
+                @Html.ActionLink("Back to List", "Index")
+            </div>
+        }
+    </div>

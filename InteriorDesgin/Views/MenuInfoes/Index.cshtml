@@ -1,0 +1,102 @@
+﻿@model IEnumerable<InteriorDesign.Models.MenuInfo>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Html.RenderPartial("MenuView");
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body>
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+
+
+    <link href="~/Content/TableStyle.css" rel="stylesheet" />
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MenuName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MenuURL)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MenuParentID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CanView)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CanCreate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CanEdit)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CanDelete)
+            </th>
+            
+            <th>
+                @Html.DisplayNameFor(model => model.CanClose)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Active)
+            </th>
+            <th></th>
+        </tr>
+    
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MenuName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MenuURL)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MenuParentID)
+            </td>
+
+            <td>
+                @Html.DisplayFor(model => item.CanView)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.CanCreate)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.CanEdit)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.CanDelete)
+            </td>
+
+            <td>
+                @Html.DisplayFor(model => item.CanClose)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Active)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+            </td>
+        </tr>
+    }
+    
+    </table>
+</body>
+</html>

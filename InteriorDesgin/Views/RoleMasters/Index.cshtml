@@ -1,0 +1,246 @@
+﻿@model PagedList.IPagedList<InteriorDesign.Models.RoleMaster>
+
+@using PagedList.Mvc;
+
+@using InteriorDesign.Repository;
+
+
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Html.RenderPartial("MenuView");
+    ViewBag.Title = "Role Master";
+}
+
+<link href="~/Content/TableStyle.css" rel="stylesheet" />
+
+<h2> Role Master   </h2>
+
+<div class="alert-primary" style="color:black;">
+
+
+    @using (Html.BeginForm("Index", "RoleMasters", FormMethod.Get))
+    {
+
+        <table>
+            <tr>
+                <td width="30%">
+                    Select Parameter : @Html.DropDownList("selectionItems", (SelectList)ViewBag.selectionItems)
+
+                    <br />
+
+                    <input type="submit" value="Search" class="btn-danger" />
+                    <input type="button" value="Reset" class="btn-success" id="bReset" />
+
+                </td>
+                <td width="70%">
+
+                    <div id="selectionDivToShow" style="border:dotted; color:black; background-color:Highlight;">
+
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+        <p>
+            <table id="SearchInfoTable" class="table" style="color:black;">
+                <tr>
+
+                    <td>
+                        Find by : @Html.TextBox("Name", ViewBag.Name as string)
+
+                    </td>
+
+
+                </tr>
+
+                <tr>
+
+                    <td>
+                        Find by  Active : @Html.CheckBox("Active", Convert.ToBoolean( ViewBag.Active as string))
+
+                    </td>
+
+
+                </tr>
+       
+                <tr>
+                    <td>
+                        <input type="submit" value="Search" /> <button type="button"> @Html.ActionLink("Refresh", "Index")  </button>
+                    </td>
+
+                </tr>
+
+            </table>
+
+        </p>
+                            }
+
+</div>
+
+
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+
+
+        $('#bReset').click(function () {
+
+
+            $('#Name').val('');
+            $('#Active').val('false');
+           
+            sessionStorage.setItem("Role_Name", '');
+            sessionStorage.setItem("Role_Active", 'false');
+
+        });
+
+
+
+
+        var Role_Name_value = sessionStorage.getItem("Role_Name");
+        if (Role_Name_value == null)
+        {
+            sessionStorage.setItem("Role_Name", '');
+        } else
+        {
+            sessionStorage.setItem("Role_Name", Role_Name_value);
+        }
+
+
+        var Role_Active_value = sessionStorage.getItem("Role_Active");
+        if (Role_Active_value == null) {
+            sessionStorage.setItem("Role_Active", 'false');
+        } else {
+            sessionStorage.setItem("Role_Active", Role_Active_value);
+        }
+
+
+
+
+
+
+        $('#Name').change(function () {
+
+            sessionStorage.setItem("Role_Name", $('#Name').val());
+        });
+
+        $('#Active').change(function () {
+
+            if ($(this).prop("checked")) {
+                sessionStorage.setItem("Role_Active", 'true');
+                
+            } else {
+                sessionStorage.setItem("Role_Active", 'false');
+                
+            }
+
+            
+           
+        });
+
+      
+
+
+
+
+        $("#SearchInfoTable tr").each(function () {
+                $(this).hide();
+        });
+
+        $("#selectionItems").change(function () {
+
+            $("#SearchInfoTable tr").each(function () {
+                var row_index = $(this).index();
+                var ddlValue = $("#selectionItems").val();
+                if (ddlValue.toString() == row_index.toString())
+                {
+                    $(this).show();
+                }
+                else
+                {
+                    $(this).hide();
+                }
+
+            });
+
+
+            var Name = sessionStorage.getItem("Role_Name");
+            var Active = sessionStorage.getItem("Role_Active");
+           
+
+
+            var ListOfSelectedValue = 'Name : ' + Name + '||  Active : ' + Active;
+
+             $('#selectionDivToShow').html(ListOfSelectedValue.toString());
+
+
+        });
+
+
+
+
+
+    });
+</script>
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <link href="~/Content/TableStyle.css" rel="stylesheet" />
+
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body>
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+    <link href="~/Content/TableStyle.css" rel="stylesheet" />
+    <table class="table-bordered" style="background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+        <tr>
+            <th>
+               Name
+            </th>
+            <th>
+               Active
+            </th>
+            <th></th>
+        </tr>
+    
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Active)
+            </td>
+            <td>
+                @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+            </td>
+        </tr>
+    }
+    
+    </table>
+</body>
+</html>
+
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index", new
+{
+    page,
+
+    Name = ViewBag.Name,
+    Active = ViewBag.Active
+
+
+}))
+
+
