@@ -1,0 +1,185 @@
+﻿@model SilGlobalFashion.Models.LCModelDetails
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>LCModelDetails</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.LCModel.FileNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LCModel.FileNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SprOrIndentNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SprOrIndentNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CountryName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CountryName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ItemName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ItemName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ItemCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ItemCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UOM)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UOM)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ItemQty)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ItemQty)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ItemPrize)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ItemPrize)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Ship_On_Board_Date)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Ship_On_Board_Date)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DocsValue)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DocsValue)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ETA_On_CTG_Port)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ETA_On_CTG_Port)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Doc_Rcevd_By_Bank)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Doc_Rcevd_By_Bank)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Doc_Send_To_CF)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Doc_Send_To_CF)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ETD_From_CTG)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ETD_From_CTG)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ETA_At_Factory)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ETA_At_Factory)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Bill_Of_Entry_No)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Bill_Of_Entry_No)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Bill_Of_Entry_Date)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Bill_Of_Entry_Date)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LC_Payment_Date)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LC_Payment_Date)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsClose)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsClose)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Remarks)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Remarks)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

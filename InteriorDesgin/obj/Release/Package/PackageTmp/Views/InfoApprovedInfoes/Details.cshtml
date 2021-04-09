@@ -1,0 +1,91 @@
+﻿@model SilGlobalFashion.Models.InfoApprovedInfo
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>InfoApprovedInfo</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ModuleName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ModuleName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Location)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Location)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DepartmentName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DepartmentName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Role)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Role)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MOMSprOrIndentNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MOMSprOrIndentNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SprOrIndentNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SprOrIndentNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ApproveDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ApproveDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsApproved)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsApproved)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SysDateTime)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SysDateTime)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

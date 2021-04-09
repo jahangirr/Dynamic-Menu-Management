@@ -1,0 +1,115 @@
+﻿@model SilGlobalFashion.Models.POPreSheet
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>PO Sheet</h4>
+    <hr />
+    <dl class="dl-horizontal" style="background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+        <dt>
+            @Html.DisplayNameFor(model => model.PONumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PONumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PODate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PODate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SprOrIndentNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SprOrIndentNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SupplierCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SupplierCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SupplierName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SupplierName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ItemName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ItemName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ItemCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ItemCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.OrderQuantity)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OrderQuantity)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UnitCost)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UnitCost)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TotalValueItemWise)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TotalValueItemWise)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UnitCurrency)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UnitCurrency)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NecessaryInstruction)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NecessaryInstruction)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

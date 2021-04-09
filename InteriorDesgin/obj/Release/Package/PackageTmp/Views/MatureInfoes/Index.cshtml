@@ -1,0 +1,547 @@
+﻿@model PagedList.IPagedList<SilGlobalFashion.Models.MatureInfo>
+
+@using PagedList.Mvc;
+
+@using SilGlobalFashion.Repository;
+
+
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Html.RenderPartial("MenuView");
+    ViewBag.Title = "Mature Info";
+}
+
+<link href="~/Content/TableStyle.css" rel="stylesheet" />
+<link href="~/Content/BlinkCss.css" rel="stylesheet" />
+
+<h2> Mature Info  </h2>
+
+<div class="alert-primary" style="color:black;">
+
+
+    @using (Html.BeginForm("Index", "MatureInfoes", FormMethod.Get))
+    {
+
+        <table>
+            <tr>
+                <td width="30%">
+                    Select Parameter : @Html.DropDownList("selectionItems", (SelectList)ViewBag.selectionItems)
+
+                    <br />
+
+                    <input type="submit" value="Search" class="btn-danger" />
+                    <input type="button" value="Reset" class="btn-success" id="bReset" />
+
+                </td>
+                <td width="70%">
+
+                    <div id="selectionDivToShow" style="border:dotted; color:black; background-color:Highlight;">
+
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+
+        <p>
+            <table id="SearchInfoTable" class="table" style="color:black;">
+                <tr>
+
+                    <td>
+                        Find by Id_Bank_Branch: @Html.TextBox("BankAndBranch", ViewBag.BankAndBranch as string)
+
+                    </td>
+
+
+                </tr>
+                <tr>
+
+                    <td>
+                        @{
+
+                            GlobCreatedFunction globbCreFunc = new GlobCreatedFunction();
+
+                            DateTime? VeiwBagOpenDate = null;
+
+                            try
+                            {
+                                VeiwBagOpenDate = globbCreFunc.GetDate(ViewBag.OpenDate);
+
+
+                            }
+                            catch (Exception ex)
+                            {
+
+                            }
+
+
+
+
+                        }
+                        Find by Open Date : @Html.JQueryUI().Datepicker("OpenDate", VeiwBagOpenDate)
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>
+                        Find by Total Area  : @Html.TextBox("TotalArea", ViewBag.TotalArea as string)
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>
+                        Find Quotation Submit : @Html.CheckBox("QuotationSubmit", ViewBag.QuotationSubmit as string)
+                    </td>
+
+                </tr>
+
+
+
+
+                <tr>
+                    <td>
+                        Find by Total Bill Amount : @Html.TextBox("TotalBillAmount", ViewBag.TotalBillAmount as string)
+                    </td>
+
+                </tr>
+                <tr>
+
+                    <td>
+                        @{
+
+
+
+                            DateTime? VeiwBagMatureDate = null;
+
+                            try
+                            {
+                                VeiwBagMatureDate = globbCreFunc.GetDate(ViewBag.MatureDate);
+
+
+                            }
+                            catch (Exception ex)
+                            {
+
+                            }
+
+
+
+
+                        }
+                        Find by Mature Date : @Html.JQueryUI().Datepicker("MatureDate", VeiwBagMatureDate)
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <td>
+                        Find by Mature Total Taka : @Html.TextBox("MatureTotalTaka", ViewBag.MatureTotalTaka as string)
+
+                    </td>
+
+
+                </tr>
+
+                <tr>
+                    <td>
+                        Find by Notes : @Html.TextBox("Notes", ViewBag.Notes as string)
+
+                    </td>
+
+                </tr>
+
+
+                <tr>
+                    <td>
+                        <input type="submit" value="Search" /> <button type="button"> @Html.ActionLink("Refresh", "Index")  </button>
+                    </td>
+
+                </tr>
+
+            </table>
+
+        </p>
+                            }
+
+</div>
+
+
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+
+
+        $('#bReset').click(function () {
+
+
+            $('#TotalArea').val('0');
+            $('#QuotationSubmit').val('false');
+            $('#BankAndBranch').val('');
+            $('#OpenDate').val('');
+            $('#TotalBillAmount').val('');
+            $('#MatureDate').val('');
+            $('#MatureTotalTaka').val('');
+            $('#Notes').val('');
+
+
+
+
+            sessionStorage.setItem("MatureInfo_BankAndBranch", '');
+            sessionStorage.setItem("MatureInfo_QuotationSubmit", '');
+            sessionStorage.setItem("MatureInfo_TotalArea", '');
+            sessionStorage.setItem("MatureInfo_OpenDate", '');
+            sessionStorage.setItem("MatureInfo_TotalBillAmount", '');
+            sessionStorage.setItem("MatureInfo_MatureDate", '');
+            sessionStorage.setItem("MatureInfo_MatureTotalTaka", '');
+            sessionStorage.setItem("MatureInfo_Notes", '');
+
+        });
+
+
+        var MatureInfo_BankAndBranch_value = sessionStorage.getItem("MatureInfo_BankAndBranch");
+        if (MatureInfo_BankAndBranch_value == null) {
+            sessionStorage.setItem("MatureInfo_BankAndBranch", '');
+        } else {
+            sessionStorage.setItem("MatureInfo_BankAndBranch", MatureInfo_BankAndBranch_value);
+        }
+
+
+        var MatureInfo_TotalArea_value = sessionStorage.getItem("MatureInfo_TotalArea");
+        if (MatureInfo_TotalArea_value == null) {
+            sessionStorage.setItem("MatureInfo_TotalArea", '');
+        } else {
+            sessionStorage.setItem("MatureInfo_TotalArea", MatureInfo_TotalArea_value);
+        }
+
+
+        var MatureInfo_QuotationSubmit_value = sessionStorage.getItem("MatureInfo_QuotationSubmit");
+        if (MatureInfo_QuotationSubmit_value == null) {
+            sessionStorage.setItem("MatureInfo_QuotationSubmit", '');
+        } else {
+            sessionStorage.setItem("MatureInfo_QuotationSubmit", MatureInfo_QuotationSubmit_value);
+        }
+
+
+
+
+
+
+
+
+        var MatureInfo_OpenDate_value = sessionStorage.getItem("MatureInfo_OpenDate");
+        if (MatureInfo_OpenDate_value == null) {
+            sessionStorage.setItem("MatureInfo_OpenDate", '');
+        } else {
+            sessionStorage.setItem("MatureInfo_OpenDate", MatureInfo_OpenDate_value);
+        }
+
+
+
+
+
+        var MatureInfo_TotalBillAmount_value = sessionStorage.getItem("MatureInfo_TotalBillAmount");
+        if (MatureInfo_TotalBillAmount_value == null) {
+            sessionStorage.setItem("MatureInfo_TotalBillAmount", '');
+        } else {
+            sessionStorage.setItem("MatureInfo_TotalBillAmount", MatureInfo_TotalBillAmount_value);
+        }
+
+        var MatureInfo_OpenDate_value = sessionStorage.getItem("MatureInfo_MatureDate");
+        if (MatureInfo_OpenDate_value == null) {
+            sessionStorage.setItem("MatureInfo_MatureDate", '');
+        } else {
+            sessionStorage.setItem("MatureInfo_MatureDate", MatureInfo_OpenDate_value);
+        }
+
+
+        var MatureInfo_MatureTotalTaka_value = sessionStorage.getItem("MatureInfo_MatureTotalTaka");
+        if (MatureInfo_MatureTotalTaka_value == null) {
+            sessionStorage.setItem("MatureInfo_MatureTotalTaka", '');
+        } else {
+            sessionStorage.setItem("MatureInfo_MatureTotalTaka", MatureInfo_MatureTotalTaka_value);
+        }
+
+
+        var MatureInfo_Notes_value = sessionStorage.getItem("MatureInfo_Notes");
+        if (MatureInfo_Notes_value == null) {
+            sessionStorage.setItem("MatureInfo_Notes", '');
+        } else {
+            sessionStorage.setItem("MatureInfo_Notes", MatureInfo_Notes_value);
+        }
+
+
+
+
+
+
+        $('#TotalArea').change(function () {
+
+            sessionStorage.setItem("MatureInfo_TotalArea", $('#TotalArea').val());
+        });
+
+        $('#QuotationSubmit').change(function () {
+
+            sessionStorage.setItem("MatureInfo_QuotationSubmit", $('#QuotationSubmit').val());
+        });
+
+        $('#BankAndBranch').change(function () {
+
+            sessionStorage.setItem("MatureInfo_BankAndBranch", $('#BankAndBranch').val());
+        });
+
+
+        $('#TotalBillAmount').change(function () {
+
+            sessionStorage.setItem("MatureInfo_TotalBillAmount", $('#TotalBillAmount').val());
+
+        });
+
+
+        $('#MatureDate').change(function () {
+
+            sessionStorage.setItem("MatureInfo_MatureDate", $('#MatureDate').val());
+        });
+
+        $('#MatureTotalTaka').change(function () {
+
+            sessionStorage.setItem("MatureInfo_MatureTotalTaka", $('#MatureTotalTaka').val());
+
+        });
+
+        $('#Notes').change(function () {
+
+            sessionStorage.setItem("MatureInfo_Notes", $('#Notes').val());
+
+        });
+
+        $('#OpenDate').change(function () {
+
+            sessionStorage.setItem("MatureInfo_OpenDate", $('#OpenDate').val());
+        });
+
+
+
+
+
+
+
+        $("#SearchInfoTable tr").each(function () {
+            $(this).hide();
+        });
+
+        $("#selectionItems").change(function () {
+
+            $("#SearchInfoTable tr").each(function () {
+                var row_index = $(this).index();
+                var ddlValue = $("#selectionItems").val();
+                if (ddlValue.toString() == row_index.toString()) {
+                    $(this).show();
+                }
+                else {
+                    $(this).hide();
+                }
+
+            });
+
+
+            var TotalArea = sessionStorage.getItem("MatureInfo_TotalArea");
+            var QuotationSubmit = sessionStorage.getItem("MatureInfo_QuotationSubmit");
+            var BankAndBranch = sessionStorage.getItem("MatureInfo_BankAndBranch");
+            var OpenDate = sessionStorage.getItem("MatureInfo_OpenDate");
+            var TotalBillAmount = sessionStorage.getItem("MatureInfo_TotalBillAmount");
+            var Notes = sessionStorage.getItem("MatureInfo_Notes");
+            var MatureTotalTaka = sessionStorage.getItem("MatureInfo_MatureTotalTaka");
+            var MatureDate = sessionStorage.getItem("MatureInfo_MatureDate");
+
+
+
+            var ListOfSelectedValue = 'Total Area : ' + TotalArea + '||  Quotation Submit : ' + QuotationSubmit + '||  Id_Bank_Branch : ' + BankAndBranch + '||  Open Date : ' + OpenDate + '||  Total Bil lAmount : ' + TotalBillAmount + '||  Notes : ' + Notes
+            + '||Mature Total Taka : ' + MatureTotalTaka + ' || Mature Date :' + MatureDate;
+
+            $('#selectionDivToShow').html(ListOfSelectedValue.toString());
+
+
+        });
+
+
+
+
+
+    });
+</script>
+
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Id_Bank_Branch
+        </th>
+        <th>
+            Open_Date
+        </th>
+        <th>
+            Total_Area
+        </th>
+        <th>
+            Quotation_Submit
+        </th>
+        <th>
+            Total_Bill_Amount
+        </th>
+        <th>
+            Mature Date
+        </th>
+        <th>
+            MatureTotal Taka
+        </th>
+        <th>
+            Notes
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.BankAndBranch)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OpenDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TotalArea)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.QuotationSubmit)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TotalBillAmount)
+            </td>
+            <td>
+
+
+
+                @*checking whether reorder is placed that to be made in combination of the lower condition..*@
+
+                @{
+
+                    try
+                    {
+
+                        if (item.MatureBillInfoDetails.Select(s => s.Amount).Sum() > 0)
+                        {
+
+                            if (item.MatureDate != null && item.MatureDate.Value.AddDays(-3) <= DateTime.Now && DateTime.Now <= item.MatureDate.Value.Date)
+                            {
+                                var varMatureDate = Convert.ToDateTime(item.MatureDate.Value.Date).ToString("dd-MM-yyyy");
+                            <div class="attention">
+                                @varMatureDate
+                            </div>
+                            }
+                            else if (item.MatureDate != null && item.MatureDate.Value.AddDays(-7) <= DateTime.Now && DateTime.Now <= item.MatureDate.Value.Date)
+                            {
+                                var varMatureDate = Convert.ToDateTime(item.MatureDate.Value.Date).ToString("dd-MM-yyyy");
+                            <div style="background-color:palevioletred">
+                                @varMatureDate
+                            </div>
+                            }
+                            else if (item.MatureDate != null && item.MatureDate.Value.AddDays(-15) <= DateTime.Now && DateTime.Now <= item.MatureDate.Value.Date)
+                            {
+                                var varMatureDate = Convert.ToDateTime(item.MatureDate.Value.Date).ToString("dd-MM-yyyy");
+                            <div style="background-color:forestgreen">
+                                @varMatureDate
+                            </div>
+                            }
+                            else if (item.MatureDate != null && DateTime.Now.Date < item.MatureDate.Value.Date)
+                            {
+                                var varMatureDate = Convert.ToDateTime(item.MatureDate.Value.Date).ToString("dd-MM-yyyy");
+                            <div style="background-color:yellow">
+                                @varMatureDate
+                            </div>
+
+                            }
+                            else if (item.MatureDate != null && DateTime.Now.Date > item.MatureDate.Value.Date)
+                            {
+                                var sumMatureAmount = item.MatureBillReceiveDate.Where(w => w.MatureInfoId == item.Id).Select(s => s.ReceiveAmount).Sum();
+                                try
+                                {
+
+                                    sumMatureAmount = item.MatureTotalTaka - sumMatureAmount;
+
+
+                                }
+                                catch
+                                {
+
+                                }
+                                var varMatureDate = Convert.ToDateTime(item.MatureDate.Value.Date).ToString("dd-MM-yyyy");
+                                if (sumMatureAmount > 0)
+                                {
+                                <div style="background-color:red">
+                                    @varMatureDate
+                                </div>
+                                }
+                                else
+                                {
+                                <div style="background-color:white">
+                                    @varMatureDate
+                                </div>
+                                    }
+
+
+
+                                }
+                                else
+                                {
+
+                                }
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+
+                        }
+                    }
+
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MatureTotalTaka)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Notes)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+                    }
+
+</table>
+
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index", new
+{
+    page,
+
+    BankAndBranch = ViewBag.BankAndBranch,
+    OpenDate = ViewBag.OpenDate,
+    TotalArea = ViewBag.TotalArea,
+    QuotationSubmit = ViewBag.QuotationSubmit,
+    TotalBillAmount = ViewBag.TotalBillAmount,
+    MatureDate = ViewBag.MatureDate,
+    MatureTotalTaka = ViewBag.MatureTotalTaka,
+    Notes = ViewBag.Notes
+}))
+

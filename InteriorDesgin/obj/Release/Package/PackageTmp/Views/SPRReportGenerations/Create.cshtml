@@ -1,0 +1,381 @@
+﻿@model List<SilGlobalFashion.Models.SPRReportGeneration>
+@using SilGlobalFashion.Repository;
+@using SilGlobalFashion.Models;
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Create</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div>
+        @{
+
+            GlobCreatedFunction gcf = new GlobCreatedFunction();
+
+            DateTime? SPRReportDate = null;
+            try
+            {
+                SPRReportDate = Convert.ToDateTime(gcf.GetDate(ViewBag.SPRReportDate));
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+        }
+
+    </div>
+
+
+    
+
+    <table class="table-bordered">
+        <tr>
+            <td width="50%">
+                <strong>SPR Date:</strong>
+                @Html.JQueryUI().Datepicker("SPRReportDateS", SPRReportDate)
+            </td>
+            <td>
+                @using (Html.BeginForm("Create", "SPRReportGenerations", FormMethod.Post))
+                {
+                    <strong> Item Type : </strong>  @Html.DropDownList("ItemTypeS", (SelectList)ViewBag.itemTypeList)
+                    <input type="submit" name="Load" value="Load" class="btn btn-default" />
+                }
+
+            </td>
+        </tr>
+    </table>
+
+    <div class="alert-info">
+        <strong>SL No:</strong>
+        @Html.TextBox("SLNoS", ViewBag.SLNo as string)
+    </div>
+
+    <div class="alert-dismissable">
+        To:
+        @Html.TextArea("SPRToS", ViewBag.SPRTo as string, new { cols = 120, rows = 1 })
+        <br />
+        @Html.TextArea("SPRToRoleS", ViewBag.SPRToRole as string, new { cols = 120, rows = 1 })
+        
+    </div>
+
+        <div class="alert-danger">
+            From:
+            @Html.TextArea("SPRFromS", ViewBag.SPRFrom as string, new { cols = 120, rows = 1 })
+            
+            <br/>
+            @Html.TextArea("SPRFromRoleS", ViewBag.SPRFromRole as string, new { cols = 120, rows = 1 })
+            
+
+
+        </div>
+
+        <div class="alert-success">
+           Sub:
+            @Html.TextArea("SPRSubjectS", ViewBag.SPRSubject as string, new { cols = 120, rows = 1 })
+            
+
+        </div>
+
+
+            <div class="alert-warning">
+                @Html.TextArea("SPRSubjectBelowSS", ViewBag.SPRSubjectBelow as string, new { cols = 120 , rows = 3 })
+            </div>
+
+
+            <table class="table-bordered alert-success">
+                <tr>
+                    <th> <span class="glyphicon glyphicon-ok"></span> </th>
+                    <th style="width:120px"> MOMSprOrIndentNo </th>
+                    <th style="width:100px"> SprOrIndentNo </th>
+                    <th style="width:0px">  </th>
+                    <th style="width:0px"> </th>
+                    <th style="width:150px"> ItemName </th>
+                    <th style="width:100px">  Order Qty </th>
+                    <th style="width:32px"> UOM </th>
+                    <th style="width:100px"> Ave.Use  </th>
+                    <th style="width:100px"> StockInHand </th>
+                    <th style="width:82px"> StockAvailDays </th>
+                    <th style="width:50px"> Rate </th>
+                    <th style="width:50px">  Currency </th>
+                    <th style="width:150px"> Remarks </th>
+                    <th></th>
+                </tr>
+
+                @{
+
+                    if (Model != null && Model.Count>0)
+                    {
+
+                        int totalCount = Model.Count;
+
+                        for (var i = 0; i< totalCount; i++)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.CheckBoxFor(modelModel => Model[i].isSelected)
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(modelModel => Model[i].MOMSprOrIndentNo, new { style = "width:120px", @readonly = "readonly" })
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(modelModel => Model[i].SprOrIndentNo, new { style = "width:100px", @readonly = "readonly" })
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(modelModel => Model[i].SPRId , new { style = "width:0px", @readonly = "readonly" } )
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(modelModel => Model[i].ItemCode, new { style = "width:0px", @readonly = "readonly" })
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(modelModel => Model[i].ItemName, new { style = "width:150px", @readonly = "readonly" })
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(modelModel => Model[i].PresentRequirement, new { style = "width:100px", @readonly = "readonly" })
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(modelModel => Model[i].UOM, new { style = "width:82px", @readonly = "readonly" })
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(modelModel => Model[i].AverageMonthlyConsumption, new { style = "width:100px", @readonly = "readonly" })
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(modelModel => Model[i].StockInHand, new { style = "width:100px", @readonly = "readonly" })
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(modelModel => Model[i].StockAvailDays, new { style = "width:82px", @readonly = "readonly" })
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(modelModel => Model[i].EstimateRate, new { style = "width:50px", @readonly = "readonly" })
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(modelModel => Model[i].EstimateRateCur, new { style = "width:50px", @readonly = "readonly" })
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(modelModel => Model[i].Remarks,  new { style = "width:150px" })
+                                </td>
+                               
+                            </tr>
+                        }
+                    }
+                }
+
+            </table>
+
+            <div class="alert-danger">
+                Please , Tick the Condition which is applicable
+            </div>
+
+                <div class="alert-danger">
+                    @Html.CheckBox("IsSelectedConditionOneS")  @Html.TextArea("ConditionOneS", ViewBag.ConditionOne as string, new { cols = 120, rows = 3 })
+                </div>
+
+                <div class="alert-danger">
+                    @Html.CheckBox("IsSelectedConditionTwoS")  @Html.TextArea("ConditionTwoS", ViewBag.ConditionTwo as string, new { cols = 120, rows = 3 })
+                </div>
+
+                <div class="alert-danger">
+                    @Html.CheckBox("IsSelectedConditionThreeS")  @Html.TextArea("ConditionThreeS", ViewBag.ConditionThree as string, new { cols = 120, rows = 3 })
+                </div>
+
+                <div class="alert-danger">
+
+                    @Html.TextArea("AdviseSS", ViewBag.Advise as string, new { cols = 120, rows = 1 })
+
+                    
+                </div>
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" name="Create" value="Create" class="btn btn-default" />
+                        </div>
+                    </div>
+
+                    }
+
+
+
+
+                    <div>
+                        @Html.ActionLink("Back to List", "Index")
+                    </div>
+
+
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        $("#SPRReportDateS").attr("autocomplete", "off");
+
+        $("#SPRToS").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("GetSPRTo")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        SPRTo: $('#SPRToS').val()
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                        );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+
+        $("#SPRToRoleS").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("GetSPRToRole")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        SPRToRole: $('#SPRToRoleS').val()
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                        );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+
+        $("#SPRFromS").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("GetSPRFrom")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        SPRFrom: $('#SPRFromS').val()
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                        );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+
+        $("#SPRFromRoleS").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("GetSPRFromRole")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        SPRFromRole: $('#SPRFromRoleS').val()
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                        );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+
+        $("#SPRSubjectS").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("GetSPRSubject")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        SPRSubject: $('#SPRSubjectS').val()
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                        );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+
+    });
+</script>

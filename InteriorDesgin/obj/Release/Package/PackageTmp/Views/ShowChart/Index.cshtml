@@ -1,0 +1,117 @@
+﻿@model DotNet.Highcharts.Highcharts
+@using SilGlobalFashion.Repository;
+
+@{
+    ViewBag.Title = "Highcharts Examples";
+}
+
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Html.RenderPartial("MenuView");
+    ViewBag.Title = "Item Issue";
+}
+<link href="~/Content/TableStyle.css" rel="stylesheet" />
+
+<div class="row">
+   
+
+    <div class="col-md-12 col-md-6">
+        Chart on Purchase ..........................................................
+        @using (Html.BeginForm("Index", "ShowChart", FormMethod.Get))
+            {
+            <table class="table-bordered" style="padding-left:200px;">
+                <tr>
+                    <td width="30%">
+                        @Html.Hidden("selectionItemsRangeFromViewBag", ViewBag.selectionItemsRangeFrom as string)
+                        Select Item Range From  : @Html.DropDownList("selectionItemsRangeFrom", (SelectList)ViewBag.selectionItemsRangeList)
+                    </td>
+                    <td width="30%">
+                        @Html.Hidden("selectionItemsRangeToViewBag", ViewBag.selectionItemsRangeTo as string)
+                        Select Item Range To  : @Html.DropDownList("selectionItemsRangeTo", (SelectList)ViewBag.selectionItemsRangeList)
+                    </td>
+                    <td width="30%">
+                        Item Prefix : @Html.TextBox("preFixItem", ViewBag.preFixItem as string)
+                    </td>
+                </tr>
+
+                <tr>
+                    <td width="30%">
+                        With Value : @Html.CheckBox("WithValueCol", Convert.ToBoolean( ViewBag.WithValueCol as string), new { @checked = "checked" })
+
+                    </td>
+                    <td width="30%">
+                        @{
+                            DateTime? dtFromDateIF = null;
+
+                            try
+                            {
+                                dtFromDateIF = Convert.ToDateTime(ViewBag.FromDateIF as string);
+                            }
+                            catch (Exception ex)
+                            {
+
+                            }
+                        }
+                        From Date : @Html.JQueryUI().Datepicker("FromDateIF", dtFromDateIF)
+                    </td>
+                    <td width="30%">
+
+                        @{
+                            DateTime? ToDateIF = null;
+
+                            try
+                            {
+                                ToDateIF = Convert.ToDateTime(ViewBag.ToDateIF as string);
+                            }
+                            catch (Exception ex)
+                            {
+
+                            }
+                        }
+                        From To : @Html.JQueryUI().Datepicker("ToDateIF", ToDateIF)
+
+                    </td>
+
+                </tr>
+
+                <tr>
+                    <td colspan="2">
+                        <input type="submit" value="Show" />
+                    </td>
+                    <td></td>
+                </tr>
+
+
+
+            </table>
+        }
+
+        @(Model)
+    </div>
+
+   
+</div>
+
+
+<div>
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $("[id=selectionItemsRangeFrom] option").each(function () {
+                if ($(this).val() == $('selectionItemsRangeFromViewBag').val()) {
+                    $(this).attr('selected', 'selected');
+                }
+            });
+
+            $("[id=selectionItemsRangeTo] option").each(function () {
+                if ($(this).val() == $('selectionItemsRangeToViewBag').val()) {
+                    $(this).attr('selected', 'selected');
+                }
+            });
+
+        });
+    </script>
+</div>
+
+

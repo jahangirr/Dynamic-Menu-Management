@@ -1,0 +1,805 @@
+﻿
+
+@model  List<SilGlobalFashion.Models.AutoProcessFromSPR>
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<h2>  Auto Creation SPR , PO , MRR </h2>
+
+<div class="form-group">
+
+    <div class="col-md-12">
+        **Please, load not more than 10 items at a time for better performance.
+        @using (Html.BeginForm("Create", "AutoProcessFromSPRs", FormMethod.Get))
+        {
+
+        <div class="col-md-3" style="background-color:silver">
+            Approve Process Name:   @Html.TextBox("ItemType")
+        </div>
+
+
+
+        <div class="col-md-4" style="background-color:silver">
+            Suggestion:@Html.CheckBox("NameSuggestion")Name:@Html.TextBox("NumberOfItem",null , htmlAttributes:new { @class="autoDisable" })
+        </div>
+
+        @Html.Hidden("SprNumber")
+
+        <div class="col-md-3" style="background-color:hotpink">
+
+            Currency *** USD: @Html.RadioButton("TransCur", "USD") | BDT: @Html.RadioButton("TransCur", "BDT")
+
+
+        </div>
+
+        <div class="col-md-3">
+            <input type="submit" name="Load_By_Pram" value="Load" class="btn btn-default" />
+        </div>
+
+
+
+        }
+
+
+    </div>
+</div>
+
+@{
+
+    HtmlString hostAddress = new HtmlString(Session["HostAddress"].ToString());
+
+}
+
+<script src="@hostAddress/Scripts/tableHeadFixer.js"></script>
+
+
+<style>
+    tr.highlighted td {
+        background-color: salmon;
+    }
+</style>
+
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+
+        <hr />
+
+        @{
+
+            int totalItem = (Int32)ViewBag.totalItem;
+
+        <table class="table" id="SprTable" height="300">
+
+            <tr>
+                <th>
+                    Item Name
+                </th>
+                <th>
+                    Spr  Qty
+
+                </th>
+
+                <th>
+                    Unit Prize
+
+                </th>
+
+                <th>
+                    Currency
+
+                </th>
+
+
+                <th>
+                    Spr  C
+                </th>
+                <th>
+                    Spr  No
+
+                </th>
+                <th>
+                    Spr Date
+                </th>
+                <th>
+                    Spr App
+                </th>
+                <th>
+                    Spr App Upto
+
+                </th>
+                <th>
+                    PO C
+
+                </th>
+
+                <th>
+                    PO Date
+
+                </th>
+
+                <th>
+                    Supplier Name
+
+                </th>
+
+                <th>
+                    PO App
+
+                </th>
+
+                <th>
+                    PO App Upto
+
+                </th>
+
+                <th>
+                    MRR C
+
+                </th>
+
+                <th>
+                    MRR Date
+
+                </th>
+                <th>
+                    MRR Type
+
+                </th>
+
+                <th>
+                    MRR App
+
+                </th>
+
+
+
+                <th>
+                    MRR App Upto
+
+                </th>
+
+                <th>
+                    Lot Number
+
+                </th>
+
+                <th>
+                    Remarks
+
+                </th>
+
+                <th>
+                    Yes Process
+
+                </th>
+
+
+
+
+            </tr>
+
+
+
+
+            @for (var i = 0; i < totalItem; i++)
+                {
+
+
+
+                <tr>
+                    <td>
+                        @Html.TextBoxFor(it => it[i].ItemName, new { Style = "vertical-align:3px;width:200px;" })
+
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(it => it[i].SprQty, new { Style = "vertical-align:3px;width:100px;" })
+
+
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(it => it[i].SprQtyPrize, new { Style = "vertical-align:3px;width:100px;" })
+
+
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(it => it[i].SprCurrency, new { Style = "vertical-align:3px;width:100px;" })
+
+
+                    </td>
+                    <td class="SprCreate_class_td">
+                        @Html.CheckBoxFor(it => it[i].SprCreate, new { Style = "vertical-align:3px;width:50px;", @class = "SprCreate_class", id = "SprCreate_" + @i })
+
+                    </td>
+                    <td class="SprOrIndentNo_class_td">
+                        @Html.TextBoxFor(it => it[i].SprOrIndentNo, new { Style = "vertical-align:3px;width:100px;", @class = "SprOrIndentNo_class", id = "SprOrIndentNo_" + @i })
+
+
+                    </td>
+                    <td Style="width:100px;">
+                        @Html.JQueryUI().DatepickerFor(it => it[i].SPRDate)
+
+                    </td>
+                    <td>
+                        @Html.CheckBoxFor(it => it[i].SprApproved, new { Style = "vertical-align:3px;width:50px;" })
+
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(it => it[i].SprApprovedUpto, new { Style = "vertical-align:3px;width:150px;", @class = "SprApprovedUpto_class", id = "SprApprovedUpto_" + @i })
+
+                    </td>
+                    <td>
+                        @Html.CheckBoxFor(it => it[i].POCreate, new { Style = "vertical-align:3px;width:50px;" })
+
+
+                    </td>
+
+                    <td Style="width:100px;">
+                        @Html.JQueryUI().DatepickerFor(it => it[i].PODate)
+
+
+                    </td>
+
+                    <td>
+
+                        @Html.TextBoxFor(it => it[i].SupplierName, new { Style = "vertical-align:3px;width:200px;", @class = "SupplierName_class", id = "SupplierName_" + @i })
+
+
+
+                    </td>
+
+                    <td>
+                        @Html.CheckBoxFor(it => it[i].POApproved, new { Style = "vertical-align:3px;width:50px;" })
+
+
+                    </td>
+
+                    <td>
+
+                        @Html.TextBoxFor(it => it[i].POApprovedUpto, new { Style = "vertical-align:3px;width:150px;", @class = "POApprovedUpto_class", id = "POApprovedUpto_" + @i })
+
+
+                    </td>
+
+                    <td>
+                        @Html.CheckBoxFor(it => it[i].MRRCreate, new { Style = "vertical-align:3px;width:50px;" })
+
+
+                    </td>
+
+                    <td Style="width:100px;">
+
+                        @Html.JQueryUI().DatepickerFor(it => it[i].MRRDate)
+
+
+                    </td>
+
+                    <td>
+                        <div Style="vertical-align:3px;width:150px;">
+
+                            CS:  @Html.RadioButtonFor(it => it[i].MRRType, "CS") |
+                            YD:  @Html.RadioButtonFor(it => it[i].MRRType, "YD") |
+                            GS:  @Html.RadioButtonFor(it => it[i].MRRType, "GS")
+
+
+                        </div>
+
+
+                    </td>
+
+                    <td>
+                        @Html.CheckBoxFor(it => it[i].MRRApproved, new { Style = "vertical-align:3px;width:50px;" })
+
+
+                    </td>
+
+
+
+
+
+
+                    <td>
+                        @Html.TextBoxFor(it => it[i].MRRApprovedUpto, new { Style = "vertical-align:3px;width:150px;", @class = "MRRApprovedUpto_class", id = "MRRApprovedUpto_" + @i })
+
+
+                    </td>
+
+                    <td>
+                        @Html.TextBoxFor(it => it[i].LotNumber, new { Style = "vertical-align:3px;width:150px;", @class = "LotNumber_class", id = "LotNumber_" + @i })
+
+
+                    </td>
+
+                    <td>
+                        @Html.TextBoxFor(it => it[i].Remarks, new { Style = "vertical-align:3px;width:150px;" })
+
+
+                    </td>
+
+
+
+                    <td Style="width:50px;">
+                        @Html.CheckBoxFor(it => it[i].YesProceed)
+
+                    </td>
+
+                </tr>
+
+
+                }
+        </table>
+
+
+        }
+
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+
+
+                <script type="text/javascript">
+
+                    function Before__Submit() {
+
+                        var r = confirm("Are you sure you want to save?");
+                        if (r == false) {
+                            return false;
+                        }
+                    }
+
+
+                </script>
+
+
+                <input type="submit" value="Create" class="btn btn-default" onclick="javascript: return Before__Submit();" />
+            </div>
+        </div>
+    </div>
+            }
+
+
+
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+
+        $("#SprTable").tableHeadFixer({ "left": 1 });
+
+        $(document).on('submit', 'form', function () {
+            var buttons = $(this).find('[type="submit"]');
+            if ($(this).valid()) {
+                buttons.each(function (btn) {
+
+                    $(buttons[btn]).prop('disabled', true);
+
+                });
+            } else {
+                buttons.each(function (btn) {
+                    $(buttons[btn]).prop('disabled', false);
+                });
+            }
+        });
+
+
+
+        $("#NumberOfItem").autocomplete({
+            source: function (request, response) {
+
+                if ($('#NameSuggestion').is(':checked') == true) {
+                    $.ajax({
+                        url: '@Url.Action("GetNumberOfItem")',
+                        type: "GET",
+                        dataType: "JSON",
+                        data: {
+                            NumberOfItem: $('#NumberOfItem').val(),
+
+                            ItemType: $('#ItemType').val()
+
+                        },
+                        success: function (data) {
+
+                            response($.map(data, function (value, index) {
+                                //alert(index);
+                                return {
+                                    label: value,
+                                    value: value
+                                }
+                            })
+                            );
+                        },
+                        error: function (XMLHttpRequest, textStatus, errorThrown) {
+                            //debugger;
+                            alert(textStatus);
+                        }
+                    });
+                }
+
+
+
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+
+        $("#SprNumber").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("GetSprNumber")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        SprNumber: $('#SprNumber').val()
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                        );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+
+        $("#ItemType").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("GetItemType")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        ItemType: $('#ItemType').val()
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                        );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+
+        $('#SprTable tr').click(function (e) {
+            $('#SprTable tr').removeClass('highlighted');
+            $(this).addClass('highlighted');
+        });
+
+
+        $('#SprTable').on('click', 'tbody tr', function (event) {
+            $(this).addClass('highlight').siblings().removeClass('highlight');
+        });
+
+
+
+
+
+        $(".SprCreate_class").mouseleave(function () {
+
+            if ($(".highlight").closest('tr').find('td:eq(4) input').is(':checked').toString() === true.toString()) {
+                $('.SprOrIndentNo_class').each(function () {
+                    $(this).closest('tr').find("td:eq(5) input").each(function () {
+                        this.value = '';
+                    });
+                });
+            }
+
+
+        });
+
+
+        $(".SprOrIndentNo_class").mouseleave(function () {
+
+            if ($(".highlight").closest('tr').find('td:eq(5) input').val() != '') {
+                $('.SprCreate_class').each(function () {
+                    $(this).closest('tr').find("td:eq(4) input[type=checkbox]").each(function () {
+
+                        $(this).prop('checked', false);
+
+                    });
+                });
+            }
+
+
+        });
+
+
+
+
+
+
+
+        $(".SupplierName_class").autocomplete({
+
+            source: function (request, response) {
+
+                var inputVal = $(".highlight").closest('tr').find("td:eq(11) input").val();
+
+                $.ajax({
+                    url: '@Url.Action("GetSupplier")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        SupplierName: inputVal
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                        );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+
+
+
+
+        $(".POApprovedUpto_class").autocomplete({
+
+            source: function (request, response) {
+
+                var inputVal = $(".highlight").closest('tr').find("td:eq(13) input").val();
+
+                $.ajax({
+                    url: '@Url.Action("GetUserRole")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        UserRole: inputVal
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                        );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+
+
+
+
+
+        $(".MRRApprovedUpto_class").autocomplete({
+
+            source: function (request, response) {
+
+                var inputVal = $(".highlight").closest('tr').find("td:eq(18) input").val();
+
+                $.ajax({
+                    url: '@Url.Action("GetUserRole")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        UserRole: inputVal
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                        );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+
+        $(".LotNumber_class").autocomplete({
+
+            source: function (request, response) {
+
+                var LotNumber = $(".highlight").closest('tr').find("td:eq(19) input").val();
+                var ItemName = $(".highlight").closest('tr').find("td:eq(0) input").val();
+                var SupplierName = $(".highlight").closest('tr').find("td:eq(11) input").val();
+
+                $.ajax({
+                    url: '@Url.Action("GetLotHelp")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        ItemName: ItemName,
+                        LotNumber: LotNumber,
+                        SupplierName: SupplierName
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                        );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+
+
+
+        $(".SprApprovedUpto_class").autocomplete({
+
+            source: function (request, response) {
+
+                var inputVal = $(".highlight").closest('tr').find("td:eq(8) input").val();
+
+                $.ajax({
+                    url: '@Url.Action("GetUserRole")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        UserRole: inputVal
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                        );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+
+
+
+
+        $(".SprOrIndentNo_class").autocomplete({
+
+            source: function (request, response) {
+
+                var inputVal = $(".highlight").closest('tr').find("td:eq(5) input").val();
+                var inputValItemName = $(".highlight").closest('tr').find("td:eq(0) input").val();
+
+                $.ajax({
+                    url: '@Url.Action("GetPreviousSPR")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        SprOrIndentNo: inputVal,
+                        ItemName: inputValItemName
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                        );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+
+
+
+
+
+    });
+
+</script>
+
+
+
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

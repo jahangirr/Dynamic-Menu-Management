@@ -1,0 +1,283 @@
+﻿@model List<SilGlobalFashion.Models.POPreSheet>
+@using SilGlobalFashion.Repository;
+@using SilGlobalFashion.Models;
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Available Items' List For PO </h2>
+
+
+<div class="alert alert-danger">
+    <input type="button" id="LoadPO" name="Load" value="Show" />
+</div>
+<div class="alert-danger" id="LoadExistingDisplay">
+
+
+</div>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div style="width: 100%;">
+
+        @{
+
+            HtmlString hostAddressWeb = new HtmlString(Session["HostAddress"].ToString());
+
+        }
+
+
+        <img src="@hostAddressWeb/Logo/hamingbird.GIF" id="bird" style="position:relative;" />
+
+        <div class="form-horizontal">
+            <h4> PO Sheet  Creation </h4>
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            <div style="border:groove;background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+                <strong>PO Num:</strong>
+              
+                @Html.TextBox("PONumberEShow", ViewBag.PONumberE as string, htmlAttributes: new { disabled = "disabled" })
+                @Html.Hidden("PONumberE", ViewBag.PONumberE as string)
+
+                @{
+
+                GlobCreatedFunction gcf = new GlobCreatedFunction();
+
+                DateTime? PODate = null;
+                try
+                {
+                    PODate = Convert.ToDateTime(gcf.GetDate(ViewBag.PODate));
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                }
+
+                <strong>Date:</strong>
+                @Html.JQueryUI().Datepicker("PODateE", PODate)
+               
+
+
+                <strong> Supp. Name : </strong>
+                @Html.TextBox("SupplierNameE", ViewBag.SupplierNameE as string)
+
+                <strong>Code: </strong>
+                @Html.TextBox("SupplierCodeShow", ViewBag.SupplierCode as string, htmlAttributes: new { disabled = "disabled", style = "width:90px;" })
+
+                @Html.Hidden("SupplierCodeE", ViewBag.SupplierCodeE as string)
+
+                <button type="button"> @Html.ActionLink("Load", "Create")  </button>
+
+
+                @using (Html.BeginForm("POListBySupplier", "POPreSheets", FormMethod.Get))
+                {
+                    
+                        <input type="submit" value="Refresh" />
+                    
+                } 
+
+
+
+
+
+
+
+
+
+            </div>
+
+
+
+        </div>
+
+    </div>
+                    }
+
+
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+
+
+
+
+
+
+<script type="text/javascript">
+
+
+    function animateImage() {
+        console.log("Called");
+        $('#bird').css({ left: '100%' });
+        $('#bird').animate({ left: '-100%' }, 5000, 'linear', function () { animateImage(); });
+    }
+
+    $(document).ready(function () {
+
+        $('#LoadPO').click(function () {
+
+
+            $.ajax({
+                url: '@Url.Action("LoadExistingPO", "POPreSheets")',
+                type: "GET",
+                dataType: "JSON",
+                data: {
+                   
+                },
+                success: function (data) {
+                    console.log(data);
+                    $('#LoadExistingDisplay').html(data);
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    //debugger;
+                    alert(textStatus);
+                }
+            });
+
+
+        });
+
+
+
+        animateImage();
+
+        
+        $("#SupplierCodeE").val('');
+        $("#SupplierNameE").val('');
+       
+
+
+
+
+        $("#SupplierNameE").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("GetSupplierName")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        SupplierName: $('#SupplierNameE').val()
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                        );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+
+
+
+
+
+
+
+
+
+        $('#SupplierNameE').change(function () {
+
+
+           
+
+            $.ajax({
+                url: '@Url.Action("GetSupplierDetialBySupplierName", "POPreSheets")',
+                type: "GET",
+                dataType: "JSON",
+                data: {
+                    SupplierName: $('#SupplierNameE').val()
+                },
+                success: function (data) {
+
+                    if (data.d != "") {
+                        $('#SupplierCodeShow').val(data.SupplierCode);
+                        $('#SupplierCodeE').val(data.SupplierCode);
+
+                        $('#SupplierCodeE').trigger('change');
+
+
+                    } else {
+                        alert("what is to be supplier code")
+                    }
+
+
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    //debugger;
+                    alert(textStatus);
+                }
+            });
+        });
+
+
+
+        $('#SupplierCodeE').change(function () {
+
+            var url = "./GetPOPrepareList/POPreSheets";
+            $.post(url, {
+                SupplierCode: $('#SupplierCodeE').val(),
+                PONumber: $('#PONumberE').val(),
+                PODate: $('#PODateE').val()
+            });
+        });
+
+
+
+        $('#PONumberE').change(function () {
+            $.ajax({
+                url: '@Url.Action("IsPOExist", "POPreSheets")',
+                type: "GET",
+                dataType: "JSON",
+                data: {
+                    PONumber: $('#PONumberE').val()
+                },
+                success: function (data) {
+
+                    console.log(data);
+
+                    if(data === true)
+                    {
+                        $('#PONumberE').val('');
+                        alert('PO Number Already Exist')
+                    }
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    //debugger;
+                    alert(textStatus);
+                }
+            });
+        });
+
+
+        $("#PODateE").attr("autocomplete", "off");
+
+      
+
+    });
+</script>
+

@@ -1,0 +1,910 @@
+﻿@model PagedList.IPagedList<SilGlobalFashion.Models.SPRReportGeneration>
+
+@using PagedList.Mvc;
+@using SilGlobalFashion.Repository;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Html.RenderPartial("MenuView");
+    ViewBag.Title = "SPR Or Indent Report Generation";
+}
+
+
+<link href="~/Content/TableStyle.css" rel="stylesheet" />
+
+<table class="table alert-warning" width="100%">
+
+    <tr>
+        <td width="25%">
+            <div>
+
+                <a onclick='GetPDF();'>
+                    PDF
+                </a>
+
+                @{
+
+                    HtmlString hostAddress = new HtmlString(Session["HostAddress"].ToString());
+
+                }
+
+
+                <script type='text/javascript'>
+
+                    function GetPDF() {
+
+                        var url = "@hostAddress/SPRReportGenerations/ItemSPRReport?ReportType=PDF&MOMSprOrIndentNo=" + $('#MOMSprOrIndentNo').val();
+                        window.open(url, '_blank');
+
+                    }
+
+                </script>
+
+
+            </div>
+
+        </td>
+        <td width="25%">
+
+            <div>
+
+                <a onclick='GetExcel();'>
+                    Excel
+                </a>
+
+
+                <script type='text/javascript'>
+
+                    function GetExcel() {
+
+                        var url = "@hostAddress/SPRReportGenerations/ItemSPRReport?ReportType=EXCEL&MOMSprOrIndentNo=" + $('#MOMSprOrIndentNo').val();
+                        window.open(url, '_blank');
+
+                    }
+
+                </script>
+
+
+
+            </div>
+        </td>
+        <td width="25%">
+
+            <div>
+
+
+                <a onclick='GetExcelRecord();'>
+                    Excel Record
+                </a>
+
+
+                <script type='text/javascript'>
+
+                    function GetExcelRecord() {
+
+                        var url = "@hostAddress/SPRReportGenerations/ItemSPRReport?ReportType=EXCELRECORD&MOMSprOrIndentNo=" + $('#MOMSprOrIndentNo').val();
+                        window.open(url, '_blank');
+
+                    }
+
+                </script>
+
+
+            </div>
+        </td>
+        <td width="25%">
+
+            <div>
+
+
+                <a onclick='GetWord();'>
+                    Word
+                </a>
+
+
+                <script type='text/javascript'>
+
+                    function GetWord() {
+
+                        var url = "@hostAddress/SPRReportGenerations/ItemSPRReport?ReportType=WORD&MOMSprOrIndentNo=" + $('#MOMSprOrIndentNo').val();
+                        window.open(url, '_blank');
+
+                    }
+
+                </script>
+
+
+            </div>
+        </td>
+
+    </tr>
+    <tr>
+        <td width="25%"></td>
+        <td width="25%">
+
+            <div class="alert-success">
+
+                SPR  No:
+
+            </div>
+
+            <div class="alert-danger">
+
+                @Html.TextBox("MOMSprOrIndentNo")
+
+
+
+
+
+            </div>
+
+        </td>
+
+        <td width="25%"></td>
+        <td width="25%"></td>
+    </tr>
+</table>
+
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+
+        $("#MOMSprOrIndentNo").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("GetSPRNumber")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        MOMSprOrIndentNo: $('#MOMSprOrIndentNo').val()
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                        );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+
+    });
+</script>
+
+
+
+
+
+<h2>SPR Or Indent Registration Creation </h2>
+
+<link href="~/Content/TableStyle.css" rel="stylesheet" />
+
+<div class="alert-danger align-right" style="text-align:right">
+    @Html.ActionLink("Item Last Approving Status", "GetPoAndItemReceivedStatus", "SPRReportGenerations")
+</div>
+
+<div class="alert-primary">
+
+    @using (Html.BeginForm("Index", "SPRReportGenerations", FormMethod.Get))
+    {
+
+        <table>
+            <tr>
+                <td width="30%">
+                    Select Parameter : @Html.DropDownList("selectionItems", (SelectList)ViewBag.selectionItems)
+
+                    <br />
+
+                    <input type="submit" value="Search" class="btn-danger" />
+                    <input type="button" value="Reset" class="btn-success" id="bReset" />
+
+                </td>
+                <td width="70%">
+
+                    <div id="selectionDivToShow" style="border:dotted; color:black; background-color:Highlight;">
+
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+        <p>
+
+            @{
+                GlobCreatedFunction globbCreFunc = new GlobCreatedFunction();
+                DateTime? SprOrIndentDateVar = null;
+
+                try
+                {
+                    SprOrIndentDateVar = Convert.ToDateTime(globbCreFunc.GetDate(ViewBag.SprOrIndentDate));
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+
+                DateTime? LastApproveDateVar = null;
+
+                try
+                {
+                    LastApproveDateVar = Convert.ToDateTime(globbCreFunc.GetDate(ViewBag.LastApproveDate));
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+
+                DateTime? AttachWithPODateVar = null;
+
+                try
+                {
+                    AttachWithPODateVar = Convert.ToDateTime(globbCreFunc.GetDate(ViewBag.AttachWithPODate));
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+
+
+
+
+
+
+            }
+
+
+
+
+
+
+            <table id="SearchInfoTable" class="table" style="color:black;">
+
+                <tr>
+                    <td>
+                        Find by Mother  SPR NO: @Html.TextBox("MOMSprOrIndentNo", ViewBag.MOMSprOrIndentNo as string)
+
+                    </td>
+
+
+                </tr>
+                <tr>
+                    <td>
+                        Find by SPR : @Html.TextBox("SprOrIndentNo", ViewBag.SprOrIndentNo as string)
+
+                    </td>
+
+
+                </tr>
+
+                <tr>
+                    <td>
+
+
+                        Find By SPR Report Date:    @Html.JQueryUI().Datepicker("SprOrIndentDate", SprOrIndentDateVar)
+
+
+
+
+                    </td>
+
+                </tr>
+
+                <tr>
+                    <td>
+                        Find by SPR Created for Department: @Html.TextBox("ReqBySecOrDep", ViewBag.ReqBySecOrDep as string)
+
+                    </td>
+
+
+                </tr>
+
+                <tr>
+                    <td>
+                        Find by Item Type: @Html.TextBox("ItemType", ViewBag.ItemType as string)
+
+                    </td>
+
+
+                </tr>
+
+                <tr>
+                    <td>
+                        Find by Last Approved Person : @Html.TextBox("LastApprovePerson", ViewBag.LastApprovePerson as string)
+
+                    </td>
+
+
+                </tr>
+
+                <tr>
+                    <td>
+                        Find By SPR Date:    @Html.JQueryUI().Datepicker("LastApproveDate", LastApproveDateVar)
+
+
+                    </td>
+
+
+                </tr>
+
+
+                <tr>
+                    <td>
+                        Find by Module Name: @Html.TextBox("ModuleName", ViewBag.ModuleName as string)
+
+                    </td>
+
+
+                </tr>
+
+                <tr>
+                    <td>
+                        Find by Waiting For Approval : @Html.TextBox("WaitingForApproval", ViewBag.WaitingForApproval as string)
+
+                    </td>
+
+
+                </tr>
+
+                <tr>
+                    <td>
+                        Find by Attach With PO : @Html.TextBox("AttachWithPO", ViewBag.AttachWithPO as string)
+                    </td>
+
+                </tr>
+
+                <tr>
+                    <td>
+
+                        Find By PO Date:    @Html.JQueryUI().Datepicker("AttachWithPODate", AttachWithPODateVar)
+
+
+                    </td>
+
+                </tr>
+
+                <tr>
+                    <td>
+                        Find by Item Name : @Html.TextBox("ItemName", ViewBag.ItemName as string)
+                    </td>
+
+                </tr>
+
+                <tr>
+                    <td>
+                        Find by Attach With PO : @Html.TextBox("Remarks", ViewBag.Remarks as string)
+                    </td>
+
+                </tr>
+
+
+
+
+
+
+
+            </table>
+
+
+
+        </p>
+                }
+
+</div>
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $('#bReset').click(function () {
+
+            $('#SprOrIndentDate').val('');
+            $('#ReqBySecOrDep').val('');
+            $('#WaitingForApproval').val('');
+            $('#LastApprovePerson').val('');
+            $('#AttachWithPODate').val('');
+            $('#LastApproveDate').val('');
+            $('#ModuleName').val('');
+            $('#MOMSprOrIndentNo').val('');
+            $('#SprOrIndentNo').val('');
+            $('#ItemName').val('');
+            $('#ItemType').val('');
+            $('#Remarks').val('');
+
+
+
+            sessionStorage.setItem("SPRReport_SprOrIndentDate", '');
+            sessionStorage.setItem("SPRReport_ReqBySecOrDep", '');
+            sessionStorage.setItem("SPRReport_WaitingForApproval", '');
+            sessionStorage.setItem("SPRReport_LastApprovePerson", '');
+            sessionStorage.setItem("SPRReport_AttachWithPODate", '');
+            sessionStorage.setItem("SPRReport_LastApproveDate", '');
+            sessionStorage.setItem("SPRReport_ModuleName", '');
+
+            sessionStorage.setItem("SPRReport_MOMSprOrIndentNo", '');
+            sessionStorage.setItem("SPRReport_SprOrIndentNo", '');
+            sessionStorage.setItem("SPRReport_ItemName", '');
+            sessionStorage.setItem("SPRReport_ItemType", '');
+
+            sessionStorage.setItem("SPRReport_Remarks", '');
+
+
+
+
+        });
+
+        var SPRReport_SprOrIndentDate_value = sessionStorage.getItem("SPRReport_SprOrIndentDate");
+        if (SPRReport_SprOrIndentDate_value == null) {
+            sessionStorage.setItem("SPRReport_SprOrIndentDate", '');
+        } else {
+            sessionStorage.setItem("SPRReport_SprOrIndentDate", SPRReport_SprOrIndentDate_value);
+        }
+
+
+        var SPRReport_ReqBySecOrDep_value = sessionStorage.getItem("SPRReport_ReqBySecOrDep");
+        if (SPRReport_ReqBySecOrDep_value == null) {
+            sessionStorage.setItem("SPRReport_ReqBySecOrDep", '');
+        } else {
+            sessionStorage.setItem("SPRReport_ReqBySecOrDep", SPRReport_ReqBySecOrDep_value);
+        }
+
+
+
+
+
+        var SPRReport_WaitingForApproval_value = sessionStorage.getItem("SPRReport_WaitingForApproval");
+        if (SPRReport_WaitingForApproval_value == null) {
+            sessionStorage.setItem("SPRReport_WaitingForApproval", '');
+        } else {
+            sessionStorage.setItem("SPRReport_WaitingForApproval", SPRReport_WaitingForApproval_value);
+        }
+
+
+
+
+
+
+        var SPRReport_LastApprovePerson_value = sessionStorage.getItem("SPRReport_LastApprovePerson");
+        if (SPRReport_LastApprovePerson_value == null) {
+            sessionStorage.setItem("SPRReport_LastApprovePerson", '');
+        } else {
+            sessionStorage.setItem("SPRReport_LastApprovePerson", SPRReport_LastApprovePerson_value);
+        }
+
+
+        var SPRReport_AttachWithPODate_value = sessionStorage.getItem("SPRReport_AttachWithPODate");
+        if (SPRReport_AttachWithPODate_value == null) {
+            sessionStorage.setItem("SPRReport_AttachWithPODate", '');
+        } else {
+            sessionStorage.setItem("SPRReport_AttachWithPODate", SPRReport_AttachWithPODate_value);
+        }
+
+
+        var SPRReport_LastApproveDate_value = sessionStorage.getItem("SPRReport_LastApproveDate");
+        if (SPRReport_LastApproveDate_value == null) {
+            sessionStorage.setItem("SPRReport_LastApproveDate", '');
+        } else {
+            sessionStorage.setItem("SPRReport_LastApproveDate", SPRReport_LastApproveDate_value);
+        }
+
+        var SPRReport_ModuleName_value = sessionStorage.getItem("SPRReport_ModuleName");
+        if (SPRReport_ModuleName_value == null) {
+            sessionStorage.setItem("SPRReport_ModuleName", '');
+        } else {
+            sessionStorage.setItem("SPRReport_ModuleName", SPRReport_ModuleName_value);
+        }
+
+
+
+
+        var SPRReport_MOMSprOrIndentNo_value = sessionStorage.getItem("SPRReport_MOMSprOrIndentNo");
+        if (SPRReport_MOMSprOrIndentNo_value == null) {
+            sessionStorage.setItem("SPRReport_MOMSprOrIndentNo", '');
+        } else {
+            sessionStorage.setItem("SPRReport_MOMSprOrIndentNo", SPRReport_MOMSprOrIndentNo_value);
+        }
+
+
+        var SPRReport_SprOrIndentNo_value = sessionStorage.getItem("SPRReport_SprOrIndentNo");
+        if (SPRReport_SprOrIndentNo_value == null) {
+            sessionStorage.setItem("SPRReport_SprOrIndentNo", '');
+        } else {
+            sessionStorage.setItem("SPRReport_SprOrIndentNo", SPRReport_SprOrIndentNo_value);
+        }
+
+        var SPRReport_ItemName_value = sessionStorage.getItem("SPRReport_ItemName");
+        if (SPRReport_ItemName_value == null) {
+            sessionStorage.setItem("SPRReport_ItemName", '');
+        } else {
+            sessionStorage.setItem("SPRReport_ItemName", SPRReport_ItemName_value);
+        }
+
+        var SPRReport_ItemType_value = sessionStorage.getItem("SPRReport_ItemType");
+        if (SPRReport_ItemType_value == null) {
+            sessionStorage.setItem("SPRReport_ItemType", '');
+        } else {
+            sessionStorage.setItem("SPRReport_ItemType", SPRReport_ItemType_value);
+        }
+
+
+
+
+
+        var SPRReport_Remarks_value = sessionStorage.getItem("SPRReport_Remarks");
+        if (SPRReport_Remarks_value == null) {
+            sessionStorage.setItem("SPRReport_Remarks", '');
+        } else {
+            sessionStorage.setItem("SPRReport_Remarks", SPRReport_Remarks_value);
+        }
+
+
+
+
+
+        $('#SprOrIndentDate').change(function () {
+
+            sessionStorage.setItem("SPRReport_SprOrIndentDate", $('#SprOrIndentDate').val());
+        });
+
+        $('#ReqBySecOrDep').change(function () {
+
+            sessionStorage.setItem("SPRReport_ReqBySecOrDep", $('#ReqBySecOrDep').val());
+        });
+        $('#WaitingForApproval').change(function () {
+
+            sessionStorage.setItem("SPRReport_WaitingForApproval", $('#WaitingForApproval').val());
+
+        });
+
+        $('#LastApprovePerson').change(function () {
+
+            sessionStorage.setItem("SPRReport_LastApprovePerson", $('#LastApprovePerson').val());
+
+        });
+
+
+        $('#AttachWithPODate').change(function () {
+
+            sessionStorage.setItem("SPRReport_AttachWithPODate", $('#AttachWithPODate').val());
+
+        });
+
+        $('#ModuleName').change(function () {
+
+            sessionStorage.setItem("SPRReport_ModuleName", $('#ModuleName').val());
+
+        });
+
+
+
+        $('#MOMSprOrIndentNo').change(function () {
+
+            sessionStorage.setItem("SPRReport_MOMSprOrIndentNo", $('#MOMSprOrIndentNo').val());
+        });
+
+        $('#SprOrIndentNo').change(function () {
+
+            sessionStorage.setItem("SPRReport_SprOrIndentNo", $('#SprOrIndentNo').val());
+        });
+
+        $('#ItemName').change(function () {
+
+            sessionStorage.setItem("SPRReport_ItemName", $('#ItemName').val());
+        });
+
+        $('#ItemType').change(function () {
+
+            sessionStorage.setItem("SPRReport_ItemType", $('#ItemType').val());
+        });
+
+
+        $('#Remarks').change(function () {
+
+            sessionStorage.setItem("SPRReport_Remarks", $('#Remarks').val());
+        });
+
+
+
+
+        $("#SearchInfoTable tr").each(function () {
+            $(this).hide();
+        });
+
+        $("#selectionItems").change(function () {
+
+            $("#SearchInfoTable tr").each(function () {
+                var row_index = $(this).index();
+                var ddlValue = $("#selectionItems").val();
+                if (ddlValue.toString() == row_index.toString()) {
+                    $(this).show();
+                }
+                else {
+                    $(this).hide();
+                }
+
+            });
+
+
+            var SprOrIndentDate = sessionStorage.getItem("SPRReport_SprOrIndentDate");
+            var ReqBySecOrDep = sessionStorage.getItem("SPRReport_ReqBySecOrDep");
+            var WaitingForApproval = sessionStorage.getItem("SPRReport_WaitingForApproval");
+            var LastApprovePerson = sessionStorage.getItem("SPRReport_LastApprovePerson");
+            var AttachWithPODate = sessionStorage.getItem("SPRReport_AttachWithPODate");
+            var LastApproveDate = sessionStorage.getItem("SPRReport_LastApproveDate");
+            var ModuleName = sessionStorage.getItem("SPRReport_ModuleName");
+            var MOMSprOrIndentNo = sessionStorage.getItem("SPRReport_MOMSprOrIndentNo");
+            var SprOrIndentNo = sessionStorage.getItem("SPRReport_SprOrIndentNo");
+            var ItemName = sessionStorage.getItem("SPRReport_ItemName");
+            var ItemType = sessionStorage.getItem("SPRReport_ItemType");
+            var Remarks = sessionStorage.getItem("SPRReport_Remarks");
+
+
+            var ListOfSelectedValue = 'SPR Indent Date : ' + SprOrIndentDate +
+
+
+                '||  ReqBySecOrDep : ' + ReqBySecOrDep +
+                '||  WaitingForApproval : ' + WaitingForApproval +
+                '||  LastApprovePerson : ' + LastApprovePerson +
+                '||  AttachWithPODate : ' + AttachWithPODate.toString() +
+                '||  LastApproveDate : ' + LastApproveDate.toString() +
+                '||  ModuleName : ' + ModuleName.toString() +
+                '|| Mother SPR Or Indent No :' + MOMSprOrIndentNo +
+                '||  Spr Or Indent No : ' + SprOrIndentNo +
+                '||  Item Name : ' + ItemName +
+                 '|| ItemType : ' + ItemType +
+                '||  Remarks : ' + Remarks;
+
+            $('#selectionDivToShow').html(ListOfSelectedValue.toString());
+
+
+        });
+
+
+
+        $("input[name^='Date']").each(function (i, e) {
+
+            var tempDate = $(e).val().toString();
+            if (tempDate.lenght > 9) {
+                var DateToShow = tempDate.substring(1, 10);
+                $(e).val(DateToShow);
+
+            }
+        });
+
+
+
+    });
+</script>
+
+
+
+
+
+
+
+
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+
+
+
+<table class="table-bordered" style="background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+    <tr>
+
+        <th>
+            MOM Spr Or Indent No
+        </th>
+        @*<th>
+                Spr Or IndentNo
+            </th>*@
+        <th>
+            Spr Or Indent Date
+        </th>
+        <th>
+            Req By Sec Or Dep
+        </th>
+        <th>
+            Item Type
+        </th>
+        <th>
+            Last Approve Person
+        </th>
+        <th>
+            Last Approve Date
+        </th>
+        @*<th>
+                Module Name
+            </th>*@
+        <th>
+            Waiting For Approval
+        </th>
+        <th>
+            Attach With PO
+        </th>
+        <th>
+            Attach With PO Date
+        </th>
+        @*<th>
+                ItemName
+            </th>*@
+        <th>
+            Remarks
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.MOMSprOrIndentNo)
+            </td>
+            @*<td>
+                    @Html.DisplayFor(modelItem => item.SprOrIndentNo)
+                </td>*@
+            <td>
+                @Html.DisplayFor(modelItem => item.SprOrIndentDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ReqBySecOrDep)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ItemType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastApprovePerson)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastApproveDate)
+            </td>
+            @*<td>
+                    @Html.DisplayFor(modelItem => item.ModuleName)
+                </td>*@
+            <td>
+                @Html.DisplayFor(modelItem => item.WaitingForApproval)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AttachWithPO)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AttachWithPODate)
+            </td>
+            @*<td>
+                    @Html.DisplayFor(modelItem => item.ItemName)
+                </td>*@
+            <td>
+                @Html.DisplayFor(modelItem => item.Remarks)
+            </td>
+            <td>
+
+                @Html.ActionLink("Details", "Details", new { MOMSprOrIndentNo = item.MOMSprOrIndentNo }) |
+
+
+                <a class="printPopup" href="@hostAddress/SPRReportGenerations/ItemSPRReport?ReportType=PDF&amp;MOMSprOrIndentNo=@item.MOMSprOrIndentNo&amp;addHeader=True" target="someFramePop">Print Popup</a> |
+
+
+                @Html.ActionLink("Print", "ItemSPRReport", new { ReportType = "PDF", MOMSprOrIndentNo = item.MOMSprOrIndentNo, addHeader = true }, new { target = "someFrame", @class = "d-print-inline" })
+
+
+            </td>
+        </tr>
+    }
+
+</table>
+
+
+
+
+
+<div class="modal fade" id="printModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body" id="popupFileDive">
+
+                <iframe name="someFramePop" id="someFramePop" scrolling="yes" width="550" height="350"></iframe>
+            </div>
+        </div>
+
+            <button type="button" id="closeId" class="btn-danger" data-dismiss="modal" aria-hidden="true">Close</button>
+       
+    </div>
+
+
+</div>
+
+
+
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+
+        $('#closeId').click(function () {
+
+            $('#printModal').modal('hide');
+
+        });
+
+       
+
+
+        $(".printPopup").click(function (e) {
+            e.preventDefault();
+
+            $("#someFramePop").attr("src", $(this).attr("href"));
+            $("#someFramePop").focus();
+            // $("#someFramePop").print();
+            $('#printModal').modal('show');
+
+
+        })
+
+
+        $(".d-print-inline").click(function (e) {
+            e.preventDefault();
+            $("#someFrame").attr("src", $(this).attr("href"));
+            $("#someFrame").focus();
+            $("#someFrame").print();
+
+
+        })
+    });
+</script>
+
+
+<br />
+<br />
+
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index", new
+{
+    page,
+    MOMSprOrIndentNo = ViewBag.MOMSprOrIndentNo,
+    SprOrIndentNo = ViewBag.SprOrIndentNo,
+    SprOrIndentDate = ViewBag.SprOrIndentDate,
+    ReqBySecOrDep = ViewBag.ReqBySecOrDep,
+    ItemType = ViewBag.ItemType,
+    LastApprovePerson = ViewBag.LastApprovePerson,
+    LastApproveDate = ViewBag.LastApproveDate,
+    ModuleName = ViewBag.ModuleName,
+    WaitingForApproval = ViewBag.WaitingForApproval,
+    AttachWithPO = ViewBag.AttachWithPO,
+    AttachWithPODate = ViewBag.AttachWithPODate,
+    ItemName = ViewBag.ItemName,
+    Remarks = ViewBag.Remarks
+}))
+
+<iframe name="someFrame" id="someFrame" width="700" height="400" scrolling="yes"></iframe>
+
+

@@ -1,0 +1,513 @@
+﻿@model PagedList.IPagedList<SilGlobalFashion.Models.PriceQuatation>
+
+@using PagedList.Mvc;
+
+@using SilGlobalFashion.Repository;
+
+
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Html.RenderPartial("MenuView");
+    ViewBag.Title = "Price Quotation";
+}
+
+<link href="~/Content/TableStyle.css" rel="stylesheet" />
+
+<h3>Price Quatation </h3>
+
+<div class="alert-primary" style="color:black;">
+
+
+    @using (Html.BeginForm("Index", "PriceQuatations", FormMethod.Get))
+    {
+
+        <table>
+            <tr>
+                <td width="30%">
+                    Select Parameter : @Html.DropDownList("selectionItems", (SelectList)ViewBag.selectionItems)
+
+                    <br />
+
+                    <input type="submit" value="Search" class="btn-danger" />
+                    <input type="button" value="Reset" class="btn-success" id="bReset" />
+
+                </td>
+                <td width="70%">
+
+                    <div id="selectionDivToShow" style="border:dotted; color:black; background-color:Highlight;">
+
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+
+
+
+
+        <p>
+            <table id="SearchInfoTable" class="table" style="color:black;">
+                <tr>
+
+                    <td>
+                        Find by PO Number: @Html.TextBox("PONumber", ViewBag.PONumber as string)
+
+                    </td>
+
+
+                </tr>
+
+                <tr>
+
+                    <td>
+                        @{
+
+                            GlobCreatedFunction globbCreFunc = new GlobCreatedFunction();
+
+                            DateTime? VeiwBagPODate = null;
+
+                            try
+                            {
+                                VeiwBagPODate = Convert.ToDateTime(globbCreFunc.GetDate(ViewBag.PODate));
+
+
+                            }
+                            catch (Exception ex)
+                            {
+
+                            }
+
+
+
+
+                        }
+                        Find by PO Date : @Html.JQueryUI().Datepicker("PODate", VeiwBagPODate)
+                    </td>
+
+                </tr>
+
+
+                <tr>
+                    <td>
+                        Find by Mother Spr Or Indent No : @Html.TextBox("MOMSprOrIndentNo", ViewBag.MOMSprOrIndentNo as string)
+                    </td>
+
+                </tr>
+
+                <tr>
+                    <td>
+                        Find by Spr Or Indent No : @Html.TextBox("SprOrIndentNo", ViewBag.SprOrIndentNo as string)
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>
+                        Find by Supplier Code : @Html.TextBox("SupplierCode", ViewBag.SupplierCode as string)
+
+                    </td>
+
+                </tr>
+                <tr>
+
+                    <td>
+                        Find by Supplier Name : @Html.TextBox("SupplierName", ViewBag.SupplierName as string)
+
+                    </td>
+
+
+                </tr>
+
+
+
+                <tr>
+                    <td>
+                        Find by Item Name : @Html.TextBox("ItemName", ViewBag.ItemName as string)
+
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>
+                        Find by Item Code : @Html.TextBox("ItemCode", ViewBag.ItemCode as string)
+
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Find by Necessary Instruction : @Html.TextBox("NecessaryInstruction", ViewBag.NecessaryInstruction as string)
+                    </td>
+
+                </tr>
+
+                <tr>
+                    <td>
+                        <input type="submit" value="Search" />
+                    </td>
+
+                </tr>
+
+            </table>
+
+        </p>
+                            }
+
+</div>
+
+
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+
+
+        $('#bReset').click(function () {
+
+
+            $('#PONumber').val('');
+            $('#PODate').val('');
+            $('#MOMSprOrIndentNo').val('');
+            $('#SprOrIndentNo').val('');
+            $('#SupplierCode').val('');
+            $('#SupplierName').val('');
+            $('#ItemName').val('');
+            $('#ItemCode').val('');
+            $('#NecessaryInstruction').val('');
+
+
+            
+
+            sessionStorage.setItem("PriceQuatation_PONumber", '');
+            sessionStorage.setItem("PriceQuatation_SprOrIndentNo", '');
+            sessionStorage.setItem("PriceQuatation_MOMSprOrIndentNo", '');
+            sessionStorage.setItem("PriceQuatation_ItemCode", '');
+            sessionStorage.setItem("PriceQuatation_ItemName", '');
+            sessionStorage.setItem("PriceQuatation_PODate", '');
+            sessionStorage.setItem("PriceQuatation_SupplierCode", '');
+            sessionStorage.setItem("PriceQuatation_SupplierName", '');
+            sessionStorage.setItem("PriceQuatation_NecessaryInstruction", '');
+
+
+        });
+
+
+
+
+        var PriceQuatation_ItemCode_value = sessionStorage.getItem("PriceQuatation_ItemCode");
+        if (PriceQuatation_ItemCode_value == null) {
+            sessionStorage.setItem("PriceQuatation_ItemCode", '');
+        } else {
+            sessionStorage.setItem("PriceQuatation_ItemCode", PriceQuatation_ItemCode_value);
+        }
+
+        var PriceQuatation_ItemName_value = sessionStorage.getItem("PriceQuatation_ItemName");
+        if (PriceQuatation_ItemName_value == null) {
+            sessionStorage.setItem("PriceQuatation_ItemName", '');
+        } else {
+            sessionStorage.setItem("PriceQuatation_ItemName", PriceQuatation_ItemName_value);
+        }
+
+
+        
+
+        var PriceQuatation_SprOrIndentNo_value = sessionStorage.getItem("PriceQuatation_SprOrIndentNo");
+        if (PriceQuatation_SprOrIndentNo_value == null) {
+            sessionStorage.setItem("PriceQuatation_SprOrIndentNo", '');
+        } else {
+            sessionStorage.setItem("PriceQuatation_SprOrIndentNo", PriceQuatation_SprOrIndentNo_value);
+        }
+
+        var PriceQuatation_MOMSprOrIndentNo_value = sessionStorage.getItem("PriceQuatation_MOMSprOrIndentNo");
+        if (PriceQuatation_MOMSprOrIndentNo_value == null) {
+            sessionStorage.setItem("PriceQuatation_MOMSprOrIndentNo", '');
+        } else {
+            sessionStorage.setItem("PriceQuatation_MOMSprOrIndentNo", PriceQuatation_MOMSprOrIndentNo_value);
+        }
+
+
+
+
+        var PriceQuatation_PONumber_value = sessionStorage.getItem("PriceQuatation_PONumber");
+        if (PriceQuatation_PONumber_value == null) {
+            sessionStorage.setItem("PriceQuatation_PONumber", '');
+        } else {
+            sessionStorage.setItem("PriceQuatation_PONumber", PriceQuatation_PONumber_value);
+        }
+
+
+
+
+        var PriceQuatation_PODate_value = sessionStorage.getItem("PriceQuatation_PODate");
+        if (PriceQuatation_PODate_value == null) {
+            sessionStorage.setItem("PriceQuatation_PODate", '');
+        } else {
+            sessionStorage.setItem("PriceQuatation_PODate", PriceQuatation_PODate_value);
+        }
+
+
+
+
+
+        var PriceQuatation_SupplierCode_value = sessionStorage.getItem("PriceQuatation_SupplierCode");
+        if (PriceQuatation_SupplierCode_value == null) {
+            sessionStorage.setItem("PriceQuatation_SupplierCode", '');
+        } else {
+            sessionStorage.setItem("PriceQuatation_SupplierCode", PriceQuatation_SupplierCode_value);
+        }
+
+        var PriceQuatation_SupplierName_value = sessionStorage.getItem("PriceQuatation_SupplierName");
+        if (PriceQuatation_SupplierName_value == null) {
+            sessionStorage.setItem("PriceQuatation_SupplierName", '');
+        } else {
+            sessionStorage.setItem("PriceQuatation_SupplierName", PriceQuatation_SupplierName_value);
+        }
+
+
+        var PriceQuatation_NecessaryInstruction_value = sessionStorage.getItem("PriceQuatation_NecessaryInstruction");
+        if (PriceQuatation_NecessaryInstruction_value == null) {
+            sessionStorage.setItem("PriceQuatation_NecessaryInstruction", '');
+        } else {
+            sessionStorage.setItem("PriceQuatation_NecessaryInstruction", PriceQuatation_NecessaryInstruction_value);
+        }
+
+
+
+
+
+
+        $('#ItemCode').change(function () {
+
+            sessionStorage.setItem("PriceQuatation_ItemCode", $('#ItemCode').val());
+        });
+
+        
+
+        $('#SprOrIndentNo').change(function () {
+
+            sessionStorage.setItem("PriceQuatation_SprOrIndentNo", $('#SprOrIndentNo').val());
+        });
+
+        $('#MOMSprOrIndentNo').change(function () {
+
+            sessionStorage.setItem("PriceQuatation_MOMSprOrIndentNo", $('#MOMSprOrIndentNo').val());
+        });
+
+        $('#PONumber').change(function () {
+
+            sessionStorage.setItem("PriceQuatation_PONumber", $('#PONumber').val());
+        });
+
+        $('#PODate').change(function () {
+
+            sessionStorage.setItem("PriceQuatation_PODate", $('#PODate').val());
+        });
+        $('#SupplierCode').change(function () {
+
+            sessionStorage.setItem("PriceQuatation_SupplierCode", $('#SupplierCode').val());
+
+        });
+
+
+
+
+        $('#SupplierName').change(function () {
+
+            sessionStorage.setItem("PriceQuatation_SupplierName", $('#SupplierName').val());
+
+        });
+
+        $('#NecessaryInstruction').change(function () {
+
+            sessionStorage.setItem("PriceQuatation_NecessaryInstruction", $('#NecessaryInstruction').val());
+
+        });
+
+
+
+        $('#ItemName').change(function () {
+
+            sessionStorage.setItem("PriceQuatation_ItemName", $('#ItemName').val());
+
+        });
+
+
+
+
+
+
+
+
+        $("#SearchInfoTable tr").each(function () {
+            $(this).hide();
+        });
+
+        $("#selectionItems").change(function () {
+
+            $("#SearchInfoTable tr").each(function () {
+                var row_index = $(this).index();
+                var ddlValue = $("#selectionItems").val();
+                if (ddlValue.toString() == row_index.toString()) {
+                    $(this).show();
+                }
+                else {
+                    $(this).hide();
+                }
+
+            });
+
+
+            var ItemCode = sessionStorage.getItem("PriceQuatation_ItemCode");
+            var ItemName = sessionStorage.getItem("PriceQuatation_ItemName");
+            var SprOrIndentNo = sessionStorage.getItem("PriceQuatation_SprOrIndentNo");
+            var MOMSprOrIndentNo = sessionStorage.getItem("PriceQuatation_MOMSprOrIndentNo");
+            var PONumber = sessionStorage.getItem("PriceQuatation_PONumber");
+            var PODate = sessionStorage.getItem("PriceQuatation_PODate");
+            var SupplierCode = sessionStorage.getItem("PriceQuatation_SupplierCode");
+            var SupplierName = sessionStorage.getItem("PriceQuatation_SupplierName");
+            var NecessaryInstruction = sessionStorage.getItem("PriceQuatation_NecessaryInstruction");
+
+
+
+            var ListOfSelectedValue = 'Item Code : ' + ItemCode + '|| Mother SPR or Indent No :' + MOMSprOrIndentNo + '||  Spr Or Indent No : ' + SprOrIndentNo + '||  PO Number : ' + PONumber + '||  PO Date : ' + PODate + '||  SupplierCode : ' + SupplierCode + '||  SupplierName : ' + SupplierName
+            + '||Necessary Instruction : ' + NecessaryInstruction + '||   ItemName : ' + ItemName;
+
+            $('#selectionDivToShow').html(ListOfSelectedValue.toString());
+
+
+        });
+
+
+
+
+    });
+</script>
+
+
+<p>
+    @Html.ActionLink("Create New", "POListBySupplier")
+</p>
+<table id="IndexTable" class="table-bordered" style="background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+    <tr>
+        
+        <th>
+            PONumber
+        </th>
+        <th>
+            PODate
+        </th>
+        <th>
+            Mother SPR / Indent No
+        </th>
+        <th>
+            SprOrIndentNo
+        </th>
+        <th>
+            SupplierCode
+        </th>
+        <th>
+            SupplierName
+        </th>
+        <th>
+            ItemName
+        </th>
+        <th>
+            ItemCode
+        </th>
+        <th>
+            OrderQuantity
+        </th>
+        <th>
+            UnitCost
+        </th>
+        <th>
+            TotalValueItemWise
+        </th>
+        <th>
+            Currency
+        </th>
+        <th>
+            NecessaryInstruction
+        </th>
+        <td>
+            Is Approved
+        </td>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.PONumber)
+            </td>
+            <td id="Date_@item.Id">
+                @Html.DisplayFor(modelItem => item.PODate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MOMSprOrIndentNo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SprOrIndentNo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SupplierCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SupplierName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ItemName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ItemCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrderQuantity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UnitCost)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TotalValueItemWise)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UnitCurrency)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NecessaryInstruction)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsCheckToProcess)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+    }
+
+</table>
+
+ Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index", new
+{
+    page,
+    PONumber = ViewBag.PONumber,
+    PODate = ViewBag.PODate,
+    MOMSprOrIndentNo = ViewBag.MOMSprOrIndentNo,
+    SprOrIndentNo = ViewBag.SprOrIndentNo,
+    SupplierCode = ViewBag.SupplierCode,
+    SupplierName = ViewBag.SupplierName,
+    ItemName = ViewBag.ItemName,
+    ItemCode = ViewBag.ItemCode,
+    NecessaryInstruction = ViewBag.NecessaryInstruction
+
+
+}))
+
+
+

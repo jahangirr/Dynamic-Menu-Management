@@ -1,0 +1,579 @@
+﻿@model SilGlobalFashion.Models.ItemLoanMaster
+@using SilGlobalFashion.Repository;
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Create</h2>
+
+
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+   
+    @Html.Hidden("Id" , ViewBag.Id as string)
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-horizontal">
+        <h4>ItemLoanMaster</h4>
+        <hr />
+      
+        <div class="form-group">
+            @Html.LabelFor(model => model.LoanType, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBox("LoanTypeShow", ViewBag.LoanType as string, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+                @Html.Hidden("LoanType", ViewBag.LoanType as string)
+                @Html.ActionLink("Refresh", "Edit", new { Id = ViewBag.Id  as string })
+                @Html.ValidationMessageFor(model => model.LoanType, "", new { @class = "text-danger" })
+
+            </div>
+
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.LoanNumber, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBox("LoanNumber", ViewBag.LoanNumber as string, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+                @Html.ValidationMessageFor(model => model.LoanNumber, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.LoanConcernedObject, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBox("LoanConcernedObject", ViewBag.LoanConcernedObject as string, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.LoanConcernedObject, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.LoanDate, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+
+
+                @{
+
+                    GlobCreatedFunction globbCreFunc = new GlobCreatedFunction();
+
+                    DateTime? dtLoanDate = null;
+
+                    try
+                    {
+                        dtLoanDate = Convert.ToDateTime(ViewBag.LoanDate as string);
+                    }
+                    catch (Exception ex)
+                    {
+
+                    }
+
+
+
+                }
+
+                @Html.JQueryUI().Datepicker("LoanDate", dtLoanDate)
+                @Html.ValidationMessageFor(model => model.LoanDate, "", new { @class = "text-danger" })
+
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ItemName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBox("ItemName", ViewBag.ItemName as string, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.ItemName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ItemCode, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+
+                @Html.TextBox("ItemCode", ViewBag.ItemCode as string, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+
+                <button id="btnShowModal" type="button" class="btn btn-sm btn-default">
+                    Show History
+                </button>
+                @Html.ValidationMessageFor(model => model.ItemCode, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.RefNoOrSprNo, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBox("RefNoOrSprNo", ViewBag.RefNoOrSprNo as string, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.RefNoOrSprNo, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.LotNum, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBox("LotNum", ViewBag.LotNum as string, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.LotNum, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.LoanQty, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBox("LoanQty", ViewBag.LoanQty as string, htmlAttributes: new { @class = "form-control" })
+
+
+                @Html.ValidationMessageFor(model => model.LoanQty, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            @Html.Label("UOM", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBox("UOM", ViewBag.UOM as string, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Remarks, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBox("Remarks", ViewBag.Remarks as string, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Remarks, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Edit" class="btn btn-default" onclick="javascript: return getChecked();" />
+            </div>
+        </div>
+
+        <script type="text/javascript">
+
+            function getChecked()
+            {
+
+                if(parseFloat($('#LoanQty').val()) == 0.0 || $('#LoanType').val() == '' ||  $('#LoanConcernedObject').val() =='' || $('#ItemCode').val() == '' ||  $('#RefNoOrSprNo').val() == ''|| $('#ItemName').val() =='')
+                {
+                    return false;
+                }else
+                {
+                    return true;
+                }
+
+
+            }
+
+        </script>
+
+
+        <div>
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    </div>
+
+
+
+                    }
+
+
+
+
+<style>
+    .scroller {
+        width: 530px;
+        height: 400px;
+        overflow-y: scroll;
+        overflow-x: scroll;
+    }
+</style>
+
+
+
+<div class="modal fade" tabindex="-1" id="loginModal"
+     data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    ×
+                </button>
+                <h4 class="modal-title">Loan History</h4>
+            </div>
+            <div class="modal-body">
+                <div class="scroller">
+                    <div class="alert-danger" id="LoadExistingDisplay">
+
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="modal-footer">
+
+                <button type="button" id="btnHideModal" class="btn btn-primary button button4">
+                    Hide
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+
+        if ($('#ReceiveTypeS').val() == 'Take Loan') {
+            $('#ReceiveType').find('option[value=Take Loan]').attr('selected', 'selected');
+        } else if ($('#ReceiveTypeS').val() == 'Return Taken Loan') {
+            $('#ReceiveType').find('option[value=Return Taken Loan]').attr('selected', 'selected');
+        } else if ($('#ReceiveTypeS').val() == 'Give Loan') {
+            $('#ReceiveType').find('option[value=Give Loan]').attr('selected', 'selected');
+        } else if ($('#ReceiveTypeS').val() == 'Return Given Loan') {
+            $('#ReceiveType').find('option[value=Return Given Loan]').attr('selected', 'selected');
+        } else
+        {
+
+        }
+
+
+
+        $("#btnShowModal").click(function () {
+
+            $.ajax({
+                url: '@Url.Action("GetItemLoanHistory", "ItemLoanMasters")',
+                type: "GET",
+                dataType: "JSON",
+                data: {
+                    LoanType: $('#LoanType').val(),
+                    LoanConcernedObject: $('#LoanConcernedObject').val(),
+                    ItemCode: $('#ItemCode').val() ,
+                    LoanDate: $('#LoanDate').val()
+                },
+                success: function (data) {
+                    console.log(data);
+                    $('#LoadExistingDisplay').html(data);
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    //debugger;
+                    alert(textStatus);
+                }
+            });
+
+            $("#loginModal").modal('show');
+        });
+
+        $("#btnHideModal").click(function () {
+            $("#loginModal").modal('hide');
+        });
+
+
+
+        $("#ItemName").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("GetItemName")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        ItemName: $('#ItemName').val()
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                        );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+
+
+        $("#LoanConcernedObject").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("GetLoanConcernedObject")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        LoanConcernedObject: $('#LoanConcernedObject').val()
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                        );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+
+
+        $('#ItemName').change(function () {
+            $.ajax({
+                url: '@Url.Action("GetItemCode")',
+                type: "GET",
+                dataType: "JSON",
+                data: {
+                    ItemName: $('#ItemName').val()
+                },
+                success: function (data) {
+                    $('#ItemCode').val(data.ItemCode);
+                    $('#UOM').val(data.UOM);
+
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+
+
+                    //debugger;
+                    alert(textStatus);
+                }
+            });
+        });
+
+
+        $('#RefNoOrSprNo').change(function () {
+
+            $.ajax({
+                url: '@Url.Action("GetRefNoOrSprNoInfoReturnTakenLoanQty")',
+                type: "GET",
+                dataType: "JSON",
+                data: {
+
+                    LoanType: $('#LoanType').val(),
+                    LoanConcernedObject: $('#LoanConcernedObject').val(),
+                    ItemCode: $('#ItemCode').val(),
+                    LoanQty: $('#LoanQty').val(),
+                    RefNoOrSprNo: $('#RefNoOrSprNo').val(),
+                    LotNum: $('#LotNum').val(),
+                    LoanDate: $('#LoanDate').val()
+                },
+                success: function (data) {
+
+                    $('#LoanQty').val(data.returnValue);
+                    sessionStorage.setItem("LoanQty", $('#LoanQty').val());
+                    console.log('RefNoOrSprNO');
+                    console.log($('#LoanQty').val());
+                    console.log('RefNoOrSprNO');
+
+                    sessionStorage.setItem("LotLoanQty", "0.0");
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    //debugger;
+                    alert(textStatus);
+                }
+            });
+
+
+        });
+
+
+
+
+        $("#RefNoOrSprNo").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("GetRefNoOrSprNoInfo")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+
+                        LoanType: $('#LoanType').val(),
+                        LoanConcernedObject: $('#LoanConcernedObject').val(),
+                        ItemCode: $('#ItemCode').val(),
+                        LoanQty: $('#LoanQty').val(),
+                        RefNoOrSprNo: $('#RefNoOrSprNo').val(),
+                        LotNum: $('#LotNum').val(),
+                        LoanDate: $('#LoanDate').val()
+                    },
+                    success: function (data) {
+
+
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                      );
+
+
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+
+
+        $("#LotNum").autocomplete({
+            source: function (request, response) {
+
+
+                $.ajax({
+                    url: '@Url.Action("GetRefNoOrSprNoInfo")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+
+                        LoanType: $('#LoanType').val(),
+                        LoanConcernedObject: $('#LoanConcernedObject').val(),
+                        ItemCode: $('#ItemCode').val(),
+                        LoanQty: $('#LoanQty').val(),
+                        RefNoOrSprNo: $('#RefNoOrSprNo').val(),
+                        LotNum: $('#LotNum').val(),
+                        LoanDate: $('#LoanDate').val()
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                        );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+
+
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+
+
+        $('#LotNum').change(function () {
+
+            if ($('#LoanType').val() == 'Take Loan' || $('#LoanType').val() == 'Return Taken Loan')
+            {
+                $('#LotNum').val('');
+            }
+
+            if ($('#LotNum').val() != '') {
+
+                $.ajax({
+                    url: '@Url.Action("GetRefNoOrSprNoInfo_LotQty")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+
+                        LoanType: $('#LoanType').val(),
+                        LoanConcernedObject: $('#LoanConcernedObject').val(),
+                        ItemCode: $('#ItemCode').val(),
+                        LoanQty: $('#LoanQty').val(),
+                        RefNoOrSprNo: $('#RefNoOrSprNo').val(),
+                        LotNum: $('#LotNum').val(),
+                        LoanDate: $('#LoanDate').val()
+                    },
+                    success: function (data) {
+
+                        $('#LoanQty').val(data.ReturnValue);
+                        sessionStorage.setItem("LotLoanQty", $('#LoanQty').val());
+                        console.log('lotnumber');
+                        console.log($('#LoanQty').val());
+                        console.log('lotnumber');
+                        sessionStorage.setItem("LoanQty", "0.0");
+
+
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+            }
+        });
+
+
+
+        $('#LoanQty').change(function () {
+
+
+            if ($('#LoanType').val() != 'Take Loan') {
+                var LoanQty = parseFloat(sessionStorage.getItem("LoanQty"));
+                var LotLoanQty = parseFloat(sessionStorage.getItem("LotLoanQty"));
+                var tempLoanQty = parseFloat($('#LoanQty').val());
+
+                if (parseFloat(LoanQty) > parseFloat(1)) {
+
+                    if (parseFloat(LoanQty) < parseFloat(tempLoanQty)) {
+                        $('#LoanQty').val(LoanQty.toString());
+                    } else {
+                        $('#LoanQty').val(tempLoanQty.toString());
+                    }
+
+                } else {
+
+
+                    if (parseFloat(LotLoanQty.toString()) < parseFloat(tempLoanQty.toString())) {
+                        $('#LoanQty').val(LotLoanQty.toString());
+                    } else {
+                        $('#LoanQty').val(tempLoanQty.toString());
+
+                    }
+
+                }
+            }
+
+
+        });
+
+
+
+
+
+
+
+
+    });
+</script>

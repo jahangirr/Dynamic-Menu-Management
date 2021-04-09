@@ -1,0 +1,80 @@
+﻿@model SilGlobalFashion.Models.LoginInfoModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Delete</title>
+</head>
+<body>
+    <h3>Are you sure you want to delete this?</h3>
+    <div>
+        <h4>LoginInfoModel</h4>
+        <hr />
+        <dl class="dl-horizontal" style="background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+            <dt>
+                @Html.DisplayNameFor(model => model.UserId)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.UserId)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.UserPassword)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.UserPassword)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.UsedModel)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.UsedModel)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.LoginIp)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.LoginIp)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.TypeOfAction)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.TypeOfAction)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.SysDate)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.SysDate)
+            </dd>
+    
+        </dl>
+    
+        @using (Html.BeginForm()) {
+            @Html.AntiForgeryToken()
+    
+            <div class="form-actions no-color">
+                <input type="submit" value="Delete" class="btn btn-default" /> |
+                @Html.ActionLink("Back to List", "Index")
+            </div>
+        }
+    </div>
+</body>
+</html>

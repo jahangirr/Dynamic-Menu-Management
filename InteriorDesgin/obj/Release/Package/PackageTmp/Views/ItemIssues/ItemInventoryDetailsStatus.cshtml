@@ -1,0 +1,293 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Html.RenderPartial("MenuView");
+    ViewBag.Title = "Item Detials Stutus";
+}
+
+<b>Item Details Stutus </b>
+
+<table class="table alert-warning" width="100%">
+
+    <tr>
+        <td width="20%">
+            <div>
+
+                <a onclick='GetPDF();'>
+                    PDF
+                </a>
+
+                @{
+
+                    HtmlString hostAddress = new HtmlString(Session["HostAddress"].ToString());
+
+                }
+
+
+                <script type='text/javascript'>
+
+                                    function GetPDF() {
+
+                                        var url = "@hostAddress/ItemIssues/ItemInventoryDetailsStatusReport?ReportType=PDF&ItemName=" + $('#ItemName').val() + "&ItemType=" + $('#ItemType').val() + "&FromReceiveDate=" + $('#FromReceiveDate').val() + "&ToReceiveDate=" + $('#ToReceiveDate').val() + "&WithValue=" + $('#WithValue').is(':checked');
+                                        window.open(url, '_blank');
+
+                                    }
+
+                </script>
+
+
+            </div>
+
+        </td>
+        <td width="20%">
+
+            <a onclick='GetExcel();'>
+                Excel
+            </a>
+
+
+            <script type='text/javascript'>
+
+                                    function GetExcel() {
+
+                                        var url = "@hostAddress/ItemIssues/ItemInventoryDetailsStatusReport?ReportType=EXCEL&ItemName=" + $('#ItemName').val() + "&ItemType=" + $('#ItemType').val() + "&FromReceiveDate=" + $('#FromReceiveDate').val() + "&ToReceiveDate=" + $('#ToReceiveDate').val() + "&WithValue=" + $('#WithValue').is(':checked');
+                                        window.open(url, '_blank');
+
+                                    }
+
+            </script>
+
+        </td>
+        <td width="20%">
+
+            <a onclick='GetExcelRecord();'>
+                Excel Record
+            </a>
+
+
+            <script type='text/javascript'>
+
+                                    function GetExcelRecord() {
+
+                                        var url = "@hostAddress/ItemIssues/ItemInventoryDetailsStatusReport?ReportType=EXCELRECORD&ItemName=" + $('#ItemName').val() + "&ItemType=" + $('#ItemType').val() + "&FromReceiveDate=" + $('#FromReceiveDate').val() + "&ToReceiveDate=" + $('#ToReceiveDate').val() + "&WithValue=" + $('#WithValue').is(':checked');
+                                        window.open(url, '_blank');
+
+                                    }
+
+            </script>
+
+        </td>
+        <td width="20%">
+
+            <a onclick='GetWord();'>
+                Word
+            </a>
+
+
+            <script type='text/javascript'>
+
+                                    function GetWord() {
+
+                                        var url = "@hostAddress/ItemIssues/ItemInventoryDetailsStatusReport?ReportType=WORD&ItemName=" + $('#ItemName').val() + "&ItemType=" + $('#ItemType').val() + "&FromReceiveDate=" + $('#FromReceiveDate').val() + "&ToReceiveDate=" + $('#ToReceiveDate').val() + "&WithValue=" + $('#WithValue').is(':checked');
+                                        window.open(url, '_blank');
+
+                                    }
+
+            </script>
+
+
+        </td>
+
+        <td width="20%">
+
+            <a onclick='GetVisualised();'>
+                Visualize
+            </a>
+            <script type='text/javascript'>
+
+                                    function GetVisualised() {
+
+                                        var url = "@hostAddress/ShowChart/Index";
+                                        window.open(url, '_blank');
+
+                                    }
+
+            </script>
+        </td>
+
+    </tr>
+    <tr>
+        <td width="20%">
+
+
+            <div class="alert-success">
+
+                Item Approve Name:
+
+            </div>
+
+            <div class="alert-danger">
+
+                @Html.TextBox("ItemType")
+
+
+
+
+
+            </div>
+
+
+
+        </td>
+        <td width="20%">
+
+            <div class="alert-success">
+
+               Item Name :
+
+            </div>
+
+            <div class="alert-danger">
+
+                @Html.TextBox("ItemName")
+
+            </div>
+
+        </td>
+
+        <td width="20%">
+
+
+            <div class="alert-success">
+
+                From Receive Date :
+
+            </div>
+
+            <div class="alert-danger">
+
+                @Html.JQueryUI().Datepicker("FromReceiveDate")
+               
+
+            </div>
+
+
+
+        </td>
+        <td width="20%">
+
+            <div class="alert-success">
+
+                To Receive Date :
+
+            </div>
+
+            <div class="alert-danger">
+                @Html.JQueryUI().Datepicker("ToReceiveDate")
+               
+
+            </div>
+
+        </td>
+        <td width="20%">
+
+
+            <div class="alert-success">
+
+                With Value :
+
+            </div>
+
+            <div class="alert-danger">
+                @Html.CheckBox("WithValue")
+
+
+            </div>
+
+        </td>
+    </tr>
+</table>
+
+
+<div class="alert-danger align-right" style="text-align:left">
+    @Html.ActionLink("Back", "Index", "ItemIssues")
+</div>
+
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        $("#ItemName").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("GetItemName")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        ItemName: $('#ItemName').val()
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                        );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+
+        $("#ItemType").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("GetItemType")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        ItemType: $('#ItemType').val()
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                        );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+
+
+
+
+    });
+</script>
+
+
+

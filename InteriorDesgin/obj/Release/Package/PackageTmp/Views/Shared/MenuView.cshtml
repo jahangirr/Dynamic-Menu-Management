@@ -1,0 +1,27 @@
+﻿
+<link href="~/Content/menumaker.css" rel="stylesheet" />
+
+@{
+     
+   string sMenu =  (string)Session["MenuString"];
+    HtmlString msg = new HtmlString(sMenu);
+}
+
+
+
+<div>
+
+    <div id="cssmenu"  style="z-index:1; background-color:#1C344D; color:forestgreen;">
+        @msg
+    </div>
+</div>
+<script src="~/Scripts/menumaker.js"></script>
+
+<script type="text/javascript">
+
+    $("#cssmenu").menumaker({
+        title: "Menu",
+        format: "multitoggle"
+    });
+
+</script>

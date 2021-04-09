@@ -1,0 +1,346 @@
+﻿@model SilGlobalFashion.Models.POInDefferentCurrency
+@using SilGlobalFashion.Repository;
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<link href="~/Content/TableStyle.css" rel="stylesheet" />
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <h4>PO In Defferent Currency</h4>
+    <hr />
+
+          @Html.HiddenFor(model => model.Id)
+         <br/>
+         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+
+            <div class="alert-success">
+
+                <div class="alert-warning">
+
+                    <table class="table" width="100%" style="color:black;">
+                        <tr>
+                            <td>
+
+                                PO No : @Html.TextBox("PONumber", null, new { @readonly = "readonly" })
+
+                            </td>
+
+                            <td>
+                                @{
+
+                                    GlobCreatedFunction globbCreFunc = new GlobCreatedFunction();
+
+                                    DateTime? PORevisedDate = null;
+
+                                    string checkTime = globbCreFunc.GetDate(ViewBag.PORevisedDate as string);
+
+                                    string kkks = "";
+
+                                    PORevisedDate = Convert.ToDateTime(globbCreFunc.GetDate(ViewBag.PORevisedDate as string));
+
+                                }
+
+                                Date :  @Html.TextBox("PORevisedDate", ViewBag.PORevisedDate as string, new { @readonly = "readonly" })
+                               
+                            </td>
+                            <td>
+
+                                MOMSprOrIndentNo: @Html.TextBox("MOMSprOrIndentNo", null, new { @readonly = "readonly" })
+
+
+                            </td>
+
+                            <td>
+
+                                SprOrIndentNo: @Html.TextBox("SprOrIndentNo", null, new { @readonly = "readonly" })
+
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+                            <td>
+
+                                Supplier Code : @Html.TextBox("SupplierCode", null, new { @readonly = "readonly" })
+
+                            </td>
+
+                            <td>
+
+
+                                Supplier Name : @Html.TextBox("SupplierName", null, new { style = "width:300px;", @readonly = "readonly" })
+
+
+                            </td>
+                            <td>
+
+                                Item Name : @Html.TextBox("ItemName", null, new { @readonly = "readonly" })
+
+
+                            </td>
+
+                            <td>
+
+                                Item Code: @Html.TextBox("ItemCode", null, new { @readonly = "readonly" })
+
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+                            <td>
+
+                                Order Quantity : @Html.TextBox("OrderQuantity", null, new { @readonly = "readonly" })
+
+                            </td>
+
+                            <td>
+
+
+                                Unit Cost : @Html.TextBox("UnitCost", null, new { @readonly = "readonly" })
+
+
+                            </td>
+                            <td colspan="2">
+
+                                Unit Currency : @Html.TextBox("UnitCurrency", null, new { @readonly = "readonly" })
+
+
+                            </td>
+
+
+
+                        </tr>
+
+
+                        <tr>
+                            <td>
+
+                                Target Order Quantity  : @Html.TextBox("OrderQuantityRevised", null, new { @readonly = "readonly" })
+
+                            </td>
+
+                            <td>
+
+
+                                Target Unit Cost  : @Html.TextBox("UnitCostRevised")
+
+
+                            </td>
+                            <td>
+
+                                Target  Unit Currency  : @Html.TextBox("UnitCurrencyRevised")
+
+
+                            </td>
+
+                            <td>
+
+                                Total Value Item Wise : @Html.TextBox("TotalValueItemWise", null, new { @readonly = "readonly" })
+
+
+                            </td>
+
+
+
+                        </tr>
+
+                        <tr>
+                            <td colspan="4">
+
+                                Remarks : @Html.TextBox("Remarks")
+
+                            </td>
+
+
+                        </tr>
+
+
+
+                    </table>
+
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="Modify" class="btn btn-default" />
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+                                    }
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+<script>
+
+    $(document).ready(function () {
+
+
+
+
+        $("#PONumber").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("GetPoRevised")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        showHelpItem: ''
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                        );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+
+        $("#MOMSprOrIndentNo").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("GetPoWithMOMSPRRevised")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        showHelpItem: '',
+                        PONumber: $('#PONumber').val()
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                        );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+        $("#SprOrIndentNo").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("GetPoSPRRevised")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        showHelpItem: '',
+                        PONumber: $('#PONumber').val(),
+                        MOMSprOrIndentNo: $('#MOMSprOrIndentNo').val()
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                        );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+
+        $('#SprOrIndentNo').change(function () {
+
+            $.ajax({
+                url: '@Url.Action("GetPoSPRDetails", "POInDefferentCurrencies")',
+                type: "GET",
+                dataType: "JSON",
+                data: {
+                    SprOrIndentNo : $('#SprOrIndentNo').val()
+                },
+                success: function (data) {
+                    console.log(data);
+                    if ($.trim(data)) {
+
+                        $("#SupplierCode").val(data.SupplierCode);
+                        $("#SupplierName").val(data.SupplierName);
+                        $("#ItemName").val(data.ItemName);
+                        $("#ItemCode").val(data.ItemCode);
+                        $("#OrderQuantity").val(data.OrderQuantity);
+                        $("#UnitCost").val(data.UnitCost);
+                        $("#UnitCurrency").val(data.UnitCurrency);
+                        $("#OrderQuantityRevised").val(data.OrderQuantity);
+                    }
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    //debugger;
+                    alert("LastItemPurchseRate");
+                }
+            });
+
+        });
+
+
+        //
+
+
+
+        $('#UnitCostRevised').change(function () {
+
+            if ($.isNumeric($('#UnitCostRevised').val()))
+            {
+                var totalPrice = Number($("#OrderQuantityRevised").val()) * Number($("#UnitCostRevised").val());
+                $("#TotalValueItemWise").val(totalPrice.toString());
+            }
+
+        });
+
+
+
+
+
+    });
+</script>

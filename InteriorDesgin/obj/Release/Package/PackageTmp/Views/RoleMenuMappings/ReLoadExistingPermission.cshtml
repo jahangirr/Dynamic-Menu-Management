@@ -1,0 +1,32 @@
+﻿
+@{
+    ViewBag.Title = "ReLoadExistingPermission";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Load Permission</h2>
+
+<div class="form-group">
+    @Html.Label("User Role", new { @class = "col-md-2 control-label" })
+    <div class="col-md-10">
+
+        @using (Html.BeginForm("ReLoadExistingPermission", "RoleMenuMappings", FormMethod.Get))
+        {
+
+            <div class="col-md-3">
+
+                @Html.DropDownList("RoleName", (SelectList)ViewBag.RoleName, "")
+            </div>
+
+                <div class="col-md-3">
+                    <input type="submit" value="Load Permission" class="btn btn-default" />
+                </div>
+
+        }
+
+
+    </div>
+</div>
+
+
+

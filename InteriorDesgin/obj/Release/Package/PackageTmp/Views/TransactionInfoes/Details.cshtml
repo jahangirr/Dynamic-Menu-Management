@@ -1,0 +1,51 @@
+﻿@model SilGlobalFashion.Models.TransactionInfo
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Details</title>
+</head>
+<body>
+    <div>
+        <h4>TransactionInfo</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.MatureInfo.BankAndBranch)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.MatureInfo.BankAndBranch)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.AdvCheque_Advice_PayOrder)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.AdvCheque_Advice_PayOrder)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Amount)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Amount)
+            </dd>
+    
+        </dl>
+    </div>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+</body>
+</html>

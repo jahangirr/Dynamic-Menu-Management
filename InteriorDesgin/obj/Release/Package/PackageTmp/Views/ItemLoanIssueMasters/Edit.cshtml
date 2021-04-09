@@ -1,0 +1,625 @@
+﻿@model SilGlobalFashion.Models.ItemLoanIssueMaster
+@using SilGlobalFashion.Repository;
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2> Item Loan Issue Creation</h2>
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "form" }))
+{
+
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.Id)
+
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+
+
+
+        <div style="border:groove; background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+            <strong>Item Issue From[CS/YD/GS]:</strong>
+            @Html.TextBoxFor(model => model.StoreLocation, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.StoreLocation, "", new { @class = "text-danger" })
+
+        </div>
+
+
+
+
+        <table width="100%">
+            <tr>
+                <td width="18%">
+
+                    <div style="border:groove; background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+                        SI No :
+                    </div>
+                </td>
+
+                <td width="26%">
+
+                    <div style="border:groove; background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+
+                        @Html.TextBox("SINoShow", ViewBag.SINo as string, htmlAttributes: new { disabled = "disabled", @class = "form-control" })
+                        @Html.Hidden("SINo", ViewBag.SINo as string)
+
+                    </div>
+
+
+                </td>
+                <td width="12%"></td>
+
+                <td width="18%">
+                    <div style="border:groove; background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+                        Order No:
+                    </div>
+
+                </td>
+                <td width="26%">
+
+                    <div style="border:groove; background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+                        @Html.TextBox("OrderNo", ViewBag.OrderNo as string, htmlAttributes: new { @class = "form-control" })
+
+
+                    </div>
+                    @Html.ValidationMessageFor(model => model.OrderNo, "", new { @class = "text-danger" })
+
+                </td>
+
+            </tr>
+            <tr>
+                <td width="18%">
+
+                    <div style="border:groove; background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+                        Date :
+                    </div>
+                </td>
+
+                <td width="26%">
+
+                    <div style="border:groove; background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+
+                        @{
+
+                            GlobCreatedFunction globbCreFunc = new GlobCreatedFunction();
+
+                            DateTime? dtStoreIssueDate = null;
+
+                            try
+                            {
+                                dtStoreIssueDate = Convert.ToDateTime(ViewBag.StoreIssueDate as string);
+                            }
+                            catch (Exception ex)
+                            {
+
+                            }
+
+
+
+                        }
+
+                        @Html.JQueryUI().Datepicker("StoreIssueDate", dtStoreIssueDate)
+                        @Html.ValidationMessageFor(model => model.StoreIssueDate, "", new { @class = "text-danger" })
+                    </div>
+
+
+
+                </td>
+                <td width="12%"></td>
+
+                <td width="28%">
+                    <div style="border:groove; background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+                        <strong> Order Qty: </strong>
+                        @Html.TextBox("OrderQty", ViewBag.OrderQty as string, htmlAttributes: new { style = "width:150px;" })
+
+                    </div>
+                    @Html.ValidationMessageFor(model => model.OrderQty, "", new { @class = "text-danger" })
+
+
+                </td>
+                <td width="16%">
+
+                    <div style="border:groove; background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+                        <table>
+                            <tr style="width:100%">
+                                <td style="width:50%">
+                                    <strong>UOM</strong>
+                                </td>
+                                <td style="width:50%">
+
+                                    @Html.TextBox("OrderUOM", ViewBag.OrderUOM as string, htmlAttributes: new { style = "width:80px;" })
+                                </td>
+                            </tr>
+                        </table>
+
+                    </div>
+
+                    @Html.ValidationMessageFor(model => model.OrderUOM, "", new { @class = "text-danger" })
+
+                </td>
+
+            </tr>
+            <tr>
+                <td width="18%">
+
+                    <div style="border:groove; background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+                        Section:
+                    </div>
+                </td>
+
+                <td width="26%">
+
+                    <div style="border:groove; background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+
+                        @Html.TextBox("Section", ViewBag.Section as string, htmlAttributes: new { @class = "form-control" })
+
+
+
+
+                    </div>
+
+                    @Html.ValidationMessageFor(model => model.Section, "", new { @class = "text-danger" })
+
+                </td>
+                <td width="12%"></td>
+
+                <td width="18%">
+                    <div style="border:groove; background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+                        Buyer Name:
+                    </div>
+
+                </td>
+                <td width="26%">
+
+                    <div style="border:groove; background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+
+                        @Html.TextBox("BuyerName", ViewBag.BuyerName as string, htmlAttributes: new { @class = "form-control" })
+
+
+                    </div>
+
+                    @Html.ValidationMessageFor(model => model.BuyerName, "", new { @class = "text-danger" })
+
+                </td>
+
+            </tr>
+            <tr>
+                <td width="18%">
+
+                    <div style="border:groove; background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+                        Shift  :
+                    </div>
+                </td>
+
+                <td width="26%">
+
+                    <div style="border:groove; background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+
+                        @Html.TextBox("Shift", ViewBag.Shift as string, htmlAttributes: new { @class = "form-control" })
+
+                    </div>
+                    @Html.ValidationMessageFor(model => model.Shift, "", new { @class = "text-danger" })
+
+                </td>
+                <td width="12%"></td>
+
+                <td width="18%">
+                    <div style="border:groove; background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+                        Color/Shade :
+                    </div>
+
+                </td>
+                <td width="26%">
+
+                    <div style="border:groove; background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+                        @Html.TextBox("ColorOrShade", ViewBag.ColorOrShade as string, htmlAttributes: new { @class = "form-control" })
+
+
+
+                    </div>
+
+                    @Html.ValidationMessageFor(model => model.ColorOrShade, "", new { @class = "text-danger" })
+
+                </td>
+
+            </tr>
+            <tr>
+                <td width="18%">
+
+                    <div style="border:groove; background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+                        Batch No :
+                    </div>
+                </td>
+
+                <td width="18%">
+
+                    <div style="border:groove; background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+                        @Html.TextBox("BachNo", ViewBag.BachNo as string, htmlAttributes: new { @class = "form-control" })
+
+
+                    </div>
+                    @Html.ValidationMessageFor(model => model.BachNo, "", new { @class = "text-danger" })
+
+                </td>
+                <td colspan="2" width="28%" align="center">
+                    <div style="border:groove; background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+
+                        Batch Qty : @Html.TextBox("BachQty", ViewBag.BachQty as string, htmlAttributes: new { style = "width:80px;" })
+                    </div>
+
+                </td>
+
+
+                <td colspan="2" width="44%">
+
+                    Batch UOM :@Html.TextBox("BachUOM", ViewBag.BachUOM as string, htmlAttributes: new { style = "width:50px;" })
+
+
+
+
+
+                </td>
+
+            </tr>
+            <tr>
+                <td width="18%">
+
+                    <div style="border:groove; background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+                        Process Qty :
+                    </div>
+                </td>
+
+                <td width="26%">
+
+                    <div style="border:groove; background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+                        @Html.TextBox("ProcessQty", ViewBag.ProcessQty as string, htmlAttributes: new { @class = "form-control" })
+                    </div>
+
+                    @Html.ValidationMessageFor(model => model.ProcessQty, "", new { @class = "text-danger" })
+
+                </td>
+                <td width="12%"></td>
+
+                <td width="18%">
+                    <div style="border:groove; background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+                        Process UOM :
+                    </div>
+
+                </td>
+                <td width="26%">
+
+                    <div style="border:groove; background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+                        @Html.TextBox("ProcessUOM", ViewBag.ProcessUOM as string, htmlAttributes: new { @class = "form-control" })
+
+
+                    </div>
+
+                    @Html.ValidationMessageFor(model => model.ProcessUOM, "", new { @class = "text-danger" })
+
+                </td>
+
+            </tr>
+        </table>
+
+
+
+
+        <table width="100%">
+            <tr>
+                <th>
+                    <div class="alert-danger" style="width:50px;">
+                        Item SL No
+                    </div>
+                </th>
+                <th>
+                    <div class="alert-danger" style="width:80px;">
+                        Item Code
+                    </div>
+                </th>
+                <th>
+                    <div class="alert-danger" style="width:150px;">
+                        Item Name
+                    </div>
+                </th>
+                <th>
+                    <div class="alert-danger" style="width:150px;">
+                        Purpose/Process
+                    </div>
+                </th>
+                <th>
+                    <div class="alert-danger" style="width:100px;">
+                        Item Loan Number
+                    </div>
+                </th>
+                <th>
+                    <div class="alert-danger" style="width:100px;">
+                        Issued Qty
+                    </div>
+                </th>
+                <th>
+                    <div class="alert-danger" style="width:100px;">
+                        Confirm  Issued Qty
+                    </div>
+                </th>
+                <th>
+                    <div class="alert-danger" style="width:50px;">
+                        UOM
+                    </div>
+                </th>
+
+                <th>
+                    <div class="alert-danger" style="width:150px;">
+                        Remarks
+                    </div>
+                </th>
+                
+            </tr>
+            <tr>
+                <td style="width:50px;">
+
+                    <div id="SlNumberToShow">
+
+
+                    </div>
+
+
+                </td>
+                <td style="width:80px;">
+
+                    <div>
+
+                        @Html.TextBox("ItemCodeShow", ViewBag.ItemCode as string, htmlAttributes: new { disabled = "disabled", style = "width:80px;" })
+
+                        @Html.Hidden("ItemCode", ViewBag.ItemCode as string)
+
+                    </div>
+
+                </td>
+
+                <td style="width:150px;">
+
+                    @Html.TextBox("ItemDescriptionShow", ViewBag.ItemDescription as string, htmlAttributes: new { disabled = "disabled", style = "width:150px;" })
+
+                    @Html.Hidden("ItemDescription" , ViewBag.ItemDescription as string)
+                   
+                    @Html.ValidationMessageFor(model => model.ItemDescription, "", new { @class = "text-danger" })
+
+                </td>
+
+                <td style="width:150px;">
+
+                    @Html.TextBox("ProposeOrProcessShow", ViewBag.ProposeOrProcess as string, htmlAttributes: new { disabled = "disabled", style = "width:150px;" })
+
+                    @Html.Hidden("ProposeOrProcess", ViewBag.ProposeOrProcess as string)
+                    
+                    @Html.ValidationMessageFor(model => model.ProposeOrProcess, "", new { @class = "text-danger" })
+
+                </td>
+
+                <td style="width:100px;">
+                    @Html.TextBox("ItemLotNo", ViewBag.ItemLotNo as string, htmlAttributes: new {  style = "width:100px;" })
+                    @Html.ValidationMessageFor(model => model.ItemLotNo, "", new { @class = "text-danger" })
+
+                </td>
+
+                <td style="width:100px;">
+                    @Html.TextBox("IssuedQty", ViewBag.IssuedQty as string, htmlAttributes: new { style = "width:100px;" })
+                   
+                    @Html.ValidationMessageFor(model => model.IssuedQty, "", new { @class = "text-danger" })
+
+                </td>
+
+                <td style="width:100px;">
+                    @Html.TextBox("RecipeQty", ViewBag.RecipeQty as string, htmlAttributes: new { style = "width:100px;" })
+                    @Html.ValidationMessageFor(model => model.RecipeQty, "", new { @class = "text-danger" })
+
+                </td>
+
+
+                <td style="width:50px;">
+                    @Html.TextBox("IssueOrRecipeUOM", ViewBag.IssueOrRecipeUOM as string, htmlAttributes: new { disabled = "disabled", style = "width:50px;" })
+                   
+                    @Html.ValidationMessageFor(model => model.IssueOrRecipeUOM, "", new { @class = "text-danger" })
+
+                </td>
+
+
+
+                <td style="width:150px;">
+
+                    @Html.TextBox("Remarks", ViewBag.Remarks as string, htmlAttributes: new { style = "width:150px;" })
+                   
+                    @Html.ValidationMessageFor(model => model.Remarks, "", new { @class = "text-danger" })
+
+                </td>
+
+
+            </tr>
+
+        </table>
+
+
+
+        <table class="table alert-warning" width="100%">
+            <tr>
+                <td>
+                    <input type="submit" value="Save" class="btn btn-default alert-success" />
+                </td>
+
+            </tr>
+        </table>
+    </div>
+                            }
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+
+
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+
+        $(document).on('submit', 'form', function () {
+            var buttons = $(this).find('[type="submit"]');
+            if ($(this).valid()) {
+                buttons.each(function (btn) {
+                    $(buttons[btn]).prop('disabled', true);
+                    
+                });
+            } else {
+                buttons.each(function (btn) {
+                    $(buttons[btn]).prop('disabled', false);
+                });
+            }
+        });
+
+
+        $("#ItemLotNo").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("GetLotNo")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        ItemLotNo: $('#ItemLotNo').val(),
+                        ItemCode: $('#ItemCode').val()
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                        );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        console.log(XMLHttpRequest);
+                        console.log(textStatus);
+                        console.log(errorThrown);
+                        alert(textStatus);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+
+
+        $('#ItemLotNo').change(function () {
+            $.ajax({
+                url: '@Url.Action("GetLotDetailsByItem", "ItemLoanIssueMasters")',
+                type: "GET",
+                dataType: "JSON",
+                data: {
+                    LotNo: $('#ItemLotNo').val(),
+                    ItemCode: $("#ItemCode").val()
+                },
+                success: function (data) {
+                    $('#IssuedQty').val(data.IssuedQty);
+                    $('#RecipeQty').val(data.RecipeQty);
+                    $('#IssueOrRecipeUOM').val(data.IssueOrRecipeUOM);
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+
+
+                    //debugger;
+                    alert(textStatus);
+                }
+            });
+        });
+
+
+
+        $('#IssuedQty').change(function () {
+            $.ajax({
+                url: '@Url.Action("GetLotDetailsByItem", "ItemLoanIssueMasters")',
+                type: "GET",
+                dataType: "JSON",
+                data: {
+                    LotNo: $('#ItemLotNo').val(),
+                    ItemCode: $("#ItemCode").val()
+                },
+                success: function (data) {
+
+                    if (parseInt($('#IssuedQty').val()) != 'NaN' && parseInt(data.IssuedQty) != 'NaN') {
+                        if (parseInt($('#IssuedQty').val()) > parseInt(data.IssuedQty)) {
+                            $('#IssuedQty').val(data.IssuedQty);
+                        }
+                    }
+
+
+                    $('#IssueOrRecipeUOM').val(data.IssueOrRecipeUOM);
+
+
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+
+
+                    //debugger;
+                    alert(textStatus);
+                }
+            });
+        });
+
+
+
+        $('#RecipeQty').change(function () {
+            $.ajax({
+                url: '@Url.Action("GetLotDetailsByItem", "ItemLoanIssueMasters")',
+                type: "GET",
+                dataType: "JSON",
+                data: {
+                    LotNo: $('#ItemLotNo').val(),
+                    ItemCode: $("#ItemCode").val()
+                },
+                success: function (data) {
+
+
+                    if (parseInt($('#RecipeQty').val()) != 'NaN' && parseInt(data.RecipeQty) != 'NaN') {
+
+                        if (parseInt($('#RecipeQty').val()) > parseInt(data.RecipeQty)) {
+                            $('#RecipeQty').val(data.RecipeQty);
+                        }
+
+                    }
+
+
+                    $('#IssueOrRecipeUOM').val(data.IssueOrRecipeUOM);
+
+
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+
+
+                    //debugger;
+                    alert(textStatus);
+                }
+            });
+        });
+
+
+
+
+        $("#StoreIssueDate").attr("autocomplete", "off");
+
+
+
+
+    });
+</script>
+

@@ -1,0 +1,148 @@
+﻿@model SilGlobalFashion.Models.ProductExpirationPaper
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Edit</title>
+</head>
+<body>
+    @using (Html.BeginForm(Html.BeginForm("Edit", "ProductExpirationPapers", FormMethod.Post, new { @enctype = "multipart/form-data", @id = "form" })))
+    {
+        @Html.AntiForgeryToken()
+
+
+        <link href="~/Content/TableStyle.css" rel="stylesheet" />
+
+
+        <style>
+            table {
+                border-collapse: collapse;
+            }
+
+            tr {
+                border: solid thin;
+                border-color: blue;
+            }
+        </style>
+
+        <table style="background-color:tomato;">
+            <tr>
+                <td>
+                    <div class="col-md-7">
+                        <h4>Product Expiration Papers</h4>
+                        <hr />
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                        @Html.Hidden("Id" , ViewBag.Id as string )
+
+
+                        <table>
+                            <tr>
+                                <td>
+                                    Product Expiration ID
+                                </td>
+                                <td>
+
+                                    <div>
+
+                                        <div class="col-md-5">
+                                            @Html.TextBox("ProdLongTerm", ViewBag.ProdLongTerm as string, new { @readonly = "readonly" })
+                                            @Html.ValidationMessageFor(model => model.ProdLongTerm, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                        </table>
+
+                        <div>
+                            <div class="col-md-offset-2 col-md-5">
+                                <button type="submit" name="editInfo" class="btn btn-default btn-sm" value="Edit">
+                                    <span class="glyphicon glyphicon-edit"></span>
+                                </button>
+                               
+                            </div>
+                        </div>
+                    </div>
+                </td>
+                <td>
+
+
+                    <table style="background-color:palegreen;">
+                        <tr>
+                            <td>
+                                <div class="col-md-10">
+                                    <h4>Image Of Guarantee/Warranty Paper</h4>
+                                    <hr />
+                                    <img id="imp_preview" alt="Item Image" width="180" height="240" src="@Url.Action("GetThumbnailImage", "ProductExpirationPapers", new {Id =  Model.Id })"/> <br />
+                                    <input type="file" name="Image" onchange="document.getElementById('imp_preview').src = window.URL.createObjectURL(this.files[0])">
+                                    <br />
+                                   
+                                </div>
+
+                            </td>
+                        </tr>
+                    </table>
+
+
+                </td>
+            </tr>
+        </table>
+                                    }
+
+    <div>
+        @Html.ActionLink("Back to List", "Index")
+    </div>
+</body>
+</html>
+
+
+
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+
+        $("#ProdLongTerm").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("GetProdLongTerm")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        ProdLongTerm: $('#ProdLongTerm').val()
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                        );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+
+    });
+</script>
+

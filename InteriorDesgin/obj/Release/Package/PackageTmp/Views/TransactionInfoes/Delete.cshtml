@@ -1,0 +1,57 @@
+﻿@model SilGlobalFashion.Models.TransactionInfo
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Delete</title>
+</head>
+<body>
+    <h3>Are you sure you want to delete this?</h3>
+    <div>
+        <h4>TransactionInfo</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.MatureInfo.BankAndBranch)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.MatureInfo.BankAndBranch)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.AdvCheque_Advice_PayOrder)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.AdvCheque_Advice_PayOrder)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Amount)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Amount)
+            </dd>
+    
+        </dl>
+    
+        @using (Html.BeginForm()) {
+            @Html.AntiForgeryToken()
+    
+            <div class="form-actions no-color">
+                <input type="submit" value="Delete" class="btn btn-default" /> |
+                @Html.ActionLink("Back to List", "Index")
+            </div>
+        }
+    </div>
+</body>
+</html>

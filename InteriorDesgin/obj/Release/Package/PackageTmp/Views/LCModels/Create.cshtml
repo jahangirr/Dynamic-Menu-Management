@@ -1,0 +1,1938 @@
+﻿@model  SilGlobalFashion.Models.LCModel
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<b> LC Info </b>
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "form" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+
+
+        <table width="100%">
+            <tr>
+                <td width="18%">
+                    @Html.Hidden("Id")
+                    <div style="border:groove;background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+                        File No :
+                    </div>
+                </td>
+
+                <td width="26%">
+
+                    <div style="border:groove;background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+                        @Html.TextBox("FileNoShow", null, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.Hidden("FileNo")
+
+                      New File :  @Html.CheckBox("IsNewFileNo")
+
+                    </div>
+                    @Html.ValidationMessageFor(model => model.FileNo, "", new { @class = "text-danger" })
+
+                </td>
+                <td width="12%"></td>
+
+                <td width="18%">
+                    <div style="border:groove;background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+                        LC Type :
+                    </div>
+
+                </td>
+                <td width="26%">
+
+                    <div style="border:groove;background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+
+                        @Html.TextBox("LCType", null, new { htmlAttributes = new { @class = "form-control" } })
+
+
+                    </div>
+
+                    @Html.ValidationMessageFor(model => model.LCType, "", new { @class = "text-danger" })
+
+                </td>
+
+            </tr>
+         
+
+
+            <tr>
+                <td width="18%">
+
+                    <div style="border:groove;background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+                        LC No:
+                    </div>
+                </td>
+
+                <td width="26%">
+
+                    <div style="border:groove;background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+
+                        @Html.TextBoxFor(model => model.LCNo, new { htmlAttributes = new { @class = "form-control" } })
+
+
+                    </div>
+
+                    @Html.ValidationMessageFor(model => model.LCNo, "", new { @class = "text-danger" })
+
+                </td>
+                <td width="12%"></td>
+
+                <td width="18%">
+                    <div style="border:groove;background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+
+                        LC Date :
+                    </div>
+
+                </td>
+                <td width="26%">
+
+                    <div style="border:groove;background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+                        @Html.JQueryUI().DatepickerFor(model => model.LCDate)
+
+
+
+
+                    </div>
+
+                    @Html.ValidationMessageFor(model => model.LCDate, "", new { @class = "text-danger" })
+
+                </td>
+
+            </tr>
+
+            <tr>
+                <td width="18%">
+
+                    <div style="border:groove;background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+                        Bank Name:
+                    </div>
+                </td>
+
+                <td width="26%">
+
+                    <div style="border:groove;background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+
+                        @Html.TextBoxFor(model => model.BankName, new { htmlAttributes = new { @class = "form-control" } })
+
+
+                    </div>
+
+                    @Html.ValidationMessageFor(model => model.BankName, "", new { @class = "text-danger" })
+
+                </td>
+                <td width="12%"></td>
+
+                <td width="18%">
+                    <div style="border:groove;background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+                        BranchName
+
+                    </div>
+
+                </td>
+                <td width="26%">
+
+                    <div style="border:groove;background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+                        @Html.TextBoxFor(model => model.BranchName, new { htmlAttributes = new { @class = "form-control" } })
+
+
+                    </div>
+
+                    @Html.ValidationMessageFor(model => model.BranchName, "", new { @class = "text-danger" })
+
+                </td>
+
+            </tr>
+
+
+            <tr>
+                <td width="18%">
+
+                    <div style="border:groove;background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+                        LC Value:
+                    </div>
+                </td>
+
+                <td width="26%">
+
+                    <div style="border:groove;background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+
+                        @Html.TextBoxFor(model => model.LCValue, new { htmlAttributes = new { @class = "form-control" } })
+
+
+                    </div>
+
+                    @Html.ValidationMessageFor(model => model.LCValue, "", new { @class = "text-danger" })
+
+                </td>
+                <td width="12%"></td>
+
+                <td width="18%">
+                    <div style="border:groove;background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+
+                        Is Close :
+                    </div>
+
+                </td>
+                <td width="26%">
+
+                    <div style="border:groove;background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+
+                        @Html.CheckBoxFor(model => model.IsClose, new { htmlAttributes = new { @class = "form-control" } })
+                       
+
+                    </div>
+
+                  
+
+                </td>
+
+            </tr>
+
+        </table>
+
+
+        <div id="showItemName" class="alert-info">
+
+
+        </div>
+
+
+
+
+        <table width="100%">
+            <tr>
+
+
+                <th>
+                   
+                    <div class="alert-danger">
+                        PO Number
+
+                    </div>
+                </th>
+
+                <th>
+                    <div class="alert-danger">
+                      Mother  SPR Or Indent No
+
+                    </div>
+                </th>
+
+                <th>
+                    <div class="alert-danger">
+                        SPR Or Indent No
+
+                    </div>
+                </th>
+
+                <th>
+                    <div class="alert-danger">
+                        PI No
+
+                    </div>
+                </th>
+
+                <th>
+                    <div class="alert-danger">
+                       PI Date
+
+                    </div>
+                </th>
+
+                <th>
+                    <div class="alert-danger">
+                        LC Ship Date 
+
+                    </div>
+                </th>
+
+
+                <th>
+                    <div class="alert-danger">
+                        Ship Date Alter Log
+
+                    </div>
+                </th>
+
+
+                <th>
+                    <div class="alert-danger">
+                        LC Expire Date
+
+                    </div>
+                </th>
+
+
+                <th>
+                    <div class="alert-danger">
+                        Country Name of Origin
+                        
+                    </div>
+                </th>
+
+
+                <th>
+                    <div class="alert-danger">
+                        Country of Manufacturer 
+                    </div>
+                </th>
+                <th>
+                    <div class="alert-danger">
+                        Item Name   <input type="button" id="reLoadItem" value="reLoad" /> 
+                    </div>
+                </th>
+
+                <th>
+                    <div class="alert-danger">
+                        Item Code
+                    </div>
+                </th>
+
+                <th>
+                    <div class="alert-danger">
+                        UOM
+                    </div>
+                </th>
+                <th>
+                    <div class="alert-danger">
+                        Item Qty
+                    </div>
+                </th>
+                <th>
+                    <div class="alert-danger">
+                        Item Prize
+                    </div>
+                </th>
+
+                <th>
+                    <div class="alert-danger">
+                        Docs Value
+                    </div>
+                </th>
+
+
+                <th>
+                    <div class="alert-danger">
+                        Ship_On_Board_Date
+                    </div>
+                </th>
+               
+                <th>
+                    <div class="alert-danger">
+                        ETA_On_CTG_Port
+                    </div>
+                </th>
+                <th>
+                    <div class="alert-danger">
+                        Doc_Rcevd_By_Bank
+                    </div>
+                </th>
+                <th>
+                    <div class="alert-danger">
+                        Doc_Send_To_CF
+                    </div>
+                </th>
+                <th>
+                    <div class="alert-danger">
+                        ETD_From_CTG
+                    </div>
+                </th>
+                <th>
+                    <div class="alert-danger">
+                        ETA_At_Factory
+                    </div>
+                </th>
+                <th>
+                    <div class="alert-danger">
+                        Bill_Of_Entry_No
+                    </div>
+                </th>
+                <th>
+                    <div class="alert-danger">
+                        Bill_Of_Entry_Date
+                    </div>
+                </th>
+                <th>
+                    <div class="alert-danger">
+                        LC_Payment_Date
+                    </div>
+                </th>
+
+                <th>
+
+                    <div class="alert-danger">
+                        Remarks
+                    </div>
+                   
+                </th>
+
+                <th>
+
+                    <div class="alert-danger">
+                        IsClose
+                    </div>
+
+
+                    
+                </th>
+
+                <th>
+                    <div class="alert-danger" style="width:177px;">
+                        Action
+                    </div>
+                </th>
+
+            </tr>
+            <tr>
+
+
+
+                <th>
+                    @Html.Hidden("IdS")
+                    @Html.TextBox("PONumberS")
+                         
+                </th>
+
+                <td>
+
+                    @Html.TextBox("MOMSprOrIndentNoS", null, new { })
+
+
+
+
+
+
+                </td>
+
+                <td>
+
+                    @Html.TextBox("SprOrIndentNoS", null, new { })
+                    
+                    
+                   
+                       
+
+                    
+                </td>
+
+                <td>
+                    
+                    @Html.TextBox("PINoS", null, new { })
+
+                   
+                </td>
+
+                <td>
+                   
+                    @Html.JQueryUI().Datepicker("PIDateS")
+                    
+                </td>
+              
+                <td>
+
+                    @Html.JQueryUI().Datepicker("LCShipDateS")
+
+                </td>
+
+                <td>
+                   
+                    @Html.TextBox("LCShipDateChangeLogSShow", null, htmlAttributes: new { disabled = "disabled" })
+                    @Html.Hidden("LCShipDateChangeLogS")
+                   
+
+                </td>
+
+
+                <td>
+
+                    @Html.JQueryUI().Datepicker("LCExpireDateS")
+
+                </td>
+
+
+                <td>
+                   
+                    @Html.TextBox("CountryNameS", null, new { })
+
+                    
+                </td>
+
+
+                <td>
+                   
+                    @Html.TextBox("CountryNameOfManufacturerS", null, new { })
+                   
+                </td>
+
+                <td>
+
+                    <div>
+                        @Html.TextBox("ItemNameS", null, new { })
+
+                    </div>
+
+                </td>
+                <td>
+
+                    <div>
+
+                        @Html.TextBox("ItemCodeShowS", null, htmlAttributes: new { disabled = "disabled" })
+                        @Html.Hidden("ItemCodeS")
+
+                    </div>
+
+                </td>
+
+                <td>
+                    <div>
+                        @Html.TextBox("UOMS", null, new { })
+
+                    </div>
+
+                </td>
+
+                <td>
+                    <div>
+                        @Html.TextBox("ItemQtyS", null, new { })
+
+                    </div>
+
+                </td>
+
+                <td>
+
+                    @Html.TextBox("ItemPrizeS", null, new { })
+
+
+                </td>
+
+                <td>
+
+                    @Html.TextBox("DocsValueS", null, new { })
+
+                </td>
+
+                <td>
+                    @Html.JQueryUI().Datepicker("Ship_On_Board_DateS")
+
+                </td>
+
+              
+
+                <td>
+
+                    @Html.JQueryUI().Datepicker("ETA_On_CTG_PortS")
+
+
+                </td>
+
+                <td>
+                    @Html.JQueryUI().Datepicker("Doc_Rcevd_By_BankS")
+
+                </td>
+
+
+                <td>
+
+                    @Html.JQueryUI().Datepicker("Doc_Send_To_CFS")
+
+                </td>
+
+                <td>
+
+                    @Html.JQueryUI().Datepicker("ETD_From_CTGS")
+                </td>
+
+                <td>
+
+                    @Html.JQueryUI().Datepicker("ETA_At_FactoryS")
+                </td>
+
+                <td>
+                    @Html.TextBox("Bill_Of_Entry_NoS", null, new { })
+                </td>
+
+
+                <td>
+
+                    @Html.JQueryUI().Datepicker("Bill_Of_Entry_DateS")
+
+                </td>
+
+
+                <td>
+
+                    @Html.JQueryUI().Datepicker("LC_Payment_DateS")
+
+
+
+                </td>
+
+                <td>
+
+                 
+                    @Html.TextBox("RemarksS", null, new { })
+
+
+                </td>
+
+                <td>
+
+                    @Html.CheckBox("IsCloseS")
+
+                   
+
+
+
+                </td>
+
+                <td>
+                    <div >
+                        <input type="submit"  id="AddToList" name="AddToList" value="Add To List" class="btn-danger" />
+                    </div>
+                </td>
+
+            </tr>
+
+        </table>
+
+        <div class="alert-success" style="border:2px;border-color:green;">
+
+            <table id="outputOfLcInfo" width="100%">
+
+                <tr>
+                    <th>
+                        <div class="alert-danger"  style="width:173px; padding:1px;" >
+                            PO Number
+
+                        </div>
+                    </th>
+
+                    <th>
+                        <div class="alert-danger" style="width:173px; padding:1px;">
+                          Mother  SPR Or Indent No
+
+                        </div>
+                    </th>
+
+                    <th>
+                        <div class="alert-danger"  style="width:173px; padding:1px;" >
+                            SPR Or Indent No
+
+                        </div>
+                    </th>
+
+                    <th>
+                        <div class="alert-danger"  style="width:173px; padding:1px;" >
+                            PI No
+
+                        </div>
+                    </th>
+
+                    <th>
+                        <div class="alert-danger"  style="width:173px; padding:1px;" >
+                            PI Date
+
+                        </div>
+                    </th>
+
+                    <th>
+                        <div class="alert-danger" style="width:173px; padding:1px;">
+                           
+                            LC Ship Date
+                        </div>
+                    </th>
+
+                    <th>
+                        <div class="alert-danger" style="width:173px; padding:1px;">
+                           
+                          Ship Date Alter Log
+                        </div>
+                    </th>
+
+                    <th>
+                        <div class="alert-danger" style="width:173px; padding:1px;">
+                           
+                            LC Expire Date
+
+                        </div>
+                    </th>
+
+
+                    <th>
+                        <div class="alert-danger"  style="width:173px; padding:1px;" >
+                            Country Name of Origin
+
+                        </div>
+                    </th>
+
+
+                    <th>
+                        <div class="alert-danger"  style="width:173px; padding:1px;" >
+                            Country of Manufacturer
+                        </div>
+                    </th>
+                    <th>
+                        <div class="alert-danger"  style="width:173px; padding:1px;" >
+                            Item Name
+                        </div>
+                    </th>
+
+
+                    <th>
+                        <div class="alert-danger" style="width:173px; padding:1px;" >
+                            Item Code
+                        </div>
+                    </th>
+
+                    <th>
+                        <div class="alert-danger" style="width:173px; padding:1px;" >
+                            UOM
+                        </div>
+                    </th>
+                    <th>
+                        <div class="alert-danger" style="width:173px; padding:1px;" >
+                            Item Qty
+                        </div>
+                    </th>
+                    <th>
+                        <div class="alert-danger" style="width:173px; padding:1px;" >
+                            Item Prize
+                        </div>
+                    </th>
+
+                    <th>
+                        <div class="alert-danger" style="width:173px; padding:1px;">
+                            Docs Value
+                        </div>
+                    </th>
+
+
+                    <th>
+                        <div class="alert-danger" style="width:173px; padding:1px;" >
+                            Ship_On_Board_Date
+                        </div>
+                    </th>
+                   
+                    <th>
+                        <div class="alert-danger" style="width:173px; padding:1px;" >
+                            ETA_On_CTG_Port
+                        </div>
+                    </th>
+                    <th>
+                        <div class="alert-danger" style="width:173px; padding:1px;" >
+                            Doc_Rcevd_By_Bank
+                        </div>
+                    </th>
+                    <th>
+                        <div class="alert-danger" style="width:173px; padding:1px;" >
+                            Doc_Send_To_CF
+                        </div>
+                    </th>
+                    <th>
+                        <div class="alert-danger" style="width:173px; padding:1px;" >
+                            ETD_From_CTG
+                        </div>
+                    </th>
+                    <th>
+                        <div class="alert-danger" style="width:173px; padding:1px;" >
+                            ETA_At_Factory
+                        </div>
+                    </th>
+                    <th>
+                        <div class="alert-danger" style="width:173px; padding:1px;" >
+                            Bill_Of_Entry_No
+                        </div>
+                    </th>
+                    <th>
+                        <div class="alert-danger" style="width:173px; padding:1px;" >
+                            Bill_Of_Entry_Date
+                        </div>
+                    </th>
+                    <th>
+                        <div class="alert-danger" style="width:173px; padding:1px;" >
+                            LC_Payment_Date
+                        </div>
+                    </th>
+
+                    <th>
+                        <div class="alert-danger" style="width:173px; padding:1px;" >
+                             Remarks
+                        </div>
+                    </th>
+
+                    <th>
+                        <div class="alert-danger"  >
+                            IsClose
+                        </div>
+                    </th>
+
+                    <th>
+                        <div class="alert-danger"  style="width:177px;" >
+                            Action
+                        </div>
+                    </th>
+
+                </tr>
+
+
+
+                @{
+
+                    int totalNumber = 0;
+
+                    if (Session["DataLcInfoDetials"] != null)
+                    {
+
+                        List<SilGlobalFashion.Models.LCModelDetails> temLCModelDetails = (List<SilGlobalFashion.Models.LCModelDetails>)Session["DataLcInfoDetials"];
+                        totalNumber = temLCModelDetails.Count();
+                        for (int i = 0; i < totalNumber; i++)
+                        {
+
+                            <tr>
+
+
+
+                              
+
+
+                                <td>
+
+                                    <div class="alert-danger">
+
+                                        @{
+                                            HtmlString HSPONumber = new HtmlString(temLCModelDetails[i].PONumber.ToString());
+                                        }
+
+                                        @HSPONumber
+                                    </div>
+
+                                </td>
+
+                                <td>
+
+                                    <div class="alert-danger">
+
+                                        @{
+                                            HtmlString HSMOMSprOrIndentNo = new HtmlString(temLCModelDetails[i].MOMSprOrIndentNo.ToString());
+                                        }
+
+                                        @HSMOMSprOrIndentNo
+                                    </div>
+
+                                </td>
+
+                                <td>
+
+                                    <div class="alert-danger">
+
+                                        @{
+                                            HtmlString HSSprOrIndentNo = new HtmlString(temLCModelDetails[i].SprOrIndentNo.ToString());
+                                        }
+
+                                        @HSSprOrIndentNo
+                                    </div>
+
+                                </td>
+
+                                
+
+                                <td>
+
+                                    <div class="alert-danger">
+
+                                        @{
+                                            HtmlString HSPINo = new HtmlString(temLCModelDetails[i].PINo.ToString());
+                                        }
+
+                                        @HSPINo
+                                    </div>
+
+                                </td>
+
+                                <td>
+
+                                    <div class="alert-danger">
+
+                                        @{
+                                            HtmlString HSPIDate = new HtmlString(temLCModelDetails[i].PIDate.ToString());
+                                        }
+
+                                        @HSPIDate
+                                    </div>
+
+                                </td>
+
+
+                                <td>
+
+                                    <div class="alert-danger">
+
+                                        @{
+                                            HtmlString HSLCShipDate = new HtmlString(temLCModelDetails[i].LCShipDate.ToString());
+                                        }
+
+                                        @HSLCShipDate
+                                    </div>
+
+                                </td>
+
+
+                                <td>
+
+                                    <div class="alert-danger">
+
+                                        @{
+                                            HtmlString HSLCShipDateChangeLog = new HtmlString(temLCModelDetails[i].LCShipDateChangeLog.ToString());
+                                        }
+
+                                        @HSLCShipDateChangeLog
+                                    </div>
+
+                                </td>
+
+
+                                <td>
+
+                                    <div class="alert-danger">
+
+                                        @{
+                                            HtmlString HSLCExpireDate = new HtmlString(temLCModelDetails[i].LCExpireDate.ToString());
+                                        }
+
+                                        @HSLCExpireDate
+                                    </div>
+
+                                </td>
+
+
+
+                                <td>
+
+                                    <div class="alert-danger">
+
+                                        @{
+                                            HtmlString HSCountryName = new HtmlString(temLCModelDetails[i].CountryName.ToString());
+                                        }
+
+                                        @HSCountryName
+                                    </div>
+
+                                </td>
+                                <td>
+
+                                    <div class="alert-danger">
+
+                                        @{
+                                            HtmlString HSCountryNameOfManufacturer = new HtmlString(temLCModelDetails[i].CountryNameOfManufacturer.ToString());
+                                        }
+
+                                        @HSCountryNameOfManufacturer
+                                    </div>
+
+                                </td>
+                                <td>
+
+                                    <div class="alert-danger">
+
+                                        @{
+                                            HtmlString HSItemName = new HtmlString(temLCModelDetails[i].ItemName.ToString());
+                                        }
+
+                                        @HSItemName
+
+                                    </div>
+
+                                </td>
+
+                                <td>
+
+                                    <div class="alert-danger">
+
+                                        @{
+                                            HtmlString HSItemCode = new HtmlString(temLCModelDetails[i].ItemCode.ToString());
+                                        }
+
+                                        @HSItemCode
+
+                                    </div>
+
+                                </td>
+
+                                <td>
+
+                                    <div class="alert-danger">
+
+                                        @{
+                                            HtmlString HSUOM = new HtmlString(temLCModelDetails[i].UOM.ToString());
+                                        }
+
+                                        @HSUOM
+
+                                    </div>
+
+                                </td>
+
+                                <td>
+
+                                    <div class="alert-danger">
+
+                                        @{
+                                            HtmlString HSItemQty = new HtmlString(temLCModelDetails[i].ItemQty.ToString());
+                                        }
+
+                                        @HSItemQty
+
+                                    </div>
+
+
+
+                                </td>
+
+                                <td>
+                                    <div class="alert-danger">
+
+                                        @{
+                                            HtmlString HSItemPrize = new HtmlString(temLCModelDetails[i].ItemPrize.ToString());
+                                        }
+
+                                        @HSItemPrize
+
+                                    </div>
+
+
+
+                                </td>
+
+                                <td>
+
+                                    <div class="alert-danger">
+
+
+                                        @{
+                                            HtmlString HSDocsValue = new HtmlString(temLCModelDetails[i].DocsValue.ToString());
+                                        }
+
+                                        @HSDocsValue
+
+                                    </div>
+
+                                </td>
+
+                                <td>
+
+                                    <div class="alert-danger">
+
+                                        @{
+                                            HtmlString HSShip_On_Board_Date = new HtmlString(temLCModelDetails[i].Ship_On_Board_Date.ToString());
+                                        }
+
+                                        @HSShip_On_Board_Date
+
+                                    </div>
+
+
+
+                                </td>
+
+                               
+
+                                <td>
+                                    <div class="alert-danger">
+
+                                        @{
+                                            HtmlString HSETA_On_CTG_Port = new HtmlString(temLCModelDetails[i].ETA_On_CTG_Port.ToString());
+                                        }
+
+                                        @HSETA_On_CTG_Port
+
+                                    </div>
+
+                                </td>
+
+                                <td>
+
+                                    <div class="alert-danger">
+
+                                        @{
+                                            HtmlString HSDoc_Rcevd_By_Bank = new HtmlString(temLCModelDetails[i].Doc_Rcevd_By_Bank.ToString());
+                                        }
+
+                                        @HSDoc_Rcevd_By_Bank
+
+                                    </div>
+
+
+
+                                </td>
+
+                                <td>
+
+                                    <div class="alert-danger">
+
+                                        @{
+                                            HtmlString HSDoc_Send_To_CF = new HtmlString(temLCModelDetails[i].Doc_Send_To_CF.ToString());
+                                        }
+
+                                        @HSDoc_Send_To_CF
+
+                                    </div>
+
+
+
+                                </td>
+
+
+
+                                <td>
+
+                                    <div class="alert-danger">
+
+                                        @{
+                                            HtmlString HSETD_From_CTG = new HtmlString(temLCModelDetails[i].ETD_From_CTG.ToString());
+                                        }
+
+                                        @HSETD_From_CTG
+
+                                    </div>
+
+
+
+                                </td>
+
+
+                                <td>
+                                    <div class="alert-danger">
+
+                                        @{
+                                            HtmlString HSETA_At_Factory = new HtmlString(temLCModelDetails[i].ETA_At_Factory.ToString());
+                                        }
+
+                                        @HSETA_At_Factory
+
+                                    </div>
+
+
+
+                                </td>
+
+                                <td>
+
+                                    <div class="alert-danger">
+
+                                        @{
+                                            HtmlString HSBill_Of_Entry_No = new HtmlString(temLCModelDetails[i].Bill_Of_Entry_No.ToString());
+                                        }
+
+                                        @HSBill_Of_Entry_No
+
+                                    </div>
+
+
+
+
+                                </td>
+
+                                <td>
+
+                                    <div class="alert-danger">
+
+                                        @{
+                                            HtmlString HSBill_Of_Entry_Date = new HtmlString(temLCModelDetails[i].Bill_Of_Entry_Date.ToString());
+                                        }
+
+                                        @HSBill_Of_Entry_Date
+
+                                    </div>
+
+
+
+
+                                </td>
+
+                                <td>
+
+                                    <div class="alert-danger">
+
+                                        @{
+                                            HtmlString HSLC_Payment_Date = new HtmlString(temLCModelDetails[i].LC_Payment_Date.ToString());
+                                        }
+
+                                        @HSLC_Payment_Date
+
+                                    </div>
+
+
+
+
+                                </td>
+
+                                <td>
+
+                                    <div class="alert-danger">
+
+                                        @{
+                                            HtmlString HSRemarks = new HtmlString(temLCModelDetails[i].Remarks.ToString());
+                                        }
+
+                                        @HSRemarks
+
+                                    </div>
+
+
+
+
+                                </td>
+
+                                <td>
+
+                                    <div class="alert-danger">
+
+                                        @{
+                                            HtmlString HSIsClose = new HtmlString(temLCModelDetails[i].IsClose.ToString());
+                                        }
+
+                                        @HSIsClose
+
+                                    </div>
+
+
+
+
+                                </td>
+
+                               
+
+                                <td>
+
+                                    <button type="button" class="btn-info" id="btnEdit" value="Edit" onclick="fn_btnEdit(this)"> Edit </button>
+
+                                    <button type="button" class="btn-default" id="btnDelete" value="Delete" onclick="fn_btnDelete(this)"> Del</button>
+
+
+                                </td>
+
+                            </tr>
+
+
+                                                }
+
+
+                                            }
+
+
+                }
+
+
+            </table>
+
+
+
+        </div>
+
+
+
+
+        <table class="table alert-warning" width="100%">
+            <tr>
+                <td width="25%">
+                    <input type="submit" value="Save" class="btn btn-default alert-success" />
+                </td>
+                <td width="25%">
+
+                    <div class="alert-success">
+
+                        MRR No:
+
+                    </div>
+
+                    <div class="alert-danger">
+
+                        @Html.TextBox("MRRNoReport")
+
+
+
+
+
+                    </div>
+
+                </td>
+                <td width="25%">
+
+
+                    <div class="btn-group">
+
+                        <div class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                            Print <span class="caret"></span>
+                        </div>
+
+                        <ul class="dropdown-menu" role="menu">
+                            <li>
+
+
+                                <a onclick='GetPDF();' class="btn-info">
+                                    PDF
+                                </a>
+
+                                @{
+
+                                    HtmlString hostAddress = new HtmlString(Session["HostAddress"].ToString());
+
+                                }
+
+
+                                <script type='text/javascript'>
+
+                                    function GetPDF() {
+
+                                        var url = "@hostAddress/LCModelDetails/ItemReceiveReport?ReportType=PDF&MRRNo=" + $('#MRRNoReport').val();
+                                        window.open(url, '_blank');
+
+                                    }
+
+                                </script>
+                            </li>
+                            <li>
+
+                                <a onclick='GetExcel();' class="btn-danger">
+                                    Excel
+                                </a>
+
+
+                                <script type='text/javascript'>
+
+                                    function GetExcel() {
+
+                                        var url = "@hostAddress/LCModelDetails/ItemReceiveReport?ReportType=EXCEL&MRRNo=" + $('#MRRNoReport').val();
+                                        window.open(url, '_blank');
+
+                                    }
+
+                                </script>
+
+
+
+
+                            </li>
+                            <li>
+
+                                <a onclick='GetExcelRecord();' class="btn-success">
+                                    Excel Record
+                                </a>
+
+
+                                <script type='text/javascript'>
+
+                                    function GetExcelRecord() {
+
+                                        var url = "@hostAddress/LCModelDetails/ItemReceiveReport?ReportType=EXCELRECORD&MRRNo=" + $('#MRRNoReport').val();
+                                        window.open(url, '_blank');
+
+                                    }
+
+                                </script>
+
+
+
+
+                            </li>
+                            <li>
+                                <a onclick='GetWord();' class="btn-primary">
+                                    Word
+                                </a>
+
+
+                                <script type='text/javascript'>
+
+                                    function GetWord() {
+
+                                        var url = "@hostAddress/LCModelDetails/ItemReceiveReport?ReportType=WORD&MRRNo=" + $('#MRRNoReport').val();
+                                        window.open(url, '_blank');
+
+                                    }
+
+                                </script>
+                            </li>
+
+                            <li>
+                                <a onclick='GetVisualised();' class="btn-warning">
+                                    Visualize
+                                </a>
+                                <script type='text/javascript'>
+
+                                    function GetVisualised() {
+
+                                        var url = "@hostAddress/ShowChart/Index";
+                                        window.open(url, '_blank');
+
+                                    }
+
+                                </script>
+
+
+
+                            </li>
+
+                        </ul>
+                    </div>
+
+
+
+                </td>
+                <td width="25%">
+                    <div class="btn btn-default alert-danger">@Html.ActionLink("Refresh", "TempDelete") </div>
+
+                    <input type="submit" value="Refresh Function" name="RefreshFunction" />
+
+                </td>
+            </tr>
+        </table>
+    </div>
+ }
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+
+
+<script type="text/javascript">
+
+    function GetLCModelPopulate() {
+
+
+
+        $.ajax({
+            url: '@Url.Action("GetLCModelPopulate")',
+            type: "GET",
+            dataType: "JSON",
+            data: {
+
+            },
+            success: function (data) {
+
+                if( $.trim(data))
+                {
+                    $('#Id').val(data.Id);
+                    $('#FileNo').val(data.FileNo);
+                    $('#LCType').val(data.LCType);
+                    $('#LCNo').val(data.LCNo);
+                    $('#LCDate').val(data.LCDate);
+                    $('#BankName').val(data.BankName);
+                    $('#BranchName').val(data.BranchName);
+                    $('#LCValue').val(data.LCValue);
+                    $('#IsClose').val(data.IsClose);
+                    $("#FileNoShow").val(data.FileNo);
+                    $("#FileNoShow").attr("disabled", "disabled");
+                }
+
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                //debugger;
+                alert(textStatus);
+            }
+        });
+
+
+
+
+    }
+
+</script>
+
+
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+
+        $(document).on('submit', 'form', function () {
+            var buttons = $(this).find('[type="submit"]');
+            if ($(this).valid()) {
+                buttons.each(function (btn) {
+
+                    if ($(buttons[btn]).attr('id') != 'AddToList')
+                    {
+                        $(buttons[btn]).prop('disabled', true);
+                    }
+
+
+
+
+
+                });
+            } else {
+                buttons.each(function (btn) {
+                    $(buttons[btn]).prop('disabled', false);
+                });
+            }
+        });
+
+
+
+
+
+
+        $('#reLoadItem').click(function () {
+
+            $('#ItemNameS').trigger('change');
+        });
+
+        GetLCModelPopulate();
+
+
+        var FileNo = sessionStorage.getItem("FileNo");
+        if (FileNo == null) {
+            sessionStorage.setItem("FileNo", null);
+            $("#FileNo").val('');
+            $("#FileNoShow").val('');
+
+            $("#IsNewFileNo").prop('checked', false);
+            $("#FileNoShow").removeAttr("disabled");
+
+
+        } else {
+            sessionStorage.setItem("FileNo", FileNo);
+            $("#FileNo").val(FileNo);
+            $("#FileNoShow").val(FileNo);
+            $("#IsNewFileNo").prop('checked', true);
+            $("#FileNoShow").attr("disabled", "disabled");
+        }
+
+        $('#IsNewFileNo').on('change', function () {
+
+
+            if (this.checked) // if changed state is "CHECKED"
+            {
+                $("#FileNoShow").attr("disabled", "disabled");
+
+                $.ajax({
+                    url: '@Url.Action("GetNewFileNo")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+
+                    },
+                    success: function (data) {
+
+                        $("#FileNo").val(data);
+                        $("#FileNoShow").val(data);
+                        sessionStorage.setItem("FileNo", data);
+
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+            }else
+            {
+                sessionStorage.setItem("FileNo", null);
+                $("#FileNo").val('');
+                $("#FileNoShow").val('');
+                $("#FileNoShow").removeAttr("disabled");
+            }
+        })
+
+
+
+
+        $("#FileNoShow").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("GetFileNo")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        FileNo: $('#FileNoShow').val()
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                        );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+
+        $("#PONumberS").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("usp_GetLcDetailsInfoByPONumber")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        PONumber: $('#PONumber').val()
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                        );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+
+
+        $("#MOMSprOrIndentNoS").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("usp_GetMOMSprOrIndentNo")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        PONumber: $('#PONumber').val()
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                        );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+
+        $("#SprOrIndentNoS").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("usp_GetLcDetailsInfoBySPR")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        PONumber : $('#PONumberS').val() ,
+                        SprOrIndentNo: $('#SprOrIndentNoS').val(),
+                        MOMSprOrIndentNo: $('#MOMSprOrIndentNoS').val()
+                    },
+                    success: function (data) {
+
+                        $('#ItemQtyS').val('0.0');
+
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                        );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+
+
+
+
+        $("#ItemNameS").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("usp_GetLcDetailsInfoByItemName")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        SprOrIndentNo:   $('#SprOrIndentNoS').val() ,
+                        PONumber:        $('#PONumberS').val()      ,
+                        ItemName:        $('#ItemNameS').val()
+                    },
+                    success: function (data) {
+
+
+
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                        );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+
+
+
+
+
+
+        $("#SprOrIndentNoS").on("change", function () {
+            $.ajax({
+                url: '@Url.Action("usp_GetLcDetailsItemNameBySPR")',
+                type: "GET",
+                dataType: "JSON",
+                data: {
+                    SprOrIndentNo: $('#SprOrIndentNoS').val(),
+                    PONumber: $('#PONumberS').val()
+                },
+                success: function (data) {
+
+                    $("#showItemName").html(data.itemName);
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    //debugger;
+                    alert(textStatus);
+                }
+            });
+        });
+
+
+
+
+
+
+        $("#ItemNameS").on("change", function () {
+
+            $.ajax({
+                url: '@Url.Action("usp_GetLcDetailsInfo")',
+                type: "GET",
+                dataType: "JSON",
+                data: {
+                    SprOrIndentNo: $('#SprOrIndentNoS').val(),
+                    PONumber: $('#PONumberS').val(),
+                    ItemName: $('#ItemNameS').val()
+                },
+                success: function (data) {
+
+                    console.log(data);
+
+                    $('#ItemCodeS').val(data.ItemCode);
+                    $('#ItemCodeShowS').val(data.ItemCode);
+                    $('#UOMS').val(data.UOM);
+                    $('#ItemQtyS').val(data.LeftQty);
+                    $('#ItemPrizeS').val(data.UnitCost);
+                    var ItemQtyS = $('#ItemQtyS').val();
+                    var parseItemQtyS = parseFloat(ItemQtyS);
+                    var uniPri = $('#ItemPrizeS').val();
+
+                    var parseUniPri = parseFloat(uniPri);
+
+                    if ($.isNumeric(ItemQtyS) && $.isNumeric(uniPri)) {
+
+                        var tempTotal = parseItemQtyS * parseUniPri;
+                        $('#DocsValueS').val(tempTotal);
+                    }
+
+
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    //debugger;
+                    alert(textStatus);
+                }
+            });
+        });
+
+
+        $("#ItemQtyS").on("change",function () {
+
+            var ItemQtyS = $('#ItemQtyS').val();
+            var parseItemQtyS = parseFloat(ItemQtyS);
+            var ItemPrizeS = $('#ItemPrizeS').val();
+            var parseItemPrizeS = parseFloat(ItemPrizeS);
+            if ($.isNumeric(ItemQtyS) && $.isNumeric(ItemPrizeS)) {
+                var tempTotal = parseItemQtyS * ItemPrizeS;
+                $('#DocsValueS').val(tempTotal);
+
+            }
+        });
+
+        $("#ItemPrizeS").on("change",function () {
+
+            var ItemQtyS = $('#ItemQtyS').val();
+            var parseItemQtyS = parseFloat(ItemQtyS);
+            var ItemPrizeS = $('#ItemPrizeS').val();
+            var parseItemPrizeS = parseFloat(ItemPrizeS);
+            if ($.isNumeric(ItemQtyS) && $.isNumeric(ItemPrizeS)) {
+                var tempTotal = parseItemQtyS * ItemPrizeS;
+                $('#DocsValueS').val(tempTotal);
+
+            }
+        });
+
+
+
+        $("#LCDate").attr("autocomplete", "off");
+        $("#Ship_On_Board_DateS").attr("autocomplete", "off");
+        $("#ETA_On_CTG_PortS").attr("autocomplete", "off");
+        $("#Doc_Rcevd_By_BankS").attr("autocomplete", "off");
+        $("#Doc_Send_To_CFS").attr("autocomplete", "off");
+        $("#ETD_From_CTGS").attr("autocomplete", "off");
+        $("#ETA_At_FactoryS").attr("autocomplete", "off");
+        $("#Bill_Of_Entry_DateS").attr("autocomplete", "off");
+        $("#LC_Payment_DateS").attr("autocomplete", "off");
+        $("#PIDateS").attr("autocomplete", "off");
+        $("#LCShipDateS").attr("autocomplete", "off");
+        $("#LCExpireDateS").attr("autocomplete", "off");
+
+    });
+</script>
+
+
+<script>
+
+    function fn_btnEdit(x) {
+
+        var varRowIndex = $(x).closest('tr').index();
+
+
+        $.ajax({
+            url: '@Url.Action("getActionOptionEdit")',
+            type: "GET",
+            dataType: "JSON",
+            data: {
+                RowIndex: varRowIndex
+
+
+            },
+            success: function (data) {
+
+                $("#IdS").val(data.Id);
+                $("#LCModelIDS").val(data.LCModelID);
+                $("#SprOrIndentNoS").val(data.SprOrIndentNo);
+                $("#MOMSprOrIndentNoS").val(data.MOMSprOrIndentNo);
+                $("#CountryNameS").val(data.CountryName);
+                $("#ItemNameS").val(data.ItemName);
+                $("#ItemCodeS").val(data.ItemCode);
+                $("#ItemCodeShowS").val(data.ItemCode);
+                
+                $("#UOMS").val(data.UOM);
+                $("#ItemQtyS").val(data.ItemQty);
+                $("#ItemPrizeS").val(data.ItemPrize);
+                $("#Ship_On_Board_DateS").val(data.Ship_On_Board_Date);
+                $("#DocsValueS").val(data.DocsValue);
+                $("#ETA_On_CTG_PortS").val(data.ETA_On_CTG_Port);
+                $("#Doc_Rcevd_By_BankS").val(data.Doc_Rcevd_By_Bank);
+                $("#Doc_Send_To_CFS").val(data.Doc_Send_To_CF);
+                $("#ETD_From_CTGS").val(data.ETD_From_CTG);
+                $("#ETA_At_FactoryS").val(data.ETA_At_Factory);
+                $("#Bill_Of_Entry_NoS").val(data.Bill_Of_Entry_No);
+                $("#Bill_Of_Entry_DateS").val(data.Bill_Of_Entry_Date);
+                $("#LC_Payment_DateS").val(data.LC_Payment_Date);
+                $("#IsCloseS").val(data.IsClose);
+                $("#RemarksS").val(data.Remarks);
+                $("#PONumberS").val(data.PONumber);
+                $("#PINoS").val(data.PINo);
+                $("#PIDateS").val(data.PIDate);
+                $("#CountryNameOfManufacturerS").val(data.CountryNameOfManufacturer);
+                $("#LCShipDateS").val(data.LCShipDate);
+                $("#LCShipDateChangeLogS").val(data.LCShipDateChangeLog);
+                $("#LCExpireDateS").val(data.LCExpireDate);
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                //debugger;
+                alert(textStatus);
+            }
+        });
+
+
+    };
+
+    function fn_btnDelete(x) {
+
+        var varRowIndex = $(x).closest('tr').index();
+
+
+        alert("Row index is: " + varRowIndex);
+
+        $.ajax({
+            url: '@Url.Action("getActionOptionDelete")',
+            type: "GET",
+            dataType: "JSON",
+            data: {
+                RowIndex: varRowIndex
+            },
+            success: function (data) {
+
+                if (data.Result == "Deleted") {
+                    $(x).closest('tr').remove();
+                }
+
+
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                //debugger;
+                alert(textStatus);
+            }
+        });
+
+    };
+
+
+
+
+  
+
+
+
+</script>

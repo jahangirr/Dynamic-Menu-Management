@@ -1,0 +1,211 @@
+﻿@model SilGlobalFashion.Models.ItemLoanIssueMaster
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>ItemIssue</h4>
+    <hr />
+    <dl class="dl-horizontal btn-success" style="background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+        <dt>
+            @Html.DisplayNameFor(model => model.StoreLocation)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StoreLocation)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SINo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SINo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.StoreIssueDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StoreIssueDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Section)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Section)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Shift)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Shift)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BachNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BachNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BachQty)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BachQty)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BachUOM)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BachUOM)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.OrderNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OrderNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.OrderQty)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OrderQty)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.OrderUOM)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OrderUOM)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BuyerName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BuyerName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ColorOrShade)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ColorOrShade)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ProcessQty)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ProcessQty)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ProcessUOM)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ProcessUOM)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ItemCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ItemCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ItemDescription)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ItemDescription)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ProposeOrProcess)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ProposeOrProcess)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ItemLotNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ItemLotNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IssuedQty)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IssuedQty)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RecipeQty)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RecipeQty)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IssueOrRecipeUOM)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IssueOrRecipeUOM)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IssueOrRecipeUOM)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IssueOrRecipeUOM)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Remarks)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Remarks)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

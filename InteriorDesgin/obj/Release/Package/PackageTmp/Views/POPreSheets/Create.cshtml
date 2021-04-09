@@ -1,0 +1,224 @@
+﻿@model  List<SilGlobalFashion.Models.POPreSheet>
+@using SilGlobalFashion.Models;
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+
+    <link href="~/Content/TableStyle.css" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width" />
+    <title> PO  Creation  </title>
+</head>
+<body>
+
+    <div id="selectionDivToShow" style="border:dotted; color:black; background-color:Highlight;">
+
+
+
+        @{
+
+            if (Session["POPreSheetList"] != null)
+            {
+                List<POPreSheet> tempPOSheet = (List<POPreSheet>)Session["POPreSheetList"];
+
+                if (tempPOSheet.Count() > 0)
+                {
+
+                         HtmlString HSPONumber = new HtmlString("PO Number : " + tempPOSheet[0].PONumber.ToString());
+                        @HSPONumber
+                            HtmlString HSPODate = new HtmlString("  ||   PO Date : " + tempPOSheet[0].PODate.ToString().Substring(0, 10));
+                        @HSPODate
+                            HtmlString HSSupplierCode = new HtmlString("  ||   Supplier Code : " + tempPOSheet[0].SupplierCode.ToString());
+                        @HSSupplierCode
+
+                            HtmlString HSSupplierName = new HtmlString("   ||    Supplier Name : " + tempPOSheet[0].SupplierName.ToString());
+                        @HSSupplierName
+                    }
+                }
+            }
+
+
+    </div>
+
+
+
+
+    @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "form" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+
+
+
+
+
+
+            @{
+
+
+                if (Session["POPreSheetList"] != null)
+                {
+                    List<POPreSheet> tempPOSheet = (List<POPreSheet>)Session["POPreSheetList"];
+
+                    if (tempPOSheet.Count() > 0)
+                    {
+                        int totalItem = tempPOSheet.Count();
+
+                    <div id="selectionDivToShow" style="border:dotted; color:black; background-color:Highlight;">
+                        <table class="table table-bordered">
+
+                            <tr>
+
+
+                                <th>
+                                    Master SPO / Indent 
+                                </th>
+
+                                <th>
+                                    Spr Or IndentNo
+                                </th>
+
+                                <th>
+                                     Item Name
+                                </th>
+                                <th>
+                                     Item Code
+
+                                </th>
+                                <th>
+                                     Order Quantity
+
+                                </th>
+
+                                <th>
+                                    Unit Cost
+
+                                </th>
+
+                                <th>
+                                     Total Value Item Wise
+
+                                </th>
+
+                                <th>
+                                     Currency 
+
+                                </th>
+
+                                <th>
+                                     Necessary Instruction
+
+                                </th>
+
+                                <th>
+                                     Tick to Process 
+
+                                </th>
+
+
+                            </tr>
+
+                            @for (var i = 0; i < totalItem; i++)
+                            {
+
+
+
+
+                                <tr>
+
+                                    <td>
+                                        @Html.TextBoxFor(it => it[i].MOMSprOrIndentNo, new { Style = "vertical-align:3px;width:100px;", @readonly = "readonly" })
+
+                                    </td>
+
+                                    <td>
+                                        @Html.TextBoxFor(it => it[i].SprOrIndentNo, new { Style = "vertical-align:3px;width:100px;", @readonly = "readonly" })
+
+                                    </td>
+
+                                    <td>
+                                        @Html.TextBoxFor(it => it[i].ItemName, new { Style = "vertical-align:3px", @readonly = "readonly" })
+                                    </td>
+                                    <td>
+                                        @Html.TextBoxFor(it => it[i].ItemCode, new { Style = "vertical-align:3px;width:85px;", @readonly = "readonly" })
+                                    </td>
+                                    <td>
+                                        @Html.TextBoxFor(it => it[i].OrderQuantity, new { Style = "vertical-align:3px;width:85px;", @readonly = "readonly" })
+                                    </td>
+                                    <td>
+                                        @Html.TextBoxFor(it => it[i].UnitCost, new { Style = "vertical-align:3px;width:75px;", @readonly = "readonly" })
+                                    </td>
+                                    <td>
+                                        @Html.TextBoxFor(it => it[i].TotalValueItemWise, new { Style = "vertical-align:3px;width:100px;", @readonly = "readonly" })
+                                    </td>
+                                    <td>
+                                        @Html.TextBoxFor(it => it[i].UnitCurrency, new { Style = "vertical-align:3px;width:75px;", @readonly = "readonly" })
+                                    </td>
+                                    <td>
+                                        @Html.TextBoxFor(it => it[i].NecessaryInstruction, new { Style = "vertical-align:3px;width:110px;" })
+                                    </td>
+
+                                    <td>
+                                        @Html.CheckBoxFor(it => it[i].IsCheckToProcess)
+                                    </td>
+
+
+
+
+                                </tr>
+
+
+                            }
+                        </table>
+
+                    </div>
+                        }
+                    }
+                }
+
+            <div class="alert-success">
+
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Create PO" class="btn btn-info" />
+                    </div>
+                </div>
+            </div>
+        </div>
+                }
+
+    <div>
+        @Html.ActionLink("Back to List", "Index")
+    </div>
+</body>
+</html>
+
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        $(document).on('submit', 'form', function () {
+            var buttons = $(this).find('[type="submit"]');
+            if ($(this).valid()) {
+                buttons.each(function (btn) {
+                    $(buttons[btn]).prop('disabled', true);
+                });
+            } else {
+                buttons.each(function (btn) {
+                    $(buttons[btn]).prop('disabled', false);
+                });
+            }
+        });
+
+    });
+
+</script>

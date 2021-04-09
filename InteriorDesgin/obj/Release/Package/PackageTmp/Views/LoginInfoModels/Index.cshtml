@@ -1,0 +1,115 @@
+﻿
+@model IEnumerable<SilGlobalFashion.Models.LoginInfoModel>
+@using SilGlobalFashion.Repository;
+
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Html.RenderPartial("MenuView");
+    ViewBag.Title = "Log Info ";
+}
+
+<h3> Log Checking..... </h3>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+
+
+
+    <table width="100%">
+
+
+
+        <tr>
+            <td width="12%" style="border:groove;background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+
+               
+
+                <div style="border:groove;background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+                    Module :
+                </div>
+            </td>
+
+            <td width="20%" style="border:groove;background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+
+
+
+                <div class="col-md-10">
+
+                    @Html.DropDownList("UsedModel", (SelectList)ViewBag.ModuleNameData)
+                    
+                </div>
+
+
+
+
+
+            </td>
+           
+            <td width="68%" style="border:groove;background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+
+                From Date:   @Html.JQueryUI().Datepicker("LogDate")   To Date:  @Html.JQueryUI().Datepicker("LogDateTo") <input type="button" id="loadBtn" name="Load" value="Load" />
+
+               
+              
+            </td>
+
+        </tr>
+
+    </table>
+
+
+                    }
+
+
+<div class="alert-danger" id="LoadLogDisplay">
+
+
+</div>
+
+
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+
+        $("#LogDate").attr("autocomplete", "off");
+        $("#LogDateTo").attr("autocomplete", "off");
+
+
+        $('#loadBtn').click(function () {
+
+
+            $.ajax({
+                url: '@Url.Action("getLogInfoDeserialised", "LoginInfoModels")',
+                type: "GET",
+                dataType: "JSON",
+                data: {
+                    UsedModel : $('#UsedModel').val(),
+                    LogDate : $('#LogDate').val(),
+                    LogDateTo : $('#LogDateTo').val()
+                },
+                success: function (data) {
+                    console.log(data);
+                    $('#LoadLogDisplay').html(data);
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    //debugger;
+                    alert(textStatus);
+                }
+            });
+
+
+        });
+
+
+    });
+
+
+</script>
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

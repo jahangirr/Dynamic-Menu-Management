@@ -1,0 +1,66 @@
+﻿@model SilGlobalFashion.Models.ItemReciveFinancialAspect
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>ItemReciveFinancialAspect</h4>
+    <hr />
+    <dl class="dl-horizontal" style="background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+        <dt>
+            @Html.DisplayNameFor(model => model.MRRNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MRRNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MRRDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MRRDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsAdd)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsAdd)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TransName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TransName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TransPercentage)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TransPercentage)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DirectAmount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DirectAmount)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

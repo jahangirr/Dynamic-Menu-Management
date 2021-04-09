@@ -1,0 +1,1087 @@
+﻿@model SilGlobalFashion.Models.OpenCostingDetails
+
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+
+    HtmlString hostAddress = new HtmlString(Session["HostAddress"].ToString());
+
+}
+
+
+<link href="@hostAddress/Content/bootstrap-toggle.min.css" rel="stylesheet" />
+<script src="@hostAddress/Scripts/bootstrap-toggle.min.js"></script>
+
+<link href="~/Content/TableStyle.css" rel="stylesheet" />
+
+
+<style>
+    table {
+        border-collapse: collapse;
+    }
+
+    tr {
+        border: solid thin;
+        border-color: blue;
+    }
+
+    td {
+        border: solid thin;
+        border-color: green;
+    }
+
+    th {
+        border: solid thin;
+        border-color: green;
+        background-color: cadetblue;
+    }
+</style>
+
+
+
+
+<div class="col-md-12">
+    Open Costing Full Show: <input id="showToggle" checked type="checkbox">
+    <div id="showToggleDiv">
+        <table class="col-md-8">
+            <tr>
+                <td class="col-md-4">
+                    <b> BuyerName: </b>  @Html.Label("BuyerName", ViewBag.BuyerName as string)
+                </td>
+                <td class="col-md-4">
+                    <b> Buyer PO: </b> @Html.Label("BuyerPO", ViewBag.BuyerPO as string)
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>System Style Code : </b>  @Html.Label("SysStyleCode", ViewBag.SysStyleCode as string)
+                </td>
+                <td class="col-md-4">
+                   <b> Buyer Style Code : </b>  @Html.Label("BuyStyleCode", ViewBag.BuyStyleCode as string)
+                </td>
+
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <b> Style Description: </b> @Html.Label("StyleDescription", ViewBag.StyleDescription as string)
+
+                </td>
+                <td class="col-md-4">
+                    <b>  Febrication : </b> @Html.Label("Febrication", ViewBag.Febrication as string)
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <b> Color: </b> @Html.Label("Color", ViewBag.Color as string)
+                </td>
+                <td class="col-md-4">
+                    <b>Size : </b>  @Html.Label("Size", ViewBag.Size as string)
+                </td>
+
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <b>Construction: </b>  @Html.Label("Construction", ViewBag.Construction as string)
+                </td>
+                <td class="col-md-4">
+                    <b> Weight/GSM: </b> @Html.Label("WeightOrGSM", ViewBag.WeightOrGSM as string)
+
+                </td>
+
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <b>Wash: </b>  @Html.Label("Wash", ViewBag.Wash as string)
+
+
+                </td>
+                <td class="col-md-4">
+                    <b>ModeOfOrder: </b>   @Html.Label("ModeOfOrder", ViewBag.ModeOfOrder as string)
+
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <b>DeliveryDate: </b>  @Html.Label("DeliveryDate", ViewBag.DeliveryDate as string)
+
+
+                </td>
+                <td class="col-md-4">
+                    <b>Quantity: </b>  @Html.TextBox("Quantity", ViewBag.Quantity as string,new { @readonly="readonly"})
+
+                </td>
+
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Currency:</b>   @Html.Label("Currency", ViewBag.Currency as string)
+
+                </td>
+
+                <td class="col-md-4">
+                    <b>Calculated SMV: </b>  @Html.Label("CalculatedSMV", ViewBag.CalculatedSMV as string)
+
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <b>Costing SMV: </b>  @Html.Label("CostingSMV", ViewBag.CostingSMV as string)
+
+
+                </td>
+                <td class="col-md-4">
+                    <b>Production/Hr : </b>  @Html.Label("ProductionPerHr", ViewBag.ProductionPerHr as string)
+
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <b>Unit/Hr: </b>   @Html.Label("UnitPerHr", ViewBag.UnitPerHr as string)
+
+                </td>
+
+                <td class="col-md-4"></td>
+            </tr>
+
+
+        </table>
+
+        <table class="col-md-4">
+            <tr>
+                <td>
+
+                    <b>Item Image : </b>   <br />
+                    <img src="@Url.Action("GetThumbnailImage", "OpenCostings", new {Id = ViewBag.OpenCostingId as string  })" alt="Document Image" />
+
+                </td>
+
+            </tr>
+
+
+        </table>
+    </div>
+
+
+</div>
+
+
+@using (Html.BeginForm("Create", "OpenCostingDetails", FormMethod.Post, new { id = "form_OpenCostingDetails" }))
+{
+    @Html.AntiForgeryToken()
+    <div>
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.Hidden("OpenCostingId", ViewBag.OpenCostingId as string)
+        <table class="col-md-12">
+
+
+            <tr>
+                <td class="glyphicon-align-right">
+
+                    @{
+                        List<SelectListItem> tempSysStyleCodeList = (List<SelectListItem>)Session["SysStyleCodeList"];
+
+                        SelectList SysStyleCodeList = new SelectList(tempSysStyleCodeList, "Value", "Text", 0);
+                    }
+
+                    @Html.DropDownListFor(m => m.OpenCostingIdForSelectedIndex, SysStyleCodeList, new { })
+
+                    <button type="submit" name="loadPrevious" class="btn btn-default btn-sm" value="Load Previous">
+                        <span class="glyphicon glyphicon-search"></span>
+                    </button>
+
+
+                </td>
+
+                <td>
+                    <h4>Open Costing  Details</h4>
+                    <br />
+                    Total Requirement : @Html.Label("QuantityLabel", ViewBag.Quantity as string)
+                    
+                </td>
+            </tr>
+        </table>
+
+        <table width="100%">
+            <tr>
+                <th>
+                    <div style="width:30px;">
+                        Seq <br /> ...
+                    </div>
+                </th>
+                <th>
+                    <div style="width:205px;">
+                        Febrication<br />/Composition <br />/ Item Description
+                    </div>
+                </th>
+                <th>
+                    <div style="width:195px;">
+                        Source<br />.......
+                    </div>
+                </th>
+
+                <th>
+                    <div style="width:165px;">
+                        Consumption <br /> .......
+                    </div>
+                </th>
+
+                <th>
+                    <div style="width:40px;">
+                        Ex<br/>(%)
+                    </div>
+                </th>
+
+                <th>
+                    <div style="width:40px;">
+                        UOM <br /> ...
+                    </div>
+                </th>
+                <th>
+                    <div style="width:70px;">
+                        U/Prize <br /> .....
+                    </div>
+                </th>
+                <th>
+                    <div style="width:80px;">
+                        Amount <br /> .....
+                    </div>
+                </th>
+               
+                <th>
+                    <div style="width:90px;">
+                        Total <br /> .....
+                    </div>
+                </th>
+                <th>
+                    <div style="width:70px;">
+                        Cost <br /> Group
+                    </div>
+                </th>
+
+                <th>
+                    <div style="width:40px;">
+                        Pay. <br /> Mode
+
+                    </div>
+                </th>
+
+                <th>
+                    <div style="width:80px;">
+                        Remarks
+
+                    </div>
+                </th>
+
+
+                <th>
+                    <div style="width:30px;">
+
+                        <button type="button" class="btn btn-default btn-sm">
+                            <span class="glyphicon glyphicon-asterisk"></span>
+                        </button>
+
+                    </div>
+                </th>
+
+            </tr>
+
+            <tr>
+                <td>
+
+                    @Html.TextBox("CostingSequenceShow", null, new { style = "width:30px", disabled = "disabled" })
+                    @Html.Hidden("CostingSequence")
+
+                </td>
+
+                <td>
+                    @Html.TextBox("Feb_Int_Tri_Acc_Oth", null, new { style = "width:205px" })
+
+                </td>
+                <td>
+                    @Html.TextBox("Source", null, new { style = "width:195px" })
+
+                </td>
+
+                <td>
+                    @Html.TextBox("Consumption", null, new { style = "width:165px" })
+
+                </td>
+
+                <td>
+                    @Html.TextBox("ExtraConsumption", null, new { style = "width:40px" })
+
+                </td>
+
+                <td>
+                    @Html.TextBox("UOM", null, new { style = "width:40px" })
+
+
+                </td>
+                <td>
+                    @Html.TextBox("UnitPrize", null, new { style = "width:70px" })
+
+                </td>
+                <td>
+                    @Html.Hidden("TotalRequirement")
+                    @Html.Hidden("Amount")
+                    @Html.TextBox("AmountShow", "0.0", new { style = "width:80px" })
+
+
+
+                </td>
+              
+                <td>
+
+                    @Html.Hidden("TotalAmount")
+                    @Html.TextBox("TotalAmountShow", "0.0", new { style = "width:90px" })
+
+
+                </td>
+                <td>
+
+
+                    @{
+                        List<SelectListItem> tempCostingGroupList = (List<SelectListItem>)Session["CostingGroupList"];
+
+                        SelectList CostingGroupList = new SelectList(tempCostingGroupList, "Value", "Text");
+                    }
+
+                    @Html.DropDownList("CostingGroup_Id", CostingGroupList, new { style = "width:70px" })
+
+
+
+                   
+
+
+                </td>
+
+                <td>
+
+                    @Html.TextBox("ModeOfPayment", null, new { style = "width:40px" })
+
+                </td>
+
+
+                <td>
+
+                    @Html.TextBox("Remarks", null, new { style = "width:80px" })
+
+                </td>
+
+
+
+                <td>
+
+                    <button type="submit" name="addPlus" class="btn btn-default btn-sm" value="add">
+                        <span class="glyphicon glyphicon-plus"></span>
+                    </button>
+
+                </td>
+            </tr>
+
+        </table>
+
+        <table width="100%" id="insertInfoTable">
+            <tr>
+                <th>
+                    <div style="width:30px;">
+                        Seq <br /> ...
+                    </div>
+                </th>
+                <th>
+                    <div style="width:205px;">
+                        Febrication<br />/Composition <br />/ Item Description
+                    </div>
+                </th>
+                <th>
+                    <div style="width:195px;">
+                        Source<br />.......
+                    </div>
+                </th>
+
+                <th>
+                    <div style="width:165px;">
+                        Consumption <br /> .......
+                    </div>
+                </th>
+
+                <th>
+                    <div style="width:40px;">
+                        Ex<br />(%)
+                    </div>
+                </th>
+
+                <th>
+                    <div style="width:40px;">
+                        UOM <br /> ...
+                    </div>
+                </th>
+                <th>
+                    <div style="width:70px;">
+                        U/Prize <br /> .....
+                    </div>
+                </th>
+                <th>
+                    <div style="width:80px;">
+                        Amount <br /> .....
+                    </div>
+                </th>
+
+                <th>
+                    <div style="width:90px;">
+                        Total <br /> .....
+                    </div>
+                </th>
+                <th>
+                    <div style="width:70px;">
+                        Cost <br /> Group
+                    </div>
+                </th>
+
+                <th>
+                    <div style="width:40px;">
+                        Pay. <br /> Mode
+
+                    </div>
+                </th>
+
+                <th>
+                    <div style="width:80px;">
+                        Remarks
+
+                    </div>
+                </th>
+
+
+                <th>
+                    <div style="width:30px;">
+
+                        <button type="button" class="btn btn-default btn-sm">
+                            <span class="glyphicon glyphicon-asterisk"></span>
+                        </button>
+
+                    </div>
+                </th>
+
+            </tr>
+
+            @{
+
+                int totalNumber = 0;
+
+                if (Session["OpenCostingDetailsCreate"] != null)
+                {
+                    List<SilGlobalFashion.Models.OpenCostingDetails> OpenCostingDetailsCreateList = (List<SilGlobalFashion.Models.OpenCostingDetails>)Session["OpenCostingDetailsCreate"];
+
+                    totalNumber = OpenCostingDetailsCreateList.Count();
+                    for (int i = 0; i < totalNumber; i++)
+                    {
+
+                        <tr>
+                            <td style="width:30px;">
+                                @{
+
+
+                                    HtmlString HSSeqNum = new HtmlString(OpenCostingDetailsCreateList[i].CostingSequence.ToString());
+                                }
+                                @HSSeqNum
+                            </td>
+                            <td style="width:205px;">
+
+                                <div>
+
+                                    @{
+                                        HtmlString HSFeb_Int_Tri_Acc_Oth = new HtmlString(OpenCostingDetailsCreateList[i].Feb_Int_Tri_Acc_Oth.ToString());
+                                    }
+
+                                    @HSFeb_Int_Tri_Acc_Oth
+                                </div>
+
+                            </td>
+                            <td style="width:195px;">
+
+                                <div>
+
+                                    @{
+                                        HtmlString HSSource = new HtmlString(OpenCostingDetailsCreateList[i].Source.ToString());
+                                    }
+
+                                    @HSSource
+
+                                </div>
+
+                            </td>
+
+                            <td style="width:165px;">
+
+                                <div>
+
+                                    @{
+                                        HtmlString HSConsumption = new HtmlString(OpenCostingDetailsCreateList[i].Consumption.ToString());
+                                    }
+
+                                    @HSConsumption
+
+                                </div>
+
+
+
+                            </td>
+
+                            <td style="width:40px;">
+
+                                <div>
+
+                                    @{
+                                        HtmlString HSExtraConsumption = new HtmlString(OpenCostingDetailsCreateList[i].ExtraConsumption.ToString());
+                                    }
+
+                                    @HSExtraConsumption
+
+                                </div>
+
+
+
+                            </td>
+
+                            <td style="width:40px;">
+
+                                @{
+                                    HtmlString HSUOM = new HtmlString(OpenCostingDetailsCreateList[i].UOM.ToString());
+                                }
+
+                                @HSUOM
+
+
+
+                            </td>
+
+                            <td style="width:70px;">
+
+                                @{
+                                    HtmlString HSUnitPrize = new HtmlString(OpenCostingDetailsCreateList[i].UnitPrize.ToString());
+                                }
+
+                                @HSUnitPrize
+
+                            </td>
+
+                            <td style="width:80px;">
+
+                                @{
+                                    HtmlString HSAmount = new HtmlString(OpenCostingDetailsCreateList[i].Amount.ToString());
+                                }
+
+                                @HSAmount
+
+
+
+                            </td>
+
+                            <td style="width:90px;">
+
+                                @{
+                                    HtmlString HSTotalAmount = new HtmlString(OpenCostingDetailsCreateList[i].TotalAmount.ToString());
+                                }
+
+                                @HSTotalAmount
+
+
+
+
+                            </td>
+
+                            <td style="width:60px;">
+
+                                @{
+
+                                    
+
+                                      HtmlString HSCostingGroupText = new HtmlString(tempCostingGroupList.Where(w => w.Value == OpenCostingDetailsCreateList[i].CostingGroup_Id.ToString()).FirstOrDefault().Text);
+                                }
+
+                                @HSCostingGroupText
+
+
+
+
+                            </td>
+
+                            <td style="width:40px;">
+
+                                @{
+                                    HtmlString HSModeOfPayment = new HtmlString(OpenCostingDetailsCreateList[i].ModeOfPayment.ToString());
+                                }
+
+                                @HSModeOfPayment
+
+
+
+
+                            </td>
+
+                            <td style="width:80px;">
+
+                                @{
+                                    HtmlString HSRemarks = new HtmlString(OpenCostingDetailsCreateList[i].Remarks.ToString());
+                                }
+
+                                @HSRemarks
+
+
+
+
+                            </td>
+
+                            <td style="width:30px;">
+
+                                <button type="button" class="btn-info" id="btnEdit" value="Edit" onclick="fn_btnEdit(this)">
+                                    <span class="glyphicon glyphicon-edit"></span>
+                                </button>
+
+                                <button type="button" class="btn-default" id="btnDelete" value="Delete" onclick="fn_btnDelete(this)">
+                                    <span class="glyphicon glyphicon-remove"></span>
+
+
+                                </button>
+
+
+                            </td>
+
+                        </tr>
+
+
+                                        }
+
+
+                                    }
+
+
+            }
+
+
+        </table>
+
+
+
+
+
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+                                    }
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $("#showToggleDiv").toggle();
+        $('#showToggle').bootstrapToggle({
+            on: 'Full',
+            off: 'Hide'
+        });
+        $("#showToggle").change(function () {
+            $("#showToggleDiv").toggle();
+        });
+
+        $.ajax({
+            url: '@Url.Action("GetSeqNumOnOpenCostingDetails")',
+            type: "GET",
+            dataType: "JSON",
+            data: {
+
+            },
+            success: function (data) {
+                $('#CostingSequence').val(data.SeqNumber);
+                $('#CostingSequenceShow').val(data.SeqNumber);
+
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                //debugger;
+                alert(textStatus);
+            }
+        });
+
+        $('#Consumption').val('0.0');
+        $('#ExtraConsumption').val('0.0');
+        $('#UnitPrize').val('0.0');
+        $('#TotalRequirement').val('0.0');
+        $("#Amount").val('0.0');
+        $("#AmountShow").val('0.0');
+        $("#Amount").val('0.0');
+        $("#AmountShow").val('0.0');
+        $("#Feb_Int_Tri_Acc_Oth").val('');
+        $("#Source").val('');
+        $("#UOM").val('');
+        $("#ModeOfPayment").val('');
+        $("#Remarks").val('');
+        $('#TotalRequirement').val($("#Quantity").val());
+
+
+        $('#ExtraConsumption').change(function () {
+
+            var consump = $('#Consumption').val();
+            var parseConsumpQty = parseFloat(consump);
+            var ExtraConsump = $('#ExtraConsumption').val();
+            var parseExtraConsumpQty = parseFloat(ExtraConsump);
+            if ($.isNumeric(consump) && $.isNumeric(ExtraConsump)) {
+
+                parseConsumpQty = parseConsumpQty + (parseConsumpQty * (ExtraConsump / 100));
+            }
+
+            var uniPri = $('#UnitPrize').val();
+            var parseUniPri = parseFloat(uniPri);
+
+            var totalRequirement = $('#TotalRequirement').val();
+            var parseTotalRequirement = parseFloat(totalRequirement);
+
+
+            if ($.isNumeric(consump) && $.isNumeric(uniPri) && $.isNumeric(ExtraConsump)) {
+                var tempAmount = parseConsumpQty * parseUniPri;
+                $("#Amount").val(tempAmount.toString());
+                $("#AmountShow").val(tempAmount.toString());
+                var actualParseTotalRequirement = parseTotalRequirement * tempAmount;
+                $("#TotalAmount").val(actualParseTotalRequirement.toString());
+                $("#TotalAmountShow").val(actualParseTotalRequirement.toString());
+            }
+
+
+        });
+
+        
+
+
+        $('#Consumption').change(function () {
+
+            var consump = $('#Consumption').val();
+            var parseConsumpQty = parseFloat(consump);
+            var ExtraConsump = $('#ExtraConsumption').val();
+            var parseExtraConsumpQty = parseFloat(ExtraConsump);
+            if ($.isNumeric(consump) && $.isNumeric(ExtraConsump)) {
+
+                parseConsumpQty = parseConsumpQty + (parseConsumpQty * (ExtraConsump/100));
+            }
+            var uniPri = $('#UnitPrize').val();
+            var parseUniPri = parseFloat(uniPri);
+
+            var totalRequirement = $('#TotalRequirement').val();
+            var parseTotalRequirement = parseFloat(totalRequirement);
+
+
+            if ($.isNumeric(consump) && $.isNumeric(uniPri) && $.isNumeric(ExtraConsump)) {
+                var tempAmount = parseConsumpQty * parseUniPri;
+                $("#Amount").val(tempAmount.toString());
+                $("#AmountShow").val(tempAmount.toString());
+                var actualParseTotalRequirement = parseTotalRequirement * tempAmount;
+                $("#TotalAmount").val(actualParseTotalRequirement.toString());
+                $("#TotalAmountShow").val(actualParseTotalRequirement.toString());
+            }
+
+          
+        });
+
+
+
+        $('#UnitPrize').change(function () {
+
+            var consump = $('#Consumption').val();
+            var parseConsumpQty = parseFloat(consump);
+            var ExtraConsump = $('#ExtraConsumption').val();
+            var parseExtraConsumpQty = parseFloat(ExtraConsump);
+
+            if ($.isNumeric(consump) && $.isNumeric(ExtraConsump)) {
+                parseConsumpQty = parseConsumpQty + (parseConsumpQty * (ExtraConsump / 100));
+            }
+
+            var uniPri = $('#UnitPrize').val();
+            var parseUniPri = parseFloat(uniPri);
+
+            var totalRequirement = $('#TotalRequirement').val();
+            var parseTotalRequirement = parseFloat(totalRequirement);
+
+
+            if ($.isNumeric(consump) && $.isNumeric(uniPri) && $.isNumeric(ExtraConsump)) {
+                var tempAmount = parseConsumpQty * parseUniPri;
+                $("#Amount").val(tempAmount.toString());
+                $("#AmountShow").val(tempAmount.toString());
+                var actualParseTotalRequirement = parseTotalRequirement * tempAmount;
+                $("#TotalAmount").val(actualParseTotalRequirement.toString());
+                $("#TotalAmountShow").val(actualParseTotalRequirement.toString());
+            }
+        });
+
+
+
+
+
+        $("#Feb_Int_Tri_Acc_Oth").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("GetFeb_Int_Tri_Acc_Oth")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        Feb_Int_Tri_Acc_Oth: $('#Feb_Int_Tri_Acc_Oth').val()
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                        );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+
+        $("#Source").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("GetSource")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        Source: $('#Source').val()
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                        );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+        $("#Remarks").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("GetRemarks")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        Remarks: $('#Remarks').val()
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                        );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+
+        $("#UOM").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("GetUOM")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        UOM: $('#UOM').val()
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                        );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+
+        $("#ModeOfPayment").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("GetModeOfPayment")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        ModeOfPayment: $('#ModeOfPayment').val()
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                        );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+
+
+
+
+
+    });
+</script>
+
+
+
+<script>
+
+    function fn_btnEdit(x) {
+
+        var varRowIndex = $(x).closest('tr').index();
+
+        $.ajax({
+            url: '@Url.Action("getActionOptionEdit")',
+            type: "GET",
+            dataType: "JSON",
+            data: {
+                RowIndex: varRowIndex
+            },
+            success: function (data) {
+
+                console.log('data     =========================>>>>>>>>>>>>>>>>>>>>>   ------------------');
+                console.log(data);
+                $("#CostingSequence").val(data.CostingSequence);
+                $("#CostingSequenceShow").val(data.CostingSequence);
+                $("#Feb_Int_Tri_Acc_Oth").val(data.Feb_Int_Tri_Acc_Oth);
+                $("#Source").val(data.Source);
+                $("#Consumption").val(data.Consumption);
+                $("#ExtraConsumption").val(data.ExtraConsumption);
+                $("#UOM").val(data.UOM);
+                $("#UnitPrize").val(data.UnitPrize);
+                $("#Amount").val(data.Amount);
+                $("#AmountShow").val(data.Amount);
+                $("#TotalRequirement").val(data.TotalRequirement);
+                $("#TotalAmount").val(data.TotalAmount);
+                $("#TotalAmountShow").val(data.TotalAmount);
+                $("#CostingGroup_Id").val(data.CostingGroup_Id);
+                $("#ModeOfPayment").val(data.ModeOfPayment);
+                $("#Remarks").val(data.Remarks);
+
+
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                //debugger;
+                alert(textStatus);
+            }
+        });
+
+
+    };
+
+    function fn_btnDelete(x) {
+
+        var varRowIndex = $(x).closest('tr').index();
+
+        $.ajax({
+            url: '@Url.Action("getActionOptionDelete")',
+            type: "GET",
+            dataType: "JSON",
+            data: {
+                RowIndex: varRowIndex
+            },
+            success: function (data) {
+
+                if (data.Result == "Deleted") {
+                    $("#CostingSequenceShow").val(data.LastSequenceNum);
+                    $("#CostingSequence").val(data.LastSequenceNum);
+                    $(x).closest('tr').remove();
+                    $("#insertInfoTable tr").each(function () {
+                        var row_index = $(this).index();
+                        if (row_index > 0) {
+                            $(this).find("td:eq(0)").text(row_index.toString());
+                        }
+                    });
+
+                }
+
+
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                //debugger;
+                alert(textStatus);
+            }
+        });
+
+    };
+
+
+
+</script>

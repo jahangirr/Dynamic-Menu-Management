@@ -1,0 +1,470 @@
+﻿@model PagedList.IPagedList<SilGlobalFashion.Models.AutoProcessFromSPR>
+
+@using PagedList.Mvc;
+@using SilGlobalFashion.Repository;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Html.RenderPartial("MenuView");
+    ViewBag.Title = "SPR -- PO --- MRR Auto Creation";
+}
+
+
+<link href="~/Content/TableStyle.css" rel="stylesheet" />
+
+
+<h2>SPR Creation </h2>
+
+<link href="~/Content/TableStyle.css" rel="stylesheet" />
+
+<div class="alert-primary">
+
+    @using (Html.BeginForm("Index", "AutoProcessFromSPRs", FormMethod.Get))
+    {
+
+        <table>
+            <tr>
+                <td width="30%">
+                    Select Parameter : @Html.DropDownList("selectionItems", (SelectList)ViewBag.selectionItems)
+
+                    <br />
+
+                    <input type="submit" value="Search" class="btn-danger" />
+                    <input type="button" value="Reset" class="btn-success" id="bReset" />
+
+                </td>
+                <td width="70%">
+
+                    <div id="selectionDivToShow" style="border:dotted; color:black; background-color:Highlight;">
+
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+
+       
+       
+        <p>
+
+            @{
+                GlobCreatedFunction globbCreFunc = new GlobCreatedFunction();
+                DateTime? SPRDateVar = null;
+
+                try
+                {
+                    SPRDateVar = Convert.ToDateTime(globbCreFunc.GetDate(ViewBag.SPRDate));
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+
+                DateTime? PODateVar = null;
+
+                try
+                {
+                    PODateVar = Convert.ToDateTime(globbCreFunc.GetDate(ViewBag.PODate));
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                DateTime? MRRDateVar = null;
+
+                try
+                {
+                    MRRDateVar = Convert.ToDateTime(globbCreFunc.GetDate(ViewBag.MRRDate));
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                
+
+
+            }
+
+
+            <table id="SearchInfoTable" class="table" style="color:black;">
+
+                <tr>
+                    <td>
+                        Find by Item Name: @Html.TextBox("ItemName", ViewBag.ItemName as string)
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        Find by SPR OR Indent No : @Html.TextBox("SprOrIndentNo", ViewBag.SprOrIndentNo as string)
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>
+
+
+                        Find By SPR OR Indent Date:    @Html.JQueryUI().Datepicker("SPRDate", SPRDateVar)
+
+
+
+
+                    </td>
+
+                </tr>
+
+                <tr>
+                    <td>
+
+
+                        Find By PO Date:    @Html.JQueryUI().Datepicker("PODate", PODateVar)
+
+
+
+
+                    </td>
+
+                </tr>
+
+
+                <tr>
+                    <td>
+                        Find by Supplier Name: @Html.TextBox("SupplierName", ViewBag.SupplierName as string)
+
+                    </td>
+
+
+                </tr>
+
+               
+                <tr>
+
+                    <td>
+                        Find By MRR Date:    @Html.JQueryUI().Datepicker("MRRDate", MRRDateVar)
+                        
+
+                        
+
+                    </td>
+                </tr>
+               
+
+
+
+            </table>
+
+
+
+        </p>
+                }
+
+</div>
+
+
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+
+
+        $('#bReset').click(function () {
+
+           
+            $('#ItemName').val('');
+            $('#SprOrIndentNo').val('');
+            $('#SPRDate').val('');
+            $('#PODate').val('');
+            $('#SupplierName').val('');
+            $('#MRRDate').val('');
+
+            sessionStorage.setItem("AutoProcessFromSPR_ItemName", '');
+            sessionStorage.setItem("AutoProcessFromSPR_SprOrIndentNo", '');
+            
+            sessionStorage.setItem("AutoProcessFromSPR_SprOrIndentDate", '');
+
+            sessionStorage.setItem("AutoProcessFromSPR_PODate", '');
+            sessionStorage.setItem("AutoProcessFromSPR_SupplierName", '');
+            sessionStorage.setItem("AutoProcessFromSPR_MRRDate", '');
+
+
+        });
+
+
+
+        var AutoProcessFromSPR_ItemName_value = sessionStorage.getItem("AutoProcessFromSPR_ItemName");
+        if (AutoProcessFromSPR_ItemName_value == null) {
+            sessionStorage.setItem("AutoProcessFromSPR_ItemName", '');
+        } else {
+            sessionStorage.setItem("AutoProcessFromSPR_ItemName", AutoProcessFromSPR_ItemName_value);
+        }
+
+
+
+
+        var AutoProcessFromSPR_SprOrIndentNo_value = sessionStorage.getItem("AutoProcessFromSPR_SprOrIndentNo");
+        if (AutoProcessFromSPR_SprOrIndentNo_value == null) {
+            sessionStorage.setItem("AutoProcessFromSPR_SprOrIndentNo", '');
+        } else {
+            sessionStorage.setItem("AutoProcessFromSPR_SprOrIndentNo", AutoProcessFromSPR_SprOrIndentNo_value);
+        }
+
+
+        var AutoProcessFromSPR_SPRDate_value = sessionStorage.getItem("AutoProcessFromSPR_SPRDate");
+        if (AutoProcessFromSPR_SPRDate_value == null) {
+            sessionStorage.setItem("AutoProcessFromSPR_SPRDate", '');
+        } else {
+            sessionStorage.setItem("AutoProcessFromSPR_SPRDate", AutoProcessFromSPR_SPRDate_value);
+        }
+
+
+
+        var AutoProcessFromSPR_PODate_value = sessionStorage.getItem("AutoProcessFromSPR_PODate");
+        if (AutoProcessFromSPR_PODate_value == null) {
+            sessionStorage.setItem("AutoProcessFromSPR_PODate", '');
+        } else {
+            sessionStorage.setItem("AutoProcessFromSPR_PODate", AutoProcessFromSPR_PODate_value);
+        }
+
+
+
+        var AutoProcessFromSPR_SupplierName_value = sessionStorage.getItem("AutoProcessFromSPR_SupplierName");
+        if (AutoProcessFromSPR_SupplierName_value == null) {
+            sessionStorage.setItem("AutoProcessFromSPR_SupplierName", '');
+        } else {
+            sessionStorage.setItem("AutoProcessFromSPR_SupplierName", AutoProcessFromSPR_SupplierName_value);
+        }
+
+
+        var AutoProcessFromSPR_MRRDate_value = sessionStorage.getItem("AutoProcessFromSPR_MRRDate");
+        if (AutoProcessFromSPR_MRRDate_value == null) {
+            sessionStorage.setItem("AutoProcessFromSPR_MRRDate", '');
+        } else {
+            sessionStorage.setItem("AutoProcessFromSPR_MRRDate", AutoProcessFromSPR_MRRDate_value);
+        }
+
+        
+
+
+        $('#ItemName').change(function () {
+
+            sessionStorage.setItem("AutoProcessFromSPR_ItemName", $('#ItemName').val());
+        });
+
+        $('#SprOrIndentNo').change(function () {
+
+            sessionStorage.setItem("AutoProcessFromSPR_SprOrIndentNo", $('#SprOrIndentNo').val());
+        });
+
+       
+
+        $('#SPRDate').change(function () {
+
+            sessionStorage.setItem("AutoProcessFromSPR_SPRDate", $('#SPRDate').val());
+        });
+
+
+
+
+
+        $('#PODate').change(function () {
+
+            sessionStorage.setItem("AutoProcessFromSPR_PODate", $('#PODate').val());
+
+        });
+
+        $('#SupplierName').change(function () {
+
+            sessionStorage.setItem("AutoProcessFromSPR_SupplierName", $('#SupplierName').val());
+
+        });
+
+        $('#MRRDate').change(function () {
+
+            sessionStorage.setItem("AutoProcessFromSPR_MRRDate", $('#MRRDate').val());
+
+        });
+
+
+      
+
+
+        $("#SearchInfoTable tr").each(function () {
+                $(this).hide();
+        });
+
+        $("#selectionItems").change(function () {
+
+            $("#SearchInfoTable tr").each(function () {
+                var row_index = $(this).index();
+                var ddlValue = $("#selectionItems").val();
+                if (ddlValue.toString() == row_index.toString())
+                {
+                    $(this).show();
+                }
+                else
+                {
+                    $(this).hide();
+                }
+
+            });
+
+
+           
+            var ItemName = sessionStorage.getItem("AutoProcessFromSPR_ItemName");
+            var SprOrIndentNo = sessionStorage.getItem("AutoProcessFromSPR_SprOrIndentNo");
+            var SPRDate = sessionStorage.getItem("AutoProcessFromSPR_SPRDate");
+            var PODate = sessionStorage.getItem("AutoProcessFromSPR_PODate");
+
+
+            var SupplierName = sessionStorage.getItem("AutoProcessFromSPR_SupplierName");
+            var MRRDate  = sessionStorage.getItem("AutoProcessFromSPR_MRRDate");
+
+           
+
+
+
+
+            var ListOfSelectedValue = '  Item Name : ' + ItemName + '  Spr Or Indent No : ' + SprOrIndentNo + '||  Spr Or Indent Date : ' + SPRDate + '||  PO Date : ' + PODate + '||  Supplier Name : ' + SupplierName + '||  MRR Date : ' + MRRDate;
+
+             $('#selectionDivToShow').html(ListOfSelectedValue.toString());
+
+
+        });
+
+
+
+        $("input[name^='Date']").each(function (i, e) {
+
+            var tempDate = $(e).val().toString();
+            if( tempDate.lenght > 9)
+            {
+                var DateToShow = tempDate.substring(1, 10);
+                $(e).val(DateToShow);
+
+            }
+        });
+
+
+
+
+    });
+</script>
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table-bordered" style="background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+    <tr>
+        <th>
+            <h5>Item Name</h5>
+        </th>
+        <th>
+            <h5>Spr Qty</h5>
+        </th>
+        <th>
+            <h5>Spr Create</h5>
+        </th>
+        <th>
+            <h5>Spr_Or_Indent_No</h5>
+        </th>
+        <th>
+            <h5>SPR_Date___</h5>
+        </th>
+        <th>
+            <h5>Spr Approved</h5>
+        </th>
+        <th>
+            <h5>PO Create</h5>
+        </th>
+        <th>
+            <h5>PO_Date___</h5>
+        </th>
+        <th>
+            <h5>Supplier Name</h5>
+        </th>
+        <th>
+            <h5>PO Approved</h5>
+        </th>
+        <th>
+            <h5>MRR Create</h5>
+        </th>
+        <th>
+            <h5>MRR_Date___</h5>
+        </th>
+        <th>
+            <h5>MRR Approved</h5>
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ItemName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SprQty)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SprCreate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SprOrIndentNo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SPRDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SprApproved)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.POCreate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PODate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SupplierName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.POApproved)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MRRCreate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MRRDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MRRApproved)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+    }
+
+</table>
+
+<br/>
+
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index", new
+{
+    page,
+    ItemName = ViewBag.ItemName,
+    SprOrIndentNo = ViewBag.SprOrIndentNo,
+    SPRDate = ViewBag.SPRDate,
+    PODate = ViewBag.PODate,
+    SupplierName = ViewBag.SupplierName,
+    MRRDate = ViewBag.MRRDate
+
+}))

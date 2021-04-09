@@ -1,0 +1,1321 @@
+﻿@model PagedList.IPagedList<SilGlobalFashion.Models.OpenCosting>
+@using PagedList.Mvc;
+@using SilGlobalFashion.Repository;
+
+
+
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Html.RenderPartial("MenuView");
+    ViewBag.Title = "Open Costing";
+}
+
+<link href="~/Content/TableStyle.css" rel="stylesheet" />
+
+
+
+
+<table class="table alert-warning" width="100%">
+
+    <tr>
+        <td width="25%">
+            <div>
+
+                <a onclick='GetPDF();'>
+                    PDF
+                </a>
+
+                @{
+
+                    HtmlString hostAddress = new HtmlString(Session["HostAddress"].ToString());
+
+                }
+
+
+                <script type='text/javascript'>
+
+                    function GetPDF() {
+
+                        var url = "@hostAddress/OpenCostings/OpenCostingReport?ReportType=PDF&SysStyleCode=" + $('#SysStyleCodeReport').val();
+                        window.open(url, '_blank');
+
+                    }
+
+                </script>
+
+
+            </div>
+
+        </td>
+        <td width="25%">
+
+            <div>
+
+                <a onclick='GetExcel();'>
+                    Excel
+                </a>
+
+
+                <script type='text/javascript'>
+
+                    function GetExcel() {
+                        var url = "@hostAddress/OpenCostings/OpenCostingReport?ReportType=EXCEL&SysStyleCode=" + $('#SysStyleCodeReport').val();
+
+                        window.open(url, '_blank');
+
+                    }
+
+                </script>
+
+
+
+            </div>
+        </td>
+        <td width="25%">
+
+            <div>
+
+
+                <a onclick='GetExcelRecord();'>
+                    Excel Record
+                </a>
+
+
+                <script type='text/javascript'>
+
+                    function GetExcelRecord() {
+
+                        var url = "@hostAddress/OpenCostings/OpenCostingReport?ReportType=EXCELRECORD&SysStyleCode=" + $('#SysStyleCodeReport').val();
+
+                        window.open(url, '_blank');
+
+                    }
+
+                </script>
+
+
+            </div>
+        </td>
+        <td width="25%">
+
+            <div>
+
+
+                <a onclick='GetWord();'>
+                    Word
+                </a>
+
+
+                <script type='text/javascript'>
+
+                    function GetWord() {
+
+                        var url = "@hostAddress/OpenCostings/OpenCostingReport?ReportType=WORD&SysStyleCode=" + $('#SysStyleCodeReport').val();
+                        window.open(url, '_blank');
+
+                    }
+
+                </script>
+
+
+            </div>
+        </td>
+
+    </tr>
+    <tr>
+        <td width="25%"></td>
+        <td width="25%">
+
+            <div class="alert-success">
+
+                System Style Code:
+
+            </div>
+
+            <div class="alert-danger">
+
+                @Html.TextBox("SysStyleCodeReport")
+
+
+
+
+
+            </div>
+
+        </td>
+
+        <td width="25%"></td>
+        <td width="25%"></td>
+    </tr>
+</table>
+
+
+
+
+<h2> Open Costing Sheet   </h2>
+
+<div class="alert-primary" style="color:black;">
+
+
+    @using (Html.BeginForm("Index", "OpenCostings", FormMethod.Get))
+    {
+
+        <table>
+            <tr>
+                <td width="30%">
+                    Select Parameter : @Html.DropDownList("selectionItems", (SelectList)ViewBag.selectionItems)
+
+                    <br />
+
+                    <input type="submit" value="Search" class="btn-danger" />
+                    <input type="button" value="Reset" class="btn-success" id="bReset" />
+
+                </td>
+                <td width="70%">
+
+                    <div id="selectionDivToShow" style="border:dotted; color:black; background-color:Highlight;">
+
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+
+
+
+        <p>
+            <table id="SearchInfoTable" class="table" style="color:black;">
+                <tr>
+
+                    <td>
+                        Find by System Style Code: @Html.TextBox("SysStyleCode", ViewBag.SysStyleCode as string)
+
+                    </td>
+
+
+                </tr>
+                <tr>
+                    <td>
+                        Find by Buyer Style Code: @Html.TextBox("BuyStyleCode", ViewBag.BuyStyleCode as string)
+                    </td>
+
+                </tr>
+                <tr>
+
+                    <td>
+                        @{
+
+                            GlobCreatedFunction globbCreFunc = new GlobCreatedFunction();
+
+                            DateTime? VeiwBagDeliveryDate = null;
+
+                            try
+                            {
+                                VeiwBagDeliveryDate = globbCreFunc.GetDate(ViewBag.DeliveryDate);
+
+
+                            }
+                            catch (Exception ex)
+                            {
+
+                            }
+
+
+
+
+                        }
+                        Find by Delivery Date : @Html.JQueryUI().Datepicker("DeliveryDate", VeiwBagDeliveryDate)
+                    </td>
+
+                </tr>
+
+
+
+                <tr>
+                    <td>
+                        Find by Style Description : @Html.TextBox("StyleDescription", ViewBag.StyleDescription as string)
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>
+                        Find by Febrication : @Html.TextBox("Febrication", ViewBag.Febrication as string)
+
+                    </td>
+
+                </tr>
+                <tr>
+
+                    <td>
+                        Find by Color : @Html.TextBox("Color", ViewBag.Color as string)
+
+                    </td>
+
+
+                </tr>
+
+
+
+                <tr>
+                    <td>
+                        Find by Size : @Html.TextBox("Size", ViewBag.Size as string)
+
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>
+                        Find by Buyer Name : @Html.TextBox("BuyerName", ViewBag.BuyerName as string)
+
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Find by Construction : @Html.TextBox("Construction", ViewBag.Construction as string)
+                    </td>
+
+                </tr>
+
+
+                <tr>
+                    <td>
+                        Find by Buyer PO : @Html.TextBox("BuyerPO", ViewBag.BuyerPO as string)
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>
+                        Find by Weight Or GSM : @Html.TextBox("WeightOrGSM", ViewBag.WeightOrGSM as string)
+
+                    </td>
+
+                </tr>
+
+                <tr>
+                    <td>
+                        Find by Wash : @Html.TextBox("Wash", ViewBag.Wash as string)
+
+                    </td>
+
+                </tr>
+
+                <tr>
+                    <td>
+                        Find by Mode of Order : @Html.TextBox("ModeOfOrder", ViewBag.ModeOfOrder as string)
+
+                    </td>
+
+                </tr>
+
+                <tr>
+                    <td>
+                        Find by Currency : @Html.TextBox("Currency", ViewBag.Currency as string)
+
+                    </td>
+
+                </tr>
+
+
+
+
+                <tr>
+                    <td>
+                        <input type="submit" value="Search" /> <button type="button"> @Html.ActionLink("Refresh", "Index")  </button>
+                    </td>
+
+                </tr>
+
+            </table>
+
+        </p>
+                            }
+
+</div>
+
+
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $('#bReset').click(function () {
+            $('# BuyerPO').val('');
+            $('#BuyStyleCode').val('');
+            $('#SysStyleCode').val('');
+            $('#DeliveryDate').val('');
+            $('#StyleDescription').val('');
+            $('#Febrication').val('');
+            $('#Color').val('');
+            $('#Size').val('');
+            $('#BuyerName').val('');
+            $('#Construction').val('');
+            $('#WeightOrGSM').val('');
+            $('#Wash').val('');
+            $('#ModeOfOrder').val('');
+            $('#Currency').val('');
+
+
+            sessionStorage.setItem("OpenCosting_SysStyleCode", '');
+            sessionStorage.setItem("OpenCosting_BuyStyleCode", '');
+            sessionStorage.setItem("OpenCosting_ BuyerPO", '');
+            sessionStorage.setItem("OpenCosting_DeliveryDate", '');
+            sessionStorage.setItem("OpenCosting_StyleDescription", '');
+            sessionStorage.setItem("OpenCosting_Febrication", '');
+            sessionStorage.setItem("OpenCosting_Color", '');
+            sessionStorage.setItem("OpenCosting_Size", '');
+            sessionStorage.setItem("OpenCosting_BuyerName", '');
+            sessionStorage.setItem("OpenCosting_Construction", '');
+            sessionStorage.setItem("OpenCosting_WeightOrGSM", '');
+            sessionStorage.setItem("OpenCosting_Wash", '');
+            sessionStorage.setItem("OpenCosting_ModeOfOrder", '');
+            sessionStorage.setItem("OpenCosting_Currency", '');
+
+
+
+
+
+
+
+        });
+
+
+
+
+        var OpenCosting_BuyerPO_value = sessionStorage.getItem("OpenCosting_BuyerPO");
+        if (OpenCosting_BuyerPO_value == null) {
+            sessionStorage.setItem("OpenCosting_BuyerPO", '');
+        } else {
+            sessionStorage.setItem("OpenCosting_BuyerPO", OpenCosting_BuyerPO_value);
+        }
+
+
+        var OpenCosting_BuyStyleCode_value = sessionStorage.getItem("OpenCosting_BuyStyleCode");
+        if (OpenCosting_BuyStyleCode_value == null) {
+            sessionStorage.setItem("OpenCosting_BuyStyleCode", '');
+        } else {
+            sessionStorage.setItem("OpenCosting_BuyStyleCode", OpenCosting_BuyStyleCode_value);
+        }
+
+
+
+
+        var OpenCosting_SysStyleCode_value = sessionStorage.getItem("OpenCosting_SysStyleCode");
+        if (OpenCosting_SysStyleCode_value == null) {
+            sessionStorage.setItem("OpenCosting_SysStyleCode", '');
+        } else {
+            sessionStorage.setItem("OpenCosting_SysStyleCode", OpenCosting_SysStyleCode_value);
+        }
+
+
+
+
+        var OpenCosting_DeliveryDate_value = sessionStorage.getItem("OpenCosting_DeliveryDate");
+        if (OpenCosting_DeliveryDate_value == null) {
+            sessionStorage.setItem("OpenCosting_DeliveryDate", '');
+        } else {
+            sessionStorage.setItem("OpenCosting_DeliveryDate", OpenCosting_DeliveryDate_value);
+        }
+
+
+
+
+
+        var OpenCosting_StyleDescription_value = sessionStorage.getItem("OpenCosting_StyleDescription");
+        if (OpenCosting_StyleDescription_value == null) {
+            sessionStorage.setItem("OpenCosting_StyleDescription", '');
+        } else {
+            sessionStorage.setItem("OpenCosting_StyleDescription", OpenCosting_StyleDescription_value);
+        }
+
+        var OpenCosting_Febrication_value = sessionStorage.getItem("OpenCosting_Febrication");
+        if (OpenCosting_Febrication_value == null) {
+            sessionStorage.setItem("OpenCosting_Febrication", '');
+        } else {
+            sessionStorage.setItem("OpenCosting_Febrication", OpenCosting_Febrication_value);
+        }
+
+
+        var OpenCosting_Color_value = sessionStorage.getItem("OpenCosting_Color");
+        if (OpenCosting_Color_value == null) {
+            sessionStorage.setItem("OpenCosting_Color", '');
+        } else {
+            sessionStorage.setItem("OpenCosting_Color", OpenCosting_Color_value);
+        }
+
+
+        var OpenCosting_Size_value = sessionStorage.getItem("OpenCosting_Size");
+        if (OpenCosting_Size_value == null) {
+            sessionStorage.setItem("OpenCosting_Size", '');
+        } else {
+            sessionStorage.setItem("OpenCosting_Size", OpenCosting_Size_value);
+        }
+
+
+        var OpenCosting_BuyerName_value = sessionStorage.getItem("OpenCosting_BuyerName");
+        if (OpenCosting_BuyerName_value == null) {
+            sessionStorage.setItem("OpenCosting_BuyerName", '');
+        } else {
+            sessionStorage.setItem("OpenCosting_BuyerName", OpenCosting_BuyerName_value);
+        }
+
+
+        var OpenCosting_Construction_value = sessionStorage.getItem("OpenCosting_Construction");
+        if (OpenCosting_Construction_value == null) {
+            sessionStorage.setItem("OpenCosting_Construction", '');
+        } else {
+            sessionStorage.setItem("OpenCosting_Construction", OpenCosting_Construction_value);
+        }
+
+        var OpenCosting_WeightOrGSM_value = sessionStorage.getItem("OpenCosting_WeightOrGSM");
+        if (OpenCosting_WeightOrGSM_value == null) {
+            sessionStorage.setItem("OpenCosting_WeightOrGSM", '');
+        } else {
+            sessionStorage.setItem("OpenCosting_WeightOrGSM", OpenCosting_WeightOrGSM_value);
+        }
+
+
+        var OpenCosting_Wash_value = sessionStorage.getItem("OpenCosting_Wash");
+        if (OpenCosting_Wash_value == null) {
+            sessionStorage.setItem("OpenCosting_Wash", '');
+        } else {
+            sessionStorage.setItem("OpenCosting_Wash", OpenCosting_Wash_value);
+        }
+
+
+        var OpenCosting_ModeOfOrder_value = sessionStorage.getItem("OpenCosting_ModeOfOrder");
+        if (OpenCosting_ModeOfOrder_value == null) {
+            sessionStorage.setItem("OpenCosting_ModeOfOrder", '');
+        } else {
+            sessionStorage.setItem("OpenCosting_ModeOfOrder", OpenCosting_ModeOfOrder_value);
+        }
+
+
+        var OpenCosting_Currency_value = sessionStorage.getItem("OpenCosting_Currency");
+        if (OpenCosting_Currency_value == null) {
+            sessionStorage.setItem("OpenCosting_Currency", '');
+        } else {
+            sessionStorage.setItem("OpenCosting_Currency", OpenCosting_Currency_value);
+        }
+
+
+
+
+        $('#BuyerPO').change(function () {
+
+            sessionStorage.setItem("OpenCosting_BuyerPO", $('#BuyerPO').val());
+        });
+
+        $('#BuyStyleCode').change(function () {
+
+            sessionStorage.setItem("OpenCosting_BuyStyleCode", $('#BuyStyleCode').val());
+        });
+
+        $('#SysStyleCode').change(function () {
+
+            sessionStorage.setItem("OpenCosting_SysStyleCode", $('#SysStyleCode').val());
+        });
+
+        $('#DeliveryDate').change(function () {
+
+            sessionStorage.setItem("OpenCosting_DeliveryDate", $('#DeliveryDate').val());
+        });
+        $('#StyleDescription').change(function () {
+
+            sessionStorage.setItem("OpenCosting_StyleDescription", $('#StyleDescription').val());
+
+        });
+
+        $('#Febrication').change(function () {
+
+            sessionStorage.setItem("OpenCosting_Febrication", $('#Febrication').val());
+
+        });
+
+        $('#Color').change(function () {
+
+            sessionStorage.setItem("OpenCosting_Color", $('#Color').val());
+
+        });
+
+        $('#Size').change(function () {
+
+            sessionStorage.setItem("OpenCosting_Size", $('#Size').val());
+
+        });
+
+        $('#BuyerName').change(function () {
+
+            sessionStorage.setItem("OpenCosting_BuyerName", $('#BuyerName').val());
+
+        });
+
+        $('#Construction').change(function () {
+
+            sessionStorage.setItem("OpenCosting_Construction", $('#Construction').val());
+
+        });
+
+        $('#WeightOrGSM').change(function () {
+
+            sessionStorage.setItem("OpenCosting_WeightOrGSM", $('#WeightOrGSM').val());
+
+        });
+
+
+        $('#Wash').change(function () {
+
+            sessionStorage.setItem("OpenCosting_Wash", $('#Wash').val());
+
+        });
+
+
+        $('#ModeOfOrder').change(function () {
+
+            sessionStorage.setItem("OpenCosting_ModeOfOrder", $('#ModeOfOrder').val());
+
+        });
+
+
+        $('#Currency').change(function () {
+
+            sessionStorage.setItem("OpenCosting_Currency", $('#Currency').val());
+
+        });
+
+
+
+
+        $("#SearchInfoTable tr").each(function () {
+            $(this).hide();
+        });
+
+        $("#selectionItems").change(function () {
+
+            $("#SearchInfoTable tr").each(function () {
+                var row_index = $(this).index();
+                var ddlValue = $("#selectionItems").val();
+                if (ddlValue.toString() == row_index.toString()) {
+                    $(this).show();
+                }
+                else {
+                    $(this).hide();
+                }
+
+            });
+
+
+            var BuyerPO = sessionStorage.getItem("OpenCosting_ BuyerPO");
+            var BuyStyleCode = sessionStorage.getItem("OpenCosting_BuyStyleCode");
+            var SysStyleCode = sessionStorage.getItem("OpenCosting_SysStyleCode");
+            var DeliveryDate = sessionStorage.getItem("OpenCosting_DeliveryDate");
+            var StyleDescription = sessionStorage.getItem("OpenCosting_StyleDescription");
+            var Febrication = sessionStorage.getItem("OpenCosting_Febrication");
+            var Color = sessionStorage.getItem("OpenCosting_Color");
+            var Size = sessionStorage.getItem("OpenCosting_Size");
+            var BuyerName = sessionStorage.getItem("OpenCosting_BuyerName");
+            var Construction = sessionStorage.getItem("OpenCosting_Construction");
+            var WeightOrGSM = sessionStorage.getItem("OpenCosting_WeightOrGSM");
+            var Wash = sessionStorage.getItem("OpenCosting_Wash");
+
+            var ModeOfOrder = sessionStorage.getItem("OpenCosting_ModeOfOrder");
+            var Currency = sessionStorage.getItem("OpenCosting_Currency");
+
+            var ListOfSelectedValue = 'Buyer PO : ' + BuyerPO + '||  Buyer Style Code : ' + BuyStyleCode + '||  System Style Code : ' + SysStyleCode + '||  Delevery Date : ' + DeliveryDate + '||  Style Description : ' + StyleDescription + '||  Febrication : ' + Febrication
+            + '||Color : ' + Color + '||  Size : ' + Size + '|| Buyer Name : ' + BuyerName + '||  Construction : ' + Construction + '||  Weight/GSM : ' + WeightOrGSM + '||  Wash : ' + Wash + '||Mode Of Order :' + ModeOfOrder + '||Currency:' + Currency;
+
+            $('#selectionDivToShow').html(ListOfSelectedValue.toString());
+
+
+        });
+
+
+    });
+</script>
+
+
+
+
+
+
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Buyer Name
+        </th>
+        <th>
+            Buyer PO
+        </th>
+        <th>
+            System Style Code
+        </th>
+        <th>
+            Buyer Style Code
+        </th>
+        <th>
+            Style Description
+        </th>
+        <th>
+            Febrication
+        </th>
+        <th>
+            Color
+        </th>
+        <th>
+            Size
+        </th>
+        <th>
+            Construction
+        </th>
+        <th>
+            WeightOrGSM
+        </th>
+        <th>
+            Wash
+        </th>
+        <th>
+            ModeOfOrder
+        </th>
+        <th>
+            Delivery Date
+        </th>
+        <th>
+            Quantity
+        </th>
+        <th>
+            Currency
+        </th>
+
+        <th>
+
+            Image
+        </th>
+
+        <th>
+            Calculated SMV
+        </th>
+        <th>
+            Costing SMV
+        </th>
+        <th>
+            Production/Hr
+        </th>
+        <th>
+            Unit/Hr
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.BuyerName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BuyerPO)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SysStyleCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BuyStyleCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StyleDescription)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Febrication)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Color)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Size)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Construction)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.WeightOrGSM)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Wash)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ModeOfOrder)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DeliveryDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Quantity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Currency)
+            </td>
+
+            <td>
+                <img src="@Url.Action("GetThumbnailImage", "OpenCostings", new {Id =  item.Id })" alt="Document Image" />
+
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.CalculatedSMV)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CostingSMV)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductionPerHr)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UnitPerHr)
+            </td>
+            <td>      
+                @Html.ActionLink(".", "Edit", "OpenCostings", new { id = item.Id }, new { @class = "glyphicon glyphicon-edit" }) 
+                
+                @Html.ActionLink(".", "Details", "OpenCostings", new { id = item.Id }, new { @class = "button glyphicon-envelope" })
+                
+                @Html.ActionLink(".", "Delete", "OpenCostings", new { id = item.Id }, new { @class = "glyphicon glyphicon-remove" })
+                
+                @Html.ActionLink(".", "DetailEntry", "OpenCostings", new { id = item.Id }, new { @class = "glyphicon glyphicon glyphicon-pencil" })
+                 
+               
+            </td>
+        </tr>
+    }
+
+</table>
+
+
+ Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index", new
+{
+    page,
+    SysStyleCode = ViewBag.SysStyleCode,
+    BuyStyleCode = ViewBag.BuyStyleCode,
+    DeliveryDate = ViewBag.DeliveryDate,
+    StyleDescription = ViewBag.StyleDescription,
+    Febrication = ViewBag.Febrication,
+    Color = ViewBag.Color,
+    Size = ViewBag.Size,
+    BuyerName = ViewBag.BuyerName,
+    Construction = ViewBag.Construction,
+    BuyerPO = ViewBag.BuyerPO,
+    WeightOrGSM = ViewBag.WeightOrGSM,
+    Wash = ViewBag.Wash,
+    ModeOfOrder = ViewBag.ModeOfOrder,
+    Currency = ViewBag.Currency
+
+}))
+
+
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+
+        $("#BuyerName").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("GetBuyerName")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        BuyerName: $('#BuyerName').val()
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                        );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+
+        $("#BuyerPO").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("GetBuyerPO")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        BuyerPO: $('#BuyerPO').val()
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                        );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+
+
+
+
+        $("#SysStyleCodeReport").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("GetSysStyleCode")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        SysStyleCode: $('#SysStyleCodeReport').val()
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                        );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+        $("#SysStyleCode").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("GetSysStyleCode")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        SysStyleCode: $('#SysStyleCode').val()
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                        );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+
+
+        $("#BuyStyleCode").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("GetBuyStyleCode")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        BuyStyleCode: $('#BuyStyleCode').val()
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                        );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+
+        $("#StyleDescription").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("GetStyleDescription")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        StyleDescription: $('#StyleDescription').val()
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                        );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+        $("#Febrication").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("GetFebrication")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        Febrication: $('#Febrication').val()
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                        );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+
+        $("#Color").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("GetColor")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        Color: $('#Color').val()
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                        );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+
+        $("#Size").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("GetSize")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        Size: $('#Size').val()
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                        );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+        $("#Construction").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("GetConstruction")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        Construction: $('#Construction').val()
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                        );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+
+        $("#WeightOrGSM").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("GetWeightOrGSM")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        WeightOrGSM: $('#WeightOrGSM').val()
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                        );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+        $("#Wash").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("GetWash")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        Wash: $('#Wash').val()
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                        );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+
+        $("#ModeOfOrder").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("GetModeOfOrder")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        ModeOfOrder: $('#ModeOfOrder').val()
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                        );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+        $("#Currency").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("GetCurrency")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        Currency: $('#Currency').val()
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                        );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+        $("#UnitPerHr").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("GetUnitPerHr")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        UnitPerHr: $('#UnitPerHr').val()
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                        );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+
+    });
+</script>
+

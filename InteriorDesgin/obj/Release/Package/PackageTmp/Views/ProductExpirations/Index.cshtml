@@ -1,0 +1,1046 @@
+﻿@model PagedList.IPagedList<SilGlobalFashion.Models.ProductExpiration>
+@using PagedList.Mvc;
+@using SilGlobalFashion.Repository;
+
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Html.RenderPartial("MenuView");
+    ViewBag.Title = "Open Costing";
+}
+
+<link href="~/Content/TableStyle.css" rel="stylesheet" />
+<link href="~/Content/BlinkCss.css" rel="stylesheet" />
+
+<h4> Product Expiration </h4>
+
+
+<div class="alert-primary" style="color:black;">
+
+
+    @using (Html.BeginForm("Index", "ProductExpirations", FormMethod.Get))
+    {
+
+        <table>
+            <tr>
+                <td width="30%">
+                    Select Parameter : @Html.DropDownList("selectionItems", (SelectList)ViewBag.selectionItems)
+
+                    <br />
+
+                    <input type="submit" value="Search" class="btn-danger" />
+                    <input type="button" value="Reset" class="btn-success" id="bReset" />
+
+                </td>
+                <td width="70%">
+
+                    <div id="selectionDivToShow" style="border:dotted; color:black; background-color:Highlight;">
+
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+
+        <p>
+            <table id="SearchInfoTable" class="table" style="color:black;">
+                <tr>
+
+                    <td>
+                        Find by Product Expiry Code: @Html.TextBox("ProdLongTerm", ViewBag.ProdLongTerm as string)
+
+                    </td>
+
+
+                </tr>
+                <tr>
+                    <td>
+                        Find by Item Name: @Html.TextBox("ItemName", ViewBag.ItemName as string)
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <td>
+                        Find by Supplier Name: @Html.TextBox("SupplierName", ViewBag.SupplierName as string)
+
+                    </td>
+
+
+                </tr>
+                <tr>
+                    <td>
+                        Find by MOM Spr Or Indent No: @Html.TextBox("MOMSprOrIndentNo", ViewBag.MOMSprOrIndentNo as string)
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>
+                        Find by SPR No Or Indent No: @Html.TextBox("SPRNoOrIndentNo", ViewBag.SPRNoOrIndentNo as string)
+                    </td>
+
+                </tr>
+                <tr>
+
+                    <td>
+                        @{
+
+                            GlobCreatedFunction globbCreFunc = new GlobCreatedFunction();
+
+                            DateTime? VeiwBagSPRDateOrIndentDate = null;
+
+                            try
+                            {
+                                VeiwBagSPRDateOrIndentDate = globbCreFunc.GetDate(ViewBag.SPRDateOrIndentDate);
+
+
+                            }
+                            catch (Exception ex)
+                            {
+
+                            }
+
+
+
+
+                        }
+                        Find by SPR  Date : @Html.JQueryUI().Datepicker("SPRDateOrIndentDate", VeiwBagSPRDateOrIndentDate)
+                    </td>
+
+                </tr>
+
+
+
+                <tr>
+                    <td>
+                        Find by MRR No : @Html.TextBox("MRRNo", ViewBag.MRRNo as string)
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <td>
+                        Find by LotNo : @Html.TextBox("LotNo", ViewBag.LotNo as string)
+
+                    </td>
+
+
+                </tr>
+
+
+                <tr>
+                    <td>
+                        Find by Has Guarantee : @Html.CheckBox("HasGuarantee", new { @checked = Convert.ToBoolean(ViewBag.HasGuarantee as string) })
+
+                    </td>
+
+                </tr>
+
+
+                <tr>
+                    <td>
+
+                        Find by Has Life Time Guarantee : @Html.CheckBox("HasLifeTimeGuarantee", new { @checked = Convert.ToBoolean(ViewBag.HasLifeTimeGuarantee as string) })
+
+
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <td>
+                        Find by Guarantee Description : @Html.TextBox("HasGuaranteeDescription", ViewBag.HasGuaranteeDescription as string)
+
+                    </td>
+
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        @{
+
+
+                            DateTime? VeiwBagGuaranteeStartDate = null;
+
+                            try
+                            {
+                                VeiwBagGuaranteeStartDate = globbCreFunc.GetDate(ViewBag.GuaranteeStartDate);
+
+
+                            }
+                            catch (Exception ex)
+                            {
+
+                            }
+
+
+
+
+                        }
+                        Find by Guarantee Start Date : @Html.JQueryUI().Datepicker("GuaranteeStartDate", VeiwBagGuaranteeStartDate)
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+
+
+                        @{
+
+
+                            DateTime? VeiwBagGuaranteeEndDate = null;
+
+                            try
+                            {
+                                VeiwBagGuaranteeEndDate = globbCreFunc.GetDate(ViewBag.GuaranteeEndDate);
+
+
+                            }
+                            catch (Exception ex)
+                            {
+
+                            }
+
+                        }
+                        Find by Guarantee End Date : @Html.JQueryUI().Datepicker("GuaranteeEndDate", VeiwBagGuaranteeEndDate)
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        Find by Guarantee In days : @Html.TextBox("GuaranteeIndays", ViewBag.GuaranteeIndays as string)
+
+                    </td>
+
+
+                </tr>
+
+
+
+
+
+
+                <tr>
+                    <td>
+                        Find by Has Warranty : @Html.CheckBox("HasWarranty", new { @checked = Convert.ToBoolean(ViewBag.HasWarranty as string) })
+
+                    </td>
+
+                </tr>
+
+
+                <tr>
+                    <td>
+
+                        Find by Has Life Time Warranty : @Html.CheckBox("HasLifeTimeWarranty", new { @checked = Convert.ToBoolean(ViewBag.HasLifeTimeWarranty as string) })
+
+
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <td>
+                        Find by Warranty Description : @Html.TextBox("HasWarrantyDescription", ViewBag.HasGuaranteeDescription as string)
+
+                    </td>
+
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        @{
+
+
+                            DateTime? VeiwBagWarrantyStartDate = null;
+
+                            try
+                            {
+                                VeiwBagWarrantyStartDate = globbCreFunc.GetDate(ViewBag.WarrantyStartDate);
+
+
+                            }
+                            catch (Exception ex)
+                            {
+
+                            }
+
+
+
+
+                        }
+                        Find by Warranty Start Date : @Html.JQueryUI().Datepicker("WarrantyStartDate", VeiwBagWarrantyStartDate)
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        @{
+
+
+                            DateTime? VeiwBagWarrantyEndDate = null;
+
+                            try
+                            {
+                                VeiwBagWarrantyEndDate = globbCreFunc.GetDate(ViewBag.WarrantyEndDate);
+
+
+                            }
+                            catch (Exception ex)
+                            {
+
+                            }
+
+                        }
+                        Find by Warranty End Date : @Html.JQueryUI().Datepicker("WarrantyEndDate", VeiwBagWarrantyEndDate)
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        Find by Warranty In days : @Html.TextBox("WarrantyIndays", ViewBag.WarrantyIndays as string)
+
+                    </td>
+
+
+                </tr>
+
+
+
+                <tr>
+                    <td>
+                        <input type="submit" value="Search" /> <button type="button"> @Html.ActionLink("Refresh", "Index")  </button>
+                    </td>
+
+                </tr>
+
+            </table>
+
+        </p>
+                            }
+
+</div>
+
+
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $('#bReset').click(function () {
+            $('#ProdLongTerm').val('');
+            $('#ItemName').val('');
+            $('#SupplierName').val('');
+            $('#SPRDateOrIndentDate').val('');
+            $('#MOMSprOrIndentNo').val('');
+            $('#SPRNoOrIndentNo').val('');
+            $('#MRRNo').val('');
+            $('#LotNo').val('');
+            $("#HasGuarantee").attr('checked', false);
+            $("#HasLifeTimeGuarantee").attr('checked', false);
+
+            $('#HasGuaranteeDescription').val('');
+            $('#GuaranteeStartDate').val('');
+            $('#GuaranteeEndDate').val('');
+            $('#GuaranteeIndays').val('');
+            $("#HasWarranty").attr('checked', false);
+            $("#HasLifeTimeWarranty").attr('checked', false);
+            $('#HasWarrantyDescription').val('');
+            $('#WarrantyStartDate').val('');
+            $('#WarrantyEndDate').val('');
+            $('#WarrantyIndays').val('');
+
+
+            sessionStorage.setItem("ProductExpiration_ ProdLongTerm", '');
+            sessionStorage.setItem("ProductExpiration_ItemName", '');
+            sessionStorage.setItem("ProductExpiration_SupplierName", '');
+            sessionStorage.setItem("ProductExpiration_SPRDateOrIndentDate", '');
+            sessionStorage.setItem("ProductExpiration_MOMSprOrIndentNo", '');
+            sessionStorage.setItem("ProductExpiration_SPRNoOrIndentNo", '');
+            sessionStorage.setItem("ProductExpiration_MRRNo", '');
+            sessionStorage.setItem("ProductExpiration_LotNo", '');
+            sessionStorage.setItem("ProductExpiration_HasGuarantee", 'false');
+            sessionStorage.setItem("ProductExpiration_HasLifeTimeGuarantee", 'false');
+            sessionStorage.setItem("ProductExpiration_HasGuaranteeDescription", '');
+            sessionStorage.setItem("ProductExpiration_GuaranteeStartDate", '');
+            sessionStorage.setItem("ProductExpiration_GuaranteeEndDate", '');
+            sessionStorage.setItem("ProductExpiration_GuaranteeIndays", '');
+
+            sessionStorage.setItem("ProductExpiration_HasWarranty", 'false');
+            sessionStorage.setItem("ProductExpiration_HasLifeTimeWarranty", 'false');
+            sessionStorage.setItem("ProductExpiration_HasWarrantyDescription", '');
+            sessionStorage.setItem("ProductExpiration_WarrantyStartDate", '');
+            sessionStorage.setItem("ProductExpiration_WarrantyEndDate", '');
+            sessionStorage.setItem("ProductExpiration_WarrantyIndays", '');
+
+
+        });
+
+        // this is given to fire sothat Interface's Boolean field  can be synchronized with the its value.
+        $('#bReset').trigger('click');
+
+
+
+        var ProductExpiration_ProdLongTerm_value = sessionStorage.getItem("ProductExpiration_ProdLongTerm");
+        if (ProductExpiration_ProdLongTerm_value == null) {
+            sessionStorage.setItem("ProductExpiration_ProdLongTerm", '');
+        } else {
+            sessionStorage.setItem("ProductExpiration_ProdLongTerm", ProductExpiration_ProdLongTerm_value);
+        }
+
+
+        var ProductExpiration_ItemName_value = sessionStorage.getItem("ProductExpiration_ItemName");
+        if (ProductExpiration_ItemName_value == null) {
+            sessionStorage.setItem("ProductExpiration_ItemName", '');
+        } else {
+            sessionStorage.setItem("ProductExpiration_ItemName", ProductExpiration_ItemName_value);
+        }
+
+
+
+
+        var ProductExpiration_SupplierName_value = sessionStorage.getItem("ProductExpiration_SupplierName");
+        if (ProductExpiration_SupplierName_value == null) {
+            sessionStorage.setItem("ProductExpiration_SupplierName", '');
+        } else {
+            sessionStorage.setItem("ProductExpiration_SupplierName", ProductExpiration_SupplierName_value);
+        }
+
+
+
+
+        var ProductExpiration_SPRDateOrIndentDate_value = sessionStorage.getItem("ProductExpiration_SPRDateOrIndentDate");
+        if (ProductExpiration_SPRDateOrIndentDate_value == null) {
+            sessionStorage.setItem("ProductExpiration_SPRDateOrIndentDate", '');
+        } else {
+            sessionStorage.setItem("ProductExpiration_SPRDateOrIndentDate", ProductExpiration_SPRDateOrIndentDate_value);
+        }
+
+
+
+
+
+        var ProductExpiration_MOMSprOrIndentNo_value = sessionStorage.getItem("ProductExpiration_MOMSprOrIndentNo");
+        if (ProductExpiration_MOMSprOrIndentNo_value == null) {
+            sessionStorage.setItem("ProductExpiration_MOMSprOrIndentNo", '');
+        } else {
+            sessionStorage.setItem("ProductExpiration_MOMSprOrIndentNo", ProductExpiration_MOMSprOrIndentNo_value);
+        }
+
+        var ProductExpiration_SPRNoOrIndentNo_value = sessionStorage.getItem("ProductExpiration_SPRNoOrIndentNo");
+        if (ProductExpiration_SPRNoOrIndentNo_value == null) {
+            sessionStorage.setItem("ProductExpiration_SPRNoOrIndentNo", '');
+        } else {
+            sessionStorage.setItem("ProductExpiration_SPRNoOrIndentNo", ProductExpiration_SPRNoOrIndentNo_value);
+        }
+
+
+        var ProductExpiration_MRRNo_value = sessionStorage.getItem("ProductExpiration_MRRNo");
+        if (ProductExpiration_MRRNo_value == null) {
+            sessionStorage.setItem("ProductExpiration_MRRNo", '');
+        } else {
+            sessionStorage.setItem("ProductExpiration_MRRNo", ProductExpiration_MRRNo_value);
+        }
+
+
+        var ProductExpiration_LotNo_value = sessionStorage.getItem("ProductExpiration_LotNo");
+        if (ProductExpiration_LotNo_value == null) {
+            sessionStorage.setItem("ProductExpiration_LotNo", '');
+        } else {
+            sessionStorage.setItem("ProductExpiration_LotNo", ProductExpiration_LotNo_value);
+        }
+
+
+        var ProductExpiration_HasGuarantee_value = sessionStorage.getItem("ProductExpiration_HasGuarantee");
+        if (ProductExpiration_HasGuarantee_value == null) {
+            sessionStorage.setItem("ProductExpiration_HasGuarantee", 'false');
+        } else {
+            sessionStorage.setItem("ProductExpiration_HasGuarantee", ProductExpiration_HasGuarantee_value);
+        }
+
+
+        var ProductExpiration_HasLifeTimeGuarantee_value = sessionStorage.getItem("ProductExpiration_HasLifeTimeGuarantee");
+        if (ProductExpiration_HasLifeTimeGuarantee_value == null) {
+            sessionStorage.setItem("ProductExpiration_HasLifeTimeGuarantee", 'false');
+        } else {
+            sessionStorage.setItem("ProductExpiration_HasLifeTimeGuarantee", ProductExpiration_HasLifeTimeGuarantee_value);
+        }
+
+        var ProductExpiration_HasGuaranteeDescription_value = sessionStorage.getItem("ProductExpiration_HasGuaranteeDescription");
+        if (ProductExpiration_HasGuaranteeDescription_value == null) {
+            sessionStorage.setItem("ProductExpiration_HasGuaranteeDescription", '');
+        } else {
+            sessionStorage.setItem("ProductExpiration_HasGuaranteeDescription", ProductExpiration_HasGuaranteeDescription_value);
+        }
+
+
+        var ProductExpiration_GuaranteeStartDate_value = sessionStorage.getItem("ProductExpiration_GuaranteeStartDate");
+        if (ProductExpiration_GuaranteeStartDate_value == null) {
+            sessionStorage.setItem("ProductExpiration_GuaranteeStartDate", '');
+        } else {
+            sessionStorage.setItem("ProductExpiration_GuaranteeStartDate", ProductExpiration_GuaranteeStartDate_value);
+        }
+
+
+        var ProductExpiration_GuaranteeEndDate_value = sessionStorage.getItem("ProductExpiration_GuaranteeEndDate");
+        if (ProductExpiration_GuaranteeEndDate_value == null) {
+            sessionStorage.setItem("ProductExpiration_GuaranteeEndDate", '');
+        } else {
+            sessionStorage.setItem("ProductExpiration_GuaranteeEndDate", ProductExpiration_GuaranteeEndDate_value);
+        }
+
+
+        var ProductExpiration_GuaranteeIndays_value = sessionStorage.getItem("ProductExpiration_GuaranteeIndays");
+        if (ProductExpiration_GuaranteeIndays_value == null) {
+            sessionStorage.setItem("ProductExpiration_GuaranteeIndays", '');
+        } else {
+            sessionStorage.setItem("ProductExpiration_GuaranteeIndays", ProductExpiration_GuaranteeIndays_value);
+        }
+
+
+        var ProductExpiration_HasWarranty_value = sessionStorage.getItem("ProductExpiration_HasWarranty");
+        if (ProductExpiration_HasWarranty_value == null) {
+            sessionStorage.setItem("ProductExpiration_HasWarranty", 'false');
+        } else {
+            sessionStorage.setItem("ProductExpiration_HasWarranty", ProductExpiration_HasWarranty_value);
+        }
+
+
+        var ProductExpiration_HasLifeTimeWarranty_value = sessionStorage.getItem("ProductExpiration_HasLifeTimeWarranty");
+        if (ProductExpiration_HasLifeTimeWarranty_value == null) {
+            sessionStorage.setItem("ProductExpiration_HasLifeTimeWarranty", 'false');
+        } else {
+            sessionStorage.setItem("ProductExpiration_HasLifeTimeWarranty", ProductExpiration_HasLifeTimeWarranty_value);
+        }
+
+
+
+        var ProductExpiration_HasWarrantyDescription_value = sessionStorage.getItem("ProductExpiration_HasWarrantyDescription");
+        if (ProductExpiration_HasWarrantyDescription_value == null) {
+            sessionStorage.setItem("ProductExpiration_HasWarrantyDescription", '');
+        } else {
+            sessionStorage.setItem("ProductExpiration_HasWarrantyDescription", ProductExpiration_HasWarrantyDescription_value);
+        }
+
+
+        var ProductExpiration_WarrantyStartDate_value = sessionStorage.getItem("ProductExpiration_WarrantyStartDate");
+        if (ProductExpiration_WarrantyStartDate_value == null) {
+            sessionStorage.setItem("ProductExpiration_WarrantyStartDate", '');
+        } else {
+            sessionStorage.setItem("ProductExpiration_WarrantyStartDate", ProductExpiration_WarrantyStartDate_value);
+        }
+
+
+        var ProductExpiration_WarrantyEndDate_value = sessionStorage.getItem("ProductExpiration_WarrantyEndDate");
+        if (ProductExpiration_WarrantyEndDate_value == null) {
+            sessionStorage.setItem("ProductExpiration_WarrantyEndDate", '');
+        } else {
+            sessionStorage.setItem("ProductExpiration_WarrantyEndDate", ProductExpiration_WarrantyEndDate_value);
+        }
+
+
+        var ProductExpiration_WarrantyIndays_value = sessionStorage.getItem("ProductExpiration_WarrantyIndays");
+        if (ProductExpiration_WarrantyIndays_value == null) {
+            sessionStorage.setItem("ProductExpiration_WarrantyIndays", '');
+        } else {
+            sessionStorage.setItem("ProductExpiration_WarrantyIndays", ProductExpiration_WarrantyIndays_value);
+        }
+
+
+
+
+        $('#ProdLongTerm').change(function () {
+
+            sessionStorage.setItem("ProductExpiration_ProdLongTerm", $('#ProdLongTerm').val());
+        });
+
+        $('#ItemName').change(function () {
+
+            sessionStorage.setItem("ProductExpiration_ItemName", $('#ItemName').val());
+        });
+
+        $('#SupplierName').change(function () {
+
+            sessionStorage.setItem("ProductExpiration_SupplierName", $('#SupplierName').val());
+        });
+
+        $('#SPRDateOrIndentDate').change(function () {
+
+            sessionStorage.setItem("ProductExpiration_SPRDateOrIndentDate", $('#SPRDateOrIndentDate').val());
+        });
+        $('#MOMSprOrIndentNo').change(function () {
+
+            sessionStorage.setItem("ProductExpiration_MOMSprOrIndentNo", $('#MOMSprOrIndentNo').val());
+
+        });
+
+        $('#SPRNoOrIndentNo').change(function () {
+
+            sessionStorage.setItem("ProductExpiration_SPRNoOrIndentNo", $('#SPRNoOrIndentNo').val());
+
+        });
+
+        $('#MRRNo').change(function () {
+
+            sessionStorage.setItem("ProductExpiration_MRRNo", $('#MRRNo').val());
+
+        });
+
+        $('#LotNo').change(function () {
+
+            sessionStorage.setItem("ProductExpiration_LotNo", $('#LotNo').val());
+
+        });
+
+        $('#HasGuarantee').change(function () {
+
+            sessionStorage.setItem("ProductExpiration_HasGuarantee", $('#HasGuarantee').is(":checked") == true ? 'true' : 'false');
+
+        });
+
+        $('#HasLifeTimeGuarantee').change(function () {
+
+            sessionStorage.setItem("ProductExpiration_HasLifeTimeGuarantee", $('#HasLifeTimeGuarantee').is(":checked") == true ? 'true' : 'false');
+
+        });
+
+        $('#HasGuaranteeDescription').change(function () {
+
+            sessionStorage.setItem("ProductExpiration_HasGuaranteeDescription", $('#HasGuaranteeDescription').val());
+
+        });
+
+
+        $('#GuaranteeStartDate').change(function () {
+
+            sessionStorage.setItem("ProductExpiration_GuaranteeStartDate", $('#GuaranteeStartDate').val());
+
+        });
+
+
+        $('#GuaranteeEndDate').change(function () {
+
+            sessionStorage.setItem("ProductExpiration_GuaranteeEndDate", $('#GuaranteeEndDate').val());
+
+        });
+
+
+        $('#GuaranteeIndays').change(function () {
+
+            sessionStorage.setItem("ProductExpiration_GuaranteeIndays", $('#GuaranteeIndays').val());
+
+        });
+
+
+
+
+        $('#HasWarranty').change(function () {
+
+            sessionStorage.setItem("ProductExpiration_HasWarranty", $('#HasWarranty').is(":checked") == true ? 'true' : 'false');
+
+
+        });
+
+        $('#HasLifeTimeWarranty').change(function () {
+
+            sessionStorage.setItem("ProductExpiration_HasLifeTimeWarranty", $('#HasLifeTimeWarranty').is(":checked") == true ? 'true' : 'false');
+
+
+        });
+
+        $('#HasWarrantyDescription').change(function () {
+
+            sessionStorage.setItem("ProductExpiration_HasWarrantyDescription", $('#HasWarrantyDescription').val());
+
+        });
+
+
+        $('#WarrantyStartDate').change(function () {
+
+            sessionStorage.setItem("ProductExpiration_WarrantyStartDate", $('#WarrantyStartDate').val());
+
+        });
+
+
+        $('#WarrantyEndDate').change(function () {
+
+            sessionStorage.setItem("ProductExpiration_WarrantyEndDate", $('#WarrantyEndDate').val());
+
+        });
+
+
+        $('#WarrantyIndays').change(function () {
+
+            sessionStorage.setItem("ProductExpiration_WarrantyIndays", $('#WarrantyIndays').val());
+
+        });
+
+
+
+
+        $("#SearchInfoTable tr").each(function () {
+            $(this).hide();
+        });
+
+        $("#selectionItems").change(function () {
+
+            $("#SearchInfoTable tr").each(function () {
+                var row_index = $(this).index();
+                var ddlValue = $("#selectionItems").val();
+                if (ddlValue.toString() == row_index.toString()) {
+                    $(this).show();
+                }
+                else {
+                    $(this).hide();
+                }
+
+            });
+
+
+            var ProdLongTerm = sessionStorage.getItem("ProductExpiration_ ProdLongTerm");
+            var ItemName = sessionStorage.getItem("ProductExpiration_ItemName");
+            var SupplierName = sessionStorage.getItem("ProductExpiration_SupplierName");
+            var SPRDateOrIndentDate = sessionStorage.getItem("ProductExpiration_SPRDateOrIndentDate");
+            var MOMSprOrIndentNo = sessionStorage.getItem("ProductExpiration_MOMSprOrIndentNo");
+            var SPRNoOrIndentNo = sessionStorage.getItem("ProductExpiration_SPRNoOrIndentNo");
+            var MRRNo = sessionStorage.getItem("ProductExpiration_MRRNo");
+            var LotNo = sessionStorage.getItem("ProductExpiration_LotNo");
+
+            var HasGuarantee = sessionStorage.getItem("ProductExpiration_HasGuarantee");
+            var HasLifeTimeGuarantee = sessionStorage.getItem("ProductExpiration_HasLifeTimeGuarantee");
+
+            var HasGuaranteeDescription = sessionStorage.getItem("ProductExpiration_HasGuaranteeDescription");
+            var GuaranteeStartDate = sessionStorage.getItem("ProductExpiration_GuaranteeStartDate");
+
+            var GuaranteeEndDate = sessionStorage.getItem("ProductExpiration_GuaranteeEndDate");
+            var GuaranteeIndays = sessionStorage.getItem("ProductExpiration_GuaranteeIndays");
+
+            var HasWarranty = sessionStorage.getItem("ProductExpiration_HasWarranty");
+            var HasLifeTimeWarranty = sessionStorage.getItem("ProductExpiration_HasLifeTimeWarranty");
+            var HasWarrantyDescription = sessionStorage.getItem("ProductExpiration_HasWarrantyDescription");
+            var WarrantyStartDate = sessionStorage.getItem("ProductExpiration_WarrantyStartDate");
+
+            var WarrantyEndDate = sessionStorage.getItem("ProductExpiration_WarrantyEndDate");
+            var WarrantyIndays = sessionStorage.getItem("ProductExpiration_WarrantyIndays");
+
+
+
+            var ListOfSelectedValue = 'Product Expiry : ' + ProdLongTerm + '||  Item Name : ' + ItemName + '||  Supplier Name : ' + SupplierName + '||  SPR Date : ' + SPRDateOrIndentDate + '||  MOM SPR : ' + MOMSprOrIndentNo + '||  SPRNoOrIndentNo : ' + SPRNoOrIndentNo
+            + '||MRRNo : ' + MRRNo + '||  LotNo : ' + LotNo + '|| Has Guarantee : ' + HasGuarantee + '||  HasLifeTimeGuarantee : ' + HasLifeTimeGuarantee + '||  Guarantee Description : ' + HasGuaranteeDescription + '||  Guarantee Start Date : ' + GuaranteeStartDate + '||Guarantee End Date :' + GuaranteeEndDate + '||GuaranteeIndays:' + GuaranteeIndays +
+            '|| Has Warranty : ' + HasWarranty + '||  HasLifeTimeWarranty : ' + HasLifeTimeWarranty + '||  Warranty Description : ' + HasWarrantyDescription + '||  Warranty Start Date : ' + WarrantyStartDate + '||Warranty End Date :' + WarrantyEndDate + '||WarrantyIndays:' + WarrantyIndays;
+
+            $('#selectionDivToShow').html(ListOfSelectedValue.toString());
+
+
+        });
+
+
+    });
+</script>
+
+
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Expiration ID
+        </th>
+        <th>
+            Item Name
+        </th>
+        <th>
+            Supplier Name
+        </th>
+        <th>
+            Mother SPR No
+        </th>
+        <th>
+            SPR No
+        </th>
+        <th>
+            SPR Date
+        </th>
+        <th>
+            MRR No
+        </th>
+        <th>
+            Lot Number
+        </th>
+        <th>
+            Quantity
+        </th>
+        <th>
+            Has Guarantee
+        </th>
+        <th>
+            Has Life Time Guarantee
+        </th>
+        <th>
+            Guarantee Description
+        </th>
+        <th>
+            Gurantee Start Date
+        </th>
+        <th>
+            Gurantee End Date
+        </th>
+        <th>
+            Guarantee Days
+        </th>
+        <th>
+            Has Warranty
+        </th>
+        <th>
+            Has Life Time Warranty
+        </th>
+        <th>
+            Warranty Description
+        </th>
+        <th>
+            Warranty Start Date
+        </th>
+        <th>
+            Warranty End Date
+        </th>
+        <th>
+            Warranty In days
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProdLongTerm)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ItemName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SupplierName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MOMSprOrIndentNo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SPRNoOrIndentNo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SPRDateOrIndentDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MRRNo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LotNo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Quantity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HasGuarantee)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HasLifeTimeGuarantee)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HasGuaranteeDescription)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GuaranteeStartDate)
+            </td>
+            <td>
+
+                @*checking whether reorder is placed that to be made in combination of the lower condition..*@
+
+                @{
+
+                    try
+                    {
+
+
+
+                        if (item.GuaranteeEndDate != null && item.GuaranteeEndDate.Value.AddMonths(-1) <= DateTime.Now && DateTime.Now <= item.GuaranteeEndDate.Value.Date)
+                        {
+                            var varGuaranteeEndDate = Convert.ToDateTime(item.GuaranteeEndDate.Value.Date).ToString("dd-MM-yyyy");
+                            <div class="attention">
+                                @varGuaranteeEndDate
+                            </div>
+                        }
+                        else if (item.GuaranteeEndDate != null && item.GuaranteeEndDate.Value.AddMonths(-2) <= DateTime.Now && DateTime.Now <= item.GuaranteeEndDate.Value.AddMonths(-2).AddDays(DateTime.DaysInMonth(item.GuaranteeEndDate.Value.AddMonths(-2).Year, item.GuaranteeEndDate.Value.AddMonths(-2).Month)))
+                        {
+                            var varGuaranteeEndDate = Convert.ToDateTime(item.GuaranteeEndDate.Value.Date).ToString("dd-MM-yyyy");
+                            <div style="background-color:forestgreen">
+                                @varGuaranteeEndDate
+                            </div>
+                        }
+                        else if (item.GuaranteeEndDate != null && DateTime.Now.Date < item.GuaranteeEndDate.Value.Date)
+                        {
+                            var varGuaranteeEndDate = Convert.ToDateTime(item.GuaranteeEndDate.Value.Date).ToString("dd-MM-yyyy");
+                            <div style="background-color:yellow">
+                                @varGuaranteeEndDate
+                            </div>
+
+                        }
+                        else if (item.GuaranteeEndDate != null && DateTime.Now.Date > item.GuaranteeEndDate.Value.Date)
+                        {
+                            var varGuaranteeEndDate = Convert.ToDateTime(item.GuaranteeEndDate.Value.Date).ToString("dd-MM-yyyy");
+                            <div style="background-color:red">
+                                @varGuaranteeEndDate
+                            </div>
+
+                        }
+                        else
+                        {
+
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+
+                    }
+                }
+
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GuaranteeIndays)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HasWarranty)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HasLifeTimeWarranty)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HasWarrantyDescription)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.WarrantyStartDate)
+            </td>
+            <td>
+
+                @*checking whether reorder is placed that to be made in combination of the lower condition..*@
+                @{
+
+                    try
+                    {
+
+
+
+                        if (item.WarrantyEndDate != null && item.WarrantyEndDate.Value.AddMonths(-1) <= DateTime.Now && DateTime.Now <= item.WarrantyEndDate.Value.Date)
+                        {
+                            var varWarrantyEndDate = Convert.ToDateTime(item.WarrantyEndDate.Value.Date).ToString("dd-MM-yyyy");
+                            <div class="attention">
+                                @varWarrantyEndDate
+                            </div>
+                        }
+                        else if (item.WarrantyEndDate != null && item.WarrantyEndDate.Value.AddMonths(-2) <= DateTime.Now && DateTime.Now <= item.WarrantyEndDate.Value.AddMonths(-2).AddDays(DateTime.DaysInMonth(item.WarrantyEndDate.Value.AddMonths(-2).Year, item.WarrantyEndDate.Value.AddMonths(-2).Month)))
+                        {
+                            var varWarrantyEndDate = Convert.ToDateTime(item.WarrantyEndDate.Value.Date).ToString("dd-MM-yyyy");
+                            <div style="background-color:forestgreen">
+                                @varWarrantyEndDate
+                            </div>
+                        }
+                        else if (item.WarrantyEndDate != null && DateTime.Now.Date < item.WarrantyEndDate.Value.Date)
+                        {
+                            var varWarrantyEndDate = Convert.ToDateTime(item.WarrantyEndDate.Value.Date).ToString("dd-MM-yyyy");
+                            <div style="background-color:yellow">
+                                @varWarrantyEndDate
+                            </div>
+
+                        }
+                        else if (item.WarrantyEndDate != null && DateTime.Now.Date > item.WarrantyEndDate.Value.Date)
+                        {
+                            var varWarrantyEndDate = Convert.ToDateTime(item.WarrantyEndDate.Value.Date).ToString("dd-MM-yyyy");
+                            <div style="background-color:red">
+                                @varWarrantyEndDate
+                            </div>
+
+                        }
+                        else
+                        {
+
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+
+                    }
+                }
+
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.WarrantyIndays)
+            </td>
+            <td>
+
+                @Html.ActionLink(".", "Edit", "ProductExpirations", new { id = item.Id }, new { @class = "glyphicon glyphicon-edit" })
+
+                @Html.ActionLink(".", "Details", "ProductExpirations", new { id = item.Id }, new { @class = "button glyphicon-envelope" })
+
+                @Html.ActionLink(".", "Delete", "ProductExpirations", new { id = item.Id }, new { @class = "glyphicon glyphicon-remove" })
+
+                @Html.ActionLink(".", "Create", "ProductExpirationPapers", new { id = item.Id  , ProdLongTerm = item.ProdLongTerm}, new { @class = "glyphicon glyphicon-picture" })
+                
+
+               
+            </td>
+        </tr>
+                    }
+
+</table>
+
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index", new
+{
+    page,
+    ProdLongTerm = ViewBag.ProdLongTerm,
+    ItemName = ViewBag.ItemName,
+    SupplierName = ViewBag.SupplierName,
+    MOMSprOrIndentNo = ViewBag.MOMSprOrIndentNo,
+    SPRNoOrIndentNo = ViewBag.SPRNoOrIndentNo,
+    SPRDateOrIndentDate = ViewBag.SPRDateOrIndentDate,
+    MRRNo = ViewBag.MRRNo,
+    LotNo = ViewBag.LotNo,
+    Quantity = ViewBag.Quantity,
+    HasGuarantee = ViewBag.HasGuarantee,
+    HasLifeTimeGuarantee = ViewBag.HasLifeTimeGuarantee,
+    HasGuaranteeDescription = ViewBag.HasGuaranteeDescription,
+    GuaranteeStartDate = ViewBag.GuaranteeStartDate,
+    GuaranteeEndDate = ViewBag.GuaranteeEndDate,
+    GuaranteeIndays = ViewBag.GuaranteeIndays,
+    HasWarranty = ViewBag.HasWarranty,
+    HasLifeTimeWarranty = ViewBag.HasLifeTimeWarranty,
+    HasWarrantyDescription = ViewBag.HasWarrantyDescription,
+    WarrantyStartDate = ViewBag.WarrantyStartDate,
+    WarrantyEndDate = ViewBag.WarrantyEndDate,
+    WarrantyIndays = ViewBag.WarrantyIndays
+}))

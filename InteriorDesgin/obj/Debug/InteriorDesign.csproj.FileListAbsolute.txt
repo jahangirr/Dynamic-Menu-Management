@@ -1,0 +1,241 @@
+D:\HotaparaFinalBackup\HotaparaFinalBackup\7-27-2019\Source Code\SilGlobalFashion\SilGlobalFashion\SilGlobalFashion\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+D:\HotaparaFinalBackup\HotaparaFinalBackup\7-27-2019\Source Code\SilGlobalFashion\SilGlobalFashion\SilGlobalFashion\bin\ApplicationInsights.config
+D:\HotaparaFinalBackup\HotaparaFinalBackup\7-27-2019\Source Code\SilGlobalFashion\SilGlobalFashion\SilGlobalFashion\bin\roslyn\csc.exe
+D:\HotaparaFinalBackup\HotaparaFinalBackup\7-27-2019\Source Code\SilGlobalFashion\SilGlobalFashion\SilGlobalFashion\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+D:\HotaparaFinalBackup\HotaparaFinalBackup\7-27-2019\Source Code\SilGlobalFashion\SilGlobalFashion\SilGlobalFashion\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+D:\HotaparaFinalBackup\HotaparaFinalBackup\7-27-2019\Source Code\SilGlobalFashion\SilGlobalFashion\SilGlobalFashion\bin\roslyn\Microsoft.CodeAnalysis.dll
+D:\HotaparaFinalBackup\HotaparaFinalBackup\7-27-2019\Source Code\SilGlobalFashion\SilGlobalFashion\SilGlobalFashion\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+D:\HotaparaFinalBackup\HotaparaFinalBackup\7-27-2019\Source Code\SilGlobalFashion\SilGlobalFashion\SilGlobalFashion\bin\roslyn\Microsoft.CSharp.Core.targets
+D:\HotaparaFinalBackup\HotaparaFinalBackup\7-27-2019\Source Code\SilGlobalFashion\SilGlobalFashion\SilGlobalFashion\bin\roslyn\Microsoft.VisualBasic.Core.targets
+D:\HotaparaFinalBackup\HotaparaFinalBackup\7-27-2019\Source Code\SilGlobalFashion\SilGlobalFashion\SilGlobalFashion\bin\roslyn\System.Collections.Immutable.dll
+D:\HotaparaFinalBackup\HotaparaFinalBackup\7-27-2019\Source Code\SilGlobalFashion\SilGlobalFashion\SilGlobalFashion\bin\roslyn\System.Reflection.Metadata.dll
+D:\HotaparaFinalBackup\HotaparaFinalBackup\7-27-2019\Source Code\SilGlobalFashion\SilGlobalFashion\SilGlobalFashion\bin\roslyn\vbc.exe
+D:\HotaparaFinalBackup\HotaparaFinalBackup\7-27-2019\Source Code\SilGlobalFashion\SilGlobalFashion\SilGlobalFashion\bin\roslyn\VBCSCompiler.exe
+D:\HotaparaFinalBackup\HotaparaFinalBackup\7-27-2019\Source Code\SilGlobalFashion\SilGlobalFashion\SilGlobalFashion\bin\roslyn\VBCSCompiler.exe.config
+D:\HotaparaFinalBackup\HotaparaFinalBackup\7-27-2019\Source Code\SilGlobalFashion\SilGlobalFashion\SilGlobalFashion\bin\SilGlobalFashion.dll.config
+D:\HotaparaFinalBackup\HotaparaFinalBackup\7-27-2019\Source Code\SilGlobalFashion\SilGlobalFashion\SilGlobalFashion\bin\SilGlobalFashion.dll
+D:\HotaparaFinalBackup\HotaparaFinalBackup\7-27-2019\Source Code\SilGlobalFashion\SilGlobalFashion\SilGlobalFashion\bin\SilGlobalFashion.pdb
+D:\HotaparaFinalBackup\HotaparaFinalBackup\7-27-2019\Source Code\SilGlobalFashion\SilGlobalFashion\SilGlobalFashion\bin\CrystalDecisions.CrystalReports.Engine.dll
+D:\HotaparaFinalBackup\HotaparaFinalBackup\7-27-2019\Source Code\SilGlobalFashion\SilGlobalFashion\SilGlobalFashion\bin\CrystalDecisions.ReportSource.dll
+D:\HotaparaFinalBackup\HotaparaFinalBackup\7-27-2019\Source Code\SilGlobalFashion\SilGlobalFashion\SilGlobalFashion\bin\CrystalDecisions.Shared.dll
+D:\HotaparaFinalBackup\HotaparaFinalBackup\7-27-2019\Source Code\SilGlobalFashion\SilGlobalFashion\SilGlobalFashion\bin\DotNet.Highcharts.dll
+D:\HotaparaFinalBackup\HotaparaFinalBackup\7-27-2019\Source Code\SilGlobalFashion\SilGlobalFashion\SilGlobalFashion\bin\HiQPdf.Free.dll
+D:\HotaparaFinalBackup\HotaparaFinalBackup\7-27-2019\Source Code\SilGlobalFashion\SilGlobalFashion\SilGlobalFashion\bin\JQueryUIHelpers.dll
+D:\HotaparaFinalBackup\HotaparaFinalBackup\7-27-2019\Source Code\SilGlobalFashion\SilGlobalFashion\SilGlobalFashion\bin\Microsoft.AI.Agent.Intercept.dll
+D:\HotaparaFinalBackup\HotaparaFinalBackup\7-27-2019\Source Code\SilGlobalFashion\SilGlobalFashion\SilGlobalFashion\bin\Microsoft.AI.DependencyCollector.dll
+D:\HotaparaFinalBackup\HotaparaFinalBackup\7-27-2019\Source Code\SilGlobalFashion\SilGlobalFashion\SilGlobalFashion\bin\Microsoft.AI.PerfCounterCollector.dll
+D:\HotaparaFinalBackup\HotaparaFinalBackup\7-27-2019\Source Code\SilGlobalFashion\SilGlobalFashion\SilGlobalFashion\bin\Microsoft.AI.ServerTelemetryChannel.dll
+D:\HotaparaFinalBackup\HotaparaFinalBackup\7-27-2019\Source Code\SilGlobalFashion\SilGlobalFashion\SilGlobalFashion\bin\Microsoft.AI.Web.dll
+D:\HotaparaFinalBackup\HotaparaFinalBackup\7-27-2019\Source Code\SilGlobalFashion\SilGlobalFashion\SilGlobalFashion\bin\Microsoft.AI.WindowsServer.dll
+D:\HotaparaFinalBackup\HotaparaFinalBackup\7-27-2019\Source Code\SilGlobalFashion\SilGlobalFashion\SilGlobalFashion\bin\Microsoft.ApplicationInsights.dll
+D:\HotaparaFinalBackup\HotaparaFinalBackup\7-27-2019\Source Code\SilGlobalFashion\SilGlobalFashion\SilGlobalFashion\bin\Microsoft.AspNet.TelemetryCorrelation.dll
+D:\HotaparaFinalBackup\HotaparaFinalBackup\7-27-2019\Source Code\SilGlobalFashion\SilGlobalFashion\SilGlobalFashion\bin\PagedList.dll
+D:\HotaparaFinalBackup\HotaparaFinalBackup\7-27-2019\Source Code\SilGlobalFashion\SilGlobalFashion\SilGlobalFashion\bin\PagedList.Mvc.dll
+D:\HotaparaFinalBackup\HotaparaFinalBackup\7-27-2019\Source Code\SilGlobalFashion\SilGlobalFashion\SilGlobalFashion\bin\System.Diagnostics.DiagnosticSource.dll
+D:\HotaparaFinalBackup\HotaparaFinalBackup\7-27-2019\Source Code\SilGlobalFashion\SilGlobalFashion\SilGlobalFashion\bin\System.Net.Http.Formatting.dll
+D:\HotaparaFinalBackup\HotaparaFinalBackup\7-27-2019\Source Code\SilGlobalFashion\SilGlobalFashion\SilGlobalFashion\bin\System.Web.Http.dll
+D:\HotaparaFinalBackup\HotaparaFinalBackup\7-27-2019\Source Code\SilGlobalFashion\SilGlobalFashion\SilGlobalFashion\bin\System.Web.Http.WebHost.dll
+D:\HotaparaFinalBackup\HotaparaFinalBackup\7-27-2019\Source Code\SilGlobalFashion\SilGlobalFashion\SilGlobalFashion\bin\CrystalDecisions.ReportAppServer.DataDefModel.dll
+D:\HotaparaFinalBackup\HotaparaFinalBackup\7-27-2019\Source Code\SilGlobalFashion\SilGlobalFashion\SilGlobalFashion\bin\CrystalDecisions.ReportAppServer.ClientDoc.dll
+D:\HotaparaFinalBackup\HotaparaFinalBackup\7-27-2019\Source Code\SilGlobalFashion\SilGlobalFashion\SilGlobalFashion\bin\CrystalDecisions.ReportAppServer.ReportDefModel.dll
+D:\HotaparaFinalBackup\HotaparaFinalBackup\7-27-2019\Source Code\SilGlobalFashion\SilGlobalFashion\SilGlobalFashion\bin\CrystalDecisions.ReportAppServer.Controllers.dll
+D:\HotaparaFinalBackup\HotaparaFinalBackup\7-27-2019\Source Code\SilGlobalFashion\SilGlobalFashion\SilGlobalFashion\bin\CrystalDecisions.ReportAppServer.CommLayer.dll
+D:\HotaparaFinalBackup\HotaparaFinalBackup\7-27-2019\Source Code\SilGlobalFashion\SilGlobalFashion\SilGlobalFashion\bin\CrystalDecisions.ReportAppServer.DataSetConversion.dll
+D:\HotaparaFinalBackup\HotaparaFinalBackup\7-27-2019\Source Code\SilGlobalFashion\SilGlobalFashion\SilGlobalFashion\bin\CrystalDecisions.ReportAppServer.Prompting.dll
+D:\HotaparaFinalBackup\HotaparaFinalBackup\7-27-2019\Source Code\SilGlobalFashion\SilGlobalFashion\SilGlobalFashion\bin\CrystalDecisions.ReportAppServer.XmlSerialize.dll
+D:\HotaparaFinalBackup\HotaparaFinalBackup\7-27-2019\Source Code\SilGlobalFashion\SilGlobalFashion\SilGlobalFashion\bin\CrystalDecisions.ReportAppServer.CubeDefModel.dll
+D:\HotaparaFinalBackup\HotaparaFinalBackup\7-27-2019\Source Code\SilGlobalFashion\SilGlobalFashion\SilGlobalFashion\bin\CrystalDecisions.ReportAppServer.CommonObjectModel.dll
+D:\HotaparaFinalBackup\HotaparaFinalBackup\7-27-2019\Source Code\SilGlobalFashion\SilGlobalFashion\SilGlobalFashion\bin\CrystalDecisions.ReportAppServer.ObjectFactory.dll
+D:\HotaparaFinalBackup\HotaparaFinalBackup\7-27-2019\Source Code\SilGlobalFashion\SilGlobalFashion\SilGlobalFashion\bin\CrystalDecisions.ReportAppServer.CommonControls.dll
+D:\HotaparaFinalBackup\HotaparaFinalBackup\7-27-2019\Source Code\SilGlobalFashion\SilGlobalFashion\SilGlobalFashion\bin\stdole.dll
+D:\HotaparaFinalBackup\HotaparaFinalBackup\7-27-2019\Source Code\SilGlobalFashion\SilGlobalFashion\SilGlobalFashion\bin\HiQPdf.Free.xml
+D:\HotaparaFinalBackup\HotaparaFinalBackup\7-27-2019\Source Code\SilGlobalFashion\SilGlobalFashion\SilGlobalFashion\bin\JQueryUIHelpers.xml
+D:\HotaparaFinalBackup\HotaparaFinalBackup\7-27-2019\Source Code\SilGlobalFashion\SilGlobalFashion\SilGlobalFashion\bin\Microsoft.AI.DependencyCollector.xml
+D:\HotaparaFinalBackup\HotaparaFinalBackup\7-27-2019\Source Code\SilGlobalFashion\SilGlobalFashion\SilGlobalFashion\bin\Microsoft.AI.PerfCounterCollector.xml
+D:\HotaparaFinalBackup\HotaparaFinalBackup\7-27-2019\Source Code\SilGlobalFashion\SilGlobalFashion\SilGlobalFashion\bin\Microsoft.AI.ServerTelemetryChannel.xml
+D:\HotaparaFinalBackup\HotaparaFinalBackup\7-27-2019\Source Code\SilGlobalFashion\SilGlobalFashion\SilGlobalFashion\bin\Microsoft.AI.Web.xml
+D:\HotaparaFinalBackup\HotaparaFinalBackup\7-27-2019\Source Code\SilGlobalFashion\SilGlobalFashion\SilGlobalFashion\bin\Microsoft.AI.WindowsServer.xml
+D:\HotaparaFinalBackup\HotaparaFinalBackup\7-27-2019\Source Code\SilGlobalFashion\SilGlobalFashion\SilGlobalFashion\bin\Microsoft.ApplicationInsights.xml
+D:\HotaparaFinalBackup\HotaparaFinalBackup\7-27-2019\Source Code\SilGlobalFashion\SilGlobalFashion\SilGlobalFashion\bin\Microsoft.AspNet.TelemetryCorrelation.xml
+D:\HotaparaFinalBackup\HotaparaFinalBackup\7-27-2019\Source Code\SilGlobalFashion\SilGlobalFashion\SilGlobalFashion\bin\PagedList.xml
+D:\HotaparaFinalBackup\HotaparaFinalBackup\7-27-2019\Source Code\SilGlobalFashion\SilGlobalFashion\SilGlobalFashion\bin\PagedList.Mvc.xml
+D:\HotaparaFinalBackup\HotaparaFinalBackup\7-27-2019\Source Code\SilGlobalFashion\SilGlobalFashion\SilGlobalFashion\bin\System.Diagnostics.DiagnosticSource.xml
+D:\HotaparaFinalBackup\HotaparaFinalBackup\7-27-2019\Source Code\SilGlobalFashion\SilGlobalFashion\SilGlobalFashion\bin\System.Net.Http.Formatting.xml
+D:\HotaparaFinalBackup\HotaparaFinalBackup\7-27-2019\Source Code\SilGlobalFashion\SilGlobalFashion\SilGlobalFashion\bin\System.Web.Http.xml
+D:\HotaparaFinalBackup\HotaparaFinalBackup\7-27-2019\Source Code\SilGlobalFashion\SilGlobalFashion\SilGlobalFashion\bin\System.Web.Http.WebHost.xml
+D:\HotaparaFinalBackup\HotaparaFinalBackup\7-27-2019\Source Code\SilGlobalFashion\SilGlobalFashion\SilGlobalFashion\bin\HiQPdf.dep
+D:\HotaparaFinalBackup\HotaparaFinalBackup\7-27-2019\Source Code\SilGlobalFashion\SilGlobalFashion\SilGlobalFashion\obj\Debug\SilGlobalFashion.Migrations.InitialCreate.resources
+D:\HotaparaFinalBackup\HotaparaFinalBackup\7-27-2019\Source Code\SilGlobalFashion\SilGlobalFashion\SilGlobalFashion\obj\Debug\SilGlobalFashion.Migrations.sprRepGen.resources
+D:\HotaparaFinalBackup\HotaparaFinalBackup\7-27-2019\Source Code\SilGlobalFashion\SilGlobalFashion\SilGlobalFashion\obj\Debug\SilGlobalFashion.Migrations.addRemarksToApproved.resources
+D:\HotaparaFinalBackup\HotaparaFinalBackup\7-27-2019\Source Code\SilGlobalFashion\SilGlobalFashion\SilGlobalFashion\obj\Debug\SilGlobalFashion.Migrations.AutoSprCreation.resources
+D:\HotaparaFinalBackup\HotaparaFinalBackup\7-27-2019\Source Code\SilGlobalFashion\SilGlobalFashion\SilGlobalFashion\obj\Debug\SilGlobalFashion.Migrations.ItemLoanAndAutoAddField.resources
+D:\HotaparaFinalBackup\HotaparaFinalBackup\7-27-2019\Source Code\SilGlobalFashion\SilGlobalFashion\SilGlobalFashion\obj\Debug\SilGlobalFashion.Migrations.AddFieldToLoanQtyAdjusted.resources
+D:\HotaparaFinalBackup\HotaparaFinalBackup\7-27-2019\Source Code\SilGlobalFashion\SilGlobalFashion\SilGlobalFashion\obj\Debug\SilGlobalFashion.Migrations.SameLotManagement.resources
+D:\HotaparaFinalBackup\HotaparaFinalBackup\7-27-2019\Source Code\SilGlobalFashion\SilGlobalFashion\SilGlobalFashion\obj\Debug\SilGlobalFashion.Migrations.AddFieldToInfoApprovedInfoes.resources
+D:\HotaparaFinalBackup\HotaparaFinalBackup\7-27-2019\Source Code\SilGlobalFashion\SilGlobalFashion\SilGlobalFashion\obj\Debug\SilGlobalFashion.Migrations.PoInDifferentCurrency.resources
+D:\HotaparaFinalBackup\HotaparaFinalBackup\7-27-2019\Source Code\SilGlobalFashion\SilGlobalFashion\SilGlobalFashion\obj\Debug\SilGlobalFashion.Migrations.ItemOrPrizeFinalCorrection.resources
+D:\HotaparaFinalBackup\HotaparaFinalBackup\7-27-2019\Source Code\SilGlobalFashion\SilGlobalFashion\SilGlobalFashion\obj\Debug\SilGlobalFashion.Migrations.AddPhoneNumber.resources
+D:\HotaparaFinalBackup\HotaparaFinalBackup\7-27-2019\Source Code\SilGlobalFashion\SilGlobalFashion\SilGlobalFashion\obj\Debug\SilGlobalFashion.Migrations.OpenCostingInfo.resources
+D:\HotaparaFinalBackup\HotaparaFinalBackup\7-27-2019\Source Code\SilGlobalFashion\SilGlobalFashion\SilGlobalFashion\obj\Debug\SilGlobalFashion.Migrations.ProductExpiry.resources
+D:\HotaparaFinalBackup\HotaparaFinalBackup\7-27-2019\Source Code\SilGlobalFashion\SilGlobalFashion\SilGlobalFashion\obj\Debug\SilGlobalFashion.Migrations.OpenCostingCorrection.resources
+D:\HotaparaFinalBackup\HotaparaFinalBackup\7-27-2019\Source Code\SilGlobalFashion\SilGlobalFashion\SilGlobalFashion\obj\Debug\SilGlobalFashion.Migrations.priceQuotation.resources
+D:\HotaparaFinalBackup\HotaparaFinalBackup\7-27-2019\Source Code\SilGlobalFashion\SilGlobalFashion\SilGlobalFashion\obj\Debug\InteriorDesign.csproj.GenerateResource.Cache
+D:\HotaparaFinalBackup\HotaparaFinalBackup\7-27-2019\Source Code\SilGlobalFashion\SilGlobalFashion\SilGlobalFashion\obj\Debug\SilGlobalFashion.dll
+D:\HotaparaFinalBackup\HotaparaFinalBackup\7-27-2019\Source Code\SilGlobalFashion\SilGlobalFashion\SilGlobalFashion\obj\Debug\SilGlobalFashion.pdb
+D:\HotaparaFinalBackup\HotaparaFinalBackup\7-27-2019\Source Code\SilGlobalFashion\SilGlobalFashion\SilGlobalFashion\obj\Debug\SilGlobalFashion.Migrations.InteriorDesign.resources
+D:\Chunu\SilGlobalFashion\SilGlobalFashion\bin\ApplicationInsights.config
+D:\Chunu\SilGlobalFashion\SilGlobalFashion\bin\roslyn\csc.exe
+D:\Chunu\SilGlobalFashion\SilGlobalFashion\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+D:\Chunu\SilGlobalFashion\SilGlobalFashion\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+D:\Chunu\SilGlobalFashion\SilGlobalFashion\bin\roslyn\Microsoft.CodeAnalysis.dll
+D:\Chunu\SilGlobalFashion\SilGlobalFashion\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+D:\Chunu\SilGlobalFashion\SilGlobalFashion\bin\roslyn\Microsoft.CSharp.Core.targets
+D:\Chunu\SilGlobalFashion\SilGlobalFashion\bin\roslyn\Microsoft.VisualBasic.Core.targets
+D:\Chunu\SilGlobalFashion\SilGlobalFashion\bin\roslyn\System.Collections.Immutable.dll
+D:\Chunu\SilGlobalFashion\SilGlobalFashion\bin\roslyn\System.Reflection.Metadata.dll
+D:\Chunu\SilGlobalFashion\SilGlobalFashion\bin\roslyn\vbc.exe
+D:\Chunu\SilGlobalFashion\SilGlobalFashion\bin\roslyn\VBCSCompiler.exe
+D:\Chunu\SilGlobalFashion\SilGlobalFashion\bin\roslyn\VBCSCompiler.exe.config
+D:\Chunu\SilGlobalFashion\SilGlobalFashion\bin\SilGlobalFashion.dll.config
+D:\Chunu\SilGlobalFashion\SilGlobalFashion\bin\SilGlobalFashion.dll
+D:\Chunu\SilGlobalFashion\SilGlobalFashion\bin\SilGlobalFashion.pdb
+D:\Chunu\SilGlobalFashion\SilGlobalFashion\bin\DotNet.Highcharts.dll
+D:\Chunu\SilGlobalFashion\SilGlobalFashion\bin\HiQPdf.Free.dll
+D:\Chunu\SilGlobalFashion\SilGlobalFashion\bin\JQueryUIHelpers.dll
+D:\Chunu\SilGlobalFashion\SilGlobalFashion\bin\Microsoft.AI.Agent.Intercept.dll
+D:\Chunu\SilGlobalFashion\SilGlobalFashion\bin\Microsoft.AI.DependencyCollector.dll
+D:\Chunu\SilGlobalFashion\SilGlobalFashion\bin\Microsoft.AI.PerfCounterCollector.dll
+D:\Chunu\SilGlobalFashion\SilGlobalFashion\bin\Microsoft.AI.ServerTelemetryChannel.dll
+D:\Chunu\SilGlobalFashion\SilGlobalFashion\bin\Microsoft.AI.Web.dll
+D:\Chunu\SilGlobalFashion\SilGlobalFashion\bin\Microsoft.AI.WindowsServer.dll
+D:\Chunu\SilGlobalFashion\SilGlobalFashion\bin\Microsoft.ApplicationInsights.dll
+D:\Chunu\SilGlobalFashion\SilGlobalFashion\bin\Microsoft.AspNet.TelemetryCorrelation.dll
+D:\Chunu\SilGlobalFashion\SilGlobalFashion\bin\PagedList.dll
+D:\Chunu\SilGlobalFashion\SilGlobalFashion\bin\PagedList.Mvc.dll
+D:\Chunu\SilGlobalFashion\SilGlobalFashion\bin\System.Diagnostics.DiagnosticSource.dll
+D:\Chunu\SilGlobalFashion\SilGlobalFashion\bin\System.Net.Http.Formatting.dll
+D:\Chunu\SilGlobalFashion\SilGlobalFashion\bin\System.Web.Http.dll
+D:\Chunu\SilGlobalFashion\SilGlobalFashion\bin\System.Web.Http.WebHost.dll
+D:\Chunu\SilGlobalFashion\SilGlobalFashion\bin\CrystalDecisions.ReportAppServer.DataDefModel.dll
+D:\Chunu\SilGlobalFashion\SilGlobalFashion\bin\CrystalDecisions.ReportAppServer.ClientDoc.dll
+D:\Chunu\SilGlobalFashion\SilGlobalFashion\bin\CrystalDecisions.ReportAppServer.ReportDefModel.dll
+D:\Chunu\SilGlobalFashion\SilGlobalFashion\bin\CrystalDecisions.ReportAppServer.Controllers.dll
+D:\Chunu\SilGlobalFashion\SilGlobalFashion\bin\CrystalDecisions.ReportAppServer.CommLayer.dll
+D:\Chunu\SilGlobalFashion\SilGlobalFashion\bin\CrystalDecisions.ReportAppServer.DataSetConversion.dll
+D:\Chunu\SilGlobalFashion\SilGlobalFashion\bin\CrystalDecisions.ReportAppServer.Prompting.dll
+D:\Chunu\SilGlobalFashion\SilGlobalFashion\bin\CrystalDecisions.ReportAppServer.XmlSerialize.dll
+D:\Chunu\SilGlobalFashion\SilGlobalFashion\bin\CrystalDecisions.ReportAppServer.CubeDefModel.dll
+D:\Chunu\SilGlobalFashion\SilGlobalFashion\bin\CrystalDecisions.ReportAppServer.CommonObjectModel.dll
+D:\Chunu\SilGlobalFashion\SilGlobalFashion\bin\CrystalDecisions.ReportAppServer.ObjectFactory.dll
+D:\Chunu\SilGlobalFashion\SilGlobalFashion\bin\CrystalDecisions.ReportAppServer.CommonControls.dll
+D:\Chunu\SilGlobalFashion\SilGlobalFashion\bin\stdole.dll
+D:\Chunu\SilGlobalFashion\SilGlobalFashion\bin\HiQPdf.Free.xml
+D:\Chunu\SilGlobalFashion\SilGlobalFashion\bin\JQueryUIHelpers.xml
+D:\Chunu\SilGlobalFashion\SilGlobalFashion\bin\Microsoft.AI.DependencyCollector.xml
+D:\Chunu\SilGlobalFashion\SilGlobalFashion\bin\Microsoft.AI.PerfCounterCollector.xml
+D:\Chunu\SilGlobalFashion\SilGlobalFashion\bin\Microsoft.AI.ServerTelemetryChannel.xml
+D:\Chunu\SilGlobalFashion\SilGlobalFashion\bin\Microsoft.AI.Web.xml
+D:\Chunu\SilGlobalFashion\SilGlobalFashion\bin\Microsoft.AI.WindowsServer.xml
+D:\Chunu\SilGlobalFashion\SilGlobalFashion\bin\Microsoft.ApplicationInsights.xml
+D:\Chunu\SilGlobalFashion\SilGlobalFashion\bin\Microsoft.AspNet.TelemetryCorrelation.xml
+D:\Chunu\SilGlobalFashion\SilGlobalFashion\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+D:\Chunu\SilGlobalFashion\SilGlobalFashion\bin\PagedList.xml
+D:\Chunu\SilGlobalFashion\SilGlobalFashion\bin\PagedList.Mvc.xml
+D:\Chunu\SilGlobalFashion\SilGlobalFashion\bin\System.Diagnostics.DiagnosticSource.xml
+D:\Chunu\SilGlobalFashion\SilGlobalFashion\bin\System.Net.Http.Formatting.xml
+D:\Chunu\SilGlobalFashion\SilGlobalFashion\bin\System.Web.Http.xml
+D:\Chunu\SilGlobalFashion\SilGlobalFashion\bin\System.Web.Http.WebHost.xml
+D:\Chunu\SilGlobalFashion\SilGlobalFashion\bin\HiQPdf.dep
+D:\Chunu\SilGlobalFashion\SilGlobalFashion\obj\Debug\SilGlobalFashion.Migrations.InitialCreate.resources
+D:\Chunu\SilGlobalFashion\SilGlobalFashion\obj\Debug\SilGlobalFashion.Migrations.sprRepGen.resources
+D:\Chunu\SilGlobalFashion\SilGlobalFashion\obj\Debug\SilGlobalFashion.Migrations.addRemarksToApproved.resources
+D:\Chunu\SilGlobalFashion\SilGlobalFashion\obj\Debug\SilGlobalFashion.Migrations.AutoSprCreation.resources
+D:\Chunu\SilGlobalFashion\SilGlobalFashion\obj\Debug\SilGlobalFashion.Migrations.ItemLoanAndAutoAddField.resources
+D:\Chunu\SilGlobalFashion\SilGlobalFashion\obj\Debug\SilGlobalFashion.Migrations.AddFieldToLoanQtyAdjusted.resources
+D:\Chunu\SilGlobalFashion\SilGlobalFashion\obj\Debug\SilGlobalFashion.Migrations.SameLotManagement.resources
+D:\Chunu\SilGlobalFashion\SilGlobalFashion\obj\Debug\SilGlobalFashion.Migrations.AddFieldToInfoApprovedInfoes.resources
+D:\Chunu\SilGlobalFashion\SilGlobalFashion\obj\Debug\SilGlobalFashion.Migrations.PoInDifferentCurrency.resources
+D:\Chunu\SilGlobalFashion\SilGlobalFashion\obj\Debug\SilGlobalFashion.Migrations.ItemOrPrizeFinalCorrection.resources
+D:\Chunu\SilGlobalFashion\SilGlobalFashion\obj\Debug\SilGlobalFashion.Migrations.AddPhoneNumber.resources
+D:\Chunu\SilGlobalFashion\SilGlobalFashion\obj\Debug\SilGlobalFashion.Migrations.OpenCostingInfo.resources
+D:\Chunu\SilGlobalFashion\SilGlobalFashion\obj\Debug\SilGlobalFashion.Migrations.ProductExpiry.resources
+D:\Chunu\SilGlobalFashion\SilGlobalFashion\obj\Debug\SilGlobalFashion.Migrations.OpenCostingCorrection.resources
+D:\Chunu\SilGlobalFashion\SilGlobalFashion\obj\Debug\SilGlobalFashion.Migrations.priceQuotation.resources
+D:\Chunu\SilGlobalFashion\SilGlobalFashion\obj\Debug\SilGlobalFashion.Migrations.InteriorDesign.resources
+D:\Chunu\SilGlobalFashion\SilGlobalFashion\obj\Debug\InteriorDesign.csproj.GenerateResource.Cache
+D:\Chunu\SilGlobalFashion\SilGlobalFashion\obj\Debug\SilGlobalFashion.dll
+D:\Chunu\SilGlobalFashion\SilGlobalFashion\obj\Debug\SilGlobalFashion.pdb
+D:\Chunu\SilGlobalFashion\SilGlobalFashion\bin\CrystalDecisions.CrystalReports.Engine.dll
+D:\Chunu\SilGlobalFashion\SilGlobalFashion\bin\CrystalDecisions.ReportSource.dll
+D:\Chunu\SilGlobalFashion\SilGlobalFashion\bin\CrystalDecisions.Shared.dll
+D:\Github\MenuManagement\InteriorDesign\InteriorDesgin\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+D:\Github\MenuManagement\InteriorDesign\InteriorDesgin\bin\ApplicationInsights.config
+D:\Github\MenuManagement\InteriorDesign\InteriorDesgin\bin\roslyn\csc.exe
+D:\Github\MenuManagement\InteriorDesign\InteriorDesgin\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+D:\Github\MenuManagement\InteriorDesign\InteriorDesgin\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+D:\Github\MenuManagement\InteriorDesign\InteriorDesgin\bin\roslyn\Microsoft.CodeAnalysis.dll
+D:\Github\MenuManagement\InteriorDesign\InteriorDesgin\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+D:\Github\MenuManagement\InteriorDesign\InteriorDesgin\bin\roslyn\Microsoft.CSharp.Core.targets
+D:\Github\MenuManagement\InteriorDesign\InteriorDesgin\bin\roslyn\Microsoft.VisualBasic.Core.targets
+D:\Github\MenuManagement\InteriorDesign\InteriorDesgin\bin\roslyn\System.Collections.Immutable.dll
+D:\Github\MenuManagement\InteriorDesign\InteriorDesgin\bin\roslyn\System.Reflection.Metadata.dll
+D:\Github\MenuManagement\InteriorDesign\InteriorDesgin\bin\roslyn\vbc.exe
+D:\Github\MenuManagement\InteriorDesign\InteriorDesgin\bin\roslyn\VBCSCompiler.exe
+D:\Github\MenuManagement\InteriorDesign\InteriorDesgin\bin\roslyn\VBCSCompiler.exe.config
+D:\Github\MenuManagement\InteriorDesign\InteriorDesgin\bin\InteriorDesign.dll.config
+D:\Github\MenuManagement\InteriorDesign\InteriorDesgin\bin\InteriorDesign.dll
+D:\Github\MenuManagement\InteriorDesign\InteriorDesgin\bin\InteriorDesign.pdb
+D:\Github\MenuManagement\InteriorDesign\InteriorDesgin\bin\DotNet.Highcharts.dll
+D:\Github\MenuManagement\InteriorDesign\InteriorDesgin\bin\HiQPdf.Free.dll
+D:\Github\MenuManagement\InteriorDesign\InteriorDesgin\bin\JQueryUIHelpers.dll
+D:\Github\MenuManagement\InteriorDesign\InteriorDesgin\bin\Microsoft.AI.Agent.Intercept.dll
+D:\Github\MenuManagement\InteriorDesign\InteriorDesgin\bin\Microsoft.AI.DependencyCollector.dll
+D:\Github\MenuManagement\InteriorDesign\InteriorDesgin\bin\Microsoft.AI.PerfCounterCollector.dll
+D:\Github\MenuManagement\InteriorDesign\InteriorDesgin\bin\Microsoft.AI.ServerTelemetryChannel.dll
+D:\Github\MenuManagement\InteriorDesign\InteriorDesgin\bin\Microsoft.AI.Web.dll
+D:\Github\MenuManagement\InteriorDesign\InteriorDesgin\bin\Microsoft.AI.WindowsServer.dll
+D:\Github\MenuManagement\InteriorDesign\InteriorDesgin\bin\Microsoft.ApplicationInsights.dll
+D:\Github\MenuManagement\InteriorDesign\InteriorDesgin\bin\Microsoft.AspNet.TelemetryCorrelation.dll
+D:\Github\MenuManagement\InteriorDesign\InteriorDesgin\bin\PagedList.dll
+D:\Github\MenuManagement\InteriorDesign\InteriorDesgin\bin\PagedList.Mvc.dll
+D:\Github\MenuManagement\InteriorDesign\InteriorDesgin\bin\System.Diagnostics.DiagnosticSource.dll
+D:\Github\MenuManagement\InteriorDesign\InteriorDesgin\bin\System.Net.Http.Formatting.dll
+D:\Github\MenuManagement\InteriorDesign\InteriorDesgin\bin\System.Web.Http.dll
+D:\Github\MenuManagement\InteriorDesign\InteriorDesgin\bin\System.Web.Http.WebHost.dll
+D:\Github\MenuManagement\InteriorDesign\InteriorDesgin\bin\stdole.dll
+D:\Github\MenuManagement\InteriorDesign\InteriorDesgin\bin\HiQPdf.Free.xml
+D:\Github\MenuManagement\InteriorDesign\InteriorDesgin\bin\JQueryUIHelpers.xml
+D:\Github\MenuManagement\InteriorDesign\InteriorDesgin\bin\Microsoft.AI.DependencyCollector.xml
+D:\Github\MenuManagement\InteriorDesign\InteriorDesgin\bin\Microsoft.AI.PerfCounterCollector.xml
+D:\Github\MenuManagement\InteriorDesign\InteriorDesgin\bin\Microsoft.AI.ServerTelemetryChannel.xml
+D:\Github\MenuManagement\InteriorDesign\InteriorDesgin\bin\Microsoft.AI.Web.xml
+D:\Github\MenuManagement\InteriorDesign\InteriorDesgin\bin\Microsoft.AI.WindowsServer.xml
+D:\Github\MenuManagement\InteriorDesign\InteriorDesgin\bin\Microsoft.ApplicationInsights.xml
+D:\Github\MenuManagement\InteriorDesign\InteriorDesgin\bin\Microsoft.AspNet.TelemetryCorrelation.xml
+D:\Github\MenuManagement\InteriorDesign\InteriorDesgin\bin\PagedList.xml
+D:\Github\MenuManagement\InteriorDesign\InteriorDesgin\bin\PagedList.Mvc.xml
+D:\Github\MenuManagement\InteriorDesign\InteriorDesgin\bin\System.Diagnostics.DiagnosticSource.xml
+D:\Github\MenuManagement\InteriorDesign\InteriorDesgin\bin\System.Net.Http.Formatting.xml
+D:\Github\MenuManagement\InteriorDesign\InteriorDesgin\bin\System.Web.Http.xml
+D:\Github\MenuManagement\InteriorDesign\InteriorDesgin\bin\System.Web.Http.WebHost.xml
+D:\Github\MenuManagement\InteriorDesign\InteriorDesgin\bin\HiQPdf.dep
+D:\Github\MenuManagement\InteriorDesign\InteriorDesgin\obj\Debug\InteriorDesign.csproj.CoreCompileInputs.cache
+D:\Github\MenuManagement\InteriorDesign\InteriorDesgin\obj\Debug\InteriorDesign.csproj.CopyComplete
+D:\Github\MenuManagement\InteriorDesign\InteriorDesgin\obj\Debug\InteriorDesign.dll
+D:\Github\MenuManagement\InteriorDesign\InteriorDesgin\obj\Debug\InteriorDesign.pdb
+D:\Github\MenuManagement\InteriorDesign\InteriorDesgin\bin\CrystalDecisions.CrystalReports.Engine.dll
+D:\Github\MenuManagement\InteriorDesign\InteriorDesgin\bin\CrystalDecisions.ReportSource.dll
+D:\Github\MenuManagement\InteriorDesign\InteriorDesgin\bin\CrystalDecisions.Shared.dll
+D:\Github\MenuManagement\InteriorDesign\InteriorDesgin\bin\CrystalDecisions.ReportAppServer.DataDefModel.dll
+D:\Github\MenuManagement\InteriorDesign\InteriorDesgin\bin\CrystalDecisions.ReportAppServer.ClientDoc.dll
+D:\Github\MenuManagement\InteriorDesign\InteriorDesgin\bin\CrystalDecisions.ReportAppServer.ReportDefModel.dll
+D:\Github\MenuManagement\InteriorDesign\InteriorDesgin\bin\CrystalDecisions.ReportAppServer.Controllers.dll
+D:\Github\MenuManagement\InteriorDesign\InteriorDesgin\bin\CrystalDecisions.ReportAppServer.CommLayer.dll
+D:\Github\MenuManagement\InteriorDesign\InteriorDesgin\bin\CrystalDecisions.ReportAppServer.DataSetConversion.dll
+D:\Github\MenuManagement\InteriorDesign\InteriorDesgin\bin\CrystalDecisions.ReportAppServer.Prompting.dll
+D:\Github\MenuManagement\InteriorDesign\InteriorDesgin\bin\CrystalDecisions.ReportAppServer.XmlSerialize.dll
+D:\Github\MenuManagement\InteriorDesign\InteriorDesgin\bin\CrystalDecisions.ReportAppServer.CubeDefModel.dll
+D:\Github\MenuManagement\InteriorDesign\InteriorDesgin\bin\CrystalDecisions.ReportAppServer.CommonObjectModel.dll
+D:\Github\MenuManagement\InteriorDesign\InteriorDesgin\bin\CrystalDecisions.ReportAppServer.ObjectFactory.dll
+D:\Github\MenuManagement\InteriorDesign\InteriorDesgin\bin\CrystalDecisions.ReportAppServer.CommonControls.dll
+D:\Github\MenuManagement\InteriorDesign\InteriorDesgin\obj\Debug\InteriorDesign.csprojAssemblyReference.cache

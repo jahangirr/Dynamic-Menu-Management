@@ -1,0 +1,88 @@
+﻿@model SilGlobalFashion.Models.LCModel
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>LCModel</h4>
+    <hr />
+    <dl class="dl-horizontal" style="background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+        <dt>
+            @Html.DisplayNameFor(model => model.FileNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FileNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LCType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LCType)
+        </dd>
+
+       
+
+       
+        <dt>
+            @Html.DisplayNameFor(model => model.LCNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LCNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LCDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LCDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BankName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BankName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BranchName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BranchName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LCValue)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LCValue)
+        </dd>
+
+       
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsClose)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsClose)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    
+    @Html.ActionLink("Back to List", "Index")
+</p>

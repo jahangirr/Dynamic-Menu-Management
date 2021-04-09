@@ -1,0 +1,857 @@
+﻿@model SilGlobalFashion.Models.OpenCosting
+
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Edit</title>
+</head>
+<body>
+    @using (Html.BeginForm(Html.BeginForm("Edit", "OpenCostings", FormMethod.Post, new { @enctype = "multipart/form-data", @id = "form" })))
+    {
+        @Html.AntiForgeryToken()
+
+
+        <link href="~/Content/TableStyle.css" rel="stylesheet" />
+
+
+        <style>
+            table {
+                border-collapse: collapse;
+            }
+
+            tr {
+                border: solid thin;
+                border-color: blue;
+            }
+        </style>
+
+        <table style="background-color:tomato;">
+            <tr>
+                <td>
+                    <div class="col-md-7">
+                        <h4>OpenCosting</h4>
+                        <hr />
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                        @Html.Hidden("Id" , ViewBag.Id as string )
+
+
+                        <table>
+                            <tr>
+                                <td>
+                                    Buyer Name
+                                </td>
+                                <td>
+
+                                    <div>
+
+                                        <div class="col-md-5">
+                                            @Html.TextBox("BuyerName", ViewBag.BuyerName as string, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.BuyerName, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>Buyer PO</td>
+                                <td>
+                                    <div>
+
+                                        <div class="col-md-5">
+                                            @Html.TextBox("BuyerPO", ViewBag.BuyerPO as string, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.BuyerPO, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>Auto Style Code</td>
+                                <td>
+                                    <div>
+
+                                        <div class="col-md-5">
+                                            @Html.Hidden("SysStyleCode", ViewBag.SysStyleCode as string)
+                                            @Html.TextBox("SysStyleCodeShow", ViewBag.SysStyleCode as string, new { htmlAttributes = new { @class = "form-control", disabled = "disabled" } })
+                                            @Html.ValidationMessageFor(model => model.SysStyleCode, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+
+                            <tr>
+                                <td>Buyer Style Code </td>
+                                <td>
+                                    <div>
+
+                                        <div class="col-md-5">
+                                            @Html.TextBox("BuyStyleCode", ViewBag.BuyStyleCode as string, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.BuyStyleCode, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+
+                            <tr>
+                                <td>Style Description</td>
+                                <td>
+                                    <div>
+
+                                        <div class="col-md-5">
+                                            @Html.TextBox("StyleDescription" , ViewBag.StyleDescription as string, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.StyleDescription, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+
+                            <tr>
+                                <td>Febrication</td>
+                                <td>
+                                    <div>
+
+                                        <div class="col-md-5">
+                                            @Html.TextBox("Febrication", ViewBag.Febrication as string, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.Febrication, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>Color</td>
+                                <td>
+                                    <div>
+
+                                        <div class="col-md-5">
+
+
+                                            @Html.TextBox("Color", ViewBag.Color as string, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.Color, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>Size</td>
+                                <td>
+                                    <div>
+
+                                        <div class="col-md-5">
+                                            @Html.TextBox("Size", ViewBag.Size as string,  new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.Size, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>Construction</td>
+                                <td>
+                                    <div>
+
+                                        <div class="col-md-5">
+                                            @Html.TextBox("Construction", ViewBag.Construction as string, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.Construction, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>Weight/GSM</td>
+                                <td>
+                                    <div>
+
+                                        <div class="col-md-5">
+                                            @Html.TextBox("WeightOrGSM" , ViewBag.WeightOrGSM as string, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.WeightOrGSM, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+
+                            <tr>
+                                <td>Wash</td>
+                                <td>
+                                    <div>
+
+                                        <div class="col-md-5">
+
+
+                                            @Html.TextBox("Wash", ViewBag.Wash as string, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.Wash, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td> Mode Of Order</td>
+                                <td>
+                                    <div>
+
+                                        <div class="col-md-5">
+                                            @Html.TextBox("ModeOfOrder", ViewBag.ModeOfOrder as string, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.ModeOfOrder, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td> Delivery Date</td>
+                                <td>
+                                    <div>
+
+                                        <div class="col-md-5">
+
+
+                                            @{
+                                                DateTime? dtDeliveryDate = null;
+
+                                                try
+                                                {
+                                                    dtDeliveryDate = Convert.ToDateTime(ViewBag.DeliveryDate as string);
+                                                }
+                                                catch (Exception ex)
+                                                {
+
+                                                }
+                                            }
+
+
+                                            @Html.JQueryUI().Datepicker("DeliveryDate", dtDeliveryDate)
+                                            @Html.ValidationMessageFor(model => model.DeliveryDate, "", new { @class = "text-danger" })
+
+
+
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td> Quantity</td>
+                                <td>
+                                    <div>
+
+                                        <div class="col-md-5">
+                                            @Html.TextBox("Quantity", ViewBag.Quantity as string, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.Quantity, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+
+
+                            <tr>
+                                <td> Currency</td>
+                                <td>
+                                    <div>
+
+                                        <div class="col-md-5">
+                                            @Html.TextBox("Currency", ViewBag.Currency as string, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.Currency, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+
+
+
+                        </table>
+
+                        <div>
+                            <div class="col-md-offset-2 col-md-5">
+                                <button type="submit" name="editInfo" class="btn btn-default btn-sm" value="Edit">
+                                    <span class="glyphicon glyphicon-edit"></span>
+                                </button>
+                               
+                            </div>
+                        </div>
+                    </div>
+                </td>
+                <td>
+
+
+                    <table style="background-color:palegreen;">
+                        <tr>
+                            <td>
+                                <div class="col-md-10">
+                                    <h4>Image Of Item</h4>
+                                    <hr />
+
+                                    <img id="imp_preview" alt="Item Image" width="180" height="240" src="@Url.Action("GetThumbnailImage", "OpenCostings", new {Id =  Model.Id })"/> <br />
+
+                                    <input type="file" name="Image" onchange="document.getElementById('imp_preview').src = window.URL.createObjectURL(this.files[0])">
+                                    <br />
+                                    <br />
+                                    <br />
+
+                                </div>
+
+
+
+                                <div class="col-md-10">
+
+                                    <div class="col-md-3">
+                                        Calculated SMV:
+                                    </div>
+                                    <div class="col-md-6">
+                                        @Html.TextBox("CalculatedSMV" , ViewBag.CalculatedSMV as string)
+                                        @Html.ValidationMessageFor(model => model.CalculatedSMV, "", new { @class = "text-danger" })
+                                    </div>
+
+                                </div>
+
+
+
+
+                                <div class="col-md-10">
+                                    <div class="col-md-3">
+                                        Costing SMV:
+                                    </div>
+                                    <div class="col-md-6">
+                                        @Html.TextBox("CostingSMV", ViewBag.CostingSMV as string)
+                                        @Html.ValidationMessageFor(model => model.CostingSMV, "", new { @class = "text-danger" })
+                                    </div>
+
+                                </div>
+
+                                <div class="col-md-10">
+                                    <div class="col-md-3">
+                                        Prod/Hr :
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        @Html.TextBox("ProductionPerHr", ViewBag.ProductionPerHr as string)
+                                        @Html.ValidationMessageFor(model => model.ProductionPerHr, "", new { @class = "text-danger" })
+                                    </div>
+
+                                </div>
+
+                                <div class="col-md-10">
+
+
+                                    <div class="col-md-3">
+                                        UOM :
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        @Html.TextBox("UnitPerHr"  , ViewBag.UnitPerHr as string)
+                                        @Html.ValidationMessageFor(model => model.UnitPerHr, "", new { @class = "text-danger" })
+                                    </div>
+
+                                </div>
+
+                            </td>
+                        </tr>
+                    </table>
+
+
+                </td>
+            </tr>
+        </table>
+
+
+
+
+
+
+                                                }
+
+    <div>
+        @Html.ActionLink("Back to List", "Index")
+    </div>
+</body>
+</html>
+
+
+
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+
+        $("#BuyerName").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("GetBuyerName")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        BuyerName : $('#BuyerName').val()
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                        );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+
+        $("#BuyerPO").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("GetBuyerPO")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        BuyerPO : $('#BuyerPO').val()
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                        );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+
+        $("#SysStyleCode").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("GetSysStyleCode")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        SysStyleCode : $('#SysStyleCode').val()
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                        );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+
+
+        $("#BuyStyleCode").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("GetBuyStyleCode")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        BuyStyleCode: $('#BuyStyleCode').val()
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                        );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+
+        $("#StyleDescription").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("GetStyleDescription")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        StyleDescription: $('#StyleDescription').val()
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                        );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+        $("#Febrication").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("GetFebrication")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        Febrication: $('#Febrication').val()
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                        );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+
+        $("#Color").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("GetColor")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        Color: $('#Color').val()
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                        );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+
+        $("#Size").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("GetSize")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        Size: $('#Size').val()
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                        );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+        $("#Construction").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("GetConstruction")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        Construction: $('#Construction').val()
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                        );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+
+        $("#WeightOrGSM").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("GetWeightOrGSM")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        WeightOrGSM: $('#WeightOrGSM').val()
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                        );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+        $("#Wash").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("GetWash")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        Wash: $('#Wash').val()
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                        );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+
+        $("#ModeOfOrder").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("GetModeOfOrder")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        ModeOfOrder: $('#ModeOfOrder').val()
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                        );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+        $("#Currency").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("GetCurrency")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        Currency: $('#Currency').val()
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                        );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+        $("#UnitPerHr").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("GetUnitPerHr")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        UnitPerHr : $('#UnitPerHr').val()
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                        );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+
+    });
+</script>
+

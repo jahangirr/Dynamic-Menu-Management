@@ -1,0 +1,187 @@
+﻿@model SilGlobalFashion.Models.OpenCosting
+
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+    <div>
+        <h4>OpenCosting</h4>
+        <hr />
+        <dl class="dl-horizontal btn-success" style="background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+            <dt>
+                @Html.DisplayNameFor(model => model.BuyerName)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.BuyerName)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.BuyerPO)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.BuyerPO)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.SysStyleCode)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.SysStyleCode)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.BuyStyleCode)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.BuyStyleCode)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.StyleDescription)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.StyleDescription)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Febrication)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Febrication)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Color)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Color)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Size)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Size)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Construction)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Construction)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.WeightOrGSM)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.WeightOrGSM)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Wash)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Wash)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.ModeOfOrder)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.ModeOfOrder)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.DeliveryDate)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.DeliveryDate)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Quantity)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Quantity)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Currency)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Currency)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.ImageData)
+            </dt>
+    
+            <dd>
+
+                <img src="@Url.Action("GetThumbnailImage", "OpenCostings", new {Id =  Model.Id })" alt="Document Image" />
+              
+            </dd>
+    
+           
+            <dt>
+                @Html.DisplayNameFor(model => model.CalculatedSMV)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.CalculatedSMV)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.CostingSMV)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.CostingSMV)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.ProductionPerHr)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.ProductionPerHr)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.UnitPerHr)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.UnitPerHr)
+            </dd>
+    
+        </dl>
+    </div>
+    <p>
+        @Html.ActionLink(".", "Edit", "OpenCostings", new { id = Model.Id }, new { @class = "glyphicon glyphicon-edit" })
+
+        @Html.ActionLink(".", "Index", "OpenCostings", new {  }, new { @class = "glyphicon glyphicon-eye-open" })
+
+
+        
+    </p>

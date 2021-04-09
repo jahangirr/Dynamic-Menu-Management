@@ -1,0 +1,156 @@
+﻿@model SilGlobalFashion.Models.SprOrIndentRegister
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div class="alert-warning">
+    <h4>SprOrIndentRegister</h4>
+    <hr />
+    <dl class="dl-horizontal btn-success" style="background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MOMSprOrIndentNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MOMSprOrIndentNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SprOrIndentNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SprOrIndentNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SprOrIndentDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SprOrIndentDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ReqBySecOrDep)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ReqBySecOrDep)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ItemName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ItemName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ItemCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ItemCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UOM)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UOM)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PresentRequirement)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PresentRequirement)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.StockInHand)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StockInHand)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AverageConsumption)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AverageConsumption)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EstimateRate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EstimateRate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EstimateRateCur)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EstimateRateCur)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LastPurchaseRate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LastPurchaseRate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LastPurchaseRateCur)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LastPurchaseRateCur)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EstimateValue)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EstimateValue)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EstimateValueCur)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EstimateValueCur)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Remarks)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Remarks)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -1,0 +1,295 @@
+﻿@model PagedList.IPagedList<SilGlobalFashion.Models.MatureBillReceiveDate>
+
+@using PagedList.Mvc;
+
+@using SilGlobalFashion.Repository;
+
+
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Html.RenderPartial("MenuView");
+    ViewBag.Title = "Mature Info";
+}
+
+<link href="~/Content/TableStyle.css" rel="stylesheet" />
+
+<h2> Mature Bill Receive Date Info  </h2>
+
+<div class="alert-primary" style="color:black;">
+
+
+    @using (Html.BeginForm("Index", "MatureBillReceiveDates", FormMethod.Get))
+    {
+
+        <table>
+            <tr>
+                <td width="30%">
+                    Select Parameter : @Html.DropDownList("selectionItems", (SelectList)ViewBag.selectionItems)
+
+                    <br />
+
+                    <input type="submit" value="Search" class="btn-danger" />
+                    <input type="button" value="Reset" class="btn-success" id="bReset" />
+
+                </td>
+                <td width="70%">
+
+                    <div id="selectionDivToShow" style="border:dotted; color:black; background-color:Highlight;">
+
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+
+        <p>
+            <table id="SearchInfoTable" class="table" style="color:black;">
+                <tr>
+
+                    <td>
+                        Find by Id_Bank_Branch: @Html.TextBox("BankAndBranch", ViewBag.BankAndBranch as string)
+
+                    </td>
+
+
+                </tr>
+                <tr>
+
+                    <td>
+                        @{
+
+                            GlobCreatedFunction globbCreFunc = new GlobCreatedFunction();
+
+                            DateTime? VeiwBagReceiveDate = null;
+
+                            try
+                            {
+                                VeiwBagReceiveDate = globbCreFunc.GetDate(ViewBag.ReceiveDate);
+
+
+                            }
+                            catch (Exception ex)
+                            {
+
+                            }
+
+
+
+
+                        }
+                        Find by Open Date : @Html.JQueryUI().Datepicker("ReceiveDate", VeiwBagReceiveDate)
+                    </td>
+
+                </tr>
+                <tr>
+
+                    <td>
+                        Find by Receive Amount: @Html.TextBox("ReceiveAmount", ViewBag.ReceiveAmount as string)
+
+                    </td>
+
+
+                </tr>
+               
+
+                <tr>
+                    <td>
+                        <input type="submit" value="Search" /> <button type="button"> @Html.ActionLink("Refresh", "Index")  </button>
+                    </td>
+
+                </tr>
+
+            </table>
+
+        </p>
+                            }
+
+</div>
+
+
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+
+
+        $('#bReset').click(function () {
+
+
+           
+            $('#BankAndBranch').val('');
+            $('#ReceiveDate').val('');
+            $('#ReceiveAmount').val('0');
+            
+
+
+
+            sessionStorage.setItem("MatureBillReceiveDate_BankAndBranch", '');
+            sessionStorage.setItem("MatureBillReceiveDate_ReceiveDate", '');
+            sessionStorage.setItem("MatureBillReceiveDate_ReceiveAmount", '');
+            
+
+        });
+
+
+        var MatureBillReceiveDate_BankAndBranch_value = sessionStorage.getItem("MatureBillReceiveDate_BankAndBranch");
+        if (MatureBillReceiveDate_BankAndBranch_value == null) {
+            sessionStorage.setItem("MatureBillReceiveDate_BankAndBranch", '');
+        } else {
+            sessionStorage.setItem("MatureBillReceiveDate_BankAndBranch", MatureBillReceiveDate_BankAndBranch_value);
+        }
+
+
+        var MatureBillReceiveDate_ReceiveAmount_value = sessionStorage.getItem("MatureBillReceiveDate_ReceiveAmount");
+        if (MatureBillReceiveDate_ReceiveAmount_value == null)
+        {
+            sessionStorage.setItem("MatureBillReceiveDate_ReceiveAmount", '');
+        } else
+        {
+            sessionStorage.setItem("MatureBillReceiveDate_ReceiveAmount", MatureBillReceiveDate_ReceiveAmount_value);
+        }
+
+
+     
+
+
+
+
+
+
+
+        var MatureBillReceiveDate_ReceiveDate_value = sessionStorage.getItem("MatureBillReceiveDate_ReceiveDate");
+        if (MatureBillReceiveDate_ReceiveDate_value == null) {
+            sessionStorage.setItem("MatureBillReceiveDate_ReceiveDate", '');
+        } else {
+            sessionStorage.setItem("MatureBillReceiveDate_ReceiveDate", MatureBillReceiveDate_ReceiveDate_value);
+        }
+
+
+
+
+
+
+
+
+        $('#ReceiveAmount').change(function () {
+
+            sessionStorage.setItem("MatureBillReceiveDate_ReceiveAmount", $('#ReceiveAmount').val());
+        });
+
+      
+        $('#BankAndBranch').change(function () {
+
+            sessionStorage.setItem("MatureBillReceiveDate_BankAndBranch", $('#BankAndBranch').val());
+        });
+
+
+        
+
+        $('#ReceiveDate').change(function () {
+
+            sessionStorage.setItem("MatureBillReceiveDate_ReceiveDate", $('#ReceiveDate').val());
+        });
+
+
+
+
+
+
+
+        $("#SearchInfoTable tr").each(function () {
+                $(this).hide();
+        });
+
+        $("#selectionItems").change(function () {
+
+            $("#SearchInfoTable tr").each(function () {
+                var row_index = $(this).index();
+                var ddlValue = $("#selectionItems").val();
+                if (ddlValue.toString() == row_index.toString())
+                {
+                    $(this).show();
+                }
+                else
+                {
+                    $(this).hide();
+                }
+
+            });
+
+
+            var ReceiveAmount = sessionStorage.getItem("MatureBillReceiveDate_ReceiveAmount");
+            
+            var BankAndBranch = sessionStorage.getItem("MatureBillReceiveDate_BankAndBranch");
+            var ReceiveDate = sessionStorage.getItem("MatureBillReceiveDate_ReceiveDate");
+           
+
+
+
+            var ListOfSelectedValue = 'Receive Amount : ' + ReceiveAmount + '||  Id_Bank_Branch : ' + BankAndBranch + '||  Receive Date : ' + ReceiveDate;
+             $('#selectionDivToShow').html(ListOfSelectedValue.toString());
+
+
+        });
+
+
+
+
+
+    });
+</script>
+
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Id_Bank_Branch
+        </th>
+        <th>
+            ReceiveDate
+        </th>
+        <th>
+            Receive Amount
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.MatureInfo.BankAndBranch)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ReceiveDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ReceiveAmount)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+    }
+
+</table>
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index", new
+{
+    page,
+
+    BankAndBranch = ViewBag.BankAndBranch,
+    ReceiveDate = ViewBag.ReceiveDate,
+    ReceiveAmount = ViewBag.ReceiveAmount
+
+
+}))

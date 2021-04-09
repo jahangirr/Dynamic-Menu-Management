@@ -1,0 +1,252 @@
+﻿@model PagedList.IPagedList<SilGlobalFashion.Models.TransactionInfo>
+
+@using PagedList.Mvc;
+
+@using SilGlobalFashion.Repository;
+
+
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Html.RenderPartial("MenuView");
+    ViewBag.Title = "Transaction Info";
+}
+
+<link href="~/Content/TableStyle.css" rel="stylesheet" />
+
+<h2>  Transaction  </h2>
+
+<div class="alert-primary" style="color:black;">
+
+
+    @using (Html.BeginForm("Index", "TransactionInfoes", FormMethod.Get))
+    {
+
+        <table>
+            <tr>
+                <td width="30%">
+                    Select Parameter : @Html.DropDownList("selectionItems", (SelectList)ViewBag.selectionItems)
+
+                    <br />
+
+                    <input type="submit" value="Search" class="btn-danger" />
+                    <input type="button" value="Reset" class="btn-success" id="bReset" />
+
+                </td>
+                <td width="70%">
+
+                    <div id="selectionDivToShow" style="border:dotted; color:black; background-color:Highlight;">
+
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+
+        <p>
+            <table id="SearchInfoTable" class="table" style="color:black;">
+                <tr>
+
+                    <td>
+                        Find by MatureInfoId : @Html.TextBox("MatureInfoId", ViewBag.MatureInfoId as string)
+
+                    </td>
+
+
+                </tr>
+                <tr>
+                    <td>
+                        Find by AdvCheque_Advice_PayOrder : @Html.TextBox("AdvCheque_Advice_PayOrder", ViewBag.AdvCheque_Advice_PayOrder as string)
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>
+                        Find by Amount : @Html.TextBox("Amount", ViewBag.Amount as string)
+                    </td>
+
+                </tr>
+
+
+
+                <tr>
+                    <td>
+                        <input type="submit" value="Search" /> <button type="button"> @Html.ActionLink("Refresh", "Index")  </button>
+                    </td>
+
+                </tr>
+
+            </table>
+
+        </p>
+                            }
+
+</div>
+
+
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+
+
+        $('#bReset').click(function () {
+
+            $('#MatureInfoId').val('');
+            $('#AdvCheque_Advice_PayOrder').val('');
+            $('#Amount').val('');
+           
+
+
+
+            sessionStorage.setItem("TransactionInfo_MatureInfoId", '');
+            sessionStorage.setItem("TransactionInfo_AdvCheque_Advice_PayOrder", '');
+            sessionStorage.setItem("TransactionInfo_Amount", '');
+          
+
+
+        });
+
+
+        var TransactionInfo_MatureInfoId_value = sessionStorage.getItem("TransactionInfo_MatureInfoId");
+        if (TransactionInfo_MatureInfoId_value == null) {
+            sessionStorage.setItem("TransactionInfo_MatureInfoId", '');
+        } else {
+            sessionStorage.setItem("TransactionInfo_MatureInfoId", TransactionInfo_MatureInfoId_value);
+        }
+
+
+
+        var TransactionInfo_Amount_value = sessionStorage.getItem("TransactionInfo_Amount");
+        if (TransactionInfo_Amount_value == null)
+        {
+            sessionStorage.setItem("TransactionInfo_Amount", '');
+        } else
+        {
+            sessionStorage.setItem("TransactionInfo_Amount", TransactionInfo_Amount_value);
+        }
+
+
+        var TransactionInfo_AdvCheque_Advice_PayOrder_value = sessionStorage.getItem("TransactionInfo_AdvCheque_Advice_PayOrder");
+        if (TransactionInfo_AdvCheque_Advice_PayOrder_value == null) {
+            sessionStorage.setItem("TransactionInfo_AdvCheque_Advice_PayOrder", '');
+        } else {
+            sessionStorage.setItem("TransactionInfo_AdvCheque_Advice_PayOrder", TransactionInfo_AdvCheque_Advice_PayOrder_value);
+        }
+
+
+
+
+
+        $('#MatureInfoId').change(function () {
+
+            sessionStorage.setItem("TransactionInfo_MatureInfoId", $('#MatureInfoId').val());
+        });
+
+        $('#Amount').change(function () {
+
+            sessionStorage.setItem("TransactionInfo_Amount", $('#Amount').val());
+        });
+
+        $('#AdvCheque_Advice_PayOrder').change(function () {
+
+            sessionStorage.setItem("TransactionInfo_AdvCheque_Advice_PayOrder", $('#AdvCheque_Advice_PayOrder').val());
+        });
+
+
+
+
+
+        $("#SearchInfoTable tr").each(function () {
+                $(this).hide();
+        });
+
+        $("#selectionItems").change(function () {
+
+            $("#SearchInfoTable tr").each(function () {
+                var row_index = $(this).index();
+                var ddlValue = $("#selectionItems").val();
+                if (ddlValue.toString() == row_index.toString())
+                {
+                    $(this).show();
+                }
+                else
+                {
+                    $(this).hide();
+                }
+
+            });
+
+
+            var MatureInfoId = sessionStorage.getItem("TransactionInfo_MatureInfoId");
+            var Amount = sessionStorage.getItem("TransactionInfo_Amount");
+            var AdvCheque_Advice_PayOrder = sessionStorage.getItem("TransactionInfo_AdvCheque_Advice_PayOrder");
+
+         
+            var ListOfSelectedValue = 'Amount : ' + Amount + '||  Advice Payorder : ' + AdvCheque_Advice_PayOrder + '||  Mature Info Id  : ' + MatureInfoId;
+
+             $('#selectionDivToShow').html(ListOfSelectedValue.toString());
+
+
+        });
+
+
+
+
+
+    });
+</script>
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+    <table class="table">
+        <tr>
+            <th>
+                Id_Bank_Branch
+
+            </th>
+            <th>
+               Advice_PayOrder
+            </th>
+            <th>
+                Amount
+            </th>
+            <th></th>
+        </tr>
+    
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.MatureInfo.BankAndBranch)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AdvCheque_Advice_PayOrder)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Amount)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+            </td>
+        </tr>
+    }
+    
+    </table>
+
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index", new
+{
+    page,
+
+    MatureInfoId = ViewBag.MatureInfoId,
+    AdvCheque_Advice_PayOrder = ViewBag.AdvCheque_Advice_PayOrder,
+    Amount = ViewBag.Amount
+
+
+}))
+

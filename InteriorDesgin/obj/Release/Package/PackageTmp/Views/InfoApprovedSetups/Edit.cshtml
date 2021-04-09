@@ -1,0 +1,301 @@
+﻿@model SilGlobalFashion.Models.InfoApprovedSetup
+@using SilGlobalFashion.Repository;
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Edit</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        
+
+        <h4>InfoApprovedSetup</h4>
+       
+
+
+        <table width="100%">
+            <tr>
+                <td width="18%">
+
+                    <div style="border:groove;background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+                        Module Name :
+                    </div>
+                </td>
+
+                <td width="26%">
+
+
+
+                    <div class="col-md-10">
+
+                        @Html.DropDownList("ModuleName", (SelectList)ViewBag.ModuleNameData)
+                        @Html.ValidationMessageFor(model => model.ModuleName, "", new { @class = "text-danger" })
+                    </div>
+
+
+
+
+
+                </td>
+                <td width="12%"></td>
+
+                <td width="18%">
+                    <div style="border:groove;background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+                        Approve Process Name
+                    </div>
+
+                </td>
+                <td width="26%">
+
+
+                    <div class="col-md-10">
+                        @Html.DropDownList("ItemType", (SelectList)ViewBag.ItemTypeData)
+
+                        @Html.ValidationMessageFor(model => model.ItemType, "", new { @class = "text-danger" })
+                    </div>
+
+                </td>
+
+            </tr>
+
+
+            <tr>
+                <td width="18%">
+
+                    <div style="border:groove;background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+                       
+                    </div>
+                </td>
+
+                <td width="26%">
+
+
+
+                    <div class="col-md-10">
+
+                     
+                    </div>
+
+
+
+
+
+                </td>
+                <td width="12%"></td>
+
+                <td width="18%">
+                    <div style="border:groove;background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+                        DepartmentName
+                    </div>
+
+                </td>
+                <td width="26%">
+
+
+                    <div class="col-md-10">
+                        @Html.DropDownList("DepartmentName", (SelectList)ViewBag.DepartmentNameData)
+
+                        @Html.ValidationMessageFor(model => model.DepartmentName, "", new { @class = "text-danger" })
+                    </div>
+
+                </td>
+
+            </tr>
+
+
+
+            <tr>
+                <td width="18%">
+
+                    <div style="border:groove;background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+                        Location:
+                    </div>
+                </td>
+
+                <td width="26%">
+
+
+                    <div class="col-md-10">
+                        @Html.DropDownList("Location", (SelectList)ViewBag.LocationData)
+                        @Html.ValidationMessageFor(model => model.Location, "", new { @class = "text-danger" })
+                    </div>
+
+                </td>
+                <td width="12%"></td>
+
+                <td width="18%">
+                    <div style="border:groove;background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+
+                        Role :
+                    </div>
+
+                </td>
+                <td width="26%">
+
+
+                    <div class="col-md-10">
+                        @Html.DropDownList("Role", (SelectList)ViewBag.RoleData)
+                        @Html.ValidationMessageFor(model => model.Role, "", new { @class = "text-danger" })
+                    </div>
+
+                </td>
+
+            </tr>
+
+            <tr>
+                <td width="18%">
+
+                    <div style="border:groove;background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+
+                        Next Department :
+
+
+                    </div>
+                </td>
+
+                <td width="26%">
+
+
+                    <div class="col-md-10">
+
+
+                        @Html.DropDownList("NextDepartmentName", (SelectList)ViewBag.NextDepartmentNameData)
+                        @Html.ValidationMessageFor(model => model.NextDepartmentName, "", new { @class = "text-danger" })
+
+
+
+                    </div>
+
+                </td>
+                <td width="12%"></td>
+
+                <td width="18%">
+                    <div style="border:groove;background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+                        Approved Date :
+
+                    </div>
+
+                </td>
+                <td width="26%">
+
+                    @{
+
+                        DateTime? ApproveSetDate = null;
+
+
+
+                        GlobCreatedFunction gcF = new GlobCreatedFunction();
+
+
+                        try
+                        {
+
+                            ApproveSetDate = Convert.ToDateTime(gcF.GetDate(ViewBag.ApproveSetDate as string));
+                        }
+                        catch (Exception ex)
+                        {
+
+                        }
+
+
+                    }
+
+                    <div class="col-md-10">
+                        @Html.JQueryUI().Datepicker("ApproveSetDate", ApproveSetDate)
+
+                        @Html.ValidationMessageFor(model => model.ApproveSetDate, "", new { @class = "text-danger" })
+                    </div>
+
+                </td>
+
+            </tr>
+
+            <tr>
+                <td width="18%">
+                    NextRole:
+
+                </td>
+
+                <td width="26%">
+
+                    <div class="col-md-10">
+
+                        @Html.DropDownList("NextRole", (SelectList)ViewBag.NextRoleData)
+                        @Html.ValidationMessageFor(model => model.NextRole, "", new { @class = "text-danger" })
+
+                    </div>
+
+
+                </td>
+                <td width="12%"></td>
+
+                <td width="18%">
+                    <div style="border:groove;background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+                        Is Active:
+
+                    </div>
+
+                </td>
+                <td width="26%">
+                    <div class="col-md-10">
+                        @Html.CheckBox("IsActive")
+                        @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
+                    </div>
+                    <div style="display:none">
+                        @Html.TextBoxFor(model => model.SysDateTime, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.SysDateTime, "", new { @class = "text-danger" })
+                    </div>
+
+
+                </td>
+
+            </tr>
+
+
+            <tr>
+                <td colspan="5"></td>
+
+            </tr>
+
+
+            <tr>
+                <td width="18%">
+
+                    <div style="border:groove;background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+
+                    </div>
+                </td>
+
+                <td width="26%">
+
+                    <input type="submit" value="Save" name="save" />
+
+
+                </td>
+                <td width="12%"></td>
+
+                <td width="18%">
+                    <div style="border:groove;background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+
+
+                    </div>
+
+                </td>
+                <td width="26%"></td>
+
+            </tr>
+
+        </table>
+       
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

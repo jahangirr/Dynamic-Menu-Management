@@ -1,0 +1,51 @@
+﻿@model SilGlobalFashion.Models.MatureBillInfoDetails
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Details</title>
+</head>
+<body>
+    <div>
+        <h4>MatureBillInfoDetails</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.MatureInfo.Notes)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.MatureInfo.Notes)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.TypeOfBill.BillType)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.TypeOfBill.BillType)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Amount)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Amount)
+            </dd>
+    
+        </dl>
+    </div>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+</body>
+</html>

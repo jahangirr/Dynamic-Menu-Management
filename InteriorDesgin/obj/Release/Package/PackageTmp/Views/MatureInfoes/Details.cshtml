@@ -1,0 +1,91 @@
+﻿@model SilGlobalFashion.Models.MatureInfo
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Details</title>
+</head>
+<body>
+    <div>
+        <h4>MatureInfo</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.BankAndBranch.BankName)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.BankAndBranch.BankName)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.OpenDate)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.OpenDate)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.TotalArea)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.TotalArea)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.QuotationSubmit)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.QuotationSubmit)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.TotalBillAmount)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.TotalBillAmount)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.MatureDate)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.MatureDate)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.MatureTotalTaka)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.MatureTotalTaka)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Notes)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Notes)
+            </dd>
+    
+        </dl>
+    </div>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+</body>
+</html>

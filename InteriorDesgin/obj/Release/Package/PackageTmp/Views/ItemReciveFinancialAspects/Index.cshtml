@@ -1,0 +1,253 @@
+﻿@model PagedList.IPagedList<SilGlobalFashion.Models.ItemReciveFinancialAspect>
+@using PagedList.Mvc;
+@using SilGlobalFashion.Repository;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Html.RenderPartial("MenuView");
+    ViewBag.Title = "Item Receive Financial Aspect";
+}
+
+<link href="~/Content/TableStyle.css" rel="stylesheet" />
+
+@using (Html.BeginForm("Index", "ItemReciveFinancialAspects", FormMethod.Get))
+{
+
+    <div class="alert-primary">
+
+        <table>
+            <tr>
+                <td width="30%">
+                    Select Parameter : @Html.DropDownList("selectionItems", (SelectList)ViewBag.selectionItems)
+
+                    <br />
+
+                    <input type="submit" value="Search" class="btn-danger" />
+                    <input type="button" value="Reset" class="btn-success" id="bReset" />
+
+                </td>
+                <td width="70%">
+
+                    <div id="selectionDivToShow" style="border:dotted; color:black; background-color:Highlight;">
+
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+
+
+        <table id="SearchInfoTable" class="table" style="color:black;">
+            <tr>
+                <td>
+                    Find by MRR No : @Html.TextBox("MRRNo", ViewBag.MRRNo as string)
+                </td>
+            </tr>
+            <tr>
+                <td>
+
+                    @{ 
+
+                        DateTime? MRRDate = null;
+                        try
+                        {
+                            GlobCreatedFunction globbCreFunc = new GlobCreatedFunction();
+                            MRRDate =  Convert.ToDateTime( globbCreFunc.GetDate(ViewBag.MRRNo));
+
+                        }
+                        catch (Exception ex)
+                        {
+
+                        }
+                    }
+
+                    Find by MRR Date: @Html.JQueryUI().Datepicker("MRRDate", MRRDate)
+                    
+                   
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Find by Trans Name : @Html.TextBox("TransName", ViewBag.TransName as string)
+                </td>
+            </tr>
+
+        
+
+        </table>
+
+    </div>
+
+
+}
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+
+
+        $('#bReset').click(function () {
+
+            $('#MRRNo').val('');
+            $('#MRRDate').val('');
+            $('#TransName').val('');
+           
+            sessionStorage.setItem("ItemReceiveFanancialAspects_MRRNo", '');
+            sessionStorage.setItem("ItemReceiveFanancialAspects_MRRDate", '');
+            sessionStorage.setItem("ItemReceiveFanancialAspects_TransName", '');
+
+        });
+
+
+
+
+        var ItemReceiveFanancialAspects_MRRNo_value = sessionStorage.getItem("ItemReceiveFanancialAspects_MRRNo");
+        if (ItemReceiveFanancialAspects_MRRNo_value == null)
+        {
+            sessionStorage.setItem("ItemReceiveFanancialAspects_MRRNo", '');
+        } else
+        {
+            sessionStorage.setItem("ItemReceiveFanancialAspects_MRRNo", ItemReceiveFanancialAspects_MRRNo_value);
+        }
+
+
+        var ItemReceiveFanancialAspects_MRRDate_value = sessionStorage.getItem("ItemReceiveFanancialAspects_MRRDate");
+        if (ItemReceiveFanancialAspects_MRRDate_value == null) {
+            sessionStorage.setItem("ItemReceiveFanancialAspects_MRRDate", '');
+        } else {
+            sessionStorage.setItem("ItemReceiveFanancialAspects_MRRDate", ItemReceiveFanancialAspects_MRRDate_value);
+        }
+
+
+
+
+        var ItemReceiveFanancialAspects_TransName_value = sessionStorage.getItem("ItemReceiveFanancialAspects_TransName");
+        if (ItemReceiveFanancialAspects_TransName_value == null) {
+            sessionStorage.setItem("ItemReceiveFanancialAspects_TransName", '');
+        } else {
+            sessionStorage.setItem("ItemReceiveFanancialAspects_TransName", ItemReceiveFanancialAspects_TransName_value);
+        }
+
+
+
+
+        $('#MRRNo').change(function () {
+
+            sessionStorage.setItem("ItemReceiveFanancialAspects_MRRNo", $('#MRRNo').val());
+        });
+
+        $('#MRRDate').change(function () {
+
+            sessionStorage.setItem("ItemReceiveFanancialAspects_MRRDate", $('#MRRDate').val());
+        });
+
+        $('#TransName').change(function () {
+
+            sessionStorage.setItem("ItemReceiveFanancialAspects_TransName", $('#TransName').val());
+        });
+
+     
+
+
+
+        $("#SearchInfoTable tr").each(function () {
+                $(this).hide();
+        });
+
+        $("#selectionItems").change(function () {
+
+            $("#SearchInfoTable tr").each(function () {
+                var row_index = $(this).index();
+                var ddlValue = $("#selectionItems").val();
+                if (ddlValue.toString() == row_index.toString())
+                {
+                    $(this).show();
+                }
+                else
+                {
+                    $(this).hide();
+                }
+
+            });
+
+
+            var MRRNo =  sessionStorage.getItem("ItemReceiveFanancialAspects_MRRNo");
+            var MRRDate = sessionStorage.getItem("ItemReceiveFanancialAspects_MRRDate");
+            var TransName = sessionStorage.getItem("ItemReceiveFanancialAspects_TransName");
+           
+            var ListOfSelectedValue = 'MRR No : ' + MRRNo + '||  MRR Date : ' + MRRDate + '||  Trans Name : ' + TransName;
+            $('#selectionDivToShow').html(ListOfSelectedValue.toString());
+
+        });
+
+    });
+</script>
+
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table-bordered" style="background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+    <tr>
+        <th>
+            MRR No
+        </th>
+        <th>
+            MRR Date
+        </th>
+        <th>
+            Is Add
+        </th>
+        <th>
+            Trans Name
+        </th>
+        <th>
+            Trans Percentage
+        </th>
+        <th>
+            Direct Amount
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.MRRNo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MRRDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsAdd)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TransName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TransPercentage)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DirectAmount)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+    }
+
+</table>
+
+
+<br/>
+
+ Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page, MRRNo = ViewBag.MRRNo, MRRDate = ViewBag.MRRDate, TransName = ViewBag.TransName }))

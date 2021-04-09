@@ -1,0 +1,1189 @@
+﻿@model SilGlobalFashion.Models.ItemLoanIssueMaster
+@using SilGlobalFashion.Repository;
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2> Item Loan Issue Creation</h2>
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "form" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+       
+            <div style="border:groove; background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+                <strong>Item Issue From[CS/YD/GS]:</strong>
+                @Html.TextBoxFor(model => model.StoreLocation, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.StoreLocation, "", new { @class = "text-danger" })
+
+            </div>
+         
+
+
+
+        <table width="100%">
+            <tr>
+                <td width="18%">
+
+                    <div style="border:groove; background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+                        SI No :
+                    </div>
+                </td>
+
+                <td width="26%">
+
+                    <div style="border:groove; background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+                       
+                        @Html.TextBox("SINoShow", ViewBag.SINo as string, htmlAttributes: new { disabled = "disabled", @class = "form-control" })
+                        @Html.Hidden("SINo", ViewBag.SINo as string)
+
+                    </div>
+                  
+
+                </td>
+                <td width="12%"></td>
+
+                <td width="18%">
+                    <div style="border:groove; background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+                        Order No:
+                    </div>
+
+                </td>
+                <td width="26%">
+
+                    <div style="border:groove; background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+                        @Html.TextBox("OrderNo", ViewBag.OrderNo as string, htmlAttributes: new {  @class = "form-control" })
+                       
+
+                    </div>
+                    @Html.ValidationMessageFor(model => model.OrderNo, "", new { @class = "text-danger" })
+
+                </td>
+
+            </tr>
+            <tr>
+                <td width="18%">
+
+                    <div style="border:groove; background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+                        Date :
+                    </div>
+                </td>
+
+                <td width="26%">
+
+                    <div style="border:groove; background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+
+                        @{
+
+                            GlobCreatedFunction globbCreFunc = new GlobCreatedFunction();
+
+                            DateTime? dtStoreIssueDate = null;
+
+                            try
+                            {
+                                dtStoreIssueDate = Convert.ToDateTime(ViewBag.StoreIssueDate as string);
+                            }
+                            catch (Exception ex)
+                            {
+
+                            }
+
+
+
+                        }
+
+                        @Html.JQueryUI().Datepicker("StoreIssueDate" , dtStoreIssueDate)
+                        @Html.ValidationMessageFor(model => model.StoreIssueDate, "", new { @class = "text-danger" })
+                    </div>
+
+
+
+                </td>
+                <td width="12%"></td>
+
+                <td width="28%">
+                    <div style="border:groove; background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+                        <strong> Order Qty: </strong>
+                        @Html.TextBox("OrderQty", ViewBag.OrderQty as string, htmlAttributes: new { style = "width:150px;" })
+                        
+                    </div>
+                    @Html.ValidationMessageFor(model => model.OrderQty, "", new { @class = "text-danger" })
+
+
+                </td>
+                <td width="16%">
+
+                    <div style="border:groove; background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+                      <table>
+                         <tr style="width:100%">
+                             <td style="width:50%">
+                                 <strong>UOM</strong>
+                             </td>
+                             <td style="width:50%">
+                                
+                                 @Html.TextBox("OrderUOM", ViewBag.OrderUOM as string, htmlAttributes: new { style = "width:80px;" })
+                             </td>
+                         </tr>
+                        </table>  
+                        
+                    </div>
+
+                    @Html.ValidationMessageFor(model => model.OrderUOM, "", new { @class = "text-danger" })
+
+                </td>
+
+            </tr>
+            <tr>
+                <td width="18%">
+
+                    <div style="border:groove; background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+                        Section:
+                    </div>
+                </td>
+
+                <td width="26%">
+
+                    <div style="border:groove; background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+
+                        @Html.TextBox("Section", ViewBag.Section as string, htmlAttributes: new { @class = "form-control" })
+
+                       
+
+
+                    </div>
+
+                    @Html.ValidationMessageFor(model => model.Section, "", new { @class = "text-danger" })
+
+                </td>
+                <td width="12%"></td>
+
+                <td width="18%">
+                    <div style="border:groove; background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+                        Buyer Name:
+                    </div>
+
+                </td>
+                <td width="26%">
+
+                    <div style="border:groove; background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+
+                        @Html.TextBox("BuyerName", ViewBag.BuyerName as string, htmlAttributes: new { @class = "form-control" })
+                       
+
+                    </div>
+
+                    @Html.ValidationMessageFor(model => model.BuyerName, "", new { @class = "text-danger" })
+
+                </td>
+
+            </tr>
+            <tr>
+                <td width="18%">
+
+                    <div style="border:groove; background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+                        Shift  :
+                    </div>
+                </td>
+
+                <td width="26%">
+
+                    <div style="border:groove; background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+                       
+                        @Html.TextBox("Shift", ViewBag.Shift as string, htmlAttributes: new { @class = "form-control" })
+
+                    </div>
+                    @Html.ValidationMessageFor(model => model.Shift, "", new { @class = "text-danger" })
+
+                </td>
+                <td width="12%"></td>
+
+                <td width="18%">
+                    <div style="border:groove; background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+                        Color/Shade :
+                    </div>
+
+                </td>
+                <td width="26%">
+
+                    <div style="border:groove; background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+                        @Html.TextBox("ColorOrShade", ViewBag.ColorOrShade as string, htmlAttributes: new { @class = "form-control" })
+                       
+
+
+                    </div>
+
+                    @Html.ValidationMessageFor(model => model.ColorOrShade, "", new { @class = "text-danger" })
+
+                </td>
+
+            </tr>
+            <tr>
+                <td width="18%">
+
+                    <div style="border:groove; background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+                        Batch No :
+                    </div>
+                </td>
+
+                <td width="18%">
+
+                    <div style="border:groove; background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+                        @Html.TextBox("BachNo", ViewBag.BachNo as string, htmlAttributes: new { @class = "form-control" })
+                        
+
+                    </div>
+                    @Html.ValidationMessageFor(model => model.BachNo, "", new { @class = "text-danger" })
+
+                </td>
+                <td colspan="2" width="28%" align="center">
+                    <div style="border:groove; background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+
+                        Batch Qty : @Html.TextBox("BachQty", ViewBag.BachQty as string, htmlAttributes: new { style = "width:80px;" })
+                    </div>
+
+                </td>
+
+               
+                <td colspan="2" width="44%">
+
+                    Batch UOM :@Html.TextBox("BachUOM", ViewBag.BachUOM as string, htmlAttributes: new { style = "width:50px;" })
+
+                   
+
+
+
+                </td>
+               
+            </tr>
+            <tr>
+                <td width="18%">
+
+                    <div style="border:groove; background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+                        Process Qty :
+                    </div>
+                </td>
+
+                <td width="26%">
+
+                    <div style="border:groove; background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+                        @Html.TextBox("ProcessQty", ViewBag.ProcessQty as string, htmlAttributes: new { @class = "form-control" }) 
+                    </div>
+
+                    @Html.ValidationMessageFor(model => model.ProcessQty, "", new { @class = "text-danger" })
+
+                </td>
+                <td width="12%"></td>
+
+                <td width="18%">
+                    <div style="border:groove; background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+                        Process UOM :
+                    </div>
+
+                </td>
+                <td width="26%">
+
+                    <div style="border:groove; background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+                        @Html.TextBox("ProcessUOM", ViewBag.ProcessUOM as string, htmlAttributes: new { @class = "form-control" })
+                        
+                        
+                    </div>
+
+                    @Html.ValidationMessageFor(model => model.ProcessUOM, "", new { @class = "text-danger" })
+
+                </td>
+
+            </tr>
+        </table>
+
+
+
+
+        <table width="100%" >
+            <tr>
+                <th>
+                    <div class="alert-danger" style="width:50px;">
+                        Item SL No
+                    </div>
+                </th>
+                <th>
+                    <div class="alert-danger" style="width:80px;">
+                        Item Code
+                    </div>
+                </th>
+                <th>
+                    <div class="alert-danger" style="width:150px;">
+                        Item Name
+                    </div>
+                </th>
+                <th>
+                    <div class="alert-danger" style="width:150px;">
+                        Purpose/Process
+                    </div>
+                </th>
+                <th>
+                    <div class="alert-danger" style="width:100px;">
+                        Item Loan Number
+                    </div>
+                </th>
+                <th>
+                    <div class="alert-danger" style="width:100px;">
+                        Issued Qty
+                    </div>
+                </th>
+                <th>
+                    <div class="alert-danger" style="width:100px;">
+                      Confirm  Issued Qty
+                    </div>
+                </th>
+                <th>
+                    <div class="alert-danger" style="width:50px;">
+                        UOM
+                    </div>
+                </th>
+
+                <th>
+                    <div class="alert-danger" style="width:150px;">
+                        Remarks
+                    </div>
+                </th>
+                <th>
+                    <div class="alert-danger" style="width:80px;">
+                        Action
+                    </div>
+                </th>
+            </tr>
+            <tr>
+                <td style="width:50px;">
+
+                    <div id="SlNumberToShow">
+
+
+                    </div>
+                   
+
+                </td>
+                <td style="width:80px;">
+
+                    <div>
+
+                        @Html.TextBox("ItemCodeShow", null, htmlAttributes: new { disabled = "disabled", style = "width:80px;" })
+
+                        @Html.Hidden("ItemCode")
+                       
+                    </div>
+
+                </td>
+
+                <td style="width:150px;">
+                    @Html.TextBoxFor(model => model.ItemDescription, new { style = "width:150px" })
+                    @Html.ValidationMessageFor(model => model.ItemDescription, "", new { @class = "text-danger" })
+
+                </td>
+
+                <td style="width:150px;">
+
+                    @Html.TextBoxFor(model => model.ProposeOrProcess, new { style = "width:150px" })
+                    @Html.ValidationMessageFor(model => model.ProposeOrProcess, "", new { @class = "text-danger" })
+
+                </td>
+
+                <td style="width:100px;">
+
+                    @Html.TextBoxFor(model => model.ItemLotNo, new { style = "width:100px" })
+                    @Html.ValidationMessageFor(model => model.ItemLotNo, "", new { @class = "text-danger" })
+
+                </td>
+
+                <td style="width:100px;">
+
+                    @Html.TextBoxFor(model => model.IssuedQty, new { style = "width:100px" })
+                    @Html.ValidationMessageFor(model => model.IssuedQty, "", new { @class = "text-danger" })
+
+                </td>
+
+                <td style="width:100px;">
+
+                    @Html.TextBoxFor(model => model.RecipeQty, new { style = "width:100px" })
+                    @Html.ValidationMessageFor(model => model.RecipeQty, "", new { @class = "text-danger" })
+
+                </td>
+
+
+                <td style="width:50px;">
+
+                    @Html.TextBoxFor(model => model.IssueOrRecipeUOM, new { style = "width:50px" })
+                    @Html.ValidationMessageFor(model => model.IssueOrRecipeUOM, "", new { @class = "text-danger" })
+
+                </td>
+
+               
+
+                <td style="width:150px;">
+
+                    @Html.TextBoxFor(model => model.Remarks, new { style = "width:150px" })
+                    @Html.ValidationMessageFor(model => model.Remarks, "", new { @class = "text-danger" })
+
+                </td>
+
+
+
+
+               
+
+                <td>
+                    <input type="submit" id="AddToList" name="AddToList" value="Add To List" class="btn btn-danger" />
+                </td>
+
+            </tr>
+
+        </table>
+
+
+
+
+
+
+
+
+
+
+        <div class="alert-success" style="border:2px;border-color:green;">
+
+            <table width="100%" id="insertInfoTable">
+                <tr>
+                    <th>
+                        <div class="alert-danger" style="width:50px;">
+                            Item SL No
+                        </div>
+                    </th>
+                    <th>
+                        <div class="alert-danger" style="width:80px;">
+                            Item Code
+                        </div>
+                    </th>
+                    <th>
+                        <div class="alert-danger" style="width:150px;">
+                            Item Description
+                        </div>
+                    </th>
+                    <th>
+                        <div class="alert-danger" style="width:150px;">
+                            Purpose/Process
+                        </div>
+                    </th>
+                    <th>
+                        <div class="alert-danger" style="width:100px;">
+                            Item Lot No
+                        </div>
+                    </th>
+                    <th>
+                        <div class="alert-danger" style="width:100px;">
+                            Issued Qty
+                        </div>
+                    </th>
+                    <th>
+                        <div class="alert-danger" style="width:100px;">
+                            Confirm Issued Qty
+                        </div>
+                    </th>
+                    <th>
+                        <div class="alert-danger" style="width:50px;">
+                            UOM
+                        </div>
+                    </th>
+
+                    <th>
+                        <div class="alert-danger" style="width:150px;">
+                            Remarks
+                        </div>
+                    </th>
+                    <th>
+                        <div class="alert-danger" style="width:80px;">
+                            Action
+                        </div>
+                    </th>
+                </tr>
+
+                @{
+
+                    int totalNumber = 0;
+
+                    if (Session["DataItemLoanIssueMaster"] != null)
+                    {
+
+                        List<SilGlobalFashion.Models.ItemLoanIssueMaster> temItemLoanIssueMaster = (List<SilGlobalFashion.Models.ItemLoanIssueMaster>)Session["DataItemLoanIssueMaster"];
+                        totalNumber = temItemLoanIssueMaster.Count();
+                        for (int i = 0; i < totalNumber; i++)
+                        {
+
+                            <tr>
+                                <td style="width:50px;">
+                                    @{
+
+                                        int SLNo = (i+1);
+                                        HtmlString HSSlNo = new HtmlString(SLNo.ToString());
+                                    }
+                                    @HSSlNo
+                                </td>
+                                <td style="width:80px;">
+
+                                    <div>
+
+                                        @{
+                                            HtmlString HSItemCode = new HtmlString(temItemLoanIssueMaster[i].ItemCode.ToString());
+                                        }
+
+                                        @HSItemCode
+                                    </div>
+
+                                </td>
+                                <td style="width:150px;">
+
+                                    <div>
+
+                                        @{
+                                            HtmlString HSItemDescription = new HtmlString(temItemLoanIssueMaster[i].ItemDescription.ToString());
+                                        }
+
+                                        @HSItemDescription
+
+                                    </div>
+
+                                </td>
+
+                                <td style="width:150px;">
+
+                                    <div>
+
+                                        @{
+                                            HtmlString HSPurposeOrPurchase = new HtmlString(temItemLoanIssueMaster[i].ProposeOrProcess.ToString());
+                                        }
+
+                                        @HSPurposeOrPurchase
+
+                                    </div>
+
+
+
+                                </td>
+
+                                <td style="width:100px;">
+
+                                    @{
+                                        HtmlString HSLotNu = new HtmlString(temItemLoanIssueMaster[i].ItemLotNo.ToString());
+                                    }
+
+                                    @HSLotNu
+
+
+
+                                </td>
+
+                                <td style="width:100px;">
+
+                                    @{
+                                        HtmlString HSIssuedQty = new HtmlString(temItemLoanIssueMaster[i].IssuedQty.ToString());
+                                    }
+
+                                    @HSIssuedQty
+
+                                </td>
+
+                                <td style="width:100px;">
+
+                                    @{
+                                        HtmlString HSRecipeQty = new HtmlString(temItemLoanIssueMaster[i].RecipeQty.ToString());
+                                    }
+
+                                    @HSRecipeQty
+
+
+
+                                </td>
+
+
+                                <td style="width:50px;">
+
+                                    @{
+                                        HtmlString HSIssueOrRecipeUOM = new HtmlString(temItemLoanIssueMaster[i].IssueOrRecipeUOM.ToString());
+                                    }
+
+                                    @HSIssueOrRecipeUOM
+
+
+
+                                </td>
+
+                                <td style="width:80px;">
+
+                                    @{
+                                        HtmlString HSRemarks = new HtmlString(temItemLoanIssueMaster[i].Remarks.ToString());
+                                    }
+
+                                    @HSRemarks
+
+
+
+
+                                </td>
+
+                                <td>
+
+                                    <button type="button" class="btn-info" id="btnEdit" value="Edit" onclick="fn_btnEdit(this)"> Edit </button>
+
+                                    <button type="button" class="btn-default" id="btnDelete" value="Delete" onclick="fn_btnDelete(this)"> Delete</button>
+
+
+                                </td>
+
+                            </tr>
+
+
+                                            }
+
+
+                                        }
+
+
+                }
+
+
+            </table>
+
+
+
+        </div>
+
+
+        <table class="table alert-warning" width="100%">
+            <tr>
+                <td width="25%">
+                    <input type="submit" value="Save" class="btn btn-default alert-success" />
+                </td>
+                <td width="25%">
+
+                    <input type="submit" name="UpperEdit" value="Upper Edit" class="btn btn-default alert-danger" />
+
+                    
+
+                </td>
+                <td width="25%">
+
+
+                    <div class="btn-group hidden">
+
+                        <div class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                            Print <span class="caret"></span>
+                        </div>
+
+                        <ul class="dropdown-menu" role="menu">
+                            <li>
+
+
+                                <a onclick='GetPDF();' class="btn-info">
+                                    PDF
+                                </a>
+
+
+
+                                <script type='text/javascript'>
+
+                                    function GetPDF() {
+
+                                        var url = "http://localhost:56558/ItemReciveTables/ItemReceiveReport?ReportType=PDF&SPRNoOrIndentNo=" + $('#SPRNoOrIndentNoReport').val();
+                                        window.open(url, '_blank');
+
+                                    }
+
+                                </script>
+                            </li>
+                            <li>
+
+                                <a onclick='GetExcel();' class="btn-danger">
+                                    Excel
+                                </a>
+
+
+                                <script type='text/javascript'>
+
+                                    function GetExcel() {
+
+                                        var url = "http://localhost:56558/ItemReciveTables/ItemReceiveReport?ReportType=EXCEL&SPRNoOrIndentNo=" + $('#SPRNoOrIndentNoReport').val();
+                                        window.open(url, '_blank');
+
+                                    }
+
+                                </script>
+
+
+
+
+                            </li>
+                            <li>
+
+                                <a onclick='GetExcelRecord();' class="btn-success">
+                                    Excel Record
+                                </a>
+
+
+                                <script type='text/javascript'>
+
+                                    function GetExcelRecord() {
+
+                                        var url = "http://localhost:56558/ItemReciveTables/ItemReceiveReport?ReportType=EXCELRECORD&SPRNoOrIndentNo=" + $('#SPRNoOrIndentNoReport').val();
+                                        window.open(url, '_blank');
+
+                                    }
+
+                                </script>
+
+
+
+
+                            </li>
+                            <li>
+                                <a onclick='GetWord();' class="btn-primary">
+                                    Word
+                                </a>
+
+
+                                <script type='text/javascript'>
+
+                                    function GetWord() {
+
+                                        var url = "http://localhost:56558/ItemReciveTables/ItemReceiveReport?ReportType=WORD&SPRNoOrIndentNo=" + $('#SPRNoOrIndentNoReport').val();
+                                        window.open(url, '_blank');
+
+                                    }
+
+                                </script>
+                            </li>
+
+                        </ul>
+                    </div>
+
+
+
+                </td>
+                <td width="25%">
+                    <div class="btn btn-default alert-danger">@Html.ActionLink("Delete", "TempDelete") </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+ }
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+
+
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+
+        $(document).on('submit', 'form', function () {
+            var buttons = $(this).find('[type="submit"]');
+            if ($(this).valid()) {
+                buttons.each(function (btn) {
+                    if ($(buttons[btn]).attr('id') != 'AddToList') {
+                        $(buttons[btn]).prop('disabled', true);
+                    }
+                });
+            } else {
+                buttons.each(function (btn) {
+                    $(buttons[btn]).prop('disabled', false);
+                });
+            }
+        });
+
+
+
+       
+        $("#ItemCode").val('');
+        $("#ItemDescription").val('');
+        $("#ProposeOrProcess").val('');
+        $("#ItemLotNo").val('');
+        $("#IssuedQty").val("0.0");
+        $("#RecipeQty").val("0.0");
+        $("#IssueOrRecipeUOM").val('');
+        $("#Remarks").val('N/A');
+
+
+        $("#ItemCode").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("GetItemCode")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        ItemCode: $('#ItemCode').val()
+                    },
+                    success: function (data) {
+                        // setting SL No
+                        var rows = $('#insertInfoTable tr').length;
+                        $("#SlNumberToShow").text(rows.toString());
+                        //setting SL No
+
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                        );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+
+        $("#ItemDescription").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("GetItemName")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        ItemName: $('#ItemDescription').val()
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                        );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+
+        $("#StoreLocation").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("GetStoreLocation")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        StoreLocation: $('#StoreLocation').val()
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                        );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+
+        $('#ItemDescription').change(function () {
+
+            $.ajax({
+                url: '@Url.Action("GetItemDetialByItemName", "SprOrIndentRegisters")',
+                type: "GET",
+                dataType: "JSON",
+                data: {
+                    ItemName: $('#ItemDescription').val()
+                },
+                success: function (data) {
+
+                    $('#ItemCode').val(data.ItemCode);
+                    $('#ItemCodeShow').val(data.ItemCode);
+
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    //debugger;
+                    alert(textStatus);
+                }
+            });
+        });
+
+
+
+
+
+
+
+        $("#ItemLotNo").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("GetLotNo")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        ItemLotNo: $('#ItemLotNo').val(),
+                        ItemCode: $('#ItemCode').val()
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                        );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        console.log(XMLHttpRequest);
+                        console.log(textStatus);
+                        console.log(errorThrown);
+                        alert(textStatus);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+
+
+        $('#ItemLotNo').change(function () {
+            $.ajax({
+                url: '@Url.Action("GetLotDetailsByItem", "ItemLoanIssueMasters")',
+                type: "GET",
+                dataType: "JSON",
+                data: {
+                    LotNo: $('#ItemLotNo').val(),
+                    ItemCode: $("#ItemCode").val()
+                },
+                success: function (data) {
+                    $('#IssuedQty').val(data.IssuedQty);
+                    $('#RecipeQty').val(data.RecipeQty);
+                    $('#IssueOrRecipeUOM').val(data.IssueOrRecipeUOM);
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+
+
+                    //debugger;
+                    alert(textStatus);
+                }
+            });
+        });
+
+
+
+        $('#IssuedQty').change(function () {
+            $.ajax({
+                url: '@Url.Action("GetLotDetailsByItem", "ItemLoanIssueMasters")',
+                type: "GET",
+                dataType: "JSON",
+                data: {
+                    LotNo: $('#ItemLotNo').val(),
+                    ItemCode: $("#ItemCode").val()
+                },
+                success: function (data) {
+
+                    if (parseInt($('#IssuedQty').val()) != 'NaN' && parseInt(data.IssuedQty) != 'NaN')
+                    {
+                        if(parseInt($('#IssuedQty').val()) >  parseInt(data.IssuedQty))
+                        {
+                            $('#IssuedQty').val(data.IssuedQty);
+                        }
+                    }
+
+                    
+                    $('#IssueOrRecipeUOM').val(data.IssueOrRecipeUOM);
+
+
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+
+
+                    //debugger;
+                    alert(textStatus);
+                }
+            });
+        });
+
+
+
+        $('#RecipeQty').change(function () {
+            $.ajax({
+                url: '@Url.Action("GetLotDetailsByItem", "ItemLoanIssueMasters")',
+                type: "GET",
+                dataType: "JSON",
+                data: {
+                    LotNo: $('#ItemLotNo').val(),
+                    ItemCode: $("#ItemCode").val()
+                },
+                success: function (data) {
+
+                   
+                    if (parseInt($('#RecipeQty').val()) != 'NaN' && parseInt(data.RecipeQty) != 'NaN') {
+
+                        if (parseInt($('#RecipeQty').val()) > parseInt(data.RecipeQty)) {
+                            $('#RecipeQty').val(data.RecipeQty);
+                        }
+
+                    }
+
+
+                    $('#IssueOrRecipeUOM').val(data.IssueOrRecipeUOM);
+
+
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+
+
+                    //debugger;
+                    alert(textStatus);
+                }
+            });
+        });
+
+
+        $(document).mousemove(function (event) {
+
+            if ($("#StoreLocation").val() == 'CS' || $("#StoreLocation").val() == 'YD' || $("#StoreLocation").val() == 'GS') {
+                $("#AddToList").prop('disabled', false);
+            } else {
+                $("#AddToList").prop('disabled', true);
+            }
+
+        });
+
+
+
+
+        $("#StoreIssueDate").attr("autocomplete", "off");
+
+
+
+
+    });
+</script>
+
+
+<script>
+
+    function fn_btnEdit(x) {
+
+        var varRowIndex = $(x).closest('tr').index();
+
+
+        $.ajax({
+            url: '@Url.Action("getActionOptionEdit")',
+            type: "GET",
+            dataType: "JSON",
+            data: {
+                RowIndex: varRowIndex
+
+
+            },
+            success: function (data) {
+
+
+                $("#ItemCode").val(data.ItemCode);
+                $("#ItemDescription").val(data.ItemDescription);
+                $("#ProposeOrProcess").val(data.ProposeOrProcess);
+                $("#ItemLotNo").val(data.ItemLotNo);
+                $("#IssuedQty").val(data.IssuedQty);
+                $("#RecipeQty").val(data.RecipeQty);
+                $("#IssueOrRecipeUOM").val(data.IssueOrRecipeUOM);
+                $("#Remarks").val(data.Remarks);
+
+               
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                //debugger;
+                alert(textStatus);
+            }
+        });
+
+
+    };
+
+    function fn_btnDelete(x) {
+
+        var varRowIndex = $(x).closest('tr').index();
+
+        $.ajax({
+            url: '@Url.Action("getActionOptionDelete")',
+            type: "GET",
+            dataType: "JSON",
+            data: {
+                RowIndex: varRowIndex
+            },
+            success: function (data) {
+
+                if (data.Result == "Deleted") {
+                    $(x).closest('tr').remove();
+
+
+                    $("#insertInfoTable tr").each(function () {
+                        var row_index = $(this).index();
+                        if(row_index > 0)
+                        {  
+                            $(this).find("td:eq(0)").text(row_index.toString());
+                        }
+                    });
+
+                    
+
+
+                }
+
+
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                //debugger;
+                alert(textStatus);
+            }
+        });
+
+    };
+
+
+
+</script>

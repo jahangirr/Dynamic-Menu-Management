@@ -1,0 +1,451 @@
+﻿@model List<SilGlobalFashion.Models.InfoApprovedInfo>
+@using SilGlobalFashion.Repository;
+
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Create</h2>
+
+<link href="~/Content/TableStyle.css" rel="stylesheet" />
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "form" }))
+{
+    @Html.AntiForgeryToken()
+
+    <table width="100%">
+
+        <tr>
+            <td width="18%" style="border:groove;background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.Hidden("Id")
+
+                <div style="border:groove;background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+                    Module Name :
+                </div>
+            </td>
+
+            <td width="26%" style="border:groove;background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+
+
+
+                <div class="col-md-10">
+
+                    @Html.DropDownList("ModuleNameS", (SelectList)ViewBag.ModuleNameData)
+
+                </div>
+
+
+
+
+
+            </td>
+            <td width="12%"></td>
+
+            <td width="18%" style="border:groove;background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+                <div style="border:groove;background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+
+                    Approve Process Name:
+
+                </div>
+
+            </td>
+            <td width="26%" style="border:groove;background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+                <div class="col-md-10">
+
+                    @Html.DropDownList("ItemTypeS", (SelectList)ViewBag.ItemTypeData)
+                </div>
+            </td>
+
+        </tr>
+
+
+        <tr>
+            <td width="18%" style="border:groove;background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+                Location:
+
+            </td>
+
+            <td width="26%" style="border:groove;background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+
+
+
+                <div class="col-md-10">
+                    @Html.DropDownList("LocationS", (SelectList)ViewBag.LocationData)
+
+                </div>
+
+
+
+            </td>
+            <td width="12%"></td>
+
+            <td width="18%" style="border:groove;background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+                <div style="border:groove;background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+
+                    DepartmentName
+
+                </div>
+
+            </td>
+            <td width="26%" style="border:groove;background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+
+
+                <div class="col-md-10">
+
+
+                    @Html.DropDownList("DepartmentNameS", (SelectList)ViewBag.DepartmentNameData)
+
+
+
+
+
+                </div>
+
+
+
+            </td>
+
+        </tr>
+
+
+
+        <tr>
+            <td width="18%" style="border:groove;background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+
+                <div style="border:groove;background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+                    Role :
+
+                </div>
+            </td>
+
+            <td width="26%" style="border:groove;background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+
+
+                <div class="col-md-10">
+
+
+
+
+                    @Html.DropDownList("RoleS", (SelectList)ViewBag.RoleData)
+
+
+
+
+
+
+
+                </div>
+
+            </td>
+            <td width="12%"></td>
+
+            <td width="18%" style="border:groove;background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+                <div style="border:groove;background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+                    Approved Date :
+
+                </div>
+
+            </td>
+            <td width="26%" style="border:groove;background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+
+                @{
+
+                    DateTime? ApproveDateS = null;
+
+
+
+                    GlobCreatedFunction gcF = new GlobCreatedFunction();
+
+
+                    try
+                    {
+
+                        ApproveDateS = Convert.ToDateTime(gcF.GetDate(ViewBag.ApproveDateS as string));
+                    }
+                    catch (Exception ex)
+                    {
+
+                    }
+
+
+                }
+
+                <div class="col-md-10">
+                    @Html.JQueryUI().Datepicker("ApproveDateS", ApproveDateS)
+
+
+                </div>
+
+            </td>
+
+        </tr>
+
+
+    </table>
+
+
+
+    <div>
+
+        
+
+        @{
+            var tempModuleName = ViewBag.Module as string;
+            var orDef = "";
+            if (tempModuleName == "SPR/Indent")
+            {
+                orDef = "SPR -";
+            }
+            else if(tempModuleName == "PO Generate")
+            {
+                orDef = "PO -";
+            }
+            else if (tempModuleName == "Item Receive")
+            {
+                orDef = "Receipt -";
+            }else
+            {
+                orDef = "";
+            }
+
+            HtmlString hsOrderDefination = new HtmlString(orDef);
+
+        }
+
+    </div>
+
+
+    <table class="table-bordered" style="background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+        <tr>
+            <th>
+                MOMSprOrIndentNo
+            </th>
+            <th>
+                SprOrIndentNo
+            </th>
+
+
+
+            <th>
+                PONumber
+            </th>
+            <th>
+                SupplierName
+            </th>
+            <th>
+                ItemType
+            </th>
+
+            <th>
+                ItemName
+            </th>
+
+            <th>
+                @hsOrderDefination Quantity
+            </th>
+            <th>
+                UnitCost
+            </th>
+
+            <th>
+                MRRNo
+            </th>
+
+            <th>
+                LotNo
+            </th>
+
+            <th>
+                ApproveDate
+            </th>
+
+            <th>
+                ApproveRemarks
+            </th>
+
+
+
+            <th>
+                IsApproved
+            </th>
+
+           
+
+            <th></th>
+        </tr>
+
+
+        @{
+
+            Int32 itItem = (int)Session["TotalNumberOfItem"];
+        }
+
+        @for (var i = 0; i < itItem; i++)
+        {
+
+            <tr>
+
+                <td>
+
+
+                    @Html.TextBoxFor(it => it[i].MOMSprOrIndentNo, new { Style = "vertical-align:3px;width:100px;" , @readonly = "readonly" })
+
+
+
+                </td>
+                <td>
+                    @Html.TextBoxFor(it => it[i].SprOrIndentNo, new { Style = "vertical-align:3px;width:100px;" , @readonly = "readonly" })
+
+                </td>
+
+
+
+                <td>
+                    @Html.TextBoxFor(it => it[i].PONumber, new { Style = "vertical-align:3px;width:100px;" , @readonly = "readonly" })
+
+                </td>
+                <td>
+                    @Html.TextBoxFor(it => it[i].SupplierName, new { Style = "vertical-align:3px;width:150px;" , @readonly = "readonly" })
+
+                </td>
+                <td>
+                    @Html.TextBoxFor(it => it[i].ItemType, new { Style = "vertical-align:3px;width:100px;" , @readonly = "readonly" })
+
+                </td>
+
+                <td>
+                    @Html.TextBoxFor(it => it[i].ItemName, new { Style = "vertical-align:3px;width:150px;" ,  @readonly = "readonly" })
+
+                </td>
+
+                <td>
+                    @Html.TextBoxFor(it => it[i].OrderQuantity, new { Style = "vertical-align:3px;width:100px;", @class = "OrderQuantity_class" })
+
+                </td>
+
+
+                <td>
+                    @Html.TextBoxFor(it => it[i].UnitCost, new { Style = "vertical-align:3px;width:100px;", @class = "UnitCost_class" })
+
+                </td>
+                <td>
+                    @Html.TextBoxFor(it => it[i].MRRNo, new { Style = "vertical-align:3px;width:120px;", @readonly = "readonly" })
+
+                </td>
+
+                <td>
+                    @Html.TextBoxFor(it => it[i].LotNo, new { Style = "vertical-align:3px;width:120px;", @readonly = "readonly" })
+
+                </td>
+
+                <td>
+
+                    @Html.JQueryUI().DatepickerFor(it => it[i].ApproveDate)
+
+
+                </td>
+
+                <td>
+                    @Html.TextBoxFor(it => it[i].ApprovedRemarks, new { Style = "vertical-align:3px;width:300px;" })
+
+                </td>
+
+              
+
+                <td>
+                    @Html.CheckBoxFor(it => it[i].IsApproved, new { Style = "vertical-align:3px;width:100px;" })
+
+                </td>
+
+
+            </tr>
+
+
+
+
+        }
+
+
+
+
+
+    </table>
+
+
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Approve" class="btn btn-default" />
+        </div>
+    </div>
+            }
+
+
+<script type="text/javascript">
+
+
+
+
+    $(document).ready(function () {
+
+
+
+        $(document).on('submit', 'form', function () {
+            var buttons = $(this).find('[type="submit"]');
+            if ($(this).valid()) {
+                buttons.each(function (btn) {
+                    $(buttons[btn]).prop('disabled', true);
+                });
+            } else {
+                buttons.each(function (btn) {
+                    $(buttons[btn]).prop('disabled', false);
+                });
+            }
+        });
+
+
+
+        // making stopped in Quantity as well as Prize Changing in Item Receive stage
+        if ($("#ModuleNameS").val().toString() === 'Item Receive')
+        {
+            $("input[name$='OrderQuantity']").each(function () {
+
+                $(this).prop('readonly', true);
+            });
+
+            $("input[name$='UnitCost']").each(function () {
+
+                $(this).prop('readonly', true);
+            });
+
+        }
+        // making stopped in Quantity as well as Prize Changing in Item Receive stage
+        else
+        {
+
+        }
+
+
+
+        $("input[name$='ApproveDate']").each(function (i, e) {
+
+            var tempDate = $(e).val().toString();
+           
+            if (tempDate.lenght > 9) {
+                var DateToShow = tempDate.substring(1, 10);
+                console.log(DateToShow);
+                $(e).val(DateToShow);
+
+            }
+        });
+
+    });
+</script>
+
+<div>
+    @Html.ActionLink("Back to List", "InfoApprovedCreate")
+</div>

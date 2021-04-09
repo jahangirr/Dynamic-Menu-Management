@@ -1,0 +1,252 @@
+﻿@model PagedList.IPagedList<SilGlobalFashion.Models.MatureBillInfoDetails>
+
+@using PagedList.Mvc;
+
+@using SilGlobalFashion.Repository;
+
+
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Html.RenderPartial("MenuView");
+    ViewBag.Title = "Mature Bill Info";
+}
+
+<link href="~/Content/TableStyle.css" rel="stylesheet" />
+
+<h2>  Mature Bill Info Details  </h2>
+
+<div class="alert-primary" style="color:black;">
+
+
+    @using (Html.BeginForm("Index", "MatureBillInfoDetails", FormMethod.Get))
+    {
+
+        <table>
+            <tr>
+                <td width="30%">
+                    Select Parameter : @Html.DropDownList("selectionItems", (SelectList)ViewBag.selectionItems)
+
+                    <br />
+
+                    <input type="submit" value="Search" class="btn-danger" />
+                    <input type="button" value="Reset" class="btn-success" id="bReset" />
+
+                </td>
+                <td width="70%">
+
+                    <div id="selectionDivToShow" style="border:dotted; color:black; background-color:Highlight;">
+
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+
+        <p>
+            <table id="SearchInfoTable" class="table" style="color:black;">
+                <tr>
+
+                    <td>
+                        Find by MatureInfoId : @Html.TextBox("MatureInfoId", ViewBag.MatureInfoId as string)
+
+                    </td>
+
+
+                </tr>
+                <tr>
+                    <td>
+                        Find by BillType : @Html.TextBox("TypeOfBill", ViewBag.TypeOfBill as string)
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>
+                        Find by Amount : @Html.TextBox("Amount", ViewBag.Amount as string)
+                    </td>
+
+                </tr>
+
+
+
+                <tr>
+                    <td>
+                        <input type="submit" value="Search" /> <button type="button"> @Html.ActionLink("Refresh", "Index")  </button>
+                    </td>
+
+                </tr>
+
+            </table>
+
+        </p>
+    }
+
+</div>
+
+
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+
+
+        $('#bReset').click(function () {
+
+            $('#MatureInfoId').val('');
+            $('#TypeOfBill').val('');
+            $('#Amount').val('');
+
+
+
+
+            sessionStorage.setItem("TransactionInfo_MatureInfoId", '');
+            sessionStorage.setItem("TransactionInfo_TypeOfBill", '');
+            sessionStorage.setItem("TransactionInfo_Amount", '');
+
+
+
+        });
+
+
+        var TransactionInfo_MatureInfoId_value = sessionStorage.getItem("TransactionInfo_MatureInfoId");
+        if (TransactionInfo_MatureInfoId_value == null) {
+            sessionStorage.setItem("TransactionInfo_MatureInfoId", '');
+        } else {
+            sessionStorage.setItem("TransactionInfo_MatureInfoId", TransactionInfo_MatureInfoId_value);
+        }
+
+
+
+        var TransactionInfo_Amount_value = sessionStorage.getItem("TransactionInfo_Amount");
+        if (TransactionInfo_Amount_value == null)
+        {
+            sessionStorage.setItem("TransactionInfo_Amount", '');
+        } else
+        {
+            sessionStorage.setItem("TransactionInfo_Amount", TransactionInfo_Amount_value);
+        }
+
+
+        var TransactionInfo_TypeOfBill_value = sessionStorage.getItem("TransactionInfo_TypeOfBill");
+        if (TransactionInfo_TypeOfBill_value == null) {
+            sessionStorage.setItem("TransactionInfo_TypeOfBill", '');
+        } else {
+            sessionStorage.setItem("TransactionInfo_TypeOfBill", TransactionInfo_TypeOfBill_value);
+        }
+
+
+
+
+
+        $('#MatureInfoId').change(function () {
+
+            sessionStorage.setItem("TransactionInfo_MatureInfoId", $('#MatureInfoId').val());
+        });
+
+        $('#Amount').change(function () {
+
+            sessionStorage.setItem("TransactionInfo_Amount", $('#Amount').val());
+        });
+
+        $('#TypeOfBill').change(function () {
+
+            sessionStorage.setItem("TransactionInfo_TypeOfBill", $('#TypeOfBill').val());
+        });
+
+
+
+
+
+        $("#SearchInfoTable tr").each(function () {
+                $(this).hide();
+        });
+
+        $("#selectionItems").change(function () {
+
+            $("#SearchInfoTable tr").each(function () {
+                var row_index = $(this).index();
+                var ddlValue = $("#selectionItems").val();
+                if (ddlValue.toString() == row_index.toString())
+                {
+                    $(this).show();
+                }
+                else
+                {
+                    $(this).hide();
+                }
+
+            });
+
+
+            var MatureInfoId = sessionStorage.getItem("TransactionInfo_MatureInfoId");
+            var Amount = sessionStorage.getItem("TransactionInfo_Amount");
+            var TypeOfBill = sessionStorage.getItem("TransactionInfo_TypeOfBill");
+
+
+            var ListOfSelectedValue = 'Amount : ' + Amount + '||  Type of Bill : ' + TypeOfBill + '||  Mature Info Id  : ' + MatureInfoId;
+
+             $('#selectionDivToShow').html(ListOfSelectedValue.toString());
+
+
+        });
+
+
+
+
+
+    });
+</script>
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Id_Bank_Branch
+
+        </th>
+        <th>
+            Bill_Type
+        </th>
+        <th>
+            Amount
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.MatureInfo.BankAndBranch)
+            </td>
+            <td>
+              @Html.DisplayFor(modelItem => item.TypeOfBill.BillType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Amount)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+    }
+
+</table>
+
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index", new
+{
+    page,
+
+    MatureInfoId = ViewBag.MatureInfoId,
+    TypeOfBill = ViewBag.TypeOfBill,
+    Amount = ViewBag.Amount
+
+
+}))

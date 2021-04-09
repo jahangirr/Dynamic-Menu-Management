@@ -1,0 +1,1088 @@
+﻿@model SilGlobalFashion.Models.ItemReciveTable
+@using SilGlobalFashion.Repository;
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<b>Item (Qty) Supposed to Receive </b>
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "form" }))
+{
+    @Html.AntiForgeryToken()
+
+    @Html.HiddenFor(model => model.Id)
+
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+
+        <table width="100%">
+            <tr>
+                <td width="20%">
+
+                    <div style="border:groove;background-color:#C0C0C0;color:black;">
+                        <strong>Date:</strong>
+
+
+                        @{
+                            DateTime? dtReceiveDate = null;
+
+                            try
+                            {
+                                dtReceiveDate = Convert.ToDateTime(ViewBag.ReceiveDate as string);
+                            }
+                            catch (Exception ex)
+                            {
+
+                            }
+                        }
+
+
+                        @Html.JQueryUI().Datepicker("ReceiveDate", dtReceiveDate)
+                        @Html.ValidationMessageFor(model => model.ReceiveDate, "", new { @class = "text-danger" })
+
+
+                    </div>
+
+                </td>
+
+                <td width="45%">
+                    <div style="border:groove;background-color:#C0C0C0;color:black;">
+                        <strong>MRR Type:</strong>
+
+                        @{
+                            bool CSBool = false;
+                            bool YDBool = false;
+                            bool GSBool = false;
+
+                            if ((ViewBag.MRRNo as string).Contains("CS"))
+                            {
+                                CSBool = true;
+
+                            }
+                            else if ((ViewBag.MRRNo as string).Contains("YD"))
+                            {
+                                YDBool = true;
+                            }
+                            else if ((ViewBag.MRRNo as string).Contains("GS"))
+                            {
+                                GSBool = true;
+                            }
+
+                        }
+
+
+                       
+
+                        <div id="MRRTypeDiv">
+
+                            Chemical Store :   @Html.RadioButton("MRRType", "CS", CSBool)  Yarn Dyeing Store : @Html.RadioButton("MRRType", "YD", YDBool) General Store : @Html.RadioButton("MRRType", "GS", GSBool)
+
+                        </div>
+
+                        
+                    </div>
+
+                </td>
+
+                <td width="15%">
+                    <div style="border:groove;background-color:#C0C0C0;color:black;">
+                        <strong>MRR NO:</strong>
+
+                        @Html.TextBox("MRRNoShow", ViewBag.MRRNo as string, htmlAttributes: new { disabled = "disabled", @class = "form-control" })
+
+                        @Html.Hidden("MRRNo", ViewBag.MRRNo as string)
+
+                    </div>
+
+                </td>
+
+                <td width="20%">
+
+                    <div style="border:groove;background-color:#C0C0C0;color:black;">
+                        <strong>MRR Date:</strong>
+
+
+                        @{
+                            DateTime? dtMRRDate = null;
+
+                            try
+                            {
+                                dtMRRDate = Convert.ToDateTime(ViewBag.MRRDate as string);
+                            }
+                            catch (Exception ex)
+                            {
+
+                            }
+
+                        }
+
+
+                        @Html.JQueryUI().Datepicker("MRRDate", dtMRRDate)
+                        @Html.ValidationMessageFor(model => model.MRRDate, "", new { @class = "text-danger" })
+
+                    </div>
+
+                </td>
+            </tr>
+        </table>
+
+
+
+
+        <div id="sprItemDes" class="alert-info">
+
+
+
+        </div>
+
+
+
+        <table width="100%">
+            <tr>
+                <td width="18%">
+
+                    <div style="border:groove;background-color:#C0C0C0;color:black;">
+                        Mother  SPR / Indent No :
+                    </div>
+                </td>
+
+                <td width="26%">
+
+                    <div style="border:groove;background-color:#C0C0C0;color:black;">
+                       
+
+                        @Html.TextBox("MOMSprOrIndentNoShow", ViewBag.MOMSprOrIndentNo as string, htmlAttributes: new { disabled = "disabled", @class = "form-control" })
+
+                        @Html.Hidden("MOMSprOrIndentNo", ViewBag.MOMSprOrIndentNo as string)
+
+                    </div>
+                    @Html.ValidationMessageFor(model => model.MOMSprOrIndentNo, "", new { @class = "text-danger" })
+
+                </td>
+                <td width="12%"></td>
+
+                <td width="18%">
+                    <div style="border:groove;background-color:#C0C0C0;color:black;">
+
+                    </div>
+
+                </td>
+                <td width="26%">
+
+                    <div style="border:groove;background-color:#C0C0C0;color:black;">
+
+
+                    </div>
+
+
+
+                </td>
+
+            </tr>
+
+
+            <tr>
+                <td width="18%">
+
+                    <div style="border:groove;background-color:#C0C0C0;color:black;">
+                        SPR / Indent No :
+                    </div>
+                </td>
+
+                <td width="26%">
+
+                    <div style="border:groove;background-color:#C0C0C0;color:black;">
+                        @Html.TextBox("SPRNoOrIndentNoShow", ViewBag.SPRNoOrIndentNo as string, htmlAttributes: new { disabled = "disabled", @class = "form-control" })
+                        @Html.Hidden("SPRNoOrIndentNo", ViewBag.SPRNoOrIndentNo as string)
+                        
+
+                    </div>
+                    @Html.ValidationMessageFor(model => model.SPRNoOrIndentNo, "", new { @class = "text-danger" })
+
+                </td>
+                <td width="12%"></td>
+
+                <td width="18%">
+                    <div style="border:groove;background-color:#C0C0C0;color:black;">
+                        SPR / Indent Date :
+                    </div>
+
+                </td>
+                <td width="26%">
+
+                    <div style="border:groove;background-color:#C0C0C0;color:black;">
+
+                        @Html.TextBox("SPRDateOrIndentDateShow", ViewBag.SPRDateOrIndentDate as string, htmlAttributes: new { disabled = "disabled", @class = "form-control" })
+                        @Html.Hidden("SPRDateOrIndentDate", ViewBag.SPRDateOrIndentDate as string)
+                        
+
+                    </div>
+
+                    @Html.ValidationMessageFor(model => model.SPRDateOrIndentDate, "", new { @class = "text-danger" })
+
+                </td>
+
+            </tr>
+            <tr>
+                <td width="18%">
+
+                    <div style="border:groove;background-color:#C0C0C0;color:black;">
+                        Receive Type :
+                    </div>
+                </td>
+
+                <td width="26%">
+
+                    <div style="border:groove;background-color:#C0C0C0;color:black;">
+
+                        @if (ViewBag.ReceiveType != null)
+                        {
+                            @Html.Hidden("ReceiveTypeS", ViewBag.ReceiveTypeS as string)
+
+                            @Html.DropDownList("ReceiveType", (SelectList)ViewBag.ReceiveType, htmlAttributes: new { @class = "form-control" })
+                        }
+
+                    </div>
+
+                    @Html.ValidationMessageFor(model => model.ReceiveType, "", new { @class = "text-danger" })
+
+                </td>
+                <td width="12%"></td>
+
+                <td width="18%">
+                    <div style="border:groove;background-color:#C0C0C0;color:black;">
+                        Receive No :
+                    </div>
+
+                </td>
+                <td width="26%">
+
+                    <div style="border:groove;background-color:#C0C0C0;color:black;">
+
+                        @Html.TextBox("ReceiveTypeNo", ViewBag.ReceiveTypeNo as string, htmlAttributes: new { @class = "form-control" })
+
+
+
+
+                    </div>
+
+                    @Html.ValidationMessageFor(model => model.ReceiveTypeNo, "", new { @class = "text-danger" })
+
+                </td>
+
+            </tr>
+
+
+            <tr>
+                <td width="18%">
+
+                    <div style="border:groove;background-color:#C0C0C0;color:black;">
+                        LC No:
+                    </div>
+                </td>
+
+                <td width="26%">
+
+                    <div style="border:groove;background-color:#C0C0C0;color:black;">
+
+                        @Html.TextBox("LCNo", ViewBag.LCNo as string, htmlAttributes: new { @class = "form-control" })
+
+
+
+
+                    </div>
+
+                    @Html.ValidationMessageFor(model => model.LCNo, "", new { @class = "text-danger" })
+
+                </td>
+                <td width="12%"></td>
+
+                <td width="18%">
+                    <div style="border:groove;background-color:#C0C0C0;color:black;">
+                        Purchased By :
+                    </div>
+
+                </td>
+                <td width="26%">
+
+                    <div style="border:groove;background-color:#C0C0C0;color:black;">
+
+                        @Html.TextBox("PurchasedBy", ViewBag.PurchasedBy as string, htmlAttributes: new { @class = "form-control" })
+
+
+
+
+                    </div>
+
+                    @Html.ValidationMessageFor(model => model.PurchasedBy, "", new { @class = "text-danger" })
+
+                </td>
+
+            </tr>
+
+            <tr>
+                <td width="18%">
+
+                    <div style="border:groove;background-color:#C0C0C0;color:black;">
+                        Gate In No:
+                    </div>
+                </td>
+
+                <td width="26%">
+
+                    <div style="border:groove;background-color:#C0C0C0;color:black;">
+
+                        @Html.TextBox("GateInNo", ViewBag.GateInNo as string, htmlAttributes: new { @class = "form-control" })
+
+
+
+
+                    </div>
+
+                    @Html.ValidationMessageFor(model => model.GateInNo, "", new { @class = "text-danger" })
+
+                </td>
+                <td width="12%"></td>
+
+                <td width="18%">
+                    <div style="border:groove;background-color:#C0C0C0;color:black;">
+                        Gate In Date :
+                    </div>
+
+                </td>
+                <td width="26%">
+
+                    <div style="border:groove;background-color:#C0C0C0;color:black;">
+
+
+                        @{
+
+                            GlobCreatedFunction globbCreFunc = new GlobCreatedFunction();
+
+                            DateTime? dtGateInDate = null;
+
+                            try
+                            {
+                                dtGateInDate = Convert.ToDateTime(ViewBag.GateInDate as string);
+                            }
+                            catch (Exception ex)
+                            {
+
+                            }
+
+
+
+                        }
+
+
+                        @Html.JQueryUI().Datepicker("GateInDate", dtGateInDate)
+
+                    </div>
+
+                    @Html.ValidationMessageFor(model => model.GateInDate, "", new { @class = "text-danger" })
+
+                </td>
+
+            </tr>
+
+
+            <tr>
+                <td width="18%">
+
+                    <div style="border:groove;background-color:#C0C0C0;color:black;">
+                        Invoice No:
+                    </div>
+                </td>
+
+                <td width="26%">
+
+                    <div style="border:groove;background-color:#C0C0C0;color:black;">
+
+                        @Html.TextBox("InvoiceNo", ViewBag.InvoiceNo as string, htmlAttributes: new { @class = "form-control" })
+
+
+                    </div>
+
+                    @Html.ValidationMessageFor(model => model.InvoiceNo, "", new { @class = "text-danger" })
+
+                </td>
+                <td width="12%"></td>
+
+                <td width="18%">
+                    <div style="border:groove;background-color:#C0C0C0;color:black;">
+                        Invoice Date :
+                    </div>
+
+                </td>
+                <td width="26%">
+
+                    <div style="border:groove;background-color:#C0C0C0;color:black;">
+
+                        @{
+                            DateTime? dtInoviceDate = null;
+
+                            try
+                            {
+                                dtInoviceDate = Convert.ToDateTime(ViewBag.InoviceDate as string);
+                            }
+                            catch (Exception ex)
+                            {
+
+                            }
+
+                        }
+
+                        @Html.JQueryUI().Datepicker("InoviceDate", dtInoviceDate)
+
+                    </div>
+
+                    @Html.ValidationMessageFor(model => model.InoviceDate, "", new { @class = "text-danger" })
+
+                </td>
+
+            </tr>
+
+            <tr>
+                <td width="18%">
+
+                    <div style="border:groove;background-color:#C0C0C0;color:black;">
+                        GRN No :
+                    </div>
+                </td>
+
+                <td width="26%">
+
+                    <div style="border:groove;background-color:#C0C0C0;color:black;">
+                        @Html.TextBoxFor(model => model.GRNNo, new { @class = "form-control", id = "GRNNoId", @Value = ViewBag.GRNNo as string, @readonly = "readonly" })
+
+
+                    </div>
+                    @Html.ValidationMessageFor(model => model.GRNNo, "", new { @class = "text-danger" })
+
+                </td>
+                <td width="12%"></td>
+
+                <td width="18%" style="border:groove;background-color:#C0C0C0;color:black;">
+                    <div style="border:groove;background-color:#C0C0C0;color:black;">
+                        Receive By:
+                    </div>
+
+                </td>
+                <td width="26%" style="border:groove;background-color:#C0C0C0;color:black;">
+
+                    <div style="border:groove;background-color:#C0C0C0;color:black;">
+                        @Html.TextBox("ReceiveBy", ViewBag.ReceiveBy as string, htmlAttributes: new { @class = "form-control" })
+
+
+
+                    </div>
+                    @Html.ValidationMessageFor(model => model.ReceiveBy, "", new { @class = "text-danger" })
+
+
+                </td>
+
+            </tr>
+            <tr>
+                <td width="18%">
+
+                    <div style="border:groove;background-color:#C0C0C0;color:black;">
+                        Challan  No :
+                    </div>
+                </td>
+
+                <td width="26%">
+
+                    <div style="border:groove;background-color:#C0C0C0;color:black;">
+                        @Html.TextBox("ChallanNo", ViewBag.ChallanNo as string, htmlAttributes: new { @class = "form-control" })
+
+                    </div>
+
+                    @Html.ValidationMessageFor(model => model.ChallanNo, "", new { @class = "text-danger" })
+
+                </td>
+                <td width="12%"></td>
+
+                <td width="18%">
+                    <div style="border:groove;background-color:#C0C0C0;color:black;">
+                        Challan  Date :
+                    </div>
+
+                </td>
+                <td width="26%">
+
+                    <div style="border:groove;background-color:#C0C0C0;color:black;">
+
+
+                        @{
+                            DateTime? dtChallanDate = null;
+
+                            try
+                            {
+                                dtChallanDate = Convert.ToDateTime(ViewBag.ChallanDate as string);
+                            }
+                            catch (Exception ex)
+                            {
+
+                            }
+
+                        }
+
+                        @Html.JQueryUI().Datepicker("ChallanDate", dtChallanDate)
+
+
+
+                    </div>
+
+                    @Html.ValidationMessageFor(model => model.ChallanDate, "", new { @class = "text-danger" })
+
+                </td>
+
+            </tr>
+
+            <tr>
+                <td width="18%">
+
+                    <div style="border:groove;background-color:#C0C0C0;color:black;">
+                        Bill  No :
+                    </div>
+                </td>
+
+                <td width="26%">
+
+                    <div style="border:groove;background-color:#C0C0C0;color:black;">
+                        @Html.TextBox("BillNo", ViewBag.BillNo as string, htmlAttributes: new { @class = "form-control" })
+
+                    </div>
+
+                    @Html.ValidationMessageFor(model => model.BillNo, "", new { @class = "text-danger" })
+
+                </td>
+                <td width="12%"></td>
+
+                <td width="18%">
+                    <div style="border:groove;background-color:#C0C0C0;color:black;">
+                        Bill Date :
+                    </div>
+
+                </td>
+                <td width="26%">
+
+                    <div style="border:groove;background-color:#C0C0C0;color:black;">
+
+                        @{
+                            DateTime? dtBillDate = null;
+
+                            try
+                            {
+                                dtBillDate = Convert.ToDateTime(ViewBag.BillDate as string);
+                            }
+                            catch (Exception ex)
+                            {
+
+                            }
+
+                        }
+
+                        @Html.JQueryUI().Datepicker("BillDate", dtBillDate)
+
+                    </div>
+
+                    @Html.ValidationMessageFor(model => model.BillDate, "", new { @class = "text-danger" })
+
+                </td>
+
+            </tr>
+            <tr>
+                <td width="18%">
+
+                    <div style="border:groove;background-color:#C0C0C0;color:black;">
+                        Delivered By :
+                    </div>
+                </td>
+
+                <td width="26%">
+
+                    <div style="border:groove;background-color:#C0C0C0;color:black;">
+
+                        @Html.TextBox("DeliveryBy", ViewBag.DeliveryBy as string, htmlAttributes: new { @class = "form-control" })
+
+
+                    </div>
+                    @Html.ValidationMessageFor(model => model.DeliveryBy, "", new { @class = "text-danger" })
+
+                </td>
+                <td width="12%"></td>
+
+                <td width="18%" style="border:groove;background-color:#C0C0C0;color:black;">
+                    <div style="border:groove;background-color:#C0C0C0;color:black;">
+                        Prepared By:
+                    </div>
+
+                </td>
+                <td width="26%" style="border:groove;background-color:#C0C0C0;color:black;">
+
+                    <div style="border:groove;background-color:#C0C0C0;color:black;">
+                        @Html.TextBox("PreparedBy", ViewBag.PreparedBy as string, htmlAttributes: new { @class = "form-control" })
+
+
+                    </div>
+                    @Html.ValidationMessageFor(model => model.PreparedBy, "", new { @class = "text-danger" })
+
+
+                </td>
+
+            </tr>
+        </table>
+
+
+
+
+        <table width="100%">
+            <tr>
+                <th>
+                    <div class="alert-danger" style="width:88px;">
+                        Item Code
+                    </div>
+                </th>
+                <th>
+                    <div class="alert-danger" style="width:88px;">
+                        Model
+                    </div>
+                </th>
+
+                <th>
+                    <div class="alert-danger" style="width:88px;">
+                        Item Name
+                    </div>
+                </th>
+
+                <th>
+                    <div class="alert-danger" style="width:40px;">
+                        Part No
+                    </div>
+                </th>
+                <th>
+                    <div class="alert-danger" style="width:88px;">
+                        Supplier Name
+                    </div>
+                </th>
+                <th>
+                    <div class="alert-danger" style="width:56px;">
+                        ChalQty
+                    </div>
+                </th>
+                <th>
+                    <div class="alert-danger" style="width:56px;">
+                        BillQty
+                    </div>
+                </th>
+                <th>
+                    <div class="alert-danger" style="width:56px;">
+                        RecQty
+                    </div>
+                </th>
+                <th>
+                    <div class="alert-danger" style="width:100px;">
+                        Balance
+                    </div>
+                </th>
+                <th>
+                    <div class="alert-danger" style="width:56px;">
+                        Lot No
+                    </div>
+                </th>
+                <th>
+                    <div class="alert-danger" style="width:72px;">
+                        QC
+                    </div>
+                </th>
+                <th>
+                    <div class="alert-danger" style="width:40px;">
+                        UOM
+                    </div>
+                </th>
+                <th>
+                    <div class="alert-danger" style="width:40px;">
+                        UP
+                    </div>
+                </th>
+                <th>
+                    <div class="alert-danger" style="width:100px;">
+                        Total Price
+                    </div>
+                </th>
+               
+            </tr>
+            <tr>
+                <td style="width:88px;">
+
+                    <div>
+                        @Html.TextBox("ItemCodeShow", ViewBag.ItemCode as string, htmlAttributes: new {  style = "width:88px;" })
+                        @Html.Hidden("ItemCode", ViewBag.ItemCode as string)
+                    </div>
+
+                </td>
+                <td style="width:88px;">
+
+                    <div>
+
+                        @Html.TextBox("ItemModelShow", ViewBag.ItemModel as string, htmlAttributes: new {   style = "width:88px;" })
+                        @Html.Hidden("ItemModel", ViewBag.ItemModel as string)
+                       
+                        @Html.ValidationMessageFor(model => model.ItemModel, "", new { @class = "text-danger" })
+                    </div>
+
+                </td>
+
+                <td style="width:88px;">
+                    <div>
+                        @Html.TextBox("ItemNameShow", ViewBag.ItemName as string, htmlAttributes: new {  style = "width:88px;" })
+                        @Html.Hidden("ItemName", ViewBag.ItemName as string)
+                       
+                        @Html.ValidationMessageFor(model => model.ItemName, "", new { @class = "text-danger" })
+                    </div>
+
+                </td>
+
+                <td style="width:40px;">
+                    <div>
+                        @Html.TextBox("PartNoShow", ViewBag.PartNo as string, htmlAttributes: new { disabled = "disabled", @class = "form-control", style = "width:40px;" })
+                        @Html.Hidden("PartNo", ViewBag.PartNo as string)
+                        @Html.ValidationMessageFor(model => model.PartNo, "", new { @class = "text-danger" })
+                    </div>
+
+                </td>
+
+                <td style="width:88px;">
+                    @Html.TextBox("SupplierNameShow", ViewBag.SupplierName as string, htmlAttributes: new {  style = "width:88px;" })
+                    @Html.Hidden("SupplierName", ViewBag.SupplierName as string)
+                    @Html.ValidationMessageFor(model => model.SupplierName, "", new { @class = "text-danger" })
+
+                </td>
+
+                <td style="width:56px;">
+
+
+                    @Html.TextBox("ChallanQty", ViewBag.ChallanQty as string, htmlAttributes: new { style = "width:56px;" })
+                    @Html.ValidationMessageFor(model => model.ChallanQty, "", new { @class = "text-danger" })
+
+                </td>
+
+                <td style="width:56px;">
+                    @Html.TextBox("BillQty", ViewBag.BillQty as string, htmlAttributes: new { style = "width:56px;" })
+
+                    @Html.ValidationMessageFor(model => model.BillQty, "", new { @class = "text-danger" })
+
+                </td>
+
+                <td style="width:56px;">
+                    @Html.TextBox("ReceiveQty", ViewBag.ReceiveQty as string, htmlAttributes: new { style = "width:56px;" })
+                    @Html.ValidationMessageFor(model => model.ReceiveQty, "", new { @class = "text-danger" })
+
+                </td>
+
+                <td style="width:100px;">
+                    @Html.TextBox("IndentBalance", ViewBag.IndentBalance as string, htmlAttributes: new { style = "width:100px;" })
+                    @Html.ValidationMessageFor(model => model.IndentBalance, "", new { @class = "text-danger" })
+
+                </td>
+
+
+                <td style="width:56px;">
+                    @Html.TextBox("LotNo", ViewBag.LotNo as string, htmlAttributes: new { style = "width:56px;" })
+                    @Html.ValidationMessageFor(model => model.LotNo, "", new { @class = "text-danger" })
+
+                </td>
+
+                <td style="width:72px;">
+                    @Html.TextBox("QcCheckedBy", ViewBag.QcCheckedBy as string, htmlAttributes: new { style = "width:72px" })
+                    @Html.ValidationMessageFor(model => model.QcCheckedBy, "", new { @class = "text-danger" })
+
+                </td>
+
+
+                <td style="width:40px;">
+
+                   
+                    @Html.TextBox("UOMShow", ViewBag.UOM as string, htmlAttributes: new {  style = "width:40px;" })
+                    @Html.Hidden("UOM", ViewBag.UOM as string)
+                    @Html.ValidationMessageFor(model => model.UOM, "", new { @class = "text-danger" })
+
+                </td>
+
+
+                <td style="width:40px;">
+                    @Html.TextBox("UnitPrize", ViewBag.UnitPrize as string, htmlAttributes: new { style = "width:40px" })
+
+                    @Html.ValidationMessageFor(model => model.UnitPrize, "", new { @class = "text-danger" })
+
+                </td>
+
+                <td style="width:100px;">
+
+                    <div hidden>
+                        @Html.Hidden("TotalPrize")
+                    </div>
+
+                    <div id="TotalPrizeShow" style="width:100px">
+                        0.0
+                    </div>
+
+
+
+
+                </td>
+
+               
+
+            </tr>
+
+        </table>
+
+
+
+
+
+        <table class="table alert-warning" width="100%">
+            <tr>
+                <td>
+                    <input type="submit" id="Save" name="Save" value="Save" class="btn btn-default alert-success" />
+                </td>
+               
+            </tr>
+        </table>
+    </div>
+                                    }
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+
+
+     
+
+
+
+
+
+
+        $("#MRRTypeDiv").children().prop('disabled', true);
+
+        if ($('#ReceiveTypeS').val() == '1') {
+            $('#ReceiveType').find('option[value=1]').attr('selected', 'selected');
+        } else if ($('#ReceiveTypeS').val() == '2') {
+            $('#ReceiveType').find('option[value=2]').attr('selected', 'selected');
+        } else {
+            $('#ReceiveType').find('option[value=3]').attr('selected', 'selected');
+        }
+
+        $('#ChallanQty').change(function () {
+
+            $.ajax({
+                url: '@Url.Action("GetItemDetialByItemNameEdit", "ItemReciveTables")',
+                type: "GET",
+                dataType: "JSON",
+                data: {
+                    ItemName: $('#ItemName').val(),
+                    SPRNoOrIndentNo: $("#SPRNoOrIndentNo").val(),
+                    Id : $("#Id").val()
+                },
+                success: function (data) {
+
+                    if (parseInt($('#ChallanQty').val()) != 'NaN' && parseInt(data.ReceiveQty) != 'NaN') {
+                        if (parseInt($('#ChallanQty').val()) > parseInt(data.ReceiveQty)) {
+                            $('#ChallanQty').val(data.ReceiveQty);
+                        }
+                    }
+
+
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    //debugger;
+                    alert(textStatus);
+                }
+            });
+        });
+
+
+
+        $('#BillQty').change(function () {
+
+            $.ajax({
+                url: '@Url.Action("GetItemDetialByItemNameEdit", "ItemReciveTables")',
+                type: "GET",
+                dataType: "JSON",
+                data: {
+                    ItemName: $('#ItemName').val(),
+                    SPRNoOrIndentNo: $("#SPRNoOrIndentNo").val(),
+                    Id : $("#Id").val()
+                },
+                success: function (data) {
+
+                    if (parseInt($('#BillQty').val()) != 'NaN' && parseInt(data.ReceiveQty) != 'NaN') {
+                        if (parseInt($('#BillQty').val()) > parseInt(data.ReceiveQty)) {
+                            $('#BillQty').val(data.ReceiveQty);
+                        }
+                    }
+
+
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    //debugger;
+                    alert(textStatus);
+                }
+            });
+        });
+
+
+
+        $('#ReceiveQty').change(function () {
+
+            $.ajax({
+                url: '@Url.Action("GetItemDetialByItemNameEdit", "ItemReciveTables")',
+                type: "GET",
+                dataType: "JSON",
+                data: {
+                    ItemName: $('#ItemName').val(),
+                    SPRNoOrIndentNo: $("#SPRNoOrIndentNo").val(),
+                    Id : $("#Id").val()
+                },
+                success: function (data) {
+
+                    if (parseInt($('#ReceiveQty').val()) != 'NaN' && parseInt(data.ReceiveQty) != 'NaN') {
+                        if (parseInt($('#ReceiveQty').val()) > parseInt(data.ReceiveQty)) {
+                            $('#ReceiveQty').val(data.ReceiveQty);
+                        }
+                    }
+
+
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    //debugger;
+                    alert(textStatus);
+                }
+            });
+        });
+
+
+
+        $('#LotNo').change(function () {
+
+            $.ajax({
+                url: '@Url.Action("GetDuplicateLotNumberForEdit", "ItemReciveTables")',
+                type: "GET",
+                dataType: "JSON",
+                data: {
+                    LotNo: $("#LotNo").val(),
+                    Id: $("#Id").val()
+                },
+                success: function (data) {
+
+                    $('#LotNo').val(data.LotNo);
+                    if ($('#LotNo').val() == '' || $('#QcCheckedBy').val() == '') {
+                        $('#AddToList').attr("disabled", "disabled");
+                       
+                    } else {
+                        $('#AddToList').removeAttr("disabled");
+                    }
+
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    //debugger;
+                    alert(textStatus);
+                }
+            });
+        });
+
+        $('#QcCheckedBy').change(function () {
+
+            if ($('#LotNo').val() == '' || $('#QcCheckedBy').val() == '') {
+
+                $('#AddToList').attr("disabled", "disabled");
+               
+            } else {
+                $('#AddToList').removeAttr("disabled");
+                
+            }
+
+        });
+
+
+       
+
+
+        $('#ReceiveQty').change(function () {
+
+            var recQty = $('#ReceiveQty').val();
+            var parseRecQty = parseFloat(recQty);
+            var uniPri = $('#UnitPrize').val();
+
+            var parseUniPri = parseFloat(uniPri);
+
+            if ($.isNumeric(recQty) && $.isNumeric(uniPri)) {
+
+                var tempTotal = parseRecQty * parseUniPri;
+
+                $("#TotalPrize").val(tempTotal.toString());
+                $("#TotalPrizeShow").text(tempTotal.toString());
+            }
+
+            $.ajax({
+                url: '@Url.Action("GetItemQtyInBalance", "ItemReciveTables")',
+                type: "GET",
+                dataType: "JSON",
+                data: {
+
+                    MRRNo: $("#MRRNo").val(),
+
+                    ItemCode: $("#ItemCode").val()
+                },
+                success: function (data) {
+                    $('#IndentBalance').val(data);
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    //debugger;
+                    alert(textStatus);
+                }
+            });
+
+
+        });
+
+        $('#UnitPrize').change(function () {
+
+            var recQty = $('#ReceiveQty').val();
+            var parseRecQty = parseFloat(recQty);
+            var uniPri = $('#UnitPrize').val();
+            var parseUniPri = parseFloat(uniPri);
+            if ($.isNumeric(recQty) && $.isNumeric(uniPri)) {
+                var tempTotal = parseRecQty * parseUniPri;
+
+                $("#TotalPrize").val(tempTotal.toString());
+                $("#TotalPrizeShow").text(tempTotal.toString());
+
+            }
+        });
+
+        $('#UnitPrize').trigger('change');
+
+        $("#ReceiveDate").attr("autocomplete", "off");
+        $("#MRRDate").attr("autocomplete", "off");
+        $("#SPRDateOrIndentDate").attr("autocomplete", "off");
+        $("#GateInDate").attr("autocomplete", "off");
+        $("#InoviceDate").attr("autocomplete", "off");
+        $("#ChallanDate").attr("autocomplete", "off");
+        $("#BillDate").attr("autocomplete", "off");
+
+    });
+</script>

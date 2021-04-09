@@ -1,0 +1,44 @@
+﻿@model SilGlobalFashion.Models.CompanyGrowth
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Detials of Company Growth";
+
+}
+
+<h2>Detials of Company Growth</h2>
+
+<div>
+    
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.StartDay)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StartDay)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EndDay)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EndDay)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Growth)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Growth)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

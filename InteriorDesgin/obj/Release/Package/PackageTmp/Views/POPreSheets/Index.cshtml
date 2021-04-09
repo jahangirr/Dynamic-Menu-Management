@@ -1,0 +1,930 @@
+﻿@model PagedList.IPagedList<SilGlobalFashion.Models.POPreSheet>
+
+@using PagedList.Mvc;
+
+@using SilGlobalFashion.Repository;
+
+
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Html.RenderPartial("MenuView");
+    ViewBag.Title = "PO Sheet";
+}
+
+<link href="~/Content/TableStyle.css" rel="stylesheet" />
+
+
+
+
+
+<table class="table alert-warning" width="100%">
+
+    <tr>
+        <td width="25%">
+            <div >
+
+                <a onclick='GetPDF();' >
+                    PDF
+                </a>
+
+                @{
+
+                    HtmlString hostAddress = new HtmlString(Session["HostAddress"].ToString());
+
+                }
+
+
+                <script type='text/javascript'>
+
+                    function GetPDF() {
+
+                        var url = "@hostAddress/POPreSheets/ItemPOReport?ReportType=PDF&PONum=" + $('#PONum').val();
+                        window.open(url, '_blank');
+
+                    }
+
+                </script>
+
+
+            </div>
+
+        </td>
+        <td width="25%">
+
+            <div >
+
+                <a onclick='GetExcel();' >
+                    Excel
+                </a>
+
+
+                <script type='text/javascript'>
+
+                    function GetExcel() {
+
+                        var url = "@hostAddress/POPreSheets/ItemPOReport?ReportType=EXCEL&PONum=" + $('#PONum').val();
+                        window.open(url, '_blank');
+
+                    }
+
+                </script>
+
+
+
+            </div>
+        </td>
+        <td width="25%">
+
+            <div>
+
+
+                <a onclick='GetExcelRecord();'>
+                    Excel Record
+                </a>
+
+
+                <script type='text/javascript'>
+
+                    function GetExcelRecord() {
+
+                        var url = "@hostAddress/POPreSheets/ItemPOReport?ReportType=EXCELRECORD&PONum=" + $('#PONum').val();
+                        window.open(url, '_blank');
+
+                    }
+
+                </script>
+
+
+            </div>
+        </td>
+        <td width="25%">
+
+            <div>
+
+
+                <a onclick='GetWord();'>
+                    Word
+                </a>
+
+
+                <script type='text/javascript'>
+
+                    function GetWord() {
+
+                        var url = "@hostAddress/POPreSheets/ItemPOReport?ReportType=WORD&PONum=" + $('#PONum').val();
+                        window.open(url, '_blank');
+
+                    }
+
+                </script>
+
+
+            </div>
+        </td>
+
+    </tr>
+    <tr>
+        <td width="25%"></td>
+        <td width="25%">
+
+            <div class="alert-success">
+
+                PO No:
+
+            </div>
+
+            <div class="alert-danger">
+
+                @Html.TextBox("PONum")
+
+
+
+
+
+            </div>
+
+        </td>
+
+        <td width="25%"></td>
+        <td width="25%"></td>
+    </tr>
+</table>
+
+
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+
+        $("#PONum").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("GetPONumber")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        PONum : $('#PONum').val()
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                        );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+
+        $("#PONumber").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("GetPONumberFromPOSheet")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        PONumber : $('#PONumber').val()
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                        );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+
+        $("#MOMSprOrIndentNo").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("GetMOMSprOrIndentNoFromPOSheet")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        MOMSprOrIndentNo: $('#MOMSprOrIndentNo').val()
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                        );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+
+        $("#SprOrIndentNo").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("GetSprOrIndentNoFromPOSheet")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        SprOrIndentNo: $('#SprOrIndentNo').val()
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                        );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+
+        $("#SupplierCode").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("GetSupplierCodeFromPOSheet")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        SupplierCode: $('#SupplierCode').val()
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                        );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+
+        $("#SupplierName").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("GetSupplierNameFromPOSheet")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        SupplierName: $('#SupplierName').val()
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                        );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+
+        $("#ItemName").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("GetItemNameFromPOSheet")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        ItemName: $('#ItemName').val()
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                        );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+
+
+        $("#ItemCode").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("GetItemCodeFromPOSheet")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        ItemCode: $('#ItemCode').val()
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                        );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+
+
+
+
+
+
+    });
+</script>
+
+
+
+
+
+
+
+<div class="alert-primary" style="color:black;">
+
+
+    @using (Html.BeginForm("Index", "POPreSheets", FormMethod.Get))
+    {
+
+        <table>
+            <tr>
+                <td width="30%">
+                    Select Parameter : @Html.DropDownList("selectionItems", (SelectList)ViewBag.selectionItems)
+
+                    <br />
+
+                    <input type="submit" value="Search" class="btn-danger" />
+                    <input type="button" value="Reset" class="btn-success" id="bReset" />
+
+                </td>
+                <td width="70%">
+
+                    <div id="selectionDivToShow" style="border:dotted; color:black; background-color:Highlight;">
+
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+
+
+
+
+        <p>
+            <table id="SearchInfoTable" class="table" style="color:black;">
+                <tr>
+
+                    <td>
+                        Find by PO Number: @Html.TextBox("PONumber", ViewBag.PONumber as string)
+
+                    </td>
+
+
+                </tr>
+
+                <tr>
+
+                    <td>
+                        @{
+
+                            GlobCreatedFunction globbCreFunc = new GlobCreatedFunction();
+
+                            DateTime? VeiwBagPODate = null;
+
+                            try
+                            {
+                                VeiwBagPODate = Convert.ToDateTime(globbCreFunc.GetDate(ViewBag.PODate));
+
+
+                            }
+                            catch (Exception ex)
+                            {
+
+                            }
+
+
+
+
+                        }
+                        Find by PO Date : @Html.JQueryUI().Datepicker("PODate", VeiwBagPODate)
+                    </td>
+
+                </tr>
+
+
+                <tr>
+                    <td>
+                        Find by Mother Spr Or Indent No : @Html.TextBox("MOMSprOrIndentNo", ViewBag.MOMSprOrIndentNo as string)
+                    </td>
+
+                </tr>
+
+                <tr>
+                    <td>
+                        Find by Spr Or Indent No : @Html.TextBox("SprOrIndentNo", ViewBag.SprOrIndentNo as string)
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>
+                        Find by Supplier Code : @Html.TextBox("SupplierCode", ViewBag.SupplierCode as string)
+
+                    </td>
+
+                </tr>
+                <tr>
+
+                    <td>
+                        Find by Supplier Name : @Html.TextBox("SupplierName", ViewBag.SupplierName as string)
+
+                    </td>
+
+
+                </tr>
+
+
+
+                <tr>
+                    <td>
+                        Find by Item Name : @Html.TextBox("ItemName", ViewBag.ItemName as string)
+
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>
+                        Find by Item Code : @Html.TextBox("ItemCode", ViewBag.ItemCode as string)
+
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Find by Necessary Instruction : @Html.TextBox("NecessaryInstruction", ViewBag.NecessaryInstruction as string)
+                    </td>
+
+                </tr>
+
+                <tr>
+                    <td>
+                        <input type="submit" value="Search" />
+                    </td>
+
+                </tr>
+
+            </table>
+
+        </p>
+                            }
+
+</div>
+
+
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+
+
+        $('#bReset').click(function () {
+
+
+            $('#PONumber').val('');
+            $('#PODate').val('');
+            $('#MOMSprOrIndentNo').val('');
+            $('#SprOrIndentNo').val('');
+            $('#SupplierCode').val('');
+            $('#SupplierName').val('');
+            $('#ItemName').val('');
+            $('#ItemCode').val('');
+            $('#NecessaryInstruction').val('');
+
+
+            
+
+            sessionStorage.setItem("POPreSheet_PONumber", '');
+            sessionStorage.setItem("POPreSheet_SprOrIndentNo", '');
+            sessionStorage.setItem("POPreSheet_MOMSprOrIndentNo", '');
+            sessionStorage.setItem("POPreSheet_ItemCode", '');
+            sessionStorage.setItem("POPreSheet_ItemName", '');
+            sessionStorage.setItem("POPreSheet_PODate", '');
+            sessionStorage.setItem("POPreSheet_SupplierCode", '');
+            sessionStorage.setItem("POPreSheet_SupplierName", '');
+            sessionStorage.setItem("POPreSheet_NecessaryInstruction", '');
+
+
+        });
+
+
+
+
+        var POPreSheet_ItemCode_value = sessionStorage.getItem("POPreSheet_ItemCode");
+        if (POPreSheet_ItemCode_value == null) {
+            sessionStorage.setItem("POPreSheet_ItemCode", '');
+        } else {
+            sessionStorage.setItem("POPreSheet_ItemCode", POPreSheet_ItemCode_value);
+        }
+
+        var POPreSheet_ItemName_value = sessionStorage.getItem("POPreSheet_ItemName");
+        if (POPreSheet_ItemName_value == null) {
+            sessionStorage.setItem("POPreSheet_ItemName", '');
+        } else {
+            sessionStorage.setItem("POPreSheet_ItemName", POPreSheet_ItemName_value);
+        }
+
+
+        
+
+        var POPreSheet_SprOrIndentNo_value = sessionStorage.getItem("POPreSheet_SprOrIndentNo");
+        if (POPreSheet_SprOrIndentNo_value == null) {
+            sessionStorage.setItem("POPreSheet_SprOrIndentNo", '');
+        } else {
+            sessionStorage.setItem("POPreSheet_SprOrIndentNo", POPreSheet_SprOrIndentNo_value);
+        }
+
+        var POPreSheet_MOMSprOrIndentNo_value = sessionStorage.getItem("POPreSheet_MOMSprOrIndentNo");
+        if (POPreSheet_MOMSprOrIndentNo_value == null) {
+            sessionStorage.setItem("POPreSheet_MOMSprOrIndentNo", '');
+        } else {
+            sessionStorage.setItem("POPreSheet_MOMSprOrIndentNo", POPreSheet_MOMSprOrIndentNo_value);
+        }
+
+
+
+
+        var POPreSheet_PONumber_value = sessionStorage.getItem("POPreSheet_PONumber");
+        if (POPreSheet_PONumber_value == null) {
+            sessionStorage.setItem("POPreSheet_PONumber", '');
+        } else {
+            sessionStorage.setItem("POPreSheet_PONumber", POPreSheet_PONumber_value);
+        }
+
+
+
+
+        var POPreSheet_PODate_value = sessionStorage.getItem("POPreSheet_PODate");
+        if (POPreSheet_PODate_value == null) {
+            sessionStorage.setItem("POPreSheet_PODate", '');
+        } else {
+            sessionStorage.setItem("POPreSheet_PODate", POPreSheet_PODate_value);
+        }
+
+
+
+
+
+        var POPreSheet_SupplierCode_value = sessionStorage.getItem("POPreSheet_SupplierCode");
+        if (POPreSheet_SupplierCode_value == null) {
+            sessionStorage.setItem("POPreSheet_SupplierCode", '');
+        } else {
+            sessionStorage.setItem("POPreSheet_SupplierCode", POPreSheet_SupplierCode_value);
+        }
+
+        var POPreSheet_SupplierName_value = sessionStorage.getItem("POPreSheet_SupplierName");
+        if (POPreSheet_SupplierName_value == null) {
+            sessionStorage.setItem("POPreSheet_SupplierName", '');
+        } else {
+            sessionStorage.setItem("POPreSheet_SupplierName", POPreSheet_SupplierName_value);
+        }
+
+
+        var POPreSheet_NecessaryInstruction_value = sessionStorage.getItem("POPreSheet_NecessaryInstruction");
+        if (POPreSheet_NecessaryInstruction_value == null) {
+            sessionStorage.setItem("POPreSheet_NecessaryInstruction", '');
+        } else {
+            sessionStorage.setItem("POPreSheet_NecessaryInstruction", POPreSheet_NecessaryInstruction_value);
+        }
+
+
+
+
+
+
+        $('#ItemCode').change(function () {
+
+            sessionStorage.setItem("POPreSheet_ItemCode", $('#ItemCode').val());
+        });
+
+        
+
+        $('#SprOrIndentNo').change(function () {
+
+            sessionStorage.setItem("POPreSheet_SprOrIndentNo", $('#SprOrIndentNo').val());
+        });
+
+        $('#MOMSprOrIndentNo').change(function () {
+
+            sessionStorage.setItem("POPreSheet_MOMSprOrIndentNo", $('#MOMSprOrIndentNo').val());
+        });
+
+        $('#PONumber').change(function () {
+
+            sessionStorage.setItem("POPreSheet_PONumber", $('#PONumber').val());
+        });
+
+        $('#PODate').change(function () {
+
+            sessionStorage.setItem("POPreSheet_PODate", $('#PODate').val());
+        });
+        $('#SupplierCode').change(function () {
+
+            sessionStorage.setItem("POPreSheet_SupplierCode", $('#SupplierCode').val());
+
+        });
+
+
+
+
+        $('#SupplierName').change(function () {
+
+            sessionStorage.setItem("POPreSheet_SupplierName", $('#SupplierName').val());
+
+        });
+
+        $('#NecessaryInstruction').change(function () {
+
+            sessionStorage.setItem("POPreSheet_NecessaryInstruction", $('#NecessaryInstruction').val());
+
+        });
+
+
+
+        $('#ItemName').change(function () {
+
+            sessionStorage.setItem("POPreSheet_ItemName", $('#ItemName').val());
+
+        });
+
+
+
+
+
+
+
+
+        $("#SearchInfoTable tr").each(function () {
+            $(this).hide();
+        });
+
+        $("#selectionItems").change(function () {
+
+            $("#SearchInfoTable tr").each(function () {
+                var row_index = $(this).index();
+                var ddlValue = $("#selectionItems").val();
+                if (ddlValue.toString() == row_index.toString()) {
+                    $(this).show();
+                }
+                else {
+                    $(this).hide();
+                }
+
+            });
+
+
+            var ItemCode = sessionStorage.getItem("POPreSheet_ItemCode");
+            var ItemName = sessionStorage.getItem("POPreSheet_ItemName");
+            var SprOrIndentNo = sessionStorage.getItem("POPreSheet_SprOrIndentNo");
+            var MOMSprOrIndentNo = sessionStorage.getItem("POPreSheet_MOMSprOrIndentNo");
+            var PONumber = sessionStorage.getItem("POPreSheet_PONumber");
+            var PODate = sessionStorage.getItem("POPreSheet_PODate");
+            var SupplierCode = sessionStorage.getItem("POPreSheet_SupplierCode");
+            var SupplierName = sessionStorage.getItem("POPreSheet_SupplierName");
+            var NecessaryInstruction = sessionStorage.getItem("POPreSheet_NecessaryInstruction");
+
+
+
+            var ListOfSelectedValue = 'Item Code : ' + ItemCode + '|| Mother SPR or Indent No :' + MOMSprOrIndentNo + '||  Spr Or Indent No : ' + SprOrIndentNo + '||  PO Number : ' + PONumber + '||  PO Date : ' + PODate + '||  SupplierCode : ' + SupplierCode + '||  SupplierName : ' + SupplierName
+            + '||Necessary Instruction : ' + NecessaryInstruction + '||   ItemName : ' + ItemName;
+
+            $('#selectionDivToShow').html(ListOfSelectedValue.toString());
+
+
+        });
+
+
+
+
+    });
+</script>
+
+
+
+<h2>PO List</h2>
+
+<p>
+    @Html.ActionLink("Create New", "POListBySupplier")
+</p>
+<table id="IndexTable" class="table-bordered" style="background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+    <tr>
+        <th>
+            PONumber
+        </th>
+        <th>
+            PODate
+        </th>
+        <th>
+            Mother SPR / Indent No
+        </th>
+        <th>
+            SprOrIndentNo
+        </th>
+        <th>
+            SupplierCode
+        </th>
+        <th>
+            SupplierName
+        </th>
+        <th>
+            ItemName
+        </th>
+        <th>
+            ItemCode
+        </th>
+        <th>
+            OrderQuantity
+        </th>
+        <th>
+            UnitCost
+        </th>
+        <th>
+            TotalValueItemWise
+        </th>
+        <th>
+            Currency
+        </th>
+        <th>
+            NecessaryInstruction
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.PONumber)
+            </td>
+            <td id="Date_@item.Id">
+                @Html.DisplayFor(modelItem => item.PODate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MOMSprOrIndentNo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SprOrIndentNo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SupplierCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SupplierName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ItemName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ItemCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrderQuantity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UnitCost)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TotalValueItemWise)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UnitCurrency)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NecessaryInstruction)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+    }
+
+</table>
+
+ Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index", new
+{
+    page,
+    PONumber = ViewBag.PONumber,
+    PODate = ViewBag.PODate,
+    MOMSprOrIndentNo = ViewBag.MOMSprOrIndentNo,
+    SprOrIndentNo = ViewBag.SprOrIndentNo,
+    SupplierCode = ViewBag.SupplierCode,
+    SupplierName = ViewBag.SupplierName,
+    ItemName = ViewBag.ItemName,
+    ItemCode = ViewBag.ItemCode,
+    NecessaryInstruction = ViewBag.NecessaryInstruction
+
+
+}))
+
+
+

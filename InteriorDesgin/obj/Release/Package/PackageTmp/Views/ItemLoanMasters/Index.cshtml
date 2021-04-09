@@ -1,0 +1,524 @@
+﻿@model PagedList.IPagedList < SilGlobalFashion.Models.ItemLoanMaster >
+
+@using PagedList.Mvc;
+
+@using SilGlobalFashion.Repository;
+
+
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Html.RenderPartial("MenuView");
+    ViewBag.Title = "Item Loan";
+}
+
+<link href="~/Content/TableStyle.css" rel="stylesheet" />
+
+<h2> Item Loan List   </h2>
+
+<div class="alert-primary" style="color:black;">
+
+
+    @using (Html.BeginForm("Index", "ItemLoanMasters", FormMethod.Get))
+    {
+
+        <table>
+            <tr>
+                <td width="30%">
+                    Select Parameter : @Html.DropDownList("selectionItems", (SelectList)ViewBag.selectionItems)
+
+                    <br />
+
+                    <input type="submit" value="Search" class="btn-danger" />
+                    <input type="button" value="Reset" class="btn-success" id="bReset" />
+
+                </td>
+                <td width="70%">
+
+                    <div id="selectionDivToShow" style="border:dotted; color:black; background-color:Highlight;">
+
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+
+        <p>
+            <table id="SearchInfoTable" class="table" style="color:black;">
+                <tr>
+
+                    <td>
+                        Find by Store Location: @Html.TextBox("LoanNumber", ViewBag.LoanNumber as string)
+
+                    </td>
+
+
+                </tr>
+                <tr>
+                    <td>
+                        Find by Item Name: @Html.TextBox("LoanType", ViewBag.LoanType as string)
+                    </td>
+
+                </tr>
+                <tr>
+
+                    <td>
+                        @{
+
+                            GlobCreatedFunction globbCreFunc = new GlobCreatedFunction();
+
+                            DateTime? VeiwBagLoanDate = null;
+
+                            try
+                            {
+                                VeiwBagLoanDate = globbCreFunc.GetDate(ViewBag.LoanDate);
+
+
+                            }
+                            catch (Exception ex)
+                            {
+
+                            }
+
+
+
+
+                        }
+                        Find by Date : @Html.JQueryUI().Datepicker("LoanDate", VeiwBagLoanDate)
+                    </td>
+
+                </tr>
+
+
+
+                <tr>
+                    <td>
+                        Find by ItemName : @Html.TextBox("ItemName", ViewBag.ItemName as string)
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>
+                        Find by Supplier Or Company : @Html.TextBox("LoanConcernedObject", ViewBag.LoanConcernedObject as string)
+
+                    </td>
+
+                </tr>
+                <tr>
+
+                    <td>
+                        Find by Loan Qty : @Html.TextBox("LoanQty", ViewBag.LoanConcernedObject as string)
+
+                    </td>
+
+
+                </tr>
+
+
+
+                <tr>
+                    <td>
+                        Find by Order No : @Html.TextBox("RefNoOrSprNo", ViewBag.RefNoOrSprNo as string)
+
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>
+                        Find by Buyer Name : @Html.TextBox("LotNum", ViewBag.LotNum as string)
+
+                    </td>
+                </tr>
+                
+
+
+                <tr>
+                    <td>
+                        Find by Item Code : @Html.TextBox("ItemCode", ViewBag.ItemCode as string)
+                    </td>
+
+                </tr>
+
+                <tr>
+                    <td>
+                        Find by Item Code : @Html.TextBox("Remarks", ViewBag.Remarks as string)
+                    </td>
+
+                </tr>
+               
+                <tr>
+                    <td>
+                        <input type="submit" value="Search" /> <button type="button"> @Html.ActionLink("Refresh", "Index")  </button>
+                    </td>
+
+                </tr>
+
+            </table>
+
+        </p>
+   }
+
+</div>
+
+
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+
+
+        $('#bReset').click(function () {
+
+
+            $('#ItemCode').val('');
+            $('#LoanType').val('');
+            $('#LoanNumber').val('');
+            $('#LoanDate').val('');
+            $('#ItemName').val('');
+            $('#LoanConcernedObject').val('');
+            $('#LoanQty').val('');
+            $('#RefNoOrSprNo').val('');
+            $('#LotNum').val('');
+            $('#Remarks').val('');
+           
+           
+
+
+
+            sessionStorage.setItem("ItemIssue_LoanNumber", '');
+            sessionStorage.setItem("ItemIssue_LoanType", '');
+            sessionStorage.setItem("ItemIssue_ItemCode", '');
+            sessionStorage.setItem("ItemIssue_LoanDate", '');
+            sessionStorage.setItem("ItemIssue_ItemName", '');
+            sessionStorage.setItem("ItemIssue_LoanConcernedObject", '');
+            sessionStorage.setItem("ItemIssue_LoanQty", '');
+            sessionStorage.setItem("ItemIssue_RefNoOrSprNo", '');
+            sessionStorage.setItem("ItemIssue_LotNum", '');
+            sessionStorage.setItem("ItemIssue_Remarks", '');
+            
+
+
+
+
+
+        });
+
+
+
+
+        var ItemIssue_ItemCode_value = sessionStorage.getItem("ItemIssue_ItemCode");
+        if (ItemIssue_ItemCode_value == null)
+        {
+            sessionStorage.setItem("ItemIssue_ItemCode", '');
+        } else
+        {
+            sessionStorage.setItem("ItemIssue_ItemCode", ItemIssue_ItemCode_value);
+        }
+
+
+        var ItemIssue_LoanType_value = sessionStorage.getItem("ItemIssue_LoanType");
+        if (ItemIssue_LoanType_value == null) {
+            sessionStorage.setItem("ItemIssue_LoanType", '');
+        } else {
+            sessionStorage.setItem("ItemIssue_LoanType", ItemIssue_LoanType_value);
+        }
+
+
+
+
+        var ItemIssue_LoanNumber_value = sessionStorage.getItem("ItemIssue_LoanNumber");
+        if (ItemIssue_LoanNumber_value == null) {
+            sessionStorage.setItem("ItemIssue_LoanNumber", '');
+        } else {
+            sessionStorage.setItem("ItemIssue_LoanNumber", ItemIssue_LoanNumber_value);
+        }
+
+
+
+
+        var ItemIssue_LoanDate_value = sessionStorage.getItem("ItemIssue_LoanDate");
+        if (ItemIssue_LoanDate_value == null) {
+            sessionStorage.setItem("ItemIssue_LoanDate", '');
+        } else {
+            sessionStorage.setItem("ItemIssue_LoanDate", ItemIssue_LoanDate_value);
+        }
+
+
+
+
+
+        var ItemIssue_ItemName_value = sessionStorage.getItem("ItemIssue_ItemName");
+        if (ItemIssue_ItemName_value == null) {
+            sessionStorage.setItem("ItemIssue_ItemName", '');
+        } else {
+            sessionStorage.setItem("ItemIssue_ItemName", ItemIssue_ItemName_value);
+        }
+
+        var ItemIssue_LoanConcernedObject_value = sessionStorage.getItem("ItemIssue_LoanConcernedObject");
+        if (ItemIssue_LoanConcernedObject_value == null) {
+            sessionStorage.setItem("ItemIssue_LoanConcernedObject", '');
+        } else {
+            sessionStorage.setItem("ItemIssue_LoanConcernedObject", ItemIssue_LoanConcernedObject_value);
+        }
+
+
+        var ItemIssue_LoanQty_value = sessionStorage.getItem("ItemIssue_LoanQty");
+        if (ItemIssue_LoanQty_value == null) {
+            sessionStorage.setItem("ItemIssue_LoanQty", '');
+        } else {
+            sessionStorage.setItem("ItemIssue_LoanQty", ItemIssue_LoanQty_value);
+        }
+
+
+        var ItemIssue_RefNoOrSprNo_value = sessionStorage.getItem("ItemIssue_RefNoOrSprNo");
+        if (ItemIssue_RefNoOrSprNo_value == null) {
+            sessionStorage.setItem("ItemIssue_RefNoOrSprNo", '');
+        } else {
+            sessionStorage.setItem("ItemIssue_RefNoOrSprNo", ItemIssue_RefNoOrSprNo_value);
+        }
+
+
+        var ItemIssue_LotNum_value = sessionStorage.getItem("ItemIssue_LotNum");
+        if (ItemIssue_LotNum_value == null) {
+            sessionStorage.setItem("ItemIssue_LotNum", '');
+        } else {
+            sessionStorage.setItem("ItemIssue_LotNum", ItemIssue_LotNum_value);
+        }
+
+
+
+        var ItemIssue_Remarks_value = sessionStorage.getItem("ItemIssue_Remarks");
+        if (ItemIssue_Remarks_value == null) {
+            sessionStorage.setItem("ItemIssue_Remarks", '');
+        } else {
+            sessionStorage.setItem("ItemIssue_Remarks", ItemIssue_Remarks_value);
+        }
+
+
+      
+
+
+
+
+
+
+        $('#ItemCode').change(function () {
+
+            sessionStorage.setItem("ItemIssue_ItemCode", $('#ItemCode').val());
+        });
+
+        $('#LoanType').change(function () {
+
+            sessionStorage.setItem("ItemIssue_LoanType", $('#LoanType').val());
+        });
+
+        $('#LoanNumber').change(function () {
+
+            sessionStorage.setItem("ItemIssue_LoanNumber", $('#LoanNumber').val());
+        });
+
+        $('#LoanDate').change(function () {
+
+            sessionStorage.setItem("ItemIssue_LoanDate", $('#LoanDate').val());
+        });
+        $('#ItemName').change(function () {
+
+            sessionStorage.setItem("ItemIssue_ItemName", $('#ItemName').val());
+
+        });
+
+
+
+
+        $('#LoanConcernedObject').change(function () {
+
+            sessionStorage.setItem("ItemIssue_LoanConcernedObject", $('#LoanConcernedObject').val());
+
+        });
+
+        $('#LoanQty').change(function () {
+
+            sessionStorage.setItem("ItemIssue_LoanQty", $('#LoanQty').val());
+
+        });
+
+        $('#RefNoOrSprNo').change(function () {
+
+            sessionStorage.setItem("ItemIssue_RefNoOrSprNo", $('#RefNoOrSprNo').val());
+
+        });
+
+        $('#LotNum').change(function () {
+
+            sessionStorage.setItem("ItemIssue_LotNum", $('#LotNum').val());
+
+        });
+
+        $('#Remarks').change(function () {
+
+            sessionStorage.setItem("ItemIssue_Remarks", $('#Remarks').val());
+
+        });
+
+      
+
+
+
+        $("#SearchInfoTable tr").each(function () {
+                $(this).hide();
+        });
+
+        $("#selectionItems").change(function () {
+
+            $("#SearchInfoTable tr").each(function () {
+                var row_index = $(this).index();
+                var ddlValue = $("#selectionItems").val();
+                if (ddlValue.toString() == row_index.toString())
+                {
+                    $(this).show();
+                }
+                else
+                {
+                    $(this).hide();
+                }
+
+            });
+
+
+            var ItemCode = sessionStorage.getItem("ItemIssue_ItemCode");
+            var LoanType = sessionStorage.getItem("ItemIssue_LoanType");
+            var LoanNumber = sessionStorage.getItem("ItemIssue_LoanNumber");
+            var LoanDate = sessionStorage.getItem("ItemIssue_LoanDate");
+            var ItemName = sessionStorage.getItem("ItemIssue_ItemName");
+            var LoanConcernedObject = sessionStorage.getItem("ItemIssue_LoanConcernedObject");
+            var LoanQty = sessionStorage.getItem("ItemIssue_LoanQty");
+            var RefNoOrSprNo = sessionStorage.getItem("ItemIssue_RefNoOrSprNo");
+            var LotNum = sessionStorage.getItem("ItemIssue_LotNum");
+            var Remarks = sessionStorage.getItem("ItemIssue_Remarks");
+            
+            
+
+
+            var ListOfSelectedValue = 'Item Code : ' + ItemCode + '|| Loan Type : ' + LoanType + '||  Loan Number : ' + LoanNumber + '||  Loan Date : ' + LoanDate + '||  Item Name : ' + ItemName + '||  Supplier Or Company : ' + LoanConcernedObject
+            + '||Loan Qty : ' + LoanQty + '||  Ref No Or SprNo : ' + RefNoOrSprNo + '|| Lot Num : ' + LotNum + '||Reamrks :' + Remarks;
+
+             $('#selectionDivToShow').html(ListOfSelectedValue.toString());
+
+
+        });
+
+
+
+
+
+    });
+</script>
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+           LoanType
+        </th>
+        <th>
+            LoanNumber
+        </th>
+        <th>
+            Supplier Or Company
+        </th>
+        <th>
+            ItemName
+        </th>
+        <th>
+            ItemCode
+        </th>
+        <th>
+           LoanQty
+        </th>
+        <th>
+           RefNoOrSprNo
+        </th>
+        <th>
+            LotNum
+        </th>
+        <th>
+            LoanDate
+        </th>
+        <th>
+            Remarks
+        </th>
+        <th>
+           SystemDate
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.LoanType)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LoanNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LoanConcernedObject)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ItemName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ItemCode)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LoanQty)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RefNoOrSprNo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LotNum)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LoanDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Remarks)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SystemDate)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>
+
+
+ Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index", new
+{
+    page,
+
+    LoanNumber = ViewBag.LoanNumber,
+    LoanType = ViewBag.LoanType,
+    LoanDate = ViewBag.LoanDate ,
+    LoanConcernedObject = ViewBag.LoanConcernedObject,
+    ItemName  =  ViewBag.ItemName,
+    LoanQty = ViewBag.LoanQty,
+    RefNoOrSprNo = ViewBag.RefNoOrSprNo,
+    LotNum = ViewBag.LotNum,
+    ItemCode = ViewBag.ItemCode ,
+    Remarks = ViewBag.Remarks
+}))

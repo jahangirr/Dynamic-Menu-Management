@@ -1,0 +1,2443 @@
+﻿@model SilGlobalFashion.Models.ItemReciveTable
+@using SilGlobalFashion.Repository;
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<b>Item (Qty) Supposed to Receive </b>
+
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "form" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        @Html.Hidden("ReadOnlyContr" , ViewBag.ReadOnly as string )
+
+
+        <div class="readonlyAllctrl" id="readonlyAllctrl">
+
+
+
+            <table width="100%">
+                <tr>
+                    <td width="20%">
+
+                        <div style="border:groove;background-color:#C0C0C0;color:black;">
+                            <strong>Date:</strong>
+
+
+                            @{
+                            DateTime? dtReceiveDate = null;
+
+                            try
+                            {
+                                dtReceiveDate = Convert.ToDateTime(ViewBag.ReceiveDate as string);
+                            }
+                            catch (Exception ex)
+                            {
+
+                            }
+                            }
+
+
+                            @Html.JQueryUI().Datepicker("ReceiveDate" , dtReceiveDate)
+                            @Html.ValidationMessageFor(model => model.ReceiveDate, "", new { @class = "text-danger" })
+
+
+                        </div>
+
+                    </td>
+
+                    <td width="45%">
+                        <div style="border:groove;background-color:#C0C0C0;color:black;">
+                            <strong>MRR Type:</strong>
+                            Chemical Store :   @Html.RadioButton("MRRType", "CS")  Yarn Dyeing Store : @Html.RadioButton("MRRType", "YD") General Store : @Html.RadioButton("MRRType", "GS")
+                        </div>
+
+                    </td>
+
+                    <td width="15%">
+                        <div style="border:groove;background-color:#C0C0C0;color:black;">
+                            <strong>MRR NO:</strong>
+
+                            @Html.TextBox("MRRNoShow", null, htmlAttributes: new { disabled = "disabled", @class = "form-control" })
+
+                            @Html.Hidden("MRRNo" , ViewBag.MRRNo as string)
+
+                        </div>
+
+                    </td>
+
+                    <td width="20%">
+
+                        <div style="border:groove;background-color:#C0C0C0;color:black;">
+                            <strong>MRR Date:</strong>
+
+
+                            @{
+                            DateTime? dtMRRDate = null;
+
+                            try
+                            {
+                                dtMRRDate = Convert.ToDateTime(ViewBag.MRRDate as string);
+                            }
+                            catch (Exception ex)
+                            {
+
+                            }
+
+                            }
+
+
+                            @Html.JQueryUI().Datepicker("MRRDate" , dtMRRDate)
+                            @Html.ValidationMessageFor(model => model.MRRDate, "", new { @class = "text-danger" })
+
+                        </div>
+
+                    </td>
+                </tr>
+            </table>
+
+
+
+
+            <div id="sprItemDes" class="alert-info">
+
+
+
+            </div>
+
+            <input type="button" id="showHelpToggle" class="alert-danger" value="Show Help Zone" />
+
+            <div id="showHelpDiv">
+
+                @Html.TextBox("showHelpItem") : <input type="button" id="showHelpbtn" class="alert-danger" value="Show Help" />
+                <div class="alert-danger" id="LoadHelpInfo">
+
+
+                </div>
+            </div>
+
+
+
+            <table width="100%">
+                <tr>
+                    <td width="18%">
+
+                        <div style="border:groove;background-color:#C0C0C0;color:black;">
+                            Mother  SPR / Indent No :
+                        </div>
+                    </td>
+
+                    <td width="26%">
+
+                        <div style="border:groove;background-color:#C0C0C0;color:black;">
+                            @Html.TextBox("MOMSprOrIndentNo", null, new { htmlAttributes = new { @class = "form-control" } })
+
+                           
+
+                        </div>
+                        @Html.ValidationMessageFor(model => model.MOMSprOrIndentNo, "", new { @class = "text-danger" })
+
+                    </td>
+                    <td width="12%"></td>
+
+                    <td width="18%">
+                        <div style="border:groove;background-color:#C0C0C0;color:black;">
+
+                        </div>
+
+                    </td>
+                    <td width="26%">
+
+                        <div style="border:groove;background-color:#C0C0C0;color:black;">
+
+
+                        </div>
+
+
+
+                    </td>
+
+                </tr>
+
+
+                <tr>
+                    <td width="18%">
+
+                        <div style="border:groove;background-color:#C0C0C0;color:black;">
+                            SPR / Indent No :
+                        </div>
+                    </td>
+
+                    <td width="26%">
+
+                        <div style="border:groove;background-color:#C0C0C0;color:black;">
+                            @Html.TextBox("SPRNoOrIndentNo", null, new { htmlAttributes = new { @class = "form-control" } })
+                            
+                            <div id="poNumberShow">
+
+                            </div>
+
+                        </div>
+                        @Html.ValidationMessageFor(model => model.SPRNoOrIndentNo, "", new { @class = "text-danger" })
+
+                    </td>
+                    <td width="12%"></td>
+
+                    <td width="18%">
+                        <div style="border:groove;background-color:#C0C0C0;color:black;">
+                            SPR / Indent Date :
+                        </div>
+
+                    </td>
+                    <td width="26%">
+
+                        <div style="border:groove;background-color:#C0C0C0;color:black;">
+                            @Html.JQueryUI().DatepickerFor(model => model.SPRDateOrIndentDate)
+
+                        </div>
+
+                        @Html.ValidationMessageFor(model => model.SPRDateOrIndentDate, "", new { @class = "text-danger" })
+
+                    </td>
+
+                </tr>
+                <tr>
+                    <td width="18%">
+
+                        <div style="border:groove;background-color:#C0C0C0;color:black;">
+                            Receive Type :
+                        </div>
+                    </td>
+
+                    <td width="26%">
+
+                        <div style="border:groove;background-color:#C0C0C0;color:black;">
+
+                            @if (ViewBag.ReceiveType != null)
+                        {
+                                @Html.DropDownList("ReceiveType", (SelectList)ViewBag.ReceiveType, htmlAttributes: new { @class = "form-control" })
+                        }
+
+                        </div>
+
+                        @Html.ValidationMessageFor(model => model.ReceiveType, "", new { @class = "text-danger" })
+
+                    </td>
+                    <td width="12%"></td>
+
+                    <td width="18%">
+                        <div style="border:groove;background-color:#C0C0C0;color:black;">
+                            Receive No :
+                        </div>
+
+                    </td>
+                    <td width="26%">
+
+                        <div style="border:groove;background-color:#C0C0C0;color:black;">
+
+                            @Html.TextBox("ReceiveTypeNo", ViewBag.ReceiveTypeNo as string, htmlAttributes: new {  @class = "form-control" })
+
+
+
+
+                        </div>
+
+                        @Html.ValidationMessageFor(model => model.ReceiveTypeNo, "", new { @class = "text-danger" })
+
+                    </td>
+
+                </tr>
+
+
+                <tr>
+                    <td width="18%">
+
+                        <div style="border:groove;background-color:#C0C0C0;color:black;">
+                            LC No:
+                        </div>
+                    </td>
+
+                    <td width="26%">
+
+                        <div style="border:groove;background-color:#C0C0C0;color:black;">
+
+                            @Html.TextBox("LCNo", ViewBag.LCNo as string, htmlAttributes: new { @class = "form-control" })
+
+
+
+
+                        </div>
+
+                        @Html.ValidationMessageFor(model => model.LCNo, "", new { @class = "text-danger" })
+
+                    </td>
+                    <td width="12%"></td>
+
+                    <td width="18%">
+                        <div style="border:groove;background-color:#C0C0C0;color:black;">
+                            Purchased By :
+                        </div>
+
+                    </td>
+                    <td width="26%">
+
+                        <div style="border:groove;background-color:#C0C0C0;color:black;">
+
+                            @Html.TextBox("PurchasedBy", ViewBag.PurchasedBy as string, htmlAttributes: new { @class = "form-control" })
+
+
+
+
+                        </div>
+
+                        @Html.ValidationMessageFor(model => model.PurchasedBy, "", new { @class = "text-danger" })
+
+                    </td>
+
+                </tr>
+
+                <tr>
+                    <td width="18%">
+
+                        <div style="border:groove;background-color:#C0C0C0;color:black;">
+                            Gate In No:
+                        </div>
+                    </td>
+
+                    <td width="26%">
+
+                        <div style="border:groove;background-color:#C0C0C0;color:black;">
+
+                            @Html.TextBox("GateInNo", ViewBag.GateInNo as string, htmlAttributes: new { @class = "form-control" })
+
+
+
+
+                        </div>
+
+                        @Html.ValidationMessageFor(model => model.GateInNo, "", new { @class = "text-danger" })
+
+                    </td>
+                    <td width="12%"></td>
+
+                    <td width="18%">
+                        <div style="border:groove;background-color:#C0C0C0;color:black;">
+                            Gate In Date :
+                        </div>
+
+                    </td>
+                    <td width="26%">
+
+                        <div style="border:groove;background-color:#C0C0C0;color:black;">
+
+
+                            @{
+
+                            GlobCreatedFunction globbCreFunc = new GlobCreatedFunction();
+
+                            DateTime? dtGateInDate = null;
+
+                            try
+                            {
+                                dtGateInDate = Convert.ToDateTime(ViewBag.GateInDate as string);
+                            }
+                            catch (Exception ex)
+                            {
+
+                            }
+
+
+
+                            }
+
+
+                            @Html.JQueryUI().Datepicker("GateInDate", dtGateInDate)
+
+                        </div>
+
+                        @Html.ValidationMessageFor(model => model.GateInDate, "", new { @class = "text-danger" })
+
+                    </td>
+
+                </tr>
+
+
+                <tr>
+                    <td width="18%">
+
+                        <div style="border:groove;background-color:#C0C0C0;color:black;">
+                            Invoice No:
+                        </div>
+                    </td>
+
+                    <td width="26%">
+
+                        <div style="border:groove;background-color:#C0C0C0;color:black;">
+
+                            @Html.TextBox("InvoiceNo", ViewBag.InvoiceNo as string, htmlAttributes: new { @class = "form-control" })
+
+
+                        </div>
+
+                        @Html.ValidationMessageFor(model => model.InvoiceNo, "", new { @class = "text-danger" })
+
+                    </td>
+                    <td width="12%"></td>
+
+                    <td width="18%">
+                        <div style="border:groove;background-color:#C0C0C0;color:black;">
+                            Invoice Date :
+                        </div>
+
+                    </td>
+                    <td width="26%">
+
+                        <div style="border:groove;background-color:#C0C0C0;color:black;">
+
+                            @{
+                            DateTime? dtInoviceDate = null;
+
+                            try
+                            {
+                                dtInoviceDate = Convert.ToDateTime(ViewBag.InoviceDate as string);
+                            }
+                            catch (Exception ex)
+                            {
+
+                            }
+
+                            }
+
+                            @Html.JQueryUI().Datepicker("InoviceDate", dtInoviceDate)
+
+                        </div>
+
+                        @Html.ValidationMessageFor(model => model.InoviceDate, "", new { @class = "text-danger" })
+
+                    </td>
+
+                </tr>
+
+                <tr>
+                    <td width="18%">
+
+                        <div style="border:groove;background-color:#C0C0C0;color:black;">
+                            GRN No :
+                        </div>
+                    </td>
+
+                    <td width="26%">
+
+                        <div style="border:groove;background-color:#C0C0C0;color:black;">
+                            @Html.TextBoxFor(model => model.GRNNo, new { @class = "form-control", id = "GRNNoId", @Value = ViewBag.GRNNo as string , @readonly = "readonly" })
+
+
+                        </div>
+                        @Html.ValidationMessageFor(model => model.GRNNo, "", new { @class = "text-danger" })
+
+                    </td>
+                    <td width="12%"></td>
+
+                    <td width="18%" style="border:groove;background-color:#C0C0C0;color:black;">
+                        <div style="border:groove;background-color:#C0C0C0;color:black;">
+                            Receive By:
+                        </div>
+
+                    </td>
+                    <td width="26%" style="border:groove;background-color:#C0C0C0;color:black;">
+
+                        <div style="border:groove;background-color:#C0C0C0;color:black;">
+                            @Html.TextBox("ReceiveBy", ViewBag.ReceiveBy as string, htmlAttributes: new { @class = "form-control" })
+
+
+
+                        </div>
+                        @Html.ValidationMessageFor(model => model.ReceiveBy, "", new { @class = "text-danger" })
+
+
+                    </td>
+
+                </tr>
+                <tr>
+                    <td width="18%">
+
+                        <div style="border:groove;background-color:#C0C0C0;color:black;">
+                            Challan  No :
+                        </div>
+                    </td>
+
+                    <td width="26%">
+
+                        <div style="border:groove;background-color:#C0C0C0;color:black;">
+                            @Html.TextBox("ChallanNo", ViewBag.ChallanNo as string, htmlAttributes: new { @class = "form-control" })
+
+                        </div>
+
+                        @Html.ValidationMessageFor(model => model.ChallanNo, "", new { @class = "text-danger" })
+
+                    </td>
+                    <td width="12%"></td>
+
+                    <td width="18%">
+                        <div style="border:groove;background-color:#C0C0C0;color:black;">
+                            Challan  Date :
+                        </div>
+
+                    </td>
+                    <td width="26%">
+
+                        <div style="border:groove;background-color:#C0C0C0;color:black;">
+
+
+                            @{
+                            DateTime? dtChallanDate = null;
+
+                            try
+                            {
+                                dtChallanDate = Convert.ToDateTime(ViewBag.ChallanDate as string);
+                            }
+                            catch (Exception ex)
+                            {
+
+                            }
+
+                            }
+
+                            @Html.JQueryUI().Datepicker("ChallanDate", dtChallanDate)
+
+
+
+                        </div>
+
+                        @Html.ValidationMessageFor(model => model.ChallanDate, "", new { @class = "text-danger" })
+
+                    </td>
+
+                </tr>
+
+                <tr>
+                    <td width="18%">
+
+                        <div style="border:groove;background-color:#C0C0C0;color:black;">
+                            Bill  No :
+                        </div>
+                    </td>
+
+                    <td width="26%">
+
+                        <div style="border:groove;background-color:#C0C0C0;color:black;">
+                            @Html.TextBox("BillNo", ViewBag.BillNo as string, htmlAttributes: new { @class = "form-control" })
+
+                        </div>
+
+                        @Html.ValidationMessageFor(model => model.BillNo, "", new { @class = "text-danger" })
+
+                    </td>
+                    <td width="12%"></td>
+
+                    <td width="18%">
+                        <div style="border:groove;background-color:#C0C0C0;color:black;">
+                            Bill Date :
+                        </div>
+
+                    </td>
+                    <td width="26%">
+
+                        <div style="border:groove;background-color:#C0C0C0;color:black;">
+
+                            @{
+                            DateTime? dtBillDate = null;
+
+                            try
+                            {
+                                dtBillDate = Convert.ToDateTime(ViewBag.BillDate as string);
+                            }
+                            catch (Exception ex)
+                            {
+
+                            }
+
+                            }
+
+                            @Html.JQueryUI().Datepicker("BillDate", dtBillDate)
+
+                        </div>
+
+                        @Html.ValidationMessageFor(model => model.BillDate, "", new { @class = "text-danger" })
+
+                    </td>
+
+                </tr>
+                <tr>
+                    <td width="18%">
+
+                        <div style="border:groove;background-color:#C0C0C0;color:black;">
+                            Delivered By :
+                        </div>
+                    </td>
+
+                    <td width="26%">
+
+                        <div style="border:groove;background-color:#C0C0C0;color:black;">
+
+                            @Html.TextBox("DeliveryBy", ViewBag.DeliveryBy as string, htmlAttributes: new { @class = "form-control" })
+
+
+                        </div>
+                        @Html.ValidationMessageFor(model => model.DeliveryBy, "", new { @class = "text-danger" })
+
+                    </td>
+                    <td width="12%"></td>
+
+                    <td width="18%" style="border:groove;background-color:#C0C0C0;color:black;">
+                        <div style="border:groove;background-color:#C0C0C0;color:black;">
+                            Prepared By:
+                        </div>
+
+                    </td>
+                    <td width="26%" style="border:groove;background-color:#C0C0C0;color:black;">
+
+                        <div style="border:groove;background-color:#C0C0C0;color:black;">
+                            @Html.TextBox("PreparedBy", ViewBag.PreparedBy as string, htmlAttributes: new { @class = "form-control" })
+
+
+                        </div>
+                        @Html.ValidationMessageFor(model => model.PreparedBy, "", new { @class = "text-danger" })
+
+
+                    </td>
+
+                </tr>
+            </table>
+
+        </div>
+
+
+
+
+        <table width="100%">
+            <tr>
+                <th>
+                    <div class="alert-danger" style="width:88px;">
+                        Item Code
+                    </div>
+                </th>
+                <th>
+                    <div class="alert-danger" style="width:88px;">
+                        Model
+                    </div>
+                </th>
+
+                <th>
+                    <div class="alert-danger" style="width:88px;">
+                        Item Name
+                    </div>
+                </th>
+
+                <th>
+                    <div class="alert-danger" style="width:40px;">
+                        Part No
+                    </div>
+                </th>
+                <th>
+                    <div class="alert-danger" style="width:88px;">
+                        Supplier Name
+                    </div>
+                </th>
+                <th>
+                    <div class="alert-danger" style="width:56px;">
+                        ChalQty
+                    </div>
+                </th>
+                <th>
+                    <div class="alert-danger" style="width:56px;">
+                        BillQty
+                    </div>
+                </th>
+                <th>
+                    <div class="alert-danger" style="width:56px;">
+                        RecQty
+                    </div>
+                </th>
+                <th>
+                    <div class="alert-danger" style="width:50px;">
+                        Balance
+                    </div>
+                </th>
+                <th>
+                    <div class="alert-danger" style="width:136px;">
+                        Lot No
+                    </div>
+                </th>
+                <th>
+                    <div class="alert-danger" style="width:72px;">
+                        QC
+                    </div>
+                </th>
+                <th>
+                    <div class="alert-danger" style="width:40px;">
+                        UOM
+                    </div>
+                </th>
+                <th>
+                    <div class="alert-danger" style="width:40px;">
+                        UP
+                    </div>
+                </th>
+                <th>
+                    <div class="alert-danger" style="width:100px;">
+                        Total Price
+                    </div>
+                </th>
+                <th>
+                    <div class="alert-danger" style="width:80px;">
+                        Action
+                    </div>
+                </th>
+            </tr>
+            <tr>
+                <td style="width:88px;">
+
+                    <div>
+                        @Html.TextBox("ItemCodeShow", null, htmlAttributes: new { disabled = "disabled", style = "width:88px;" })
+                        @Html.Hidden("ItemCode")
+                    </div>
+
+                </td>
+                <td style="width:88px;">
+
+                    <div>
+                        @Html.TextBoxFor(model => model.ItemModel, new { style = "width:88px;" })
+                        @Html.ValidationMessageFor(model => model.ItemModel, "", new { @class = "text-danger" })
+                    </div>
+
+                </td>
+
+                <td style="width:88px;">
+                    <div>
+                        @Html.TextBoxFor(model => model.ItemName, new { style = "width:88px;" })
+                        @Html.ValidationMessageFor(model => model.ItemName, "", new { @class = "text-danger" })
+                    </div>
+
+                </td>
+
+                <td style="width:40px;">
+                    <div>
+                        @Html.TextBoxFor(model => model.PartNo, new { style = "width:40px;" })
+                        @Html.ValidationMessageFor(model => model.PartNo, "", new { @class = "text-danger" })
+                    </div>
+
+                </td>
+
+                <td style="width:88px;">
+                    @Html.TextBoxFor(model => model.SupplierName, new { style = "width:88px" })
+                    @Html.ValidationMessageFor(model => model.SupplierName, "", new { @class = "text-danger" })
+
+                </td>
+
+                <td style="width:56px;">
+
+                    @Html.TextBoxFor(model => model.ChallanQty, new { style = "width:56px" })
+                    @Html.ValidationMessageFor(model => model.ChallanQty, "", new { @class = "text-danger" })
+
+                </td>
+
+                <td style="width:56px;">
+
+                    @Html.TextBoxFor(model => model.BillQty, new { style = "width:56px" })
+                    @Html.ValidationMessageFor(model => model.BillQty, "", new { @class = "text-danger" })
+
+                </td>
+
+                <td style="width:56px;">
+
+                    @Html.TextBoxFor(model => model.ReceiveQty, new { style = "width:56px" })
+                    @Html.ValidationMessageFor(model => model.ReceiveQty, "", new { @class = "text-danger" })
+
+                </td>
+
+                <td style="width:100px;">
+
+                    @Html.TextBoxFor(model => model.IndentBalance, new { style = "width:50px" })
+                    @Html.ValidationMessageFor(model => model.IndentBalance, "", new { @class = "text-danger" })
+
+                </td>
+
+
+                <td style="width:56px;">
+
+                    @Html.TextBoxFor(model => model.LotNo, new { style = "width:136px" })
+                    @Html.ValidationMessageFor(model => model.LotNo, "", new { @class = "text-danger" })
+
+                </td>
+
+                <td style="width:72px;">
+
+                    @Html.TextBoxFor(model => model.QcCheckedBy, new { style = "width:72px" })
+                    @Html.ValidationMessageFor(model => model.QcCheckedBy, "", new { @class = "text-danger" })
+
+                </td>
+
+
+                <td style="width:40px;">
+
+                    @Html.TextBoxFor(model => model.UOM, new { style = "width:40px" })
+                    @Html.ValidationMessageFor(model => model.UOM, "", new { @class = "text-danger" })
+
+                </td>
+
+
+                <td style="width:40px;">
+
+                    @Html.TextBoxFor(model => model.UnitPrize, new { style = "width:40px" })
+                    @Html.ValidationMessageFor(model => model.UnitPrize, "", new { @class = "text-danger" })
+
+                </td>
+
+                <td style="width:100px;">
+
+                    <div hidden>
+                        @Html.Hidden("TotalPrize")
+                    </div>
+
+                    <div id="TotalPrizeShow" style="width:100px">
+                        0.0
+                    </div>
+
+
+
+
+                </td>
+
+                <td style="width:24px;">
+                    <input type="submit"  id="AddToList" name="AddToList" value="Add To List" class="btn btn-danger" />
+                </td>
+
+            </tr>
+
+        </table>
+
+
+        <div class="alert-success" style="border:2px;border-color:green;">
+
+            <table id="outputOfItemReceived" width="100%">
+                <tr>
+                    <th>
+                        <div class="alert-danger" style="width:88px;">
+                            Item Code
+                        </div>
+                    </th>
+                    <th>
+                        <div class="alert-danger" style="width:88px;">
+                            Model
+                        </div>
+                    </th>
+                    <th>
+                        <div class="alert-danger" style="width:88px;">
+                            Item Name
+                        </div>
+                    </th>
+                    <th>
+                        <div class="alert-danger" style="width:40px;">
+                            Part No
+                        </div>
+                    </th>
+
+                    <th>
+                        <div class="alert-danger" style="width:88px;">
+                            Supplier Name
+                        </div>
+                    </th>
+                    <th>
+                        <div class="alert-danger" style="width:56px;">
+                            ChalQty
+                        </div>
+                    </th>
+                    <th>
+                        <div class="alert-danger" style="width:56px;">
+                            BillQty
+                        </div>
+                    </th>
+                    <th>
+                        <div class="alert-danger" style="width:56px;">
+                            RecQty
+                        </div>
+                    </th>
+                    <th>
+                        <div class="alert-danger" style="width:100px;">
+                            Balance
+                        </div>
+                    </th>
+                    <th>
+                        <div class="alert-danger" style="width:56px;">
+                            Lot No
+                        </div>
+                    </th>
+                    <th>
+                        <div class="alert-danger" style="width:72px;">
+                            QC
+                        </div>
+                    </th>
+
+                    <th>
+                        <div class="alert-danger" style="width:40px;">
+                            UOM
+                        </div>
+                    </th>
+                    <th>
+                        <div class="alert-danger" style="width:40px;">
+                            UP
+                        </div>
+                    </th>
+                    <th>
+                        <div class="alert-danger" style="width:100px;">
+                            Total Price
+                        </div>
+                    </th>
+                    <th>
+                        <div class="alert-danger" style="width:80px;">
+                            Action
+                        </div>
+                    </th>
+                </tr>
+
+                @{
+
+                    int totalNumber = 0;
+
+                    if (Session["DataItemReceiveTable"] != null)
+                    {
+
+                        List<SilGlobalFashion.Models.ItemReciveTable> temItemReciveTable = (List<SilGlobalFashion.Models.ItemReciveTable>)Session["DataItemReceiveTable"];
+                        totalNumber = temItemReciveTable.Count();
+                        for (int i = 0; i < totalNumber; i++)
+                        {
+
+                            <tr>
+                                <td style="width:88px;">
+
+                                    <div>
+
+                                        @{
+                                            HtmlString HSItemCode = new HtmlString(temItemReciveTable[i].ItemCode.ToString());
+                                        }
+
+                                        @HSItemCode
+                                    </div>
+
+                                </td>
+                                <td style="width:88px;">
+
+                                    <div>
+
+                                        @{
+                                            HtmlString HSItemModel = new HtmlString(temItemReciveTable[i].ItemModel.ToString());
+                                        }
+
+                                        @HSItemModel
+
+                                    </div>
+
+                                </td>
+
+                                <td style="width:88px;">
+
+                                    <div>
+
+                                        @{
+                                            HtmlString HSItemName = new HtmlString(temItemReciveTable[i].ItemName.ToString());
+                                        }
+
+                                        @HSItemName
+
+                                    </div>
+
+                                </td>
+
+                                <td style="width:40px;">
+
+                                    <div>
+
+                                        @{
+                                            HtmlString HSPartNo = new HtmlString(temItemReciveTable[i].PartNo.ToString());
+                                        }
+
+                                        @HSPartNo
+
+                                    </div>
+
+                                </td>
+
+                                <td style="width:88px;">
+
+                                    <div>
+
+                                        @{
+                                            HtmlString HSSupplierName = new HtmlString(temItemReciveTable[i].SupplierName.ToString());
+                                        }
+
+                                        @HSSupplierName
+
+                                    </div>
+
+
+
+                                </td>
+
+                                <td style="width:56px;">
+
+                                    @{
+                                        HtmlString HSChallanQty = new HtmlString(temItemReciveTable[i].ChallanQty.ToString());
+                                    }
+
+                                    @HSChallanQty
+
+
+
+                                </td>
+
+                                <td style="width:56px;">
+
+                                    @{
+                                        HtmlString HSBillQty = new HtmlString(temItemReciveTable[i].BillQty.ToString());
+                                    }
+
+                                    @HSBillQty
+
+
+
+                                </td>
+
+                                <td style="width:56px;">
+
+                                    @{
+                                        HtmlString HSReceiveQty = new HtmlString(temItemReciveTable[i].ReceiveQty.ToString());
+                                    }
+
+                                    @HSReceiveQty
+
+                                </td>
+
+                                <td style="width:100px;">
+
+                                    @{
+                                        HtmlString HSIndentBalance = new HtmlString(temItemReciveTable[i].IndentBalance.ToString());
+                                    }
+
+                                    @HSIndentBalance
+
+                                </td>
+
+                                <td style="width:56px;">
+
+                                    @{
+                                        HtmlString HSLotNo = new HtmlString(temItemReciveTable[i].LotNo.ToString());
+                                    }
+
+                                    @HSLotNo
+
+
+
+                                </td>
+
+                                <td style="width:72px;">
+
+                                    @{
+                                        HtmlString HSQcCheckedBy = new HtmlString(temItemReciveTable[i].QcCheckedBy.ToString());
+                                    }
+
+                                    @HSQcCheckedBy
+
+
+
+                                </td>
+
+
+
+                                <td style="width:40px;">
+
+                                    @{
+                                        HtmlString HSUOM = new HtmlString(temItemReciveTable[i].UOM.ToString());
+                                    }
+
+                                    @HSUOM
+
+
+
+                                </td>
+
+
+                                <td style="width:40px;">
+
+                                    @{
+                                        HtmlString HSUnitPrize = new HtmlString(temItemReciveTable[i].UnitPrize.ToString());
+                                    }
+
+                                    @HSUnitPrize
+
+
+
+                                </td>
+
+                                <td style="width:100px;">
+
+                                    @{
+                                        HtmlString HSTotalPrize = new HtmlString(temItemReciveTable[i].TotalPrize.ToString());
+                                    }
+
+                                    @HSTotalPrize
+
+
+
+
+                                </td>
+
+                                <td>
+
+                                    <button type="button" class="btn-info" id="btnEdit" value="Edit" onclick="fn_btnEdit(this)"> Edit </button>
+
+                                    <button type="button" class="btn-default" id="btnDelete" value="Delete" onclick="fn_btnDelete(this)"> Del</button>
+
+
+                                </td>
+
+                            </tr>
+
+
+                                            }
+
+
+                                        }
+
+
+                }
+
+
+            </table>
+
+
+
+        </div>
+
+
+
+
+
+
+
+        <table width="100%">
+            <tr>
+              
+
+                <th>
+                    <div class="alert-danger" style="width:200px;">
+                        Is Add
+                    </div>
+                </th>
+
+                <th>
+                    <div class="alert-danger" style="width:200px;">
+                        Add/Deduct Node Name
+                    </div>
+                </th>
+                <th>
+                    <div class="alert-danger" style="width:200px;">
+                        Percentage(%)
+                    </div>
+                </th>
+                <th>
+                    <div class="alert-danger" style="width:200px;">
+                        Direct Amount
+                    </div>
+                </th>
+              
+                <th>
+                    <div class="alert-danger" style="width:200px;">
+                        Action
+                    </div>
+                </th>
+            </tr>
+            <tr>
+               
+
+                <td style="width:200px;">
+                    
+                    <div>
+                        @Html.CheckBox("IsAdd",false, new { style = "width:200px;" })
+                        
+                    </div>
+
+                </td>
+
+                <td style="width:200px;">
+                    <div>
+                        @Html.TextBox("TransName",null, new { style = "width:200px;" })
+                       
+                    </div>
+
+                </td>
+
+                <td style="width:200px;">
+                    @Html.TextBox("TransPercentage",null, new { style = "width:200px" })
+                   
+
+                </td>
+
+                <td style="width:200px;">
+
+                    @Html.TextBox("DirectAmount",null, new { style = "width:200px" })
+                   
+
+                </td>
+
+              
+                <td style="width:200px;">
+                    <input type="submit" id="AddToFinancialAspect" name="AddToFinancialAspect" value="Add To Financial Aspect" class="btn btn-danger" />
+                </td>
+
+            </tr>
+
+        </table>
+
+
+        <div class="alert-success" style="border:2px;border-color:green;">
+
+            <table id="outputOfItemReceivedFinancialAspect" width="100%">
+                <tr>
+                    <th>
+                        <div class="alert-danger" style="width:200px;">
+                            Is Add
+                        </div>
+                    </th>
+                    <th>
+                        <div class="alert-danger" style="width:200px;">
+                            Trans Name
+                        </div>
+                    </th>
+                    <th>
+                        <div class="alert-danger" style="width:200px;">
+                            Percentage(%)
+                        </div>
+                    </th>
+                    <th>
+                        <div class="alert-danger" style="width:200px;">
+                            Direct Amount
+                        </div>
+                    </th>
+
+                   
+                </tr>
+
+                @{
+
+                    int totalNumberFinancialAspect = 0;
+
+                    if (Session["DataItemReceiveTableFinancialAspect"] != null)
+                    {
+
+                        List<SilGlobalFashion.Models.ItemReciveFinancialAspect> temItemReciveTableFinancialAspect = (List<SilGlobalFashion.Models.ItemReciveFinancialAspect>)Session["DataItemReceiveTableFinancialAspect"];
+                        totalNumberFinancialAspect = temItemReciveTableFinancialAspect.Count();
+                        for (int i = 0; i < totalNumberFinancialAspect; i++)
+                        {
+
+                            <tr>
+                                <td style="width:200px;">
+
+                                    <div>
+
+                                        @{
+                                            string SignShow = "-";
+                                            if(temItemReciveTableFinancialAspect[i].IsAdd == true )
+                                            {
+                                                SignShow = "+";
+                                            }else
+                                            {
+                                                SignShow = "-";
+                                            }
+                                            HtmlString HSIsAdd = new HtmlString(SignShow);
+                                        }
+
+                                        @HSIsAdd
+                                    </div>
+
+                                </td>
+                                <td style="width:200px;">
+
+                                    <div>
+
+                                        @{
+                                            HtmlString HSTransName = new HtmlString(temItemReciveTableFinancialAspect[i].TransName.ToString());
+                                        }
+
+                                        @HSTransName
+
+                                    </div>
+
+                                </td>
+
+                                <td style="width:200px;">
+
+                                    <div>
+
+                                        @{
+                                            HtmlString HSTransPercentage = new HtmlString(temItemReciveTableFinancialAspect[i].TransPercentage.ToString());
+                                        }
+
+                                        @HSTransPercentage
+
+                                    </div>
+
+                                </td>
+
+                                <td style="width:200px;">
+
+                                    <div>
+
+                                        @{
+                                            HtmlString HSDirectAmount = new HtmlString(temItemReciveTableFinancialAspect[i].DirectAmount.ToString());
+                                        }
+
+                                        @HSDirectAmount
+
+                                    </div>
+
+                                </td>
+
+                              
+
+                                <td>
+
+                                    <button type="button" class="btn-info" id="btnEditFA" value="Edit" onclick="fn_btnEditFA(this)"> Edit </button>
+
+                                    <button type="button" class="btn-default" id="btnDeleteFA" value="Delete" onclick="fn_btnDeleteFA(this)"> Del</button>
+
+
+                                </td>
+
+                            </tr>
+
+
+                                            }
+
+
+                                        }
+
+
+                }
+
+
+            </table>
+
+
+
+        </div>
+
+
+        <table class="table alert-warning" width="100%">
+            <tr>
+                <td width="25%">
+                    <input type="submit" id="Save" name="Save" value="Save" class="btn btn-default alert-success" />
+                </td>
+                <td width="25%">
+
+                    <div class="alert-success">
+
+                       MRR No:
+
+                    </div>
+
+                    <div class="alert-danger">
+
+                        @Html.TextBox("MRRNoReport")
+
+
+
+
+
+                    </div>
+
+                </td>
+                <td width="25%">
+
+
+                    <div class="btn-group">
+
+                        <div class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                            Print <span class="caret"></span>
+                        </div>
+
+                        <ul class="dropdown-menu" role="menu">
+                            <li>
+
+
+                                <a onclick='GetPDF();' class="btn-info">
+                                    PDF
+                                </a>
+
+                                @{
+
+                                    HtmlString hostAddress = new HtmlString(Session["HostAddress"].ToString());
+
+                                }
+
+
+                                <script type='text/javascript'>
+
+                                    function GetPDF() {
+
+                                        var url = "@hostAddress/ItemReciveTables/ItemReceiveReport?ReportType=PDF&MRRNo=" + $('#MRRNoReport').val();
+                                        window.open(url, '_blank');
+
+                                    }
+
+                                </script>
+                            </li>
+                            <li>
+
+                                <a onclick='GetExcel();' class="btn-danger">
+                                    Excel
+                                </a>
+
+
+                                <script type='text/javascript'>
+
+                                    function GetExcel() {
+
+                                        var url = "@hostAddress/ItemReciveTables/ItemReceiveReport?ReportType=EXCEL&MRRNo=" + $('#MRRNoReport').val();
+                                        window.open(url, '_blank');
+
+                                    }
+
+                                </script>
+
+
+
+
+                            </li>
+                            <li>
+
+                                <a onclick='GetExcelRecord();' class="btn-success">
+                                    Excel Record
+                                </a>
+
+
+                                <script type='text/javascript'>
+
+                                    function GetExcelRecord() {
+
+                                        var url = "@hostAddress/ItemReciveTables/ItemReceiveReport?ReportType=EXCELRECORD&MRRNo=" + $('#MRRNoReport').val();
+                                        window.open(url, '_blank');
+
+                                    }
+
+                                </script>
+
+
+
+
+                            </li>
+                            <li>
+                                <a onclick='GetWord();' class="btn-primary">
+                                    Word
+                                </a>
+
+
+                                <script type='text/javascript'>
+
+                                    function GetWord() {
+
+                                        var url = "@hostAddress/ItemReciveTables/ItemReceiveReport?ReportType=WORD&MRRNo=" + $('#MRRNoReport').val();
+                                        window.open(url, '_blank');
+
+                                    }
+
+                                </script>
+                            </li>
+
+                            <li>
+                                <a onclick='GetVisualised();' class="btn-warning">
+                                    Visualize
+                                </a>
+                                <script type='text/javascript'>
+
+                                    function GetVisualised() {
+
+                                        var url = "@hostAddress/ShowChart/Index";
+                                        window.open(url, '_blank');
+
+                                    }
+
+                                </script>
+
+
+
+                            </li>
+
+                        </ul>
+                    </div>
+
+
+
+                </td>
+                <td width="25%">
+                    <div class="btn btn-default alert-danger">@Html.ActionLink("Refresh", "TempDelete") </div>
+
+                    <input type="submit" value="Refresh Function" name="RefreshFunction"  />
+
+                </td>
+            </tr>
+        </table>
+    </div>
+                                    }
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+<script>
+
+    function DefaultCall() {
+
+        $.ajax({
+            url: '@Url.Action("getDefaultMRRTypeWithMRRNo")',
+            type: "GET",
+            dataType: "JSON",
+            data: {
+               
+            },
+            success: function (data) {
+
+                if (data.MRRNo == '')
+                {
+                    $('input[name=MRRType][value=CS]').prop('checked', 'checked');
+                    $('input[name=MRRType][value=CS]').trigger('change');
+
+                } else
+                {
+
+                    $('#MRRNoShow').val(data.MRRNo);
+                    $('#MRRNo').val(data.MRRNo);
+                    var MRRType = data.MRRNo.toString().substring(0, 2);
+                    if (MRRType === 'CS') {
+                        $('input[name=MRRType][value=CS]').prop('checked', 'checked');
+                    }
+                    else if (MRRType === 'YD') {
+                        $('input[name=MRRType][value=YD]').prop('checked', 'checked');
+                    }
+                    else {
+
+                        $('input[name=MRRType][value=GS]').prop('checked', 'checked');
+
+                    }
+
+                }
+
+              
+
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+
+
+            }
+
+        });
+
+
+
+    }
+
+
+</script>
+
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        
+
+        $('#showHelpbtn').click(function () {
+            $.ajax({
+                url: '@Url.Action("GetShowHelpOnItem", "ItemReciveTables")',
+                type: "GET",
+                dataType: "JSON",
+                data: {
+                    showHelpItem : $('#showHelpItem').val()       
+                },
+                success: function (data) {
+                    console.log(data);
+                    $('#LoadHelpInfo').html(data);
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    //debugger;
+                    alert(textStatus);
+                }
+            });
+
+
+        });
+
+      
+
+        $("#showHelpToggle").click(function () { 
+            $("#showHelpDiv").toggle();
+        });
+
+
+        if($('#ReadOnlyContr').val() !='')
+        {
+            $('#readonlyAllctrl input').each(function () {
+
+                if (this.id != 'SPRNoOrIndentNo' && this.id != 'showHelpItem')
+                {
+                    
+                    $(this).prop('readonly', $('#ReadOnlyContr').val());
+                }
+            })
+        }
+
+
+        $('#AddToList').attr("disabled", "disabled");
+        DefaultCall();
+        $(document).on('submit', 'form', function () {
+            var buttons = $(this).find('[type="submit"]');
+            if ($(this).valid()) {
+                buttons.each(function (btn) {
+
+                    if ($(buttons[btn]).attr('id') != 'AddToFinancialAspect' && $(buttons[btn]).attr('id') != 'AddToList') {
+                        $(buttons[btn]).prop('disabled', true);
+                    }
+                });
+            } else {
+                buttons.each(function (btn) {
+
+                    if ($(buttons[btn]).attr('id') != 'AddToFinancialAspect' && $(buttons[btn]).attr('id') != 'AddToList') {
+                        $(buttons[btn]).prop('disabled', false);
+                    }
+
+
+                });
+            }
+        });
+       
+
+
+
+
+        $("#TotalPrizeShow").val("0.0");
+        $("#ItemCode").val('');
+        $("#ItemName").val('');
+        $("#SupplierName").val('');
+       
+        $("#ReceiveQty").val("0.0");
+        $("#UOM").val('');
+        $("#UnitPrize").val("0.0");
+        $("#TotalPrize").val("0.0");
+        $("#ChallanQty").val("0.0");
+        $("#LotNo").val('');
+        $("#QcCheckedBy").val('');
+        $("#BillQty").val("0.0");
+        $("#ItemModel").val('');
+
+
+        $("#LotNo").val('');
+        $("#QcCheckedBy").val('');
+
+
+        $('#TransPercentage').val('0.0');
+        $('#DirectAmount').val('0.0');
+
+
+        var rowCount = $('#outputOfItemReceived tr').length;
+        $("#PartNo").val(rowCount);
+        $("#PartNo").change(function () {
+
+            if (($('#outputOfItemReceived tr').length - 1) > 0) {
+                $.ajax({
+                    url: '@Url.Action("getActionOptionEdit")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        RowIndex: 1
+                    },
+                    success: function (data) {
+
+                        $('#MRRNoShow').val(data.MRRNo);
+                        $('#MRRNo').val(data.MRRNo);
+                        var MRRType = data.MRRNo.toString().substring(0, 2);
+                        if (MRRType === 'CS')
+                        {
+                            $('input[name=MRRType][value=CS]').prop('checked', 'checked');
+                        }
+                        else if (MRRType === 'YD')
+                        {
+                            $('input[name=MRRType][value=YD]').prop('checked', 'checked');
+                        }
+                        else {
+
+                            $('input[name=MRRType][value=GS]').prop('checked', 'checked');
+
+                        }
+
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+
+
+                    }
+
+                });
+            }
+        });
+
+        $("#PartNo").trigger('change');
+
+
+
+        $('input[name="MRRType"]:radio').change(function () {
+            var prefixValue = $("input[name='MRRType']:checked").val();
+
+            $.ajax({
+                url: '@Url.Action("GetSpecifiedMRR", "ItemReciveTables")',
+                type: "GET",
+                dataType: "JSON",
+                data: {
+
+                    prefix: prefixValue
+                },
+                success: function (data) {
+                    console.log('data');
+                    console.log(data);
+                    $('#MRRNo').val(data);
+                    $('#MRRNoShow').val(data);
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    //debugger;
+                    console.log('wrong data');
+                    alert(textStatus);
+                }
+            });
+
+
+        });
+
+
+
+        $("#ItemCode").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("GetItemCode")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        ItemCode: $('#ItemCode').val()
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                        );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+
+        $("#ItemName").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("GetItemName")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        ItemName: $('#ItemName').val()
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                        );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+
+        $("#showHelpItem").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("GetItemName")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        ItemName: $('#showHelpItem').val()
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                        );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+
+        
+
+
+        $("#SupplierName").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("GetSupplierName")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        SupplierName: $('#SupplierName').val()
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                        );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+
+        $("#LotNo").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("GetCustomisedLotNumber")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        SupplierName: $('#SupplierName').val(),
+                        ItemName: $('#ItemName').val()
+
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                        );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+
+
+
+
+        $("#SPRNoOrIndentNo").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("GetSPRNoOrIndentNo")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        SPRNoOrIndentNo: $('#SPRNoOrIndentNo').val(),
+                        MOMSprOrIndentNo: $('#MOMSprOrIndentNo').val()
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                        );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+
+        $("#MOMSprOrIndentNo").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("GetMOMSprOrIndentNo")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        MOMSprOrIndentNo: $('#MOMSprOrIndentNo').val()
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                        );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+
+
+        $("#ReceiveTypeNo").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("GetReceiveTypeNo")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        ReceiveTypeNo: $('#ReceiveType').val() + ',' + $('#ReceiveTypeNo').val()
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                        );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+
+
+        $('#ItemName').change(function () {
+
+            $.ajax({
+                url: '@Url.Action("GetItemDetialByItemName", "ItemReciveTables")',
+                type: "GET",
+                dataType: "JSON",
+                data: {
+                    ItemName: $('#ItemName').val(),
+                    SPRNoOrIndentNo: $("#SPRNoOrIndentNo").val()
+                },
+                success: function (data) {
+
+                    $('#ItemCode').val(data.ItemCode);
+                    $('#ItemCodeShow').val(data.ItemCode);
+                    $('#SupplierName').val(data.SupplierName);
+                    $('#ChallanQty').val(data.ReceiveQty);
+                    $('#ReceiveQty').val(data.ReceiveQty);
+                    $('#BillQty').val(data.ReceiveQty);
+                    $('#UOM').val(data.UOM);
+                    $('#UnitPrize').val(data.UnitPrize);
+                    $('#ItemModel').val(data.ItemModel);
+                    $('#ReceiveQty').trigger('change');
+
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    //debugger;
+                    alert(textStatus);
+                }
+            });
+        });
+
+
+        $('#ChallanQty').change(function () {
+
+            $.ajax({
+                url: '@Url.Action("GetItemDetialByItemName", "ItemReciveTables")',
+                type: "GET",
+                dataType: "JSON",
+                data: {
+                    ItemName: $('#ItemName').val(),
+                    SPRNoOrIndentNo: $("#SPRNoOrIndentNo").val()
+                },
+                success: function (data) {
+
+                    if (parseInt($('#ChallanQty').val()) != 'NaN' && parseInt(data.ReceiveQty) != 'NaN') {
+                        if (parseInt($('#ChallanQty').val()) > parseInt(data.ReceiveQty)) {
+                            $('#ChallanQty').val(data.ReceiveQty);
+                        }
+                    }
+                   
+
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    //debugger;
+                    alert(textStatus);
+                }
+            });
+        });
+
+
+
+        $('#BillQty').change(function () {
+
+            $.ajax({
+                url: '@Url.Action("GetItemDetialByItemName", "ItemReciveTables")',
+                type: "GET",
+                dataType: "JSON",
+                data: {
+                    ItemName: $('#ItemName').val(),
+                    SPRNoOrIndentNo: $("#SPRNoOrIndentNo").val()
+                },
+                success: function (data) {
+
+                    if (parseInt($('#BillQty').val()) != 'NaN' && parseInt(data.ReceiveQty) != 'NaN') {
+                        if (parseInt($('#BillQty').val()) > parseInt(data.ReceiveQty)) {
+                            $('#BillQty').val(data.ReceiveQty);
+                        }
+                    }
+
+
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    //debugger;
+                    alert(textStatus);
+                }
+            });
+        });
+
+
+
+        $('#ReceiveQty').change(function () {
+
+            $.ajax({
+                url: '@Url.Action("GetItemDetialByItemName", "ItemReciveTables")',
+                type: "GET",
+                dataType: "JSON",
+                data: {
+                    ItemName: $('#ItemName').val(),
+                    SPRNoOrIndentNo: $("#SPRNoOrIndentNo").val()
+                },
+                success: function (data) {
+
+                    if (parseInt($('#ReceiveQty').val()) != 'NaN' && parseInt(data.ReceiveQty) != 'NaN') {
+                        if (parseInt($('#ReceiveQty').val()) > parseInt(data.ReceiveQty)) {
+                            $('#ReceiveQty').val(data.ReceiveQty);
+                        }
+                    }
+
+
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    //debugger;
+                    alert(textStatus);
+                }
+            });
+        });
+
+        
+
+        $('#LotNo').change(function () {
+
+            $.ajax({
+                url: '@Url.Action("GetDuplicateLotNumber", "ItemReciveTables")',
+                type: "GET",
+                dataType: "JSON",
+                data: {
+
+                    LotNo: $("#LotNo").val()
+                },
+                success: function (data) {
+                    $('#LotNo').val(data.LotNo);
+
+                    if ($('#LotNo').val() == '' || $('#QcCheckedBy').val() == '') {
+                        $('#AddToList').attr("disabled", "disabled");
+
+                    } else {
+                        $('#AddToList').removeAttr("disabled");
+                    }
+                    
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    //debugger;
+                    alert(textStatus);
+                }
+            });
+        });
+
+        $('#QcCheckedBy').change(function () {
+
+            if ($('#LotNo').val() == '' || $('#QcCheckedBy').val() == '') {
+                $('#AddToList').attr("disabled", "disabled");
+
+            } else {
+                $('#AddToList').removeAttr("disabled");
+            }
+
+        });
+
+        $('#SPRNoOrIndentNo').change(function () {
+
+            $.ajax({
+                url: '@Url.Action("GetSprDate", "ItemReciveTables")',
+                type: "GET",
+                dataType: "JSON",
+                data: {
+
+                    SPRNoOrIndentNo: $("#SPRNoOrIndentNo").val()
+                },
+                success: function (data) {
+                    $('#SPRDateOrIndentDate').val(data.SprOrIndentDate);
+                    $('#sprItemDes').html(data.ItemDescription);
+                    $('#poNumberShow').html(data.PONumber);
+                    
+                   // $('#LCNo').val(data.LCNo);
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    //debugger;
+                    alert(textStatus);
+                }
+            });
+        });
+
+
+        $('#ReceiveQty').change(function () {
+
+            var recQty = $('#ReceiveQty').val();
+            var parseRecQty = parseFloat(recQty);
+            var uniPri = $('#UnitPrize').val();
+
+            var parseUniPri = parseFloat(uniPri);
+
+            if ($.isNumeric(recQty) && $.isNumeric(uniPri)) {
+
+                var tempTotal = parseRecQty * parseUniPri;
+
+                $("#TotalPrize").val(tempTotal.toString());
+                $("#TotalPrizeShow").text(tempTotal.toString());
+            }
+
+                $.ajax({
+                    url: '@Url.Action("GetItemQtyInBalance", "ItemReciveTables")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+
+                        MRRNo: $("#MRRNo").val(),
+
+                        ItemCode: $("#ItemCode").val()
+                    },
+                    success: function (data) {
+                        $('#IndentBalance').val(data);
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+            
+
+        });
+
+        $('#UnitPrize').change(function () {
+
+            var recQty = $('#ReceiveQty').val();
+            var parseRecQty = parseFloat(recQty);
+            var uniPri = $('#UnitPrize').val();
+            var parseUniPri = parseFloat(uniPri);
+            if ($.isNumeric(recQty) && $.isNumeric(uniPri)) {
+                var tempTotal = parseRecQty * parseUniPri;
+
+                $("#TotalPrize").val(tempTotal.toString());
+                $("#TotalPrizeShow").text(tempTotal.toString());
+
+            }
+        });
+
+
+
+
+
+        $('#TransPercentage').change(function () {
+
+            var transPercentage = $('#TransPercentage').val();
+            var parsetransPercentage = parseFloat(transPercentage);
+
+            if (parsetransPercentage > 0)
+            {
+                $('#DirectAmount').val('0.0');
+            }
+           
+
+        });
+
+
+        $('#DirectAmount').change(function () {
+
+            var transDirectAmount = $('#DirectAmount').val();
+            var parsetransDirectAmount = parseFloat(transDirectAmount);
+
+            if (parsetransDirectAmount > 0) {
+                $('#TransPercentage').val('0.0');
+            }
+
+
+        });
+
+     
+
+
+        $("#ReceiveDate").attr("autocomplete", "off");
+        $("#MRRDate").attr("autocomplete", "off");
+        $("#SPRDateOrIndentDate").attr("autocomplete", "off");
+        $("#GateInDate").attr("autocomplete", "off");
+        $("#InoviceDate").attr("autocomplete", "off");
+        $("#ChallanDate").attr("autocomplete", "off");
+        $("#BillDate").attr("autocomplete", "off");
+
+    });
+</script>
+
+
+<script>
+
+    function fn_btnEdit(x) {
+
+        var varRowIndex = $(x).closest('tr').index();
+
+
+        $.ajax({
+            url: '@Url.Action("getActionOptionEdit")',
+            type: "GET",
+            dataType: "JSON",
+            data: {
+                RowIndex: varRowIndex
+
+
+            },
+            success: function (data) {
+
+                $("#TotalPrizeShow").text(data.TotalPrize);
+                $("#TotalPrize").val(data.TotalPrize);
+                $("#ItemCode").val(data.ItemCode);
+                $("#ItemCodeShow").val(data.ItemCode);
+                $("#ItemName").val(data.ItemName);
+                $("#SupplierName").val(data.SupplierName);
+                $("#ChallanNo").val(data.ChallanNo);
+                $("#ReceiveQty").val(data.ReceiveQty);
+                $("#UOM").val(data.UOM);
+                $("#UnitPrize").val(data.UnitPrize);
+                $("#ChallanQty").val(data.ChallanQty);
+                $("#LotNo").val(data.LotNo);
+                $("#QcCheckedBy").val(data.QcCheckedBy);
+
+                $("#ItemModel").val(data.ItemModel);
+                $("#PartNo").val(data.PartNo);
+                $("#BillQty").val(data.BillQty);
+
+
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                //debugger;
+                alert(textStatus);
+            }
+        });
+
+
+    };
+
+    function fn_btnDelete(x) {
+
+        var varRowIndex = $(x).closest('tr').index();
+
+
+        alert("Row index is: " + varRowIndex);
+
+        $.ajax({
+            url: '@Url.Action("getActionOptionDelete")',
+            type: "GET",
+            dataType: "JSON",
+            data: {
+                RowIndex: varRowIndex
+            },
+            success: function (data) {
+
+                if (data.Result == "Deleted") {
+                    $(x).closest('tr').remove();
+                }
+
+
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                //debugger;
+                alert(textStatus);
+            }
+        });
+
+    };
+
+
+
+
+       function fn_btnEditFA(x) {
+
+        var varRowIndex = $(x).closest('tr').index();
+
+
+        $.ajax({
+            url: '@Url.Action("getActionOptionEditFA")',
+            type: "GET",
+            dataType: "JSON",
+            data: {
+                RowIndex: varRowIndex
+
+
+            },
+            success: function (data) {
+
+                if (data.IsAdd == 'true')
+                {
+                    $('#IsAdd').prop('checked', true);
+                }
+                else
+                {
+                    $('#IsAdd').prop('checked', false);
+                }
+               
+
+               
+                $("#TransName").val(data.TransName);
+                $("#TransPercentage").val(data.TransPercentage);
+                $("#DirectAmount").val(data.DirectAmount);
+               
+
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                //debugger;
+                alert(textStatus);
+            }
+        });
+
+
+    };
+
+    function fn_btnDeleteFA(x) {
+
+        var varRowIndex = $(x).closest('tr').index();
+
+
+        alert("Row index is: " + varRowIndex);
+
+        $.ajax({
+            url: '@Url.Action("getActionOptionDeleteFA")',
+            type: "GET",
+            dataType: "JSON",
+            data: {
+                RowIndex: varRowIndex
+            },
+            success: function (data) {
+
+                if (data.Result == "Deleted") {
+                    $(x).closest('tr').remove();
+                }
+
+
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                //debugger;
+                alert(textStatus);
+            }
+        });
+
+    };
+
+
+
+
+</script>

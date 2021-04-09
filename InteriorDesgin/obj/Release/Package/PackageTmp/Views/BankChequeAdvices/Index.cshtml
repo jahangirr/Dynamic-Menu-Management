@@ -1,0 +1,222 @@
+﻿
+@model PagedList.IPagedList<SilGlobalFashion.Models.BankChequeAdvice>
+@using PagedList.Mvc;
+
+@using SilGlobalFashion.Repository;
+
+
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Html.RenderPartial("MenuView");
+    ViewBag.Title = "Bank & Branch";
+}
+
+<link href="~/Content/TableStyle.css" rel="stylesheet" />
+
+<h2> Bank Cheque Advices   </h2>
+
+
+
+<div class="alert-primary" style="color:black;">
+
+
+    @using (Html.BeginForm("Index", "BankChequeAdvices", FormMethod.Get))
+    {
+
+        <table>
+            <tr>
+                <td width="30%">
+                    Select Parameter : @Html.DropDownList("selectionItems", (SelectList)ViewBag.selectionItems)
+
+                    <br />
+
+                    <input type="submit" value="Search" class="btn-danger" />
+                    <input type="button" value="Reset" class="btn-success" id="bReset" />
+
+                </td>
+                <td width="70%">
+
+                    <div id="selectionDivToShow" style="border:dotted; color:black; background-color:Highlight;">
+
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+
+        <p>
+            <table id="SearchInfoTable" class="table" style="color:black;">
+                <tr>
+
+                    <td>
+                        Find by MatureInfoId: @Html.TextBox("MatureInfoId", ViewBag.MatureInfoId as string)
+
+                    </td>
+
+
+                </tr>
+                <tr>
+                    <td>
+                        Find by BankChequeAdviceNo: @Html.TextBox("BankChequeAdviceNo", ViewBag.BankChequeAdviceNo as string)
+                    </td>
+
+                </tr>
+
+                <tr>
+                    <td>
+                        <input type="submit" value="Search" /> <button type="button"> @Html.ActionLink("Refresh", "Index")  </button>
+                    </td>
+
+                </tr>
+
+            </table>
+
+        </p>
+    }
+
+</div>
+
+
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+
+
+        $('#bReset').click(function () {
+
+
+            $('#MatureInfoId').val('');
+            $('#BankChequeAdviceNo').val('');
+
+            sessionStorage.setItem("BankAndBranches_MatureInfoId", '');
+            sessionStorage.setItem("BankAndBranches_BankChequeAdviceNo", '');
+
+        });
+
+
+
+
+        var BankAndBranches_MatureInfoId_value = sessionStorage.getItem("BankAndBranches_MatureInfoId");
+        if (BankAndBranches_MatureInfoId_value == null)
+        {
+            sessionStorage.setItem("BankAndBranches_MatureInfoId", '');
+        } else
+        {
+            sessionStorage.setItem("BankAndBranches_MatureInfoId", BankAndBranches_MatureInfoId_value);
+        }
+
+
+        var BankAndBranches_BankChequeAdviceNo_value = sessionStorage.getItem("BankAndBranches_BankChequeAdviceNo");
+        if (BankAndBranches_BankChequeAdviceNo_value == null) {
+            sessionStorage.setItem("BankAndBranches_BankChequeAdviceNo", '');
+        } else {
+            sessionStorage.setItem("BankAndBranches_BankChequeAdviceNo", BankAndBranches_BankChequeAdviceNo_value);
+        }
+
+
+
+
+        $('#MatureInfoId').change(function () {
+
+            sessionStorage.setItem("BankAndBranches_MatureInfoId", $('#MatureInfoId').val());
+        });
+
+        $('#BankChequeAdviceNo').change(function () {
+
+            sessionStorage.setItem("BankAndBranches_BankChequeAdviceNo", $('#BankChequeAdviceNo').val());
+        });
+
+
+
+
+
+        $("#SearchInfoTable tr").each(function () {
+                $(this).hide();
+        });
+
+        $("#selectionItems").change(function () {
+
+            $("#SearchInfoTable tr").each(function () {
+                var row_index = $(this).index();
+                var ddlValue = $("#selectionItems").val();
+                if (ddlValue.toString() == row_index.toString())
+                {
+                    $(this).show();
+                }
+                else
+                {
+                    $(this).hide();
+                }
+
+            });
+
+
+            var MatureInfoId = sessionStorage.getItem("BankAndBranches_MatureInfoId");
+            var BankChequeAdviceNo = sessionStorage.getItem("BankAndBranches_BankChequeAdviceNo");
+
+
+
+            var ListOfSelectedValue = 'Bank Name : ' + MatureInfoId + '||  Branch Name : ' + BankChequeAdviceNo;
+
+             $('#selectionDivToShow').html(ListOfSelectedValue.toString());
+
+
+        });
+
+
+
+
+
+    });
+</script>
+
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+    <table class="table">
+        <tr>
+            <th>
+                Id_Bank_Branch
+            </th>
+            <th>
+                Bank_Cheque_Advice_No
+            </th>
+            <th></th>
+        </tr>
+    
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.MatureInfo.BankAndBranch)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BankChequeAdviceNo)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+            </td>
+        </tr>
+    }
+    
+    </table>
+
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index", new
+{
+    page,
+
+    BankAndBranch = ViewBag.BankAndBranch,
+    BankChequeAdviceNo = ViewBag.BankChequeAdviceNo
+
+}))
+
+
+
+

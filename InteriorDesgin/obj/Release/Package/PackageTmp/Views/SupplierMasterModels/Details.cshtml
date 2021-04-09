@@ -1,0 +1,235 @@
+﻿@model SilGlobalFashion.Models.SupplierMasterModel
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>SupplierMasterModel</h4>
+    <hr />
+    <dl class="dl-horizontal" style="background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+        <dt>
+            @Html.DisplayNameFor(model => model.SupplierCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SupplierCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SupplierName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SupplierName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CountryOfOrigin)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CountryOfOrigin)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CountryOfManufacturer)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CountryOfManufacturer)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.lcLeadDays)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.lcLeadDays)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ModeOfTransport)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ModeOfTransport)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CurrencyUnit)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CurrencyUnit)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SupplierComission)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SupplierComission)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MOMA_StreetAddress)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MOMA_StreetAddress)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MOMA_City)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MOMA_City)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MOMA_State)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MOMA_State)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MOMA_ZipCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MOMA_ZipCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MOMA_Country)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MOMA_Country)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MOMA_Supplier_Type)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MOMA_Supplier_Type)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MOMA_Sup_Work_Proc_Details)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MOMA_Sup_Work_Proc_Details)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LOMA_Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LOMA_Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LOMA_Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LOMA_Email)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LOMA_StreetAddress)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LOMA_StreetAddress)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LOMA_City)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LOMA_City)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LOMA_State)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LOMA_State)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LOMA_ZipCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LOMA_ZipCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LOMA_Country)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LOMA_Country)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CP_Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CP_Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CP_Designation)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CP_Designation)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CP_EmailAddress)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CP_EmailAddress)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CP_ContactNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CP_ContactNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CP_Reference)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CP_Reference)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

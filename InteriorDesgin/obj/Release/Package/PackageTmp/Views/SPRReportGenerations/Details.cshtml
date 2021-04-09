@@ -1,0 +1,332 @@
+﻿@model List<SilGlobalFashion.Models.SPRReportGeneration>
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>SPRReportGeneration</h4>
+    <hr />
+
+@foreach (var item in Model)
+{
+    <dl class="dl-horizontal" style="background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+        <dt>
+           SPRReportDate
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => item.SPRReportDate)
+        </dd>
+
+        <dt>
+            SPRTo
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => item.SPRTo)
+        </dd>
+
+        <dt>
+            SPRToRole
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => item.SPRToRole)
+        </dd>
+
+        <dt>
+            SPRFrom
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => item.SPRFrom)
+        </dd>
+
+        <dt>
+            SPRFromRole
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => item.SPRFromRole)
+        </dd>
+
+        <dt>
+            SPRSubject
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => item.SPRSubject)
+        </dd>
+
+        <dt>
+            SPRSubjectBelow
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => item.SPRSubjectBelow)
+        </dd>
+
+        <dt>
+            SPRId
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => item.SPRId)
+        </dd>
+
+        <dt>
+            MOMSprOrIndentNo
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => item.MOMSprOrIndentNo)
+        </dd>
+
+        <dt>
+            SprOrIndentNo
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => item.SprOrIndentNo)
+        </dd>
+
+        <dt>
+            ItemName
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => item.ItemName)
+        </dd>
+
+        <dt>
+            ItemCode
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => item.ItemCode)
+        </dd>
+
+        <dt>
+            ItemType
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => item.ItemType)
+        </dd>
+
+        <dt>
+            UOM
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => item.UOM)
+        </dd>
+
+        <dt>
+            PresentRequirement
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => item.PresentRequirement)
+        </dd>
+
+        <dt>
+            StockInHand
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => item.StockInHand)
+        </dd>
+
+        <dt>
+            AverageMonthlyConsumption
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => item.AverageMonthlyConsumption)
+        </dd>
+
+        <dt>
+            EstimateRate
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => item.EstimateRate)
+        </dd>
+
+        <dt>
+            EstimateRateCur
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => item.EstimateRateCur)
+        </dd>
+
+        <dt>
+            ConditionOne
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => item.ConditionOne)
+        </dd>
+
+        <dt>
+            ConditionTwo
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => item.ConditionTwo)
+        </dd>
+
+        <dt>
+            ConditionThree
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => item.ConditionThree)
+        </dd>
+
+        <dt>
+            ConditionFour
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => item.ConditionFour)
+        </dd>
+
+        <dt>
+            ConditionFive
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => item.ConditionFive)
+        </dd>
+
+        <dt>
+            ApprovedOne
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => item.ApprovedOne)
+        </dd>
+
+        <dt>
+            ApprovedTwo
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => item.ApprovedTwo)
+        </dd>
+
+        <dt>
+            ApprovedThree
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => item.ApprovedThree)
+        </dd>
+
+        <dt>
+            ApprovedFour
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => item.ApprovedFour)
+        </dd>
+
+        <dt>
+            ApprovedFive
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => item.ApprovedFive)
+        </dd>
+
+        <dt>
+            ApprovedSix
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => item.ApprovedSix)
+        </dd>
+
+        <dt>
+            ApprovedSeven
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => item.ApprovedSeven)
+        </dd>
+
+        <dt>
+            ApprovedEight
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => item.ApprovedEight)
+        </dd>
+
+        <dt>
+            ApprovedNine
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => item.ApprovedNine)
+        </dd>
+
+        <dt>
+            ApprovedTen
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => item.ApprovedTen)
+        </dd>
+
+        <dt>
+            ApprovedEleven
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => item.ApprovedEleven)
+        </dd>
+
+        <dt>
+            ApprovedTwelve
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => item.ApprovedTwelve)
+        </dd>
+
+        <dt>
+            Advise
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => item.Advise)
+        </dd>
+
+        <dt>
+            Remarks
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => item.Remarks)
+        </dd>
+
+    </dl>
+
+
+    <div class="alert alert-success">
+        ****************************************************************************************
+    </div>
+}
+</div>
+<p>
+   
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -1,0 +1,75 @@
+﻿@model List<SilGlobalFashion.Models.PriceQuatation>
+@using SilGlobalFashion.Repository;
+@using SilGlobalFashion.Models;
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Available Items' List For Price Quatation </h2>
+
+
+<div class="alert alert-danger">
+    <input type="button" id="LoadPO" name="Load" value="Show" />
+</div>
+<div class="alert-danger" id="LoadExistingDisplay">
+
+
+</div>
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+
+
+
+
+
+
+<script type="text/javascript">
+
+
+    function animateImage() {
+        console.log("Called");
+        $('#bird').css({ left: '100%' });
+        $('#bird').animate({ left: '-100%' }, 5000, 'linear', function () { animateImage(); });
+    }
+
+    $(document).ready(function () {
+
+        $('#LoadPO').click(function () {
+
+
+            $.ajax({
+                url: '@Url.Action("LoadExistingPO", "PriceQuatations")',
+                type: "GET",
+                dataType: "JSON",
+                data: {
+                   
+                },
+                success: function (data) {
+                    console.log(data);
+                    $('#LoadExistingDisplay').html(data);
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    //debugger;
+                    alert(textStatus);
+                }
+            });
+
+
+        });
+
+
+
+        animateImage();
+
+
+
+      
+
+    });
+</script>
+

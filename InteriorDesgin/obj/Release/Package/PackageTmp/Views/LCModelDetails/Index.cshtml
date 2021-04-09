@@ -1,0 +1,150 @@
+﻿@model IEnumerable<SilGlobalFashion.Models.LCModelDetails>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.LCModel.FileNo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SprOrIndentNo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CountryName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ItemName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ItemCode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UOM)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ItemQty)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ItemPrize)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Ship_On_Board_Date)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DocsValue)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ETA_On_CTG_Port)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Doc_Rcevd_By_Bank)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Doc_Send_To_CF)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ETD_From_CTG)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ETA_At_Factory)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Bill_Of_Entry_No)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Bill_Of_Entry_Date)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LC_Payment_Date)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsClose)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Remarks)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.LCModel.FileNo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SprOrIndentNo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CountryName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ItemName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ItemCode)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UOM)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ItemQty)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ItemPrize)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Ship_On_Board_Date)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DocsValue)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ETA_On_CTG_Port)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Doc_Rcevd_By_Bank)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Doc_Send_To_CF)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ETD_From_CTG)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ETA_At_Factory)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Bill_Of_Entry_No)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Bill_Of_Entry_Date)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LC_Payment_Date)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsClose)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Remarks)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>
+
+

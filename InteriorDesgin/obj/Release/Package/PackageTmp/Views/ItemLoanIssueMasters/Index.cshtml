@@ -1,0 +1,861 @@
+﻿@model PagedList.IPagedList<SilGlobalFashion.Models.ItemLoanIssueMaster>
+
+@using PagedList.Mvc;
+
+@using SilGlobalFashion.Repository;
+
+
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Html.RenderPartial("MenuView");
+    ViewBag.Title = "Item Issue";
+}
+
+<link href="~/Content/TableStyle.css" rel="stylesheet" />
+
+<h2> Loan Item Issue List   </h2>
+
+<div class="alert-primary" style="color:black;" >
+
+
+    @using (Html.BeginForm("Index", "ItemLoanIssueMasters", FormMethod.Get))
+    {
+
+        <table>
+            <tr>
+                <td width="30%">
+                    Select Parameter : @Html.DropDownList("selectionItems", (SelectList)ViewBag.selectionItems)
+
+                    <br />
+
+                    <input type="submit" value="Search" class="btn-danger" />
+                    <input type="button" value="Reset" class="btn-success" id="bReset" />
+
+                </td>
+                <td width="70%">
+
+                    <div id="selectionDivToShow" style="border:dotted; color:black; background-color:Highlight;">
+
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+
+        <p>
+            <table id="SearchInfoTable" class="table" style="color:black;">
+                <tr>
+                   
+                    <td>
+                        Find by Store Location: @Html.TextBox("StoreLocation", ViewBag.StoreLocation as string)
+
+                    </td>
+
+                    
+                   </tr>
+                <tr>
+                    <td>
+                        Find by Item Name: @Html.TextBox("SINo", ViewBag.SINo as string)
+                    </td>
+
+                </tr>
+                <tr>
+
+                    <td>
+                        @{
+
+                            GlobCreatedFunction globbCreFunc = new GlobCreatedFunction();
+
+                            DateTime? VeiwBagStoreIssueDate = null;
+
+                            try
+                            {
+                                VeiwBagStoreIssueDate = globbCreFunc.GetDate(ViewBag.StoreIssueDate);
+
+
+                            }
+                            catch (Exception ex)
+                            {
+
+                            }
+
+
+
+
+                        }
+                        Find by Date : @Html.JQueryUI().Datepicker("StoreIssueDate", VeiwBagStoreIssueDate)
+                    </td>
+
+                </tr>
+
+
+           
+                <tr>
+                    <td>
+                        Find by Section : @Html.TextBox("Section", ViewBag.Section as string)
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>
+                        Find by Shift : @Html.TextBox("Shift", ViewBag.Shift as string)
+
+                    </td>
+
+                </tr>
+                <tr>
+
+                    <td>
+                        Find by Shift : @Html.TextBox("BachNo", ViewBag.Shift as string)
+
+                    </td>
+
+
+                </tr>
+
+               
+
+                <tr>
+                    <td>
+                        Find by Order No : @Html.TextBox("OrderNo", ViewBag.OrderNo as string)
+
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>
+                        Find by Buyer Name : @Html.TextBox("BuyerName", ViewBag.BuyerName as string)
+
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Find by Color Or Shade : @Html.TextBox("ColorOrShade", ViewBag.ColorOrShade as string)
+                    </td>
+
+                </tr>
+
+
+                <tr>
+                    <td>
+                        Find by Item Code : @Html.TextBox("ItemCode", ViewBag.ItemCode as string)
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>
+                        Find by Item Loan Number  : @Html.TextBox("ItemLotNo", ViewBag.ItemLotNo as string)
+
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>
+                        <input type="submit" value="Search" /> <button type="button"> @Html.ActionLink("Refresh", "Index")  </button>
+                    </td>
+
+                </tr>
+
+            </table>
+
+        </p>
+    }
+
+</div>
+
+
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+
+
+        $('#bReset').click(function () {
+
+
+            $('#ItemCode').val('');
+            $('#SINo').val('');
+            $('#StoreLocation').val('');
+            $('#StoreIssueDate').val('');
+            $('#Section').val('');
+            $('#Shift').val('');
+            $('#BachNo').val('');
+            $('#OrderNo').val('');
+            $('#BuyerName').val('');
+            $('#ColorOrShade').val('');
+            $('#ItemLotNo').val('');
+
+
+
+            sessionStorage.setItem("ItemIssue_StoreLocation", '');
+            sessionStorage.setItem("ItemIssue_SINo", '');
+            sessionStorage.setItem("ItemIssue_ItemCode", '');
+            sessionStorage.setItem("ItemIssue_StoreIssueDate", '');
+            sessionStorage.setItem("ItemIssue_Section", '');
+            sessionStorage.setItem("ItemIssue_Shift", '');
+            sessionStorage.setItem("ItemIssue_BachNo", '');
+            sessionStorage.setItem("ItemIssue_OrderNo", '');
+            sessionStorage.setItem("ItemIssue_BuyerName", '');
+            sessionStorage.setItem("ItemIssue_ColorOrShade", '');
+            sessionStorage.setItem("ItemIssue_ItemLotNo", '');
+
+
+
+
+
+
+        });
+
+
+
+
+        var ItemIssue_ItemCode_value = sessionStorage.getItem("ItemIssue_ItemCode");
+        if (ItemIssue_ItemCode_value == null)
+        {
+            sessionStorage.setItem("ItemIssue_ItemCode", '');
+        } else
+        {
+            sessionStorage.setItem("ItemIssue_ItemCode", ItemIssue_ItemCode_value);
+        }
+
+
+        var ItemIssue_SINo_value = sessionStorage.getItem("ItemIssue_SINo");
+        if (ItemIssue_SINo_value == null) {
+            sessionStorage.setItem("ItemIssue_SINo", '');
+        } else {
+            sessionStorage.setItem("ItemIssue_SINo", ItemIssue_SINo_value);
+        }
+
+
+
+
+        var ItemIssue_StoreLocation_value = sessionStorage.getItem("ItemIssue_StoreLocation");
+        if (ItemIssue_StoreLocation_value == null) {
+            sessionStorage.setItem("ItemIssue_StoreLocation", '');
+        } else {
+            sessionStorage.setItem("ItemIssue_StoreLocation", ItemIssue_StoreLocation_value);
+        }
+
+
+
+
+        var ItemIssue_StoreIssueDate_value = sessionStorage.getItem("ItemIssue_StoreIssueDate");
+        if (ItemIssue_StoreIssueDate_value == null) {
+            sessionStorage.setItem("ItemIssue_StoreIssueDate", '');
+        } else {
+            sessionStorage.setItem("ItemIssue_StoreIssueDate", ItemIssue_StoreIssueDate_value);
+        }
+
+
+
+
+
+        var ItemIssue_Section_value = sessionStorage.getItem("ItemIssue_Section");
+        if (ItemIssue_Section_value == null) {
+            sessionStorage.setItem("ItemIssue_Section", '');
+        } else {
+            sessionStorage.setItem("ItemIssue_Section", ItemIssue_Section_value);
+        }
+
+        var ItemIssue_Shift_value = sessionStorage.getItem("ItemIssue_Shift");
+        if (ItemIssue_Shift_value == null) {
+            sessionStorage.setItem("ItemIssue_Shift", '');
+        } else {
+            sessionStorage.setItem("ItemIssue_Shift", ItemIssue_Shift_value);
+        }
+
+
+        var ItemIssue_BachNo_value = sessionStorage.getItem("ItemIssue_BachNo");
+        if (ItemIssue_BachNo_value == null) {
+            sessionStorage.setItem("ItemIssue_BachNo", '');
+        } else {
+            sessionStorage.setItem("ItemIssue_BachNo", ItemIssue_BachNo_value);
+        }
+
+
+        var ItemIssue_OrderNo_value = sessionStorage.getItem("ItemIssue_OrderNo");
+        if (ItemIssue_OrderNo_value == null) {
+            sessionStorage.setItem("ItemIssue_OrderNo", '');
+        } else {
+            sessionStorage.setItem("ItemIssue_OrderNo", ItemIssue_OrderNo_value);
+        }
+
+
+        var ItemIssue_BuyerName_value = sessionStorage.getItem("ItemIssue_BuyerName");
+        if (ItemIssue_BuyerName_value == null) {
+            sessionStorage.setItem("ItemIssue_BuyerName", '');
+        } else {
+            sessionStorage.setItem("ItemIssue_BuyerName", ItemIssue_BuyerName_value);
+        }
+
+
+        var ItemIssue_ColorOrShade_value = sessionStorage.getItem("ItemIssue_ColorOrShade");
+        if (ItemIssue_ColorOrShade_value == null) {
+            sessionStorage.setItem("ItemIssue_ColorOrShade", '');
+        } else {
+            sessionStorage.setItem("ItemIssue_ColorOrShade", ItemIssue_ColorOrShade_value);
+        }
+
+        var ItemIssue_ItemLotNo_value = sessionStorage.getItem("ItemIssue_ItemLotNo");
+        if (ItemIssue_ItemLotNo_value == null) {
+            sessionStorage.setItem("ItemIssue_ItemLotNo", '');
+        } else {
+            sessionStorage.setItem("ItemIssue_ItemLotNo", ItemIssue_ItemLotNo_value);
+        }
+
+
+
+
+
+
+
+        $('#ItemCode').change(function () {
+
+            sessionStorage.setItem("ItemIssue_ItemCode", $('#ItemCode').val());
+        });
+
+        $('#SINo').change(function () {
+
+            sessionStorage.setItem("ItemIssue_SINo", $('#SINo').val());
+        });
+
+        $('#StoreLocation').change(function () {
+
+            sessionStorage.setItem("ItemIssue_StoreLocation", $('#StoreLocation').val());
+        });
+
+        $('#StoreIssueDate').change(function () {
+
+            sessionStorage.setItem("ItemIssue_StoreIssueDate", $('#StoreIssueDate').val());
+        });
+        $('#Section').change(function () {
+
+            sessionStorage.setItem("ItemIssue_Section", $('#Section').val());
+
+        });
+
+
+
+
+        $('#Shift').change(function () {
+
+            sessionStorage.setItem("ItemIssue_Shift", $('#Shift').val());
+
+        });
+
+        $('#BachNo').change(function () {
+
+            sessionStorage.setItem("ItemIssue_BachNo", $('#BachNo').val());
+
+        });
+
+        $('#OrderNo').change(function () {
+
+            sessionStorage.setItem("ItemIssue_OrderNo", $('#OrderNo').val());
+
+        });
+
+        $('#BuyerName').change(function () {
+
+            sessionStorage.setItem("ItemIssue_BuyerName", $('#BuyerName').val());
+
+        });
+
+        $('#ColorOrShade').change(function () {
+
+            sessionStorage.setItem("ItemIssue_ColorOrShade", $('#ColorOrShade').val());
+
+        });
+
+        $('#ItemLotNo').change(function () {
+
+            sessionStorage.setItem("ItemIssue_ItemLotNo", $('#ItemLotNo').val());
+
+        });
+
+
+
+
+        $("#SearchInfoTable tr").each(function () {
+                $(this).hide();
+        });
+
+        $("#selectionItems").change(function () {
+
+            $("#SearchInfoTable tr").each(function () {
+                var row_index = $(this).index();
+                var ddlValue = $("#selectionItems").val();
+                if (ddlValue.toString() == row_index.toString())
+                {
+                    $(this).show();
+                }
+                else
+                {
+                    $(this).hide();
+                }
+
+            });
+
+
+            var ItemCode = sessionStorage.getItem("ItemIssue_ItemCode");
+            var SINo = sessionStorage.getItem("ItemIssue_SINo");
+            var StoreLocation = sessionStorage.getItem("ItemIssue_StoreLocation");
+            var StoreIssueDate = sessionStorage.getItem("ItemIssue_StoreIssueDate");
+            var Section = sessionStorage.getItem("ItemIssue_Section");
+            var Shift = sessionStorage.getItem("ItemIssue_Shift");
+            var BachNo = sessionStorage.getItem("ItemIssue_BachNo");
+            var OrderNo = sessionStorage.getItem("ItemIssue_OrderNo");
+            var BuyerName = sessionStorage.getItem("ItemIssue_BuyerName");
+            var ColorOrShade = sessionStorage.getItem("ItemIssue_ColorOrShade");
+            var ItemLotNo = sessionStorage.getItem("ItemIssue_ItemLotNo");
+
+
+            var ListOfSelectedValue = 'Item Code : ' + ItemCode + '||  SI No : ' + SINo + '||  Store Location : ' + StoreLocation + '||  Store Issue Date : ' + StoreIssueDate + '||  Section : ' + Section + '||  Shift : ' + Shift
+            + '||Bach No : ' + BachNo + '||  Order No : ' + OrderNo + '|| BuyerName : ' + BuyerName + '||  Color Or Shade : ' + ColorOrShade + '||  ItemLotNo : ' + ItemLotNo;
+
+             $('#selectionDivToShow').html(ListOfSelectedValue.toString());
+
+
+        });
+
+
+
+    });
+</script>
+
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table-bordered" style="background-color:#C0C0C0;border:2px; border-color:blue;color:black;" >
+    <tr>
+        <th>
+            Store Location
+        </th>
+        <th>
+            SINo
+        </th>
+        <th>
+            Store Issue Date
+        </th>
+        <th>
+            Section
+        </th>
+        <th>
+            Shift
+        </th>
+        <th>
+            Bach No
+        </th>
+        <th>
+            Bach Qty
+        </th>
+        <th>
+            Bach UOM
+        </th>
+        <th>
+            Order No
+        </th>
+        <th>
+            Order Qty
+        </th>
+        <th>
+            Order UOM
+        </th>
+        <th>
+            Buyer Name
+        </th>
+        <th>
+            Color Or Shade
+        </th>
+        <th>
+            Process Qty
+        </th>
+        <th>
+            Process UOM
+        </th>
+        <th>
+            Item Code
+        </th>
+        <th>
+            Item Description
+        </th>
+        <th>
+            Propose Or Process
+        </th>
+        <th>
+            Item Loan Number
+        </th>
+        <th>
+            Issued Qty
+        </th>
+        <th>
+            Recipe Qty
+        </th>
+        <th>
+            Issue Or Recipe UOM
+        </th>
+       
+        <th>
+             Remarks   
+        </th>
+        <th>
+              Is Adjusted     
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.StoreLocation)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SINo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.StoreIssueDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Section)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Shift)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BachNo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BachQty)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BachUOM)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.OrderNo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.OrderQty)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.OrderUOM)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BuyerName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ColorOrShade)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ProcessQty)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ProcessUOM)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ItemCode)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ItemDescription)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ProposeOrProcess)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ItemLotNo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IssuedQty)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RecipeQty)
+        </td>
+        
+        <td>
+            @Html.DisplayFor(modelItem => item.IssueOrRecipeUOM)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Remarks)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsAdjusted)
+        </td>
+        <td>
+            @{
+                if (!item.IsAdjusted)
+                {
+                    HtmlString SeparatorShow = new HtmlString(" |");
+
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) @SeparatorShow
+
+                }
+             }
+
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) 
+
+
+            @{
+                if (!item.IsAdjusted)
+                {
+                    HtmlString SeparatorShow = new HtmlString(" |");
+
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })  @SeparatorShow
+
+                }
+            }
+
+
+
+             <br/>
+
+            @{ 
+
+               if (!item.IsAdjusted)
+               {
+                   <a id="@item.Id" data-focus="false" class="btnShowModal_Id_Class"> | Transfer Quantity</a>
+               }
+
+            }
+            
+           
+
+
+        </td>
+    </tr>
+}
+
+</table>
+
+
+<script>
+
+    $(document).ready(function () {
+
+
+        $('.btnShowModal_Id_Class').click(function () {
+
+            $("#transQtyToMainIssue").prop("disabled", true);
+
+            $("#ItemLotNoSearch").val('');
+
+            $("#ItemLoanIssueHiddenId").val(this.id);
+            $.ajax({
+                url: '@Url.Action("GetItemLoanIssueDetailsById", "ItemLoanIssueMasters")',
+                type: "GET",
+                dataType: "JSON",
+                data: {
+                    Id: $('#ItemLoanIssueHiddenId').val()
+                },
+                success: function (data) {
+                    console.log(data);
+                    $('#ItemS').text(data.ItemDescription);
+                    $('#LoanNumberS').text(data.ItemLotNo);
+                    $('#LoanIssueQtyS').text(data.RecipeQty);
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    //debugger;
+                    alert(textStatus);
+                }
+            });
+
+            $("#loginModal").modal('show');
+        });
+
+        $("#btnHideModal").click(function () {
+            $("#loginModal").modal('hide');
+        });
+
+
+        $("#ItemLotNoSearch").autocomplete({
+            open: function () {
+                setTimeout(function () {
+                    $('.ui-autocomplete').css('z-index', 99999999999999);
+                }, 0);
+            },
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("GetLotNoItemIssue", "ItemLoanIssueMasters")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        ItemLotNo: $('#ItemLotNoSearch').val(),
+                        ItemCode: $("#ItemLoanIssueHiddenId").val()
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                        );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        console.log(XMLHttpRequest);
+                        console.log(textStatus);
+                        console.log(errorThrown);
+                        alert(textStatus);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+
+
+        $('#ItemLotNoSearch').change(function () {
+            $.ajax({
+                url: '@Url.Action("GetLotDetailsByItemItemIssue", "ItemLoanIssueMasters")',
+                type: "GET",
+                dataType: "JSON",
+                data: {
+                    LotNo: $('#ItemLotNoSearch').val(),
+                    ItemCode: $("#ItemLoanIssueHiddenId").val()
+                },
+                success: function (data) {
+                    console.log(data);
+                    $('#AvailableQty').text(data.RecipeQty);
+                    if (parseFloat($('#LoanIssueQtyS').text()) <= parseFloat($('#AvailableQty').text()))
+                    {
+                        $("#transQtyToMainIssue").prop("disabled", false);
+                    } else
+                    {
+                        $("#transQtyToMainIssue").prop("disabled", true);
+                    }
+
+                   
+
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+
+
+                    //debugger;
+                    alert(textStatus);
+                }
+            });
+        });
+
+    });
+</script>
+
+
+
+
+
+<style>
+    .scroller {
+        width: 280px;
+        height: 330px;
+       
+      
+    }
+</style>
+
+
+
+<div class="modal fade" tabindex="-1" id="loginModal"
+     data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    ×
+                </button>
+                <h4 class="modal-title"> Item  Loan Issue Quantity Transfer to Item Issue Table</h4>
+            </div>
+            <div class="modal-body">
+                <div class="scroller">
+                   @using (Html.BeginForm( "AdjustToItemIssue", "ItemLoanIssueMasters", FormMethod.Get))
+                   {
+                         @Html.Hidden("ItemLoanIssueHiddenId")
+
+                          <table>
+                              <tr>
+                                  <td class="alert-danger" >
+                                      Item : <div id="ItemS"> </div> 
+                                  </td>
+
+                                  </tr>
+                              <tr>
+
+                                  <td class="alert-danger">
+                                      Loan Number :  <div id="LoanNumberS">
+                                      </div>
+                                  </td>
+                              </tr>
+                              <tr>
+                                  <td class="alert-danger">
+                                      Loan Issue Quantity :  <div id="LoanIssueQtyS">
+                                      </div>
+                                  </td>
+                              </tr>
+                              <tr>
+                                  <td class="alert-danger">
+                                      Lot Number: @Html.TextBox("ItemLotNoSearch")
+                                  </td>
+                              </tr>
+                              <tr>
+                                  <td class="alert-danger">
+                                      Available Quantity :  <div id="AvailableQty">
+                                    </div>
+                                 </td>
+                              </tr>
+                              <tr>
+                                  <td class="alert-danger">
+                                      Remarks : @Html.TextBox("Remarks")
+                                     
+                                  </td>
+                              </tr>
+                          </table>
+
+                               
+
+                         <input type="submit"  class="btn btn-danger" value="Transfer Qty to Main Issue" id="transQtyToMainIssue" />
+
+                   }
+
+
+                </div>
+
+            </div>
+            <div class="modal-footer">
+
+                <button type="button" id="btnHideModal" class="btn btn-primary button button4">
+                    Hide
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+ Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index", new
+{
+    page,
+
+    StoreLocation = ViewBag.StoreLocation ,
+    SINo = ViewBag.SINo ,
+    StoreIssueDate = ViewBag.StoreIssueDate ,
+    Section = ViewBag.Section ,
+    Shift = ViewBag.Shift ,
+    BachNo = ViewBag.BachNo ,
+    OrderNo = ViewBag.OrderNo ,
+    BuyerName = ViewBag.BuyerName ,
+    ColorOrShade = ViewBag.ColorOrShade ,
+    ItemCode = ViewBag.ItemCode ,
+    ItemLotNo = ViewBag.ItemLotNo 
+
+    
+}))

@@ -1,0 +1,299 @@
+﻿<html>
+<head>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    @{
+
+        HtmlString hostAddress = new HtmlString(Session["HostAddress"].ToString());
+
+    }
+    <script src="@hostAddress/Scripts/html2canvas.js"></script>
+
+    <script type="text/javascript">
+
+
+        function PrintDiv(num) {
+
+            var canvas = document.createElement('canvas'), // In memory canvas
+            ctx = canvas.getContext("2d"),
+            parts = [], // to push into oud base64 strings
+            partsResize = [], // to push into oud base64 strings after resize
+            img = new Image();
+            img = document.getElementById("chartImageStore");
+            var numberOfSliceOfImage = num;
+            var w2 = img.width / numberOfSliceOfImage,
+                h2 = img.height / numberOfSliceOfImage;
+            var x = 0, y = 0;
+
+
+            console.log('w2');
+            console.log(w2);
+            console.log('h2');
+            console.log(h2);
+
+            for (var j = 0; j < numberOfSliceOfImage; j++) {
+                for (var i = 0; i < numberOfSliceOfImage; i++) {
+
+                    x = -w2 * i;
+                    y = -h2 * j;
+
+
+                    console.log('Image Height');
+                    console.log(h2 * numberOfSliceOfImage);
+                    console.log('Image Width');
+                    console.log(w2 * numberOfSliceOfImage);
+
+                    console.log('x');
+                    console.log(x);
+                    console.log('Y');
+                    console.log(y);
+
+                    canvas.width = w2;
+                    canvas.height = h2;
+                    ctx.drawImage(img, x, y, w2 * numberOfSliceOfImage, h2 * numberOfSliceOfImage); // img, x, y, w, h
+                    parts.push(canvas.toDataURL()); // ("image/jpeg") for jpeg
+                    console.log('part no ====>>>>>>>>>>>>>>>>part no ====>>>>>>>>>>>>>>>>part no ====>>>>>>>>>>>>>>>>   ');
+                    console.log(parts.length - 1);
+                    console.log(parts[parts.length - 1]);
+
+                }
+            }
+
+         
+
+            var myWindow = window.open('', 'Silver Line Organisation Structure');
+            myWindow.document.write('<html><head><title>Silver Line Organisation Structure</title>');
+            myWindow.document.write('</head><body>');
+
+
+            for (var l = 0 ; l < parts.length ; l++) {
+
+                var cImg = document.createElement("img");
+                cImg.src = parts[l];
+
+                console.log('Checking image into img from Array Loading.............................................');
+                console.log(cImg);
+                var tempImgBase64String = imageToDataUri(cImg, cImg.width * numberOfSliceOfImage, cImg.height * numberOfSliceOfImage);
+                myWindow.document.write("<div style='min-height:100%;min-width:100%;max-height:100%;max-width:100%'> <img src='" + tempImgBase64String + "' alt='No Image' > </div>");
+                myWindow.document.write("<br/>");
+            }
+
+            myWindow.document.write('</body></html>');
+            myWindow.document.close();
+            console.log('myWindow.document');
+            console.log(myWindow.document);
+            // myWindow.document.close(); // necessary for IE >= 10
+            myWindow.onload = function () {
+                sleep(6000);
+                myWindow.focus(); // necessary for IE >= 10
+                myWindow.print();
+            };
+
+
+        }
+
+        function sleep(milliseconds) {
+            var start = new Date().getTime();
+            for (var i = 0; i < 1e7; i++) {
+                if ((new Date().getTime() - start) > milliseconds) {
+                    break;
+                }
+            }
+        }
+
+
+        function imageToDataUri(imgRecreateSize, widthRecreateSize, heightRecreateSize) {
+
+            // create an off-screen canvas
+            var canvasRecreateSize = document.createElement('canvas'),
+                ctxRecreateSize = canvasRecreateSize.getContext('2d');
+
+            // set its dimension to target size
+            canvasRecreateSize.width = widthRecreateSize;
+            canvasRecreateSize.height = heightRecreateSize;
+
+            // draw source image into the off-screen canvas:
+            ctxRecreateSize.drawImage(imgRecreateSize, 0, 0, widthRecreateSize, heightRecreateSize);
+
+            // encode image to data-uri with base64 version of compressed image
+            return canvasRecreateSize.toDataURL();
+        }
+
+
+
+    </script>
+
+
+
+</head>
+<body>
+
+    <table>
+        <tr>
+            <td>
+
+                <div class="btn-danger">
+                    @Html.ActionLink("Refresh", "getOrganisationStructure", new { })  
+                           
+
+                </div>
+
+            </td>
+            <td colspan="5">
+
+                <table>
+                    <tr>
+                        <td>
+                            <input type="checkbox" id="isOtherImg" />  Other Image :
+                        </td>
+                        <td>
+                            <input type="file" name="Image" onchange="otherImage(this)">
+                        </td>
+                    </tr>
+                </table>
+
+            </td>
+            <td>
+                <input id="btn-Preview-Image" type="button" value="Preview" class="btn-danger" />
+            </td>
+            <td>   <a id="btn-Convert-Html2Image" class="btn-danger" href="#">Image Download</a>   </td>
+            <td>
+
+                <script>
+
+
+                    function otherImage(fileObject) {
+
+                        if (document.getElementById('isOtherImg').checked == true) {
+
+
+                            var reader = new FileReader();
+                            reader.readAsDataURL(fileObject.files[0]);
+                            reader.onload = function () {
+
+                                sessionStorage["preChartImageStore"] = reader.result;
+                            };
+                            reader.onerror = function (error) {
+
+                                sessionStorage["preChartImageStore"] = '';
+                            };
+
+                            var getOtherImage = window.location.toString();
+                            getOtherImage = getOtherImage.replace('getOrganisationStructure', 'getOtherImage');
+                            window.location.assign(getOtherImage);
+
+                        }
+
+
+                    }
+
+
+
+                </script>
+
+                Print On Number Of Page :  @Html.DropDownList("NumberOfPiece", new List<SelectListItem>
+                {
+                    new SelectListItem{ Text="1", Value = "1" },
+                    new SelectListItem{ Text="4", Value = "2" },
+                    new SelectListItem{ Text="8", Value = "4" },
+                    new SelectListItem{ Text="16", Value = "8" },
+                    new SelectListItem{ Text="32", Value = "16" },
+                    new SelectListItem{ Text="64", Value = "32" },
+                    new SelectListItem{ Text="128", Value = "64" }
+                 })
+
+            </td>
+
+            <td>  <input type="button" class="btn-danger" value="Print" onclick="PrintDiv($('#NumberOfPiece').val())" />   </td>
+
+         
+        </tr>
+    </table>
+
+
+    <div id="html-content-holder" style="background-color:white; color:blue;width: 6000px;">
+
+       
+
+        <div id="organogram-con-div" style="background-color: white; color:blue;width: 6000px;">
+
+            @{
+
+                Html.RenderPartial("OrganogramsPartial");
+
+            }
+        </div>
+
+    </div>
+
+    
+
+    <br />
+    <h3>Preview :</h3>
+    <div id="previewImage" style="width:auto;">
+      
+    </div>
+
+  
+    <div style="visibility:hidden">
+        <img id="chartImageStore" src="" alt="">
+    </div>
+
+
+
+
+
+
+
+
+   
+    <script>
+        $(document).ready(function () {
+
+
+            var getCanvas; // global variable
+            var element = $("#html-content-holder");  // global variable
+
+            $("#btn-Preview-Image").on('click', function () {
+                $("#previewImage").empty();
+                $("#previewImage").width($("#html-content-holder").width());
+                html2canvas(element, {
+                    onrendered: function (canvas) {
+                        $("#previewImage").append(canvas);
+                        getCanvas = canvas;
+                        document.getElementById("chartImageStore").src = getCanvas.toDataURL("image/png");
+                       
+
+                    }
+                });
+               
+            });
+
+            $("#btn-Convert-Html2Image").on('click', function () {
+                var imgageData = getCanvas.toDataURL("image/png");
+                // Now browser starts downloading it instead of just showing it
+                var newData = imgageData.replace(/^data:image\/png/, "data:application/octet-stream");
+                $("#btn-Convert-Html2Image").attr("download", "image.png").attr("href", newData);
+            });
+
+        });
+
+    </script>
+
+
+
+    
+
+
+
+
+</body>
+</html>
+
+
+
+
+
+
+@Html.ActionLink("Back", "Index", "Home")
+

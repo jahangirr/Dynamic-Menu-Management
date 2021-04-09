@@ -1,0 +1,195 @@
+﻿@model IEnumerable<SilGlobalFashion.Models.LCModelDetails>
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>LCModelDetails</h4>
+    <hr />
+
+</div>
+
+
+
+
+
+    @foreach (var item in Model)
+    {
+        <dl class="dl-horizontal" style="background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+            <dt>
+                File No
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => item.LCModel.FileNo)
+            </dd>
+
+            <dt>
+                SprOrIndentNo
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => item.SprOrIndentNo)
+            </dd>
+
+            <dt>
+                CountryName
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => item.CountryName)
+            </dd>
+
+            <dt>
+                ItemName
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => item.ItemName)
+            </dd>
+
+            <dt>
+                ItemCode
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => item.ItemCode)
+            </dd>
+
+            <dt>
+                UOM
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => item.UOM)
+            </dd>
+
+            <dt>
+                ItemQty
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => item.ItemQty)
+            </dd>
+
+            <dt>
+                ItemPrize
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => item.ItemPrize)
+            </dd>
+
+            <dt>
+                Ship_On_Board_Date
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => item.Ship_On_Board_Date)
+            </dd>
+
+            <dt>
+                DocsValue
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => item.DocsValue)
+            </dd>
+
+            <dt>
+                ETA_On_CTG_Port
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => item.ETA_On_CTG_Port)
+            </dd>
+
+            <dt>
+                Doc_Rcevd_By_Bank
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => item.Doc_Rcevd_By_Bank)
+            </dd>
+
+            <dt>
+                Doc_Send_To_CF
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => item.Doc_Send_To_CF)
+            </dd>
+
+            <dt>
+                ETD_From_CTG
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => item.ETD_From_CTG)
+            </dd>
+
+            <dt>
+                ETA_At_Factory
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => item.ETA_At_Factory)
+            </dd>
+
+            <dt>
+                Bill_Of_Entry_No
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => item.Bill_Of_Entry_No)
+            </dd>
+
+            <dt>
+                Bill_Of_Entry_Date
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => item.Bill_Of_Entry_Date)
+            </dd>
+
+            <dt>
+                LC_Payment_Date
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => item.LC_Payment_Date)
+            </dd>
+
+            <dt>
+                IsClose
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => item.IsClose)
+            </dd>
+
+            <dt>
+                Remarks
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => item.Remarks)
+            </dd>
+
+
+            
+
+            </dl >
+
+            <div class="alert alert-success">
+                ****************************************************************************************
+            </div>
+
+
+    }
+
+

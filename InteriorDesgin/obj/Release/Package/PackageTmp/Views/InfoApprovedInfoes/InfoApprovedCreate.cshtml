@@ -1,0 +1,297 @@
+﻿@model IEnumerable<SilGlobalFashion.Models.InfoApprovedInfo>
+@using SilGlobalFashion.Repository;
+
+
+@{
+    ViewBag.Title = "Approved Info";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="alert alert-danger">
+    <input type="button" id="LoadApprove" name="Load" value="Show" />
+</div>
+<div class="alert-danger" id="LoadExistingDisplay">
+
+
+</div>
+
+<h2>Create</h2>
+
+@using (Html.BeginForm())
+{
+
+    @Html.AntiForgeryToken()
+
+
+    <table width="100%">
+
+
+
+        <tr>
+            <td width="18%" style="border:groove;background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.Hidden("Id")
+
+                <div style="border:groove;background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+                    Module Name :
+                </div>
+            </td>
+
+            <td width="26%" style="border:groove;background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+
+
+
+                <div class="col-md-10">
+
+                    @Html.DropDownList("ModuleNameS", (SelectList)ViewBag.ModuleNameData)
+
+                </div>
+
+
+
+
+
+            </td>
+            <td width="12%"></td>
+
+            <td width="18%" style="border:groove;background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+                <div style="border:groove;background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+
+                    Load
+
+                </div>
+
+            </td>
+            <td width="26%" style="border:groove;background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+
+                <input type="submit" id="LoadModuleInfoByRole" name="Load" value="Load" />
+
+            </td>
+
+        </tr>
+
+
+
+
+
+        <tr>
+            <td width="18%" style="border:groove;background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+                Approve Process Name :
+
+            </td>
+
+            <td width="26%" style="border:groove;background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+
+
+
+                <div class="col-md-10">
+                    @Html.DropDownList("ItemTypeS", (SelectList)ViewBag.ItemTypeData)
+
+                </div>
+
+
+
+            </td>
+            <td width="12%"></td>
+
+            <td width="18%" style="border:groove;background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+                <div style="border:groove;background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+
+                   
+
+                </div>
+
+            </td>
+            <td width="26%" style="border:groove;background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+
+
+                <div class="col-md-10">
+
+
+                  
+
+
+
+
+
+                </div>
+
+
+
+            </td>
+
+        </tr>
+
+
+
+
+        <tr>
+            <td width="18%" style="border:groove;background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+                Location:
+
+            </td>
+
+            <td width="26%" style="border:groove;background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+
+
+
+                <div class="col-md-10">
+                    @Html.DropDownList("LocationS", (SelectList)ViewBag.LocationData)
+
+                </div>
+
+
+
+            </td>
+            <td width="12%"></td>
+
+            <td width="18%" style="border:groove;background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+                <div style="border:groove;background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+
+                    DepartmentName
+
+                </div>
+
+            </td>
+            <td width="26%" style="border:groove;background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+
+
+                <div class="col-md-10">
+
+
+                    @Html.DropDownList("DepartmentNameS", (SelectList)ViewBag.DepartmentNameData)
+
+
+
+
+
+                </div>
+
+
+
+            </td>
+
+        </tr>
+
+
+
+        <tr>
+            <td width="18%" style="border:groove;background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+
+                <div style="border:groove;background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+                    Role :
+
+                </div>
+            </td>
+
+            <td width="26%" style="border:groove;background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+
+
+                <div class="col-md-10">
+
+
+
+
+                    @Html.DropDownList("RoleS", (SelectList)ViewBag.RoleData)
+
+
+
+
+
+
+
+                </div>
+
+            </td>
+            <td width="12%"></td>
+
+            <td width="18%" style="border:groove;background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+                <div style="border:groove;background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+                    Approved Date :
+
+                </div>
+
+            </td>
+            <td width="26%" style="border:groove;background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+
+                @{
+
+                    DateTime? ApproveDate = null;
+
+
+
+                    GlobCreatedFunction gcF = new GlobCreatedFunction();
+
+
+                    try
+                    {
+
+                        ApproveDate = Convert.ToDateTime(gcF.GetDate(ViewBag.ApproveDateS as string));
+                    }
+                    catch (Exception ex)
+                    {
+
+                    }
+
+
+                }
+
+                <div class="col-md-10">
+                    @Html.JQueryUI().Datepicker("ApproveDateS", ApproveDate)
+
+
+                </div>
+
+            </td>
+
+        </tr>
+
+
+    </table>
+
+    
+
+    
+                    }
+
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+
+        $('#LoadApprove').click(function () {
+            $.ajax({
+                url: '@Url.Action("CreateShowInAdvance", "InfoApprovedInfoes")',
+                type: "GET",
+                dataType: "JSON",
+                data: {
+                    LocationS :  $('#LocationS').val(),
+                    DepartmentNameS : $('#DepartmentNameS').val() , 
+                    RoleS: $('#RoleS').val(),
+                    ApproveDateS: $('#ApproveDateS').val()
+                },
+                success: function (data) {
+                    console.log(data);
+                    $('#LoadExistingDisplay').html(data);
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    //debugger;
+                    alert(textStatus);
+                }
+            });
+
+
+        });
+
+        $("#ApproveDateS").attr("autocomplete", "off");
+
+    });
+
+</script>
+
+<div>
+    @Html.ActionLink("Back to Menu", "Index","Home")
+</div>

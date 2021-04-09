@@ -1,0 +1,295 @@
+﻿@model SilGlobalFashion.Models.SameLotReciveManagement
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div class="alert-info">
+    <h4>SameLotReciveManagement</h4>
+    <hr />
+    <dl class="dl-horizontal btn-success" style="background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+        <dt>
+            @Html.DisplayNameFor(model => model.ReceiveDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ReceiveDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ItemCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ItemCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ItemName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ItemName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SupplierName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SupplierName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MOMSprOrIndentNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MOMSprOrIndentNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SPRNoOrIndentNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SPRNoOrIndentNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SPRDateOrIndentDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SPRDateOrIndentDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ReceiveType)
+        </dt>
+
+        <dd>
+            @{
+                var showtex = ((SelectList)ViewBag.ReceiveType).Select(s => s.Text).FirstOrDefault();
+                HtmlString hs = new HtmlString(showtex);
+            }
+            @hs
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ReceiveTypeNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ReceiveTypeNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ReceiveBy)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ReceiveBy)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PurchasedBy)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PurchasedBy)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DeliveryBy)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DeliveryBy)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PreparedBy)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PreparedBy)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LCNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LCNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.InvoiceNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.InvoiceNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.InoviceDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.InoviceDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BillNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BillNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BillDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BillDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ChallanNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ChallanNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ChallanDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ChallanDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.GateInNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.GateInNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.GateInDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.GateInDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MRRNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MRRNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MRRDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MRRDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.GRNNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.GRNNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ChallanQty)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ChallanQty)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BillQty)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BillQty)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LotNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LotNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PartNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PartNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ReceiveQty)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ReceiveQty)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.QcCheckedBy)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.QcCheckedBy)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UOM)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UOM)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UnitPrize)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UnitPrize)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TotalPrize)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TotalPrize)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -1,0 +1,1445 @@
+﻿@model PagedList.IPagedList<SilGlobalFashion.Models.ItemReciveTable>
+   
+
+@using SilGlobalFashion.Repository;
+
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Html.RenderPartial("MenuView");
+    ViewBag.Title = "List of Item";
+}
+
+<b>Item (Qty) Supposed to Receive </b>
+
+
+<link href="~/Content/TableStyle.css" rel="stylesheet" />
+
+
+
+
+<table class="table alert-warning" width="100%">
+
+    <tr>
+        <td width="20%">
+            <div>
+
+                <a onclick='GetPDF();' >
+                    PDF
+                </a>
+
+                @{
+
+                    HtmlString hostAddress = new HtmlString(Session["HostAddress"].ToString());
+
+                }
+
+
+                <script type='text/javascript'>
+
+                                    function GetPDF() {
+
+                                        var url = "@hostAddress/ItemReciveTables/ItemReceiveReport?ReportType=PDF&MRRNo=" + $('#MRRNoReport').val();
+                                        window.open(url, '_blank');
+
+                                    }
+
+                </script>
+
+
+            </div>
+
+        </td>
+        <td width="20%">
+
+            <a onclick='GetExcel();' >
+                Excel
+            </a>
+
+
+            <script type='text/javascript'>
+
+                                    function GetExcel() {
+
+                                        var url = "@hostAddress/ItemReciveTables/ItemReceiveReport?ReportType=EXCEL&MRRNo=" + $('#MRRNoReport').val();
+                                        window.open(url, '_blank');
+
+                                    }
+
+            </script>
+
+        </td>
+        <td width="20%">
+
+            <a onclick='GetExcelRecord();' >
+                Excel Record
+            </a>
+
+
+            <script type='text/javascript'>
+
+                                    function GetExcelRecord() {
+
+                                        var url = "@hostAddress/ItemReciveTables/ItemReceiveReport?ReportType=EXCELRECORD&MRRNo=" + $('#MRRNoReport').val();
+                                        window.open(url, '_blank');
+
+                                    }
+
+            </script>
+
+        </td>
+        <td width="20%">
+
+            <a onclick='GetWord();' >
+                Word
+            </a>
+
+
+            <script type='text/javascript'>
+
+                                    function GetWord() {
+
+                                        var url = "@hostAddress/ItemReciveTables/ItemReceiveReport?ReportType=WORD&MRRNo=" + $('#MRRNoReport').val();
+                                        window.open(url, '_blank');
+
+                                    }
+
+            </script>
+
+
+        </td>
+
+        <td width="20%">
+
+            <a onclick='GetVisualised();' >
+                Visualize
+            </a>
+            <script type='text/javascript'>
+
+                                    function GetVisualised() {
+
+                                        var url = "@hostAddress/ShowChart/Index";
+                                        window.open(url, '_blank');
+
+                                    }
+
+            </script>
+        </td>
+
+    </tr>
+    <tr>
+        <td width="20%"></td>
+        <td width="20%">
+
+            <div class="alert-success">
+
+                MRR No:
+
+            </div>
+
+            <div class="alert-danger">
+
+                @Html.TextBox("MRRNoReport")
+
+
+
+
+
+            </div>
+
+        </td>
+
+        <td width="20%"></td>
+        <td width="20%"></td>
+        <td width="20%"></td>
+    </tr>
+</table>
+
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+
+        $("#MRRNoReport").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("GetMRRList")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        MRRNoReport: $('#MRRNoReport').val()
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                        );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+
+    });
+</script>
+
+
+<div class="alert-primary">
+
+
+    @using (Html.BeginForm("Index", "ItemReciveTables", FormMethod.Get))
+    {
+
+        <table>
+            <tr>
+                <td width="30%">
+                    Select Parameter : @Html.DropDownList("selectionItems", (SelectList)ViewBag.selectionItems)
+
+                    <br />
+
+                    <input type="submit" value="Search" class="btn-danger" />
+                    <input type="button" value="Reset" class="btn-success" id="bReset" />
+
+                </td>
+                <td width="70%">
+
+                    <div id="selectionDivToShow" style="border:dotted; color:black; background-color:Highlight;">
+
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <p>
+
+            @{
+
+                GlobCreatedFunction globCreatedFunction = new GlobCreatedFunction();
+
+                DateTime? ReceiveDateVar = null;
+
+                DateTime? SPRDateOrIndentDateVar = null;
+
+                DateTime? ChallanDateVar = null;
+
+                DateTime? GateInDateVar = null;
+
+                DateTime? MRRDateVar = null;
+
+
+
+                try
+                {
+                    ReceiveDateVar = Convert.ToDateTime(globCreatedFunction.GetDate(ViewBag.ReceiveDate));
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                try
+                {
+                    SPRDateOrIndentDateVar = Convert.ToDateTime(globCreatedFunction.GetDate(ViewBag.SPRDateOrIndentDate));
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+
+                try
+                {
+                    ChallanDateVar = Convert.ToDateTime(globCreatedFunction.GetDate(ViewBag.ChallanDate));
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                try
+                {
+                    GateInDateVar = Convert.ToDateTime(globCreatedFunction.GetDate(ViewBag.GateInDate));
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                try
+                {
+                    MRRDateVar = Convert.ToDateTime(globCreatedFunction.GetDate(ViewBag.MRRDate));
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+
+
+
+
+
+
+            }
+            <table id="SearchInfoTable" class="table" style="color:black;">
+                <tr>
+                    <td>
+                        Find by Date : @Html.JQueryUI().Datepicker("ReceiveDate", ReceiveDateVar)
+                    </td>
+                    </tr>
+                <tr>
+                    <td>
+                        Find by Item Code: @Html.TextBox("ItemCode", ViewBag.ItemCode as string)
+
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Find by Item Name: @Html.TextBox("ItemName", ViewBag.ItemName as string)
+                    </td>
+
+                </tr>
+
+                <tr>
+                    <td>
+                        Find by Supplier Name : @Html.TextBox("SupplierName", ViewBag.SupplierName as string)
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        Find by Mother  SPR No Or Indent No : @Html.TextBox("MOMSprOrIndentNo", ViewBag.MOMSprOrIndentNo as string)
+
+                    </td>
+                </tr>
+
+
+                <tr>
+                    <td>
+                        Find by SPR No Or Indent No : @Html.TextBox("SPRNoOrIndentNo", ViewBag.SPRNoOrIndentNo as string)
+
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Find by SPR Date Or IndentDate : @Html.JQueryUI().Datepicker("SPRDateOrIndentDate" , SPRDateOrIndentDateVar)
+                    </td>
+
+                </tr>
+
+
+                <tr>
+                    <td>
+                        @if (ViewBag.ReceiveTypeDropDown != null)
+                        {
+                            @:Find by Receive Type :  @Html.DropDownList("ReceiveType", (SelectList)ViewBag.ReceiveTypeDropDown, htmlAttributes: new { @class = "form-control" })
+                        }
+
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Find by Receive Type No : @Html.TextBox("ReceiveTypeNo", ViewBag.ReceiveTypeNo as string)
+
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Find by Challan No  : @Html.TextBox("ChallanNo", ViewBag.ChallanNo as string)
+                    </td>
+
+                </tr>
+
+
+                <tr>
+                    <td>
+                        Find by Challan Date  : @Html.JQueryUI().Datepicker("ChallanDate", ChallanDateVar)
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Find by Gate In No : @Html.TextBox("GateInNo", ViewBag.GateInNo as string)
+
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Find by Gate In Date : @Html.JQueryUI().Datepicker("GateInDate", GateInDateVar)
+                    </td>
+
+                </tr>
+
+                <tr>
+                    <td>
+                        Find by MRR No  : @Html.TextBox("MRRNo", ViewBag.MRRNo as string)
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Find by MRR Date : @Html.JQueryUI().Datepicker("MRRDate", MRRDateVar)
+
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Find by GRN No : @Html.TextBox("GRNNo", ViewBag.GRNNo as string)
+                    </td>
+
+                </tr>
+
+                <tr>
+                    <td>
+                        Find by Lot No : @Html.TextBox("LotNo", ViewBag.LotNo as string)
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Find by UOM : @Html.TextBox("UOM", ViewBag.UOM as string)
+
+                    </td>
+                </tr>
+            </table>
+
+        </p>
+    }
+
+</div>
+
+
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+
+
+        $("#ItemName").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("GetItemName")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        ItemName: $('#ItemName').val()
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                        );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+
+
+
+
+
+
+
+
+        $('#bReset').click(function () {
+
+            $('#ReceiveDate').val('');
+            $('#ItemCode').val('');
+            $('#ItemName').val('');
+            $('#SupplierName').val('');
+            $('#SPRNoOrIndentNo').val('');
+            $('#MOMSprOrIndentNo').val('');
+            
+            $('#SPRDateOrIndentDate').val('');
+            $('#ReceiveType').val('');
+            $('#ReceiveTypeNo').val('');
+            $('#ChallanNo').val('');
+            $('#ChallanDate').val('');
+            $('#GateInNo').val('');
+            $('#GateInDate').val('');
+            $('#MRRNo').val('');
+            $('#MRRDate').val('');
+            $('#GRNNo').val('');
+            $('#LotNo').val('');
+            $('#UOM').val('');
+
+            sessionStorage.setItem("ItemReceive_ReceiveDate", '');
+            sessionStorage.setItem("ItemReceive_ItemCode", '');
+            sessionStorage.setItem("ItemReceive_ItemName", '');
+            sessionStorage.setItem("ItemReceive_SupplierName", '');
+            sessionStorage.setItem("ItemReceive_MOMSprOrIndentNo", '');
+            sessionStorage.setItem("ItemReceive_SPRNoOrIndentNo", '');
+            sessionStorage.setItem("ItemReceive_SPRDateOrIndentDate", '');
+            sessionStorage.setItem("ItemReceive_ReceiveType", '');
+            sessionStorage.setItem("ItemReceive_ReceiveTypeNo", '');
+
+            sessionStorage.setItem("ItemReceive_ChallanNo", '');
+            sessionStorage.setItem("ItemReceive_ChallanDate", '');
+            sessionStorage.setItem("ItemReceive_GateInNo", '');
+            sessionStorage.setItem("ItemReceive_GateInDate", '');
+            sessionStorage.setItem("ItemReceive_MRRNo", '');
+            sessionStorage.setItem("ItemReceive_MRRDate", '');
+            sessionStorage.setItem("ItemReceive_GRNNo", '');
+            sessionStorage.setItem("ItemReceive_LotNo", '');
+            sessionStorage.setItem("ItemReceive_UOM", '');
+
+
+
+
+        });
+
+
+       
+      
+      
+
+
+        var ItemReceive_ReceiveDate_value = sessionStorage.getItem("ItemReceive_ReceiveDate");
+        if (ItemReceive_ReceiveDate_value == null)
+        {
+            sessionStorage.setItem("ItemReceive_ReceiveDate", '');
+        } else
+        {
+            sessionStorage.setItem("ItemReceive_ReceiveDate", ItemReceive_ReceiveDate_value);
+        }
+
+
+        var ItemReceive_ItemCode_value = sessionStorage.getItem("ItemReceive_ItemCode");
+        if (ItemReceive_ItemCode_value == null) {
+            sessionStorage.setItem("ItemReceive_ItemCode", '');
+        } else {
+            sessionStorage.setItem("ItemReceive_ItemCode", ItemReceive_ItemCode_value);
+        }
+
+
+
+        var ItemReceive_ItemName_value = sessionStorage.getItem("ItemReceive_ItemName");
+        if (ItemReceive_ItemName_value == null) {
+            sessionStorage.setItem("ItemReceive_ItemName", '');
+        } else {
+            sessionStorage.setItem("ItemReceive_ItemName", ItemReceive_ItemName_value);
+        }
+
+
+
+        var ItemReceive_SupplierName_value = sessionStorage.getItem("ItemReceive_SupplierName");
+        if (ItemReceive_SupplierName_value == null) {
+            sessionStorage.setItem("ItemReceive_SupplierName", '');
+        } else {
+            sessionStorage.setItem("ItemReceive_SupplierName", ItemReceive_SupplierName_value);
+        }
+
+
+
+
+
+        var ItemReceive_MOMSprOrIndentNo_value = sessionStorage.getItem("ItemReceive_MOMSprOrIndentNo");
+        if (ItemReceive_MOMSprOrIndentNo_value == null) {
+            sessionStorage.setItem("ItemReceive_MOMSprOrIndentNo", '');
+        } else {
+            sessionStorage.setItem("ItemReceive_MOMSprOrIndentNo", ItemReceive_MOMSprOrIndentNo_value);
+        }
+
+
+        var ItemReceive_SPRNoOrIndentNo_value = sessionStorage.getItem("ItemReceive_SPRNoOrIndentNo");
+        if (ItemReceive_SPRNoOrIndentNo_value == null) {
+            sessionStorage.setItem("ItemReceive_SPRNoOrIndentNo", '');
+        } else {
+            sessionStorage.setItem("ItemReceive_SPRNoOrIndentNo", ItemReceive_SPRNoOrIndentNo_value);
+        }
+
+
+      
+        
+
+        var ItemReceive_SPRDateOrIndentDate_value = sessionStorage.getItem("ItemReceive_SPRDateOrIndentDate");
+        if (ItemReceive_SPRDateOrIndentDate_value == null) {
+            sessionStorage.setItem("ItemReceive_SPRDateOrIndentDate", '');
+        } else {
+            sessionStorage.setItem("ItemReceive_SPRDateOrIndentDate", ItemReceive_SPRDateOrIndentDate_value);
+        }
+
+
+
+
+        var ItemReceive_ReceiveType_value = sessionStorage.getItem("ItemReceive_ReceiveType");
+        if (ItemReceive_ReceiveType_value == null) {
+            sessionStorage.setItem("ItemReceive_ReceiveType", '');
+        } else {
+            sessionStorage.setItem("ItemReceive_ReceiveType", ItemReceive_ReceiveType_value);
+        }
+
+
+        var ItemReceive_ReceiveTypeNo_value = sessionStorage.getItem("ItemReceive_ReceiveTypeNo");
+        if (ItemReceive_ReceiveTypeNo_value == null) {
+            sessionStorage.setItem("ItemReceive_ReceiveTypeNo", '');
+        } else {
+            sessionStorage.setItem("ItemReceive_ReceiveTypeNo", ItemReceive_ReceiveTypeNo_value);
+        }
+
+
+
+
+        var ItemReceive_ChallanNo_value = sessionStorage.getItem("ItemReceive_ChallanNo");
+        if (ItemReceive_ChallanNo_value == null) {
+            sessionStorage.setItem("ItemReceive_ChallanNo", '');
+        } else {
+            sessionStorage.setItem("ItemReceive_ChallanNo", ItemReceive_ChallanNo_value);
+        }
+
+
+
+        var ItemReceive_ChallanDate_value = sessionStorage.getItem("ItemReceive_ChallanDate");
+        if (ItemReceive_ChallanDate_value == null) {
+            sessionStorage.setItem("ItemReceive_ChallanDate", '');
+        } else {
+            sessionStorage.setItem("ItemReceive_ChallanDate", ItemReceive_ChallanDate_value);
+        }
+
+
+
+        var ItemReceive_GateInNo_value = sessionStorage.getItem("ItemReceive_GateInNo");
+        if (ItemReceive_GateInNo_value == null) {
+            sessionStorage.setItem("ItemReceive_GateInNo", '');
+        } else {
+            sessionStorage.setItem("ItemReceive_GateInNo", ItemReceive_GateInNo_value);
+        }
+
+
+
+
+        var ItemReceive_GateInDate_value = sessionStorage.getItem("ItemReceive_GateInDate");
+        if (ItemReceive_GateInDate_value == null) {
+            sessionStorage.setItem("ItemReceive_GateInDate", '');
+        } else {
+            sessionStorage.setItem("ItemReceive_GateInDate", ItemReceive_GateInDate_value);
+        }
+
+     
+
+        var ItemReceive_MRRNo_value = sessionStorage.getItem("ItemReceive_MRRNo");
+        if (ItemReceive_MRRNo_value == null) {
+            sessionStorage.setItem("ItemReceive_MRRNo", '');
+        } else {
+            sessionStorage.setItem("ItemReceive_MRRNo", ItemReceive_MRRNo_value);
+        }
+
+
+
+
+        var ItemReceive_MRRDate_value = sessionStorage.getItem("ItemReceive_MRRDate");
+        if (ItemReceive_MRRDate_value == null) {
+            sessionStorage.setItem("ItemReceive_MRRDate", '');
+        } else {
+            sessionStorage.setItem("ItemReceive_MRRDate", ItemReceive_MRRDate_value);
+        }
+
+
+
+
+        var ItemReceive_GRNNo_value = sessionStorage.getItem("ItemReceive_GRNNo");
+        if (ItemReceive_GRNNo_value == null) {
+            sessionStorage.setItem("ItemReceive_GRNNo", '');
+        } else {
+            sessionStorage.setItem("ItemReceive_GRNNo", ItemReceive_GRNNo_value);
+        }
+
+
+
+
+        var ItemReceive_LotNo_value = sessionStorage.getItem("ItemReceive_LotNo");
+        if (ItemReceive_LotNo_value == null) {
+            sessionStorage.setItem("ItemReceive_LotNo", '');
+        } else {
+            sessionStorage.setItem("ItemReceive_LotNo", ItemReceive_LotNo_value);
+        }
+
+
+        var ItemReceive_UOM_value = sessionStorage.getItem("ItemReceive_UOM");
+        if (ItemReceive_UOM_value == null) {
+            sessionStorage.setItem("ItemReceive_UOM", '');
+        } else {
+            sessionStorage.setItem("ItemReceive_UOM", ItemReceive_UOM_value);
+        }
+
+
+
+        $('#ReceiveDate').change(function () {
+
+            sessionStorage.setItem("ItemReceive_ReceiveDate", $('#ReceiveDate').val());
+        });
+
+        $('#ItemCode').change(function () {
+
+            sessionStorage.setItem("ItemReceive_ItemCode", $('#ItemCode').val());
+        });
+
+
+        $('#ItemName').change(function () {
+
+            sessionStorage.setItem("ItemReceive_ItemName", $('#ItemName').val());
+        });
+
+        $('#SupplierName').change(function () {
+
+            sessionStorage.setItem("ItemReceive_SupplierName", $('#SupplierName').val());
+        });
+
+
+
+        
+
+        $('#MOMSprOrIndentNo').change(function () {
+
+            sessionStorage.setItem("ItemReceive_MOMSprOrIndentNo", $('#MOMSprOrIndentNo').val());
+        });
+
+
+        $('#SPRNoOrIndentNo').change(function () {
+
+            sessionStorage.setItem("ItemReceive_SPRNoOrIndentNo", $('#SPRNoOrIndentNo').val());
+        });
+
+        $('#SPRDateOrIndentDate').change(function () {
+
+            sessionStorage.setItem("ItemReceive_SPRDateOrIndentDate", $('#SPRDateOrIndentDate').val());
+        });
+
+
+        $('#ReceiveType').change(function () {
+
+            sessionStorage.setItem("ItemReceive_ReceiveType", $('#ReceiveType').val());
+        });
+
+
+        $('#ReceiveTypeNo').change(function () {
+
+            sessionStorage.setItem("ItemReceive_ReceiveTypeNo", $('#ReceiveTypeNo').val());
+        });
+
+
+
+        $('#ChallanNo').change(function () {
+
+            sessionStorage.setItem("ItemReceive_ChallanNo", $('#ChallanNo').val());
+        });
+
+
+        $('#ChallanDate').change(function () {
+
+            sessionStorage.setItem("ItemReceive_ChallanDate", $('#ChallanDate').val());
+        });
+
+
+        $('#GateInNo').change(function () {
+
+            sessionStorage.setItem("ItemReceive_GateInNo", $('#GateInNo').val());
+        });
+
+
+        $('#GateInDate').change(function () {
+
+            sessionStorage.setItem("ItemReceive_GateInDate", $('#GateInDate').val());
+        });
+
+
+        $('#MRRNo').change(function () {
+
+            sessionStorage.setItem("ItemReceive_MRRNo", $('#MRRNo').val());
+        });
+
+
+        $('#MRRDate').change(function () {
+
+            sessionStorage.setItem("ItemReceive_MRRDate", $('#MRRDate').val());
+        });
+
+
+        $('#GRNNo').change(function () {
+
+            sessionStorage.setItem("ItemReceive_GRNNo", $('#GRNNo').val());
+
+        });
+        $('#LotNo').change(function () {
+
+            sessionStorage.setItem("ItemReceive_LotNo", $('#LotNo').val());
+        });
+
+        $('#UOM').change(function () {
+
+            sessionStorage.setItem("ItemReceive_UOM", $('#UOM').val());
+        });
+
+      
+        $("#SearchInfoTable tr").each(function () {
+                $(this).hide();
+        });
+
+        $("#selectionItems").change(function () {
+
+            $("#SearchInfoTable tr").each(function () {
+                var row_index = $(this).index();
+                var ddlValue = $("#selectionItems").val();
+                if (ddlValue.toString() == row_index.toString())
+                {
+                    $(this).show();
+                }
+                else
+                {
+                    $(this).hide();
+                }
+
+            });
+
+
+
+            var ReceiveDate = sessionStorage.getItem("ItemReceive_ReceiveDate");
+            var ItemCode = sessionStorage.getItem("ItemReceive_ItemCode");
+            var ItemName = sessionStorage.getItem("ItemReceive_ItemName");
+            var SupplierName = sessionStorage.getItem("ItemReceive_SupplierName");
+            
+            var MOMSprOrIndentNo = sessionStorage.getItem("ItemReceive_MOMSprOrIndentNo");
+            var SPRNoOrIndentNo = sessionStorage.getItem("ItemReceive_SPRNoOrIndentNo");
+            var SPRDateOrIndentDate = sessionStorage.getItem("ItemReceive_SPRDateOrIndentDate");
+            var ReceiveType = sessionStorage.getItem("ItemReceive_ReceiveType");
+            var ReceiveTypeNo = sessionStorage.getItem("ItemReceive_ReceiveTypeNo");
+            var ChallanNo = sessionStorage.getItem("ItemReceive_ChallanNo");
+            var ChallanDate = sessionStorage.getItem("ItemReceive_ChallanDate");
+            var GateInNo = sessionStorage.getItem("ItemReceive_GateInNo");
+            var GateInDate = sessionStorage.getItem("ItemReceive_GateInDate");
+            var MRRNo = sessionStorage.getItem("ItemReceive_MRRNo");
+            var MRRDate = sessionStorage.getItem("ItemReceive_MRRDate");
+            var GRNNo = sessionStorage.getItem("ItemReceive_GRNNo");
+            var LotNo = sessionStorage.getItem("ItemReceive_LotNo");
+            var UOM = sessionStorage.getItem("ItemReceive_UOM");
+
+            var ListOfSelectedValue = 'Receive Date : ' + ReceiveDate + '||  Item Code : ' + ItemCode + '||  Item Name : ' + ItemName + '||  Supplier Name : ' + SupplierName
+             + '||Mother  SPR No Or Indent No : ' + MOMSprOrIndentNo +  '||  SPR No Or Indent No : ' + SPRNoOrIndentNo + '||  SPR Date Or Indent Date : ' + SPRDateOrIndentDate + '||  Receive Type: ' + ReceiveType + '||Receive Type No : ' + ReceiveTypeNo
+
+             + '||  Challan No Or Bill No : ' + ChallanNo + '||  Challan Date Or Bill Date : ' + ChallanDate + '||  Gate In No: ' + GateInNo + '||Gate In Date : ' + GateInDate 
+
+             + '|| MRR No : ' + MRRNo + '||  MRR Date : ' + MRRDate + '||  GRN No: ' + GRNNo + '||Lot No : ' + LotNo + '||UOM  : ' + UOM;
+
+
+             $('#selectionDivToShow').html(ListOfSelectedValue.toString());
+
+
+        });
+
+
+
+
+       
+
+
+
+
+    });
+</script>
+
+
+
+
+
+
+
+
+
+
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<div >
+
+    <table class="table-bordered" style="background-color:#C0C0C0;border:2px; border-color:blue;color:black;" >
+        <tr>
+            <th>
+                Receive Date
+            </th>
+            <th>
+                Item Code
+            </th>
+            <th>
+                Item Name
+            </th>
+            <th>
+                Supplier Name
+            </th>
+
+            <th>
+              Mother  SPRNo Or IndentNo
+            </th>
+            <th>
+                SPRNo Or IndentNo
+            </th>
+            <th>
+                SPR Date Or Indent Date
+            </th>
+            <th>
+                Receive Type
+            </th>
+            <th>
+                Receive Type No
+            </th>
+            <th>
+                Challan No Or Bill No
+            </th>
+            <th>
+                Challan Date Or Bill Date
+            </th>
+            <th>
+                Gate In No
+            </th>
+            <th>
+                Gate In Date
+            </th>
+            <th>
+                MRR No
+            </th>
+            <th>
+                MRR Date
+            </th>
+            <th>
+                GRN No
+            </th>
+            <th>
+                Challan Qty Or Bill Qty
+            </th>
+            <th>
+                Lot No
+            </th>
+            <th>
+                Receive Qty
+            </th>
+            <th>
+                UOM
+            </th>
+            <th>
+                UnitPrize
+            </th>
+            <th>
+                Total Prize
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model) {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ReceiveDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ItemCode)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ItemName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SupplierName)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.MOMSprOrIndentNo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SPRNoOrIndentNo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SPRDateOrIndentDate)
+                </td>
+                <td>
+                    @{
+                        var showtex = ((SelectList)ViewBag.ReceiveDropdownlist).Where(w => w.Value == item.ReceiveType).Select(s => s.Text).FirstOrDefault();
+                        HtmlString hs = new HtmlString(showtex);
+                    }
+                    @hs
+
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ReceiveTypeNo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ChallanNo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ChallanDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.GateInNo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.GateInDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MRRNo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MRRDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.GRNNo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ChallanQty)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LotNo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ReceiveQty)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UOM)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UnitPrize)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TotalPrize)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+                    @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id=item.Id }) |
+                    @Html.ActionLink("Deffered", "Create", "SameLotReciveManagements", new { Id = item.Id , LotNo = item.LotNo }  , null) 
+
+                </td>
+            </tr>
+}
+
+    </table>
+
+
+</div>
+
+
+
+         
+
+
+
+
+ Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page,
+    ItemName = ViewBag.ItemName,
+    SupplierName = ViewBag.SupplierName,
+    MOMSprOrIndentNo = ViewBag.MOMSprOrIndentNo,
+    SPRNoOrIndentNo = ViewBag.SPRNoOrIndentNo,
+    SPRDateOrIndentDate = ViewBag.SPRDateOrIndentDate,
+    ReceiveType = ViewBag.ReceiveType,
+    ReceiveTypeNo = ViewBag.ReceiveTypeNo,
+    ChallanNo = ViewBag.ChallanNo,
+    ChallanDate = ViewBag.ChallanDate,
+    GateInNo = ViewBag.GateInNo,
+    GateInDate = ViewBag.GateInDate,
+    MRRNo = ViewBag.MRRNo,
+    MRRDate = ViewBag.MRRDate,
+    GRNNo = ViewBag.GRNNo,
+    LotNo = ViewBag.LotNo,
+    UOM = ViewBag.UOM
+}))
+
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+
+        $("#ItemCode").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("GetItemCodeFromItemReceive")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        ItemCode: $('#ItemCode').val()
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                        );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+
+
+        $("#ItemName").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("GetItemNameFromItemReceive")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        ItemName: $('#ItemName').val()
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                        );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+
+
+        $("#SupplierName").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("GetSupplierNameFromItemReceive")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        SupplierName : $('#SupplierName').val()
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                        );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+
+        $("#MOMSprOrIndentNo").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("GetMOMSprOrIndentNoFromItemReceive")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        MOMSprOrIndentNo: $('#MOMSprOrIndentNo').val()
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                        );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+
+        $("#SPRNoOrIndentNo").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("GetSPRNoOrIndentNoFromItemReceive")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        SPRNoOrIndentNo: $('#SPRNoOrIndentNo').val()
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                        );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+
+        $("#ReceiveTypeNo").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("GetReceiveTypeNoFromItemReceive")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        ReceiveTypeNo: $('#ReceiveTypeNo').val()
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                        );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+
+        $("#ChallanNo").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("GetChallanNoFromItemReceive")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        ChallanNo: $('#ChallanNo').val()
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                        );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+
+        $("#GateInNo").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("GetGateInNoFromItemReceive")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        GateInNo: $('#GateInNo').val()
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                        );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+
+        $("#MRRNo").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("GetMRRNoFromItemReceive")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        MRRNo: $('#MRRNo').val()
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                        );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+
+        $("#LotNo").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("GetLotNoFromItemReceive")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        LotNo: $('#LotNo').val()
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                        );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+        $("#UOM").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("GetUOMFromItemReceive")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        UOM: $('#UOM').val()
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                        );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+
+
+
+
+    });
+</script>

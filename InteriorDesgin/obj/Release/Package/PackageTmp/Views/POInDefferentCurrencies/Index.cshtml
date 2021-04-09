@@ -1,0 +1,499 @@
+﻿
+@model PagedList.IPagedList<SilGlobalFashion.Models.POInDefferentCurrency>
+@using PagedList.Mvc;
+@using SilGlobalFashion.Repository;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Html.RenderPartial("MenuView");
+    ViewBag.Title = "PO Sheet";
+}
+
+<link href="~/Content/TableStyle.css" rel="stylesheet" />
+
+
+
+
+<div class="alert-primary" style="color:black;">
+
+
+    @using (Html.BeginForm("Index", "POInDefferentCurrencies", FormMethod.Get))
+    {
+
+        <table>
+            <tr>
+                <td width="30%">
+                    Select Parameter : @Html.DropDownList("selectionItems", (SelectList)ViewBag.selectionItems)
+
+                    <br />
+
+                    <input type="submit" value="Search" class="btn-danger" />
+                    <input type="button" value="Reset" class="btn-success" id="bReset" />
+
+                </td>
+                <td width="70%">
+
+                    <div id="selectionDivToShow" style="border:dotted; color:black; background-color:Highlight;">
+
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+
+          
+
+
+        <p>
+            <table id="SearchInfoTable" class="table" style="color:black;">
+                <tr>
+
+                    <td>
+                        Find by PO Number: @Html.TextBox("PONumber", ViewBag.PONumber as string)
+
+                    </td>
+
+
+                </tr>
+
+                <tr>
+
+                    <td>
+                        @{
+
+                            GlobCreatedFunction globbCreFunc = new GlobCreatedFunction();
+
+                            DateTime? VeiwBagPORevisedDate = null;
+
+                            try
+                            {
+                                VeiwBagPORevisedDate = Convert.ToDateTime(globbCreFunc.GetDate(ViewBag.PORevisedDate));
+
+
+                            }
+                            catch (Exception ex)
+                            {
+
+                            }
+
+
+
+
+                        }
+                        Find by PO Date : @Html.JQueryUI().Datepicker("PORevisedDate", VeiwBagPORevisedDate)
+                    </td>
+
+                </tr>
+
+
+                <tr>
+                    <td>
+                        Find by Mother Spr Or Indent No : @Html.TextBox("MOMSprOrIndentNo", ViewBag.MOMSprOrIndentNo as string)
+                    </td>
+
+                </tr>
+
+                <tr>
+                    <td>
+                        Find by Spr Or Indent No : @Html.TextBox("SprOrIndentNo", ViewBag.SprOrIndentNo as string)
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>
+                        Find by Supplier Code : @Html.TextBox("SupplierCode", ViewBag.SupplierCode as string)
+
+                    </td>
+
+                </tr>
+                <tr>
+
+                    <td>
+                        Find by Supplier Name : @Html.TextBox("SupplierName", ViewBag.SupplierName as string)
+
+                    </td>
+
+
+                </tr>
+
+
+
+                <tr>
+                    <td>
+                        Find by Item Name : @Html.TextBox("ItemName", ViewBag.ItemName as string)
+
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>
+                        Find by Item Code : @Html.TextBox("ItemCode", ViewBag.ItemCode as string)
+
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Find by Remarks : @Html.TextBox("Remarks", ViewBag.Remarks as string)
+                    </td>
+
+                </tr>
+
+                <tr>
+                    <td>
+                        <input type="submit" value="Search" />
+                    </td>
+
+                </tr>
+
+            </table>
+
+        </p>
+                            }
+
+</div>
+
+
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+
+        $('#bReset').click(function () {
+
+            $('#PONumber').val('');
+            $('#PORevisedDate').val('');
+            $('#MOMSprOrIndentNo').val('');
+            $('#SprOrIndentNo').val('');
+            $('#SupplierCode').val('');
+            $('#SupplierName').val('');
+            $('#ItemName').val('');
+            $('#ItemCode').val('');
+            $('#Remarks').val('');
+
+
+            sessionStorage.setItem("POPreSheet_PONumber", '');
+            sessionStorage.setItem("POPreSheet_SprOrIndentNo", '');
+            sessionStorage.setItem("POPreSheet_MOMSprOrIndentNo", '');
+            sessionStorage.setItem("POPreSheet_ItemCode", '');
+            sessionStorage.setItem("POPreSheet_ItemName", '');
+            sessionStorage.setItem("POPreSheet_PORevisedDate", '');
+            sessionStorage.setItem("POPreSheet_SupplierCode", '');
+            sessionStorage.setItem("POPreSheet_SupplierName", '');
+            sessionStorage.setItem("POPreSheet_Remarks", '');
+
+
+        });
+
+
+
+
+        var POPreSheet_ItemCode_value = sessionStorage.getItem("POPreSheet_ItemCode");
+        if (POPreSheet_ItemCode_value == null) {
+            sessionStorage.setItem("POPreSheet_ItemCode", '');
+        } else {
+            sessionStorage.setItem("POPreSheet_ItemCode", POPreSheet_ItemCode_value);
+        }
+
+        var POPreSheet_ItemName_value = sessionStorage.getItem("POPreSheet_ItemName");
+        if (POPreSheet_ItemName_value == null) {
+            sessionStorage.setItem("POPreSheet_ItemName", '');
+        } else {
+            sessionStorage.setItem("POPreSheet_ItemName", POPreSheet_ItemName_value);
+        }
+
+
+
+
+        var POPreSheet_SprOrIndentNo_value = sessionStorage.getItem("POPreSheet_SprOrIndentNo");
+        if (POPreSheet_SprOrIndentNo_value == null) {
+            sessionStorage.setItem("POPreSheet_SprOrIndentNo", '');
+        } else {
+            sessionStorage.setItem("POPreSheet_SprOrIndentNo", POPreSheet_SprOrIndentNo_value);
+        }
+
+        var POPreSheet_MOMSprOrIndentNo_value = sessionStorage.getItem("POPreSheet_MOMSprOrIndentNo");
+        if (POPreSheet_MOMSprOrIndentNo_value == null) {
+            sessionStorage.setItem("POPreSheet_MOMSprOrIndentNo", '');
+        } else {
+            sessionStorage.setItem("POPreSheet_MOMSprOrIndentNo", POPreSheet_MOMSprOrIndentNo_value);
+        }
+
+
+
+
+        var POPreSheet_PONumber_value = sessionStorage.getItem("POPreSheet_PONumber");
+        if (POPreSheet_PONumber_value == null) {
+            sessionStorage.setItem("POPreSheet_PONumber", '');
+        } else {
+            sessionStorage.setItem("POPreSheet_PONumber", POPreSheet_PONumber_value);
+        }
+
+
+
+
+        var POPreSheet_PORevisedDate_value = sessionStorage.getItem("POPreSheet_PORevisedDate");
+        if (POPreSheet_PORevisedDate_value == null) {
+            sessionStorage.setItem("POPreSheet_PORevisedDate", '');
+        } else {
+            sessionStorage.setItem("POPreSheet_PORevisedDate", POPreSheet_PORevisedDate_value);
+        }
+
+
+
+
+
+        var POPreSheet_SupplierCode_value = sessionStorage.getItem("POPreSheet_SupplierCode");
+        if (POPreSheet_SupplierCode_value == null) {
+            sessionStorage.setItem("POPreSheet_SupplierCode", '');
+        } else {
+            sessionStorage.setItem("POPreSheet_SupplierCode", POPreSheet_SupplierCode_value);
+        }
+
+        var POPreSheet_SupplierName_value = sessionStorage.getItem("POPreSheet_SupplierName");
+        if (POPreSheet_SupplierName_value == null) {
+            sessionStorage.setItem("POPreSheet_SupplierName", '');
+        } else {
+            sessionStorage.setItem("POPreSheet_SupplierName", POPreSheet_SupplierName_value);
+        }
+
+
+        var POPreSheet_Remarks_value = sessionStorage.getItem("POPreSheet_Remarks");
+        if (POPreSheet_Remarks_value == null) {
+            sessionStorage.setItem("POPreSheet_Remarks", '');
+        } else {
+            sessionStorage.setItem("POPreSheet_Remarks", POPreSheet_Remarks_value);
+        }
+
+
+
+
+
+
+        $('#ItemCode').change(function () {
+
+            sessionStorage.setItem("POPreSheet_ItemCode", $('#ItemCode').val());
+        });
+
+
+
+        $('#SprOrIndentNo').change(function () {
+
+            sessionStorage.setItem("POPreSheet_SprOrIndentNo", $('#SprOrIndentNo').val());
+        });
+
+        $('#MOMSprOrIndentNo').change(function () {
+
+            sessionStorage.setItem("POPreSheet_MOMSprOrIndentNo", $('#MOMSprOrIndentNo').val());
+        });
+
+        $('#PONumber').change(function () {
+
+            sessionStorage.setItem("POPreSheet_PONumber", $('#PONumber').val());
+        });
+
+        $('#PORevisedDate').change(function () {
+
+            sessionStorage.setItem("POPreSheet_PORevisedDate", $('#PORevisedDate').val());
+        });
+        $('#SupplierCode').change(function () {
+
+            sessionStorage.setItem("POPreSheet_SupplierCode", $('#SupplierCode').val());
+
+        });
+
+
+
+
+        $('#SupplierName').change(function () {
+
+            sessionStorage.setItem("POPreSheet_SupplierName", $('#SupplierName').val());
+
+        });
+
+        $('#Remarks').change(function () {
+
+            sessionStorage.setItem("POPreSheet_Remarks", $('#Remarks').val());
+
+        });
+
+
+
+        $('#ItemName').change(function () {
+
+            sessionStorage.setItem("POPreSheet_ItemName", $('#ItemName').val());
+
+        });
+
+
+
+
+
+
+
+
+        $("#SearchInfoTable tr").each(function () {
+            $(this).hide();
+        });
+
+        $("#selectionItems").change(function () {
+
+            $("#SearchInfoTable tr").each(function () {
+                var row_index = $(this).index();
+                var ddlValue = $("#selectionItems").val();
+                if (ddlValue.toString() == row_index.toString()) {
+                    $(this).show();
+                }
+                else {
+                    $(this).hide();
+                }
+
+            });
+
+
+            var ItemCode = sessionStorage.getItem("POPreSheet_ItemCode");
+            var ItemName = sessionStorage.getItem("POPreSheet_ItemName");
+            var SprOrIndentNo = sessionStorage.getItem("POPreSheet_SprOrIndentNo");
+            var MOMSprOrIndentNo = sessionStorage.getItem("POPreSheet_MOMSprOrIndentNo");
+            var PONumber = sessionStorage.getItem("POPreSheet_PONumber");
+            var PORevisedDate = sessionStorage.getItem("POPreSheet_PORevisedDate");
+            var SupplierCode = sessionStorage.getItem("POPreSheet_SupplierCode");
+            var SupplierName = sessionStorage.getItem("POPreSheet_SupplierName");
+            var Remarks = sessionStorage.getItem("POPreSheet_Remarks");
+
+
+
+            var ListOfSelectedValue = 'Item Code : ' + ItemCode + 'Mother SPR or Indent No :' + MOMSprOrIndentNo + '||  Spr Or Indent No : ' + SprOrIndentNo + '||  PO Number : ' + PONumber + '||  PO Revised Date : ' + PORevisedDate + '||  SupplierCode : ' + SupplierCode + '||  SupplierName : ' + SupplierName
+            + '||Remarks : ' + Remarks + '||   ItemName : ' + ItemName;
+
+            $('#selectionDivToShow').html(ListOfSelectedValue.toString());
+
+
+        });
+
+
+
+
+    });
+</script>
+
+
+
+
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+    <table class="table">
+        <tr>
+            <th>
+                PONumber
+            </th>
+            <th>
+              PORevisedDate
+            </th>
+            <th>
+                MOMSprOrIndentNo
+            </th>
+            <th>
+                SprOrIndentNo
+            </th>
+            <th>
+               SupplierCode
+            </th>
+            <th>
+                SupplierName
+            </th>
+            <th>
+               ItemName
+            </th>
+            <th>
+                ItemCode
+            </th>
+            <th>
+              OrderQuantity
+            </th>
+            <th>
+               UnitCost
+            </th>
+            <th>
+                UnitCurrency
+            </th>
+            <th>
+               OrderQuantityRevised
+            </th>
+            <th>
+                UnitCostRevised
+            </th>
+            <th>
+                UnitCurrencyRevised
+            </th>
+            <th>
+                TotalValueItemWise
+            </th>
+            <th>
+                Remarks
+            </th>
+            <th></th>
+        </tr>
+    
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.PONumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PORevisedDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MOMSprOrIndentNo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SprOrIndentNo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SupplierCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SupplierName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ItemName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ItemCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrderQuantity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UnitCost)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UnitCurrency)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrderQuantityRevised)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UnitCostRevised)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UnitCurrencyRevised)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TotalValueItemWise)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Remarks)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+            </td>
+        </tr>
+    }
+    
+    </table>
+

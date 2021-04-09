@@ -1,0 +1,573 @@
+﻿@model PagedList.IPagedList<SilGlobalFashion.Models.OpenCostingDetails>
+@using PagedList.Mvc;
+@using SilGlobalFashion.Repository;
+
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Html.RenderPartial("MenuView");
+    ViewBag.Title = "Open Costing Details";
+}
+
+<link href="~/Content/TableStyle.css" rel="stylesheet" />
+<h2> Open Costing Sheet Details   </h2>
+
+<div class="alert-primary" style="color:black;">
+
+
+    @using (Html.BeginForm("Index", "OpenCostingDetails", FormMethod.Get))
+    {
+
+        <table>
+            <tr>
+                <td width="30%">
+                    Select Parameter : @Html.DropDownList("selectionItems", (SelectList)ViewBag.selectionItems)
+
+                    <br />
+
+                    <input type="submit" value="Search" class="btn-danger" />
+                    <input type="button" value="Reset" class="btn-success" id="bReset" />
+
+                </td>
+                <td width="70%">
+
+                    <div id="selectionDivToShow" style="border:dotted; color:black; background-color:Highlight;">
+
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+
+
+
+       
+
+
+
+        <p>
+            <table id="SearchInfoTable" class="table" style="color:black;">
+                <tr>
+
+                    <td>
+                        Find by System Style Code: @Html.TextBox("SysStyleCode", ViewBag.SysStyleCode as string)
+
+                    </td>
+
+
+                </tr>
+                <tr>
+                    <td>
+                        Find by Febrication/Consumption: @Html.TextBox("Feb_Int_Tri_Acc_Oth", ViewBag.Feb_Int_Tri_Acc_Oth as string)
+                    </td>
+
+                </tr>
+              
+                <tr>
+                    <td>
+                        Find by Source : @Html.TextBox("Source", ViewBag.Source as string)
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>
+                        Find by UOM : @Html.TextBox("UOM", ViewBag.UOM as string)
+
+                    </td>
+
+                </tr>
+                <tr>
+
+                    <td>
+
+                        @{
+                            List<SelectListItem> tempCostingGroupList = (List<SelectListItem>)Session["CostingGroupList"];
+                            SelectList CostingGroupList = new SelectList(tempCostingGroupList, "Value", "Text");
+                        }
+
+                        @Html.DropDownList("CostingGroup_Id", CostingGroupList, new { style = "width:70px" })
+                
+
+                    </td>
+
+
+                </tr>
+
+
+
+                <tr>
+                    <td>
+                        Find by Mode Of Payment : @Html.TextBox("ModeOfPayment", ViewBag.ModeOfPayment as string)
+
+                    </td>
+
+                </tr>
+              
+
+                <tr>
+                    <td>
+                        <input type="submit" value="Search" /> <button type="button"> @Html.ActionLink("Refresh", "Index")  </button>
+                    </td>
+
+                </tr>
+
+            </table>
+
+        </p>
+                            }
+
+</div>
+
+
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $('#bReset').click(function () {
+
+            $('#SysStyleCode').val('');
+            $('#Feb_Int_Tri_Acc_Oth').val('');
+            $('#Source').val('');
+            $('#UOM').val('');
+            $('#ModeOfPayment').val('');
+
+
+            sessionStorage.setItem("OpenCostingDetails_SysStyleCode", '');
+            sessionStorage.setItem("OpenCostingDetails_Feb_Int_Tri_Acc_Oth", '');
+            sessionStorage.setItem("OpenCostingDetails_Source", '');
+            sessionStorage.setItem("OpenCostingDetails_UOM", '');
+            sessionStorage.setItem("OpenCostingDetails_CostingGroup_Id", '');
+            sessionStorage.setItem("OpenCostingDetails_ModeOfPayment", '');
+
+
+        });
+
+
+        var OpenCostingDetails_SysStyleCode_value = sessionStorage.getItem("OpenCostingDetails_SysStyleCode");
+        if (OpenCostingDetails_SysStyleCode_value == null) {
+            sessionStorage.setItem("OpenCostingDetails_SysStyleCode", '');
+        } else {
+            sessionStorage.setItem("OpenCostingDetails_SysStyleCode", OpenCostingDetails_SysStyleCode_value);
+        }
+
+        var OpenCostingDetails_Feb_Int_Tri_Acc_Oth_value = sessionStorage.getItem("OpenCostingDetails_Feb_Int_Tri_Acc_Oth");
+        if (OpenCostingDetails_Feb_Int_Tri_Acc_Oth_value == null) {
+            sessionStorage.setItem("OpenCostingDetails_Feb_Int_Tri_Acc_Oth", '');
+        } else {
+            sessionStorage.setItem("OpenCostingDetails_Feb_Int_Tri_Acc_Oth", OpenCostingDetails_Feb_Int_Tri_Acc_Oth_value);
+        }
+
+
+        var OpenCostingDetails_Source_value = sessionStorage.getItem("OpenCostingDetails_Source");
+        if (OpenCostingDetails_Source_value == null) {
+            sessionStorage.setItem("OpenCostingDetails_Source", '');
+        } else {
+            sessionStorage.setItem("OpenCostingDetails_Source", OpenCostingDetails_Source_value);
+        }
+
+
+        var OpenCostingDetails_UOM_value = sessionStorage.getItem("OpenCostingDetails_UOM");
+        if (OpenCostingDetails_UOM_value == null) {
+            sessionStorage.setItem("OpenCostingDetails_UOM", '');
+        } else {
+            sessionStorage.setItem("OpenCostingDetails_UOM", OpenCostingDetails_UOM_value);
+        }
+
+        var OpenCostingDetails_CostingGroup_Id_value = sessionStorage.getItem("OpenCostingDetails_CostingGroup_Id");
+        if (OpenCostingDetails_CostingGroup_Id_value == null) {
+            sessionStorage.setItem("OpenCostingDetails_CostingGroup_Id", '');
+        } else {
+            sessionStorage.setItem("OpenCostingDetails_CostingGroup_Id", OpenCostingDetails_CostingGroup_Id_value);
+        }
+
+        var OpenCostingDetails_ModeOfPayment_value = sessionStorage.getItem("OpenCostingDetails_ModeOfPayment");
+        if (OpenCostingDetails_ModeOfPayment_value == null) {
+            sessionStorage.setItem("OpenCostingDetails_ModeOfPayment", '');
+        } else {
+            sessionStorage.setItem("OpenCostingDetails_ModeOfPayment", OpenCostingDetails_ModeOfPayment_value);
+        }
+
+
+
+        $('#SysStyleCode').change(function () {
+
+            sessionStorage.setItem("OpenCostingDetails_SysStyleCode", $('#SysStyleCode').val());
+        });
+
+        $('#Feb_Int_Tri_Acc_Oth').change(function () {
+
+            sessionStorage.setItem("OpenCostingDetails_Feb_Int_Tri_Acc_Oth", $('#Feb_Int_Tri_Acc_Oth').val());
+        });
+
+        $('#Source').change(function () {
+
+            sessionStorage.setItem("OpenCostingDetails_Source", $('#Source').val());
+        });
+
+        $('#UOM').change(function () {
+
+            sessionStorage.setItem("OpenCostingDetails_UOM", $('#UOM').val());
+        });
+        $('#CostingGroup_Id').change(function () {
+           
+            sessionStorage.setItem("OpenCostingDetails_CostingGroup_Id", $('#CostingGroup_Id').text());
+        });
+
+        $('#ModeOfPayment').change(function () {
+            sessionStorage.setItem("OpenCostingDetails_ModeOfPayment", $('#ModeOfPayment').val());
+
+        });
+
+
+
+        $("#SearchInfoTable tr").each(function () {
+            $(this).hide();
+        });
+
+        $("#selectionItems").change(function () {
+
+            $("#SearchInfoTable tr").each(function () {
+                var row_index = $(this).index();
+                var ddlValue = $("#selectionItems").val();
+                if (ddlValue.toString() == row_index.toString()) {
+                    $(this).show();
+                }
+                else {
+                    $(this).hide();
+                }
+
+            });
+
+            var SysStyleCode = sessionStorage.getItem("OpenCostingDetails_SysStyleCode");
+            var Feb_Int_Tri_Acc_Oth = sessionStorage.getItem("OpenCostingDetails_Feb_Int_Tri_Acc_Oth");
+            var Source = sessionStorage.getItem("OpenCostingDetails_Source");
+            var UOM = sessionStorage.getItem("OpenCostingDetails_UOM");
+            var CostingGroup_Id = sessionStorage.getItem("OpenCostingDetails_CostingGroup_Id");
+            var ModeOfPayment = sessionStorage.getItem("OpenCostingDetails_ModeOfPayment");
+
+            var ListOfSelectedValue = 'System Style Code : ' + SysStyleCode + '||  Febrication/Consumption : ' + Feb_Int_Tri_Acc_Oth + '||  Source : ' + Source + '||  UOM : ' + UOM + '||  Costing Group : ' + CostingGroup_IdHiddenShow + '||  Mode Of Payment : ' + ModeOfPayment;
+            $('#selectionDivToShow').html(ListOfSelectedValue.toString());
+
+
+        });
+
+
+    });
+</script>
+
+<table class="table">
+    <tr>
+        <th>
+            Id
+        </th>
+        <th>
+           System Style Code
+        </th>
+        <th>
+           Febrication/<br/>Composition/<br/>Item Description
+        </th>
+        <th>
+            Source
+        </th>
+        <th>
+            Consumption
+        </th>
+        <th>
+          Extra  Consumption
+        </th>
+        <th>
+            UOM
+        </th>
+        <th>
+            Unit Prize
+        </th>
+        <th>
+            Amount
+        </th>
+        <th>
+            Total Requirement
+        </th>
+        <th>
+            Total Amount
+        </th>
+        <th>
+            Costing Group 
+        </th>
+        <th>
+            Costing Sequence
+        </th>
+        <th>
+            ModeOfPayment
+        </th>
+
+        <th>
+            Remarks
+        </th>
+       
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SysStyleCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Feb_Int_Tri_Acc_Oth)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Source)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Consumption)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ExtraConsumption)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UOM)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UnitPrize)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Amount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TotalRequirement)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TotalAmount)
+            </td>
+            <td>
+                @{
+                    List<SelectListItem> tempCostingGroupList = (List<SelectListItem>)Session["CostingGroupList"];
+
+                    HtmlString HSCostingGroupText = new HtmlString(tempCostingGroupList.Where(w => w.Value == item.CostingGroup_Id.ToString()).FirstOrDefault().Text);
+                }
+                @HSCostingGroupText
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CostingSequence)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ModeOfPayment)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Remarks)
+            </td>
+           
+            <td>
+
+                @Html.ActionLink(".", "Edit", "OpenCostingDetails", new { id = item.Id }, new { @class = "glyphicon glyphicon-edit" })
+
+                @Html.ActionLink(".", "Details", "OpenCostingDetails", new { id = item.Id }, new { @class = "button glyphicon-envelope" })
+
+                @Html.ActionLink(".", "Delete", "OpenCostingDetails", new { id = item.Id }, new { @class = "glyphicon glyphicon-remove" })
+            
+
+              
+            </td>
+        </tr>
+    }
+
+</table>
+
+
+ Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index", new
+{
+    page,
+    SysStyleCode = ViewBag.SysStyleCode,
+    Feb_Int_Tri_Acc_Oth = ViewBag.Feb_Int_Tri_Acc_Oth,
+    Source = ViewBag.Source,
+    UOM = ViewBag.UOM,
+    ModeOfPayment = ViewBag.ModeOfPayment,
+    CostingGroup_Id = ViewBag.CostingGroup_Id
+
+}))
+
+
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+
+        $("#Feb_Int_Tri_Acc_Oth").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("GetFeb_Int_Tri_Acc_Oth")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        Feb_Int_Tri_Acc_Oth: $('#Feb_Int_Tri_Acc_Oth').val()
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                        );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+
+        $("#Source").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("GetSource")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        Source: $('#Source').val()
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                        );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+
+        $("#SysStyleCode").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("GetSysStyleCode")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        SysStyleCode : $('#SysStyleCode').val()
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                        );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+
+
+        $("#UOM").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("GetUOM")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        UOM: $('#UOM').val()
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                        );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+
+        $("#ModeOfPayment").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("GetModeOfPayment")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        ModeOfPayment: $('#ModeOfPayment').val()
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                        );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+       
+
+
+    });
+</script>

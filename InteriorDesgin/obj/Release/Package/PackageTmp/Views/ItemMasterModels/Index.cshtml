@@ -1,0 +1,501 @@
+﻿@model PagedList.IPagedList<SilGlobalFashion.Models.ItemMasterModel>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Html.RenderPartial("MenuView");
+    ViewBag.Title = "List of Item";
+}
+
+<link href="~/Content/TableStyle.css" rel="stylesheet" />
+
+
+
+@using (Html.BeginForm("Index", "ItemMasterModels", FormMethod.Get))
+{
+
+    <div class="alert-primary">
+
+        <table>
+            <tr>
+                <td width="30%"> Select Parameter : @Html.DropDownList("selectionItems", (SelectList)ViewBag.selectionItems)  
+                
+                <br/>
+
+                    <input type="submit" value="Search"  class="btn-danger" /> 
+                    <input type="button" value="Reset" class="btn-success" id="bReset" /> 
+                
+                 </td>
+                <td width="70%">
+
+                    <div id="selectionDivToShow"  style="border:dotted; color:black; background-color:Highlight;">
+
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+        
+
+        <table id="SearchInfoTable" class="table" style="color:black;">
+            <tr>
+                <td>
+                    Find by Item Code : @Html.TextBox("ItemCode", ViewBag.ItemCode as string)
+                </td>
+            </tr>
+            <tr>
+                <td>
+
+                    Find by Item name: @Html.TextBox("ItemName", ViewBag.ItemName as string)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Find by Approve Process Name: @Html.TextBox("ItemType", ViewBag.ItemType as string)
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    Find by Item Description : @Html.TextBox("ItemDescription", ViewBag.ItemDescription as string)
+                </td>
+            </tr>
+            <tr>
+                <td>
+
+                    Find by UOM : @Html.TextBox("UOM", ViewBag.UOM as string)
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    Find by Using Area: @Html.TextBox("UsingArea", ViewBag.UsingArea as string)
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    Find by Product HS Code: @Html.TextBox("ProductHSCode", ViewBag.ProductHSCode as string)
+                </td>
+            </tr>
+
+
+
+          
+        </table>
+
+    </div>
+
+
+}
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+
+
+        $("#ItemName").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("GetItemName")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        ItemName: $('#ItemName').val()
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                        );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+
+
+
+        $("#ItemType").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("GetItemType")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        ItemType: $('#ItemType').val()
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                        );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+
+
+
+        $('#bReset').click(function () {
+
+            $('#ItemCode').val('');
+            $('#ItemName').val('');
+            $('#ItemType').val('');
+            $('#ItemDescription').val('');
+            $('#UOM').val('');
+            $('#UsingArea').val('');
+            $('#ProductHSCode').val('');
+
+            sessionStorage.setItem("ItemMaster_ItemCode", '');
+            sessionStorage.setItem("ItemMaster_ItemName", '');
+            sessionStorage.setItem("ItemMaster_ItemType", '');
+            sessionStorage.setItem("ItemMaster_ItemDescription", '');
+            sessionStorage.setItem("ItemMaster_UOM", '');
+            sessionStorage.setItem("ItemMaster_UsingArea", '');
+            sessionStorage.setItem("ItemMaster_ProductHSCode", '');
+
+
+
+        });
+
+
+
+
+
+
+
+
+        var ItemMaster_ItemCode_value = sessionStorage.getItem("ItemMaster_ItemCode");
+        if (ItemMaster_ItemCode_value == null)
+        {
+            sessionStorage.setItem("ItemMaster_ItemCode", '');
+        } else
+        {
+            sessionStorage.setItem("ItemMaster_ItemCode", ItemMaster_ItemCode_value);
+        }
+
+
+        var ItemMaster_ItemName_value = sessionStorage.getItem("ItemMaster_ItemName");
+        if (ItemMaster_ItemName_value == null) {
+            sessionStorage.setItem("ItemMaster_ItemName", '');
+        } else {
+            sessionStorage.setItem("ItemMaster_ItemName", ItemMaster_ItemName_value);
+        }
+
+
+
+       
+        var ItemMaster_ItemType_value = sessionStorage.getItem("ItemMaster_ItemType");
+        if (ItemMaster_ItemType_value == null) {
+            sessionStorage.setItem("ItemMaster_ItemType", '');
+        } else {
+            sessionStorage.setItem("ItemMaster_ItemType", ItemMaster_ItemType_value);
+        }
+
+
+
+
+        var ItemMaster_ItemDescription_value = sessionStorage.getItem("ItemMaster_ItemDescription");
+        if (ItemMaster_ItemDescription_value == null) {
+            sessionStorage.setItem("ItemMaster_ItemDescription", '');
+        } else {
+            sessionStorage.setItem("ItemMaster_ItemDescription", ItemMaster_ItemDescription_value);
+        }
+
+
+
+
+
+        var ItemMaster_UOM_value = sessionStorage.getItem("ItemMaster_UOM");
+        if (ItemMaster_UOM_value == null) {
+            sessionStorage.setItem("ItemMaster_UOM", '');
+        } else {
+            sessionStorage.setItem("ItemMaster_UOM", ItemMaster_UOM_value);
+        }
+
+
+
+
+
+
+        var ItemMaster_UsingArea_value = sessionStorage.getItem("ItemMaster_UsingArea");
+        if (ItemMaster_UsingArea_value == null) {
+            sessionStorage.setItem("ItemMaster_UsingArea", '');
+        } else {
+            sessionStorage.setItem("ItemMaster_UsingArea", ItemMaster_UsingArea_value);
+        }
+
+
+
+
+
+
+        var ItemMaster_ProductHSCode_value = sessionStorage.getItem("ItemMaster_ProductHSCode");
+        if (ItemMaster_ProductHSCode_value == null) {
+            sessionStorage.setItem("ItemMaster_ProductHSCode", '');
+        } else {
+            sessionStorage.setItem("ItemMaster_ProductHSCode", ItemMaster_ProductHSCode_value);
+        }
+
+
+
+
+
+
+       
+        
+        $('#ItemCode').change(function () {
+
+            sessionStorage.setItem("ItemMaster_ItemCode", $('#ItemCode').val());
+        });
+
+        $('#ItemName').change(function () {
+
+            sessionStorage.setItem("ItemMaster_ItemName", $('#ItemName').val());
+        });
+
+        $('#ItemType').change(function () {
+
+            sessionStorage.setItem("ItemMaster_ItemType", $('#ItemType').val());
+        });
+
+        $('#ItemDescription').change(function () {
+
+            sessionStorage.setItem("ItemMaster_ItemDescription", $('#ItemDescription').val());
+        });
+        $('#UOM').change(function () {
+
+            sessionStorage.setItem("ItemMaster_UOM", $('#UOM').val());
+
+        });
+
+        $('#UsingArea').change(function () {
+
+            sessionStorage.setItem("ItemMaster_UsingArea", $('#UsingArea').val());
+
+        });
+        $('#ProductHSCode').change(function () {
+
+            sessionStorage.setItem("ItemMaster_ProductHSCode", $('#ProductHSCode').val());
+
+        });
+
+
+
+
+
+        $("#SearchInfoTable tr").each(function () {       
+                $(this).hide();
+        });
+
+        $("#selectionItems").change(function () {
+
+            $("#SearchInfoTable tr").each(function () {
+                var row_index = $(this).index();
+                var ddlValue = $("#selectionItems").val();
+                if (ddlValue.toString() == row_index.toString())
+                {
+                    $(this).show();
+                }
+                else
+                {
+                    $(this).hide();
+                }
+
+            });
+
+
+            var ItemCode =  sessionStorage.getItem("ItemMaster_ItemCode");
+            var ItemName = sessionStorage.getItem("ItemMaster_ItemName");
+            var ItemType = sessionStorage.getItem("ItemMaster_ItemType");
+            var ItemDescription = sessionStorage.getItem("ItemMaster_ItemDescription");
+            var UOM = sessionStorage.getItem("ItemMaster_UOM");
+            var UsingArea = sessionStorage.getItem("ItemMaster_UsingArea");
+            var ProductHSCode = sessionStorage.getItem("ItemMaster_ProductHSCode");
+
+            var ListOfSelectedValue = 'Item Code : ' + ItemCode + '||  Item Name : ' + ItemName + '||  Item Type : ' + ItemType + '||  Item Description : ' + ItemDescription + '||  UOM : ' + UOM + '||  Using Area : ' + UsingArea + '||  ProductHSCode: ' + ProductHSCode;
+
+             $('#selectionDivToShow').html(ListOfSelectedValue.toString());
+
+
+        });
+
+
+
+      
+
+
+
+
+
+    });
+</script>
+
+
+
+
+
+
+
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+<div>
+    <table class="table-bordered" style="background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+        <tr>
+            <th>
+                <h3>Item Code</h3>
+            </th>
+            <th>
+                <h3> Item Name</h3>
+            </th>
+            <th>
+                <h3> Approve Process Name </h3>
+            </th>
+            <th>
+                <h3> Item Description </h3>
+            </th>
+            <th>
+                <h3> UOM </h3>
+            </th>
+            <th>
+                <h3>Using Area </h3>
+            </th>
+
+            <th>
+                <h3> Product HS Code</h3>
+            </th>
+            <th> <h3> Image   </h3> </th>
+
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ItemCode)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ItemName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ItemType)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ItemDescription)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UOM)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UsingArea)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProductHSCode)
+                </td>
+
+                <td>
+
+                    <img src="@Url.Action("GetThumbnailImage", "ItemMasterModels", new {Id =  item.Id })" alt="Document Image" />
+
+
+                </td>
+                <td>
+                    @Html.ActionLink("Download", "DownloadFile", new { id = item.Id })|
+
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                </td>
+            </tr>
+        }
+
+    </table>
+
+</div>
+
+<br />
+
+
+ Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page, ItemCode = ViewBag.ItemCode, ItemType = ViewBag.ItemType, ItemDescription = ViewBag.ItemDescription, UOM = ViewBag.UOM, UsingArea = ViewBag.UsingArea, ProductHSCode = ViewBag.ProductHSCode , selectionItems = ""}))
+
+
+
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        $("#ItemName").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("GetItemNameFromItemMaster")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        ItemName: $('#ItemName').val()
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                        );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+
+    });
+
+</script>
+

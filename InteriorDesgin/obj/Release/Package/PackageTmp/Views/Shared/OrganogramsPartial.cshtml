@@ -1,0 +1,61 @@
+﻿
+@{
+
+    HtmlString hostAddress = new HtmlString(Session["HostAddress"].ToString());
+
+}
+
+<script src="@hostAddress/Scripts/jsapi.js"></script>
+
+
+
+<script type="text/javascript">
+        google.load("visualization", "1", { packages: ["orgchart"] });
+        google.setOnLoadCallback(drawChart);
+        function drawChart() {
+            $.ajax({
+                type: "POST",
+                url: "/Organograms/GetOrgChartData",
+                data: '{}',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (r) {
+                    var data = new google.visualization.DataTable();
+                    data.addColumn('string', 'Entity');
+                    data.addColumn('string', 'ParentEntity');
+                    data.addColumn('string', 'ToolTip');
+                    for (var i = 0; i < r.length; i++) {
+                        var Id = r[i][0];
+                        var Role = r[i][1];
+                        var UpperRoleId = r[i][2];
+                        data.addRows([[{
+                            v: Id,
+                            f: '<div>(<span style="backgroundColor:white;color:red;">' + Role + '</span>)</div><img src = "/RolePictures/' + Role + '.jpg" />'
+                        }, UpperRoleId, Role]]);
+                    }
+
+                    var chart = new google.visualization.OrgChart($("#chart")[0]);
+                    chart.draw(data, { allowHtml: true });
+                    console.log('chart');
+                    console.log(chart);
+                    var width = chart.L.firstChild.clientWidth;
+                    document.getElementById("chart").style.width = width + "px";
+                    document.getElementById("html-content-holder").style.width = width + "px";
+                    document.getElementById("organogram-con-div").style.width = width + "px";
+                   
+                    // get maxWidth ===> chart.L.firstChild.clientWidth
+                    console.log(chart.L.firstChild.clientWidth);
+
+                },
+                failure: function (r) {
+                    alert(r);
+                },
+                error: function (r) {
+                    alert(r);
+                }
+            });
+        }
+</script>
+
+<div id="chart" style="background-color: #F0F0F1; color:blue;width:10px;"></div>
+

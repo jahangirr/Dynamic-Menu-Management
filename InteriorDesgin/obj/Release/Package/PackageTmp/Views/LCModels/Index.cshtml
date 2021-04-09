@@ -1,0 +1,462 @@
+﻿@model PagedList.IPagedList<SilGlobalFashion.Models.LCModel>
+
+@using PagedList.Mvc;
+
+@using SilGlobalFashion.Repository;
+
+
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Html.RenderPartial("MenuView");
+    ViewBag.Title = "LC Info";
+}
+
+<link href="~/Content/TableStyle.css" rel="stylesheet" />
+
+<h2>  LC Info  </h2>
+
+<div class="alert-primary" style="color:black;">
+
+
+    @using (Html.BeginForm("Index", "LCModels", FormMethod.Get))
+    {
+
+        <table>
+            <tr>
+                <td width="30%">
+                    Select Parameter : @Html.DropDownList("selectionItems", (SelectList)ViewBag.selectionItems)
+
+                    <br />
+
+                    <input type="submit" value="Search" class="btn-danger" />
+                    <input type="button" value="Reset" class="btn-success" id="bReset" />
+
+                </td>
+                <td width="70%">
+
+                    <div id="selectionDivToShow" style="border:dotted; color:black; background-color:Highlight;">
+
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+
+        <p>
+            <table id="SearchInfoTable" class="table" style="color:black;">
+                <tr>
+
+                    <td>
+                        Find by FileNo : @Html.TextBox("FileNo", ViewBag.FileNo as string)
+
+                    </td>
+
+
+                </tr>
+                <tr>
+                    <td>
+                        Find by LCType : @Html.TextBox("LCType", ViewBag.LCType as string)
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>
+                        Find by LCNo : @Html.TextBox("LCNo", ViewBag.LCNo as string)
+                    </td>
+
+                </tr>
+
+
+              
+
+
+                <tr>
+
+                    <td>
+                        @{
+
+                            GlobCreatedFunction globbCreFunc = new GlobCreatedFunction();
+
+                            DateTime? VeiwBagLCDate = null;
+
+                            try
+                            {
+                                VeiwBagLCDate = globbCreFunc.GetDate(ViewBag.VeiwBagLCDate);
+
+
+                            }
+                            catch (Exception ex)
+                            {
+
+                            }
+
+
+
+
+                        }
+                        Find by LC Date : @Html.JQueryUI().Datepicker("LCDate", VeiwBagLCDate)
+                    </td>
+
+                </tr>
+
+
+
+                <tr>
+                    <td>
+                        Find by Bank Name : @Html.TextBox("BankName", ViewBag.BankName as string)
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>
+                        Find by Branch Name : @Html.TextBox("BranchName", ViewBag.BranchName as string)
+
+                    </td>
+
+                </tr>
+                <tr>
+
+                    <td>
+                        Find by LC Value : @Html.TextBox("LCValue", ViewBag.LCValue as string)
+
+                    </td>
+
+
+                </tr>
+
+
+
+                <tr>
+                    <td>
+                        Find by Is Close : @Html.TextBox("IsClose", ViewBag.IsClose as string)
+
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>
+                        <input type="submit" value="Search" /> <button type="button"> @Html.ActionLink("Refresh", "Index")  </button>
+                    </td>
+
+                </tr>
+
+            </table>
+
+        </p>
+                            }
+
+</div>
+
+
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+
+
+        $('#bReset').click(function () {
+
+            $('#FileNo').val('');
+            $('#LCType').val('');
+            $('#LCNo').val('');
+            $('#LCDate').val('');
+            $('#BankName').val('');
+            $('#BranchName').val('');
+            $('#LCValue').val('');
+            $('#IsClose').val('false');
+           
+
+
+
+            sessionStorage.setItem("LCModel_FileNo", '');
+            sessionStorage.setItem("LCModel_LCType", '');
+            sessionStorage.setItem("LCModel_LCNo", '');
+            sessionStorage.setItem("LCModel_LCDate", '');
+            sessionStorage.setItem("LCModel_BankName", '');
+            sessionStorage.setItem("LCModel_BranchName", '');
+            sessionStorage.setItem("LCModel_LCValue", '');
+            sessionStorage.setItem("LCModel_IsClose", 'false');
+           
+
+
+
+
+
+        });
+
+
+        var LCModel_FileNo_value = sessionStorage.getItem("LCModel_FileNo");
+        if (LCModel_FileNo_value == null) {
+            sessionStorage.setItem("LCModel_FileNo", '');
+        } else {
+            sessionStorage.setItem("LCModel_FileNo", LCModel_FileNo_value);
+        }
+
+
+
+        var LCModel_LCNo_value = sessionStorage.getItem("LCModel_LCNo");
+        if (LCModel_LCNo_value == null)
+        {
+            sessionStorage.setItem("LCModel_LCNo", '');
+        } else
+        {
+            sessionStorage.setItem("LCModel_LCNo", LCModel_LCNo_value);
+        }
+
+
+        var LCModel_LCType_value = sessionStorage.getItem("LCModel_LCType");
+        if (LCModel_LCType_value == null) {
+            sessionStorage.setItem("LCModel_LCType", '');
+        } else {
+            sessionStorage.setItem("LCModel_LCType", LCModel_LCType_value);
+        }
+
+
+
+
+        
+
+
+
+        var LCModel_LCDate_value = sessionStorage.getItem("LCModel_LCDate");
+        if (LCModel_LCDate_value == null) {
+            sessionStorage.setItem("LCModel_LCDate", '');
+        } else {
+            sessionStorage.setItem("LCModel_LCDate", LCModel_LCDate_value);
+        }
+
+
+
+
+
+        var LCModel_BankName_value = sessionStorage.getItem("LCModel_BankName");
+        if (LCModel_BankName_value == null) {
+            sessionStorage.setItem("LCModel_BankName", '');
+        } else {
+            sessionStorage.setItem("LCModel_BankName", LCModel_BankName_value);
+        }
+
+        var LCModel_BranchName_value = sessionStorage.getItem("LCModel_BranchName");
+        if (LCModel_BranchName_value == null) {
+            sessionStorage.setItem("LCModel_BranchName", '');
+        } else {
+            sessionStorage.setItem("LCModel_BranchName", LCModel_BranchName_value);
+        }
+
+
+        var LCModel_LCValue_value = sessionStorage.getItem("LCModel_LCValue");
+        if (LCModel_LCValue_value == null) {
+            sessionStorage.setItem("LCModel_LCValue", '');
+        } else {
+            sessionStorage.setItem("LCModel_LCValue", LCModel_LCValue_value);
+        }
+
+
+        var LCModel_IsClose_value = sessionStorage.getItem("LCModel_IsClose");
+        if (LCModel_IsClose_value == null) {
+            sessionStorage.setItem("LCModel_IsClose", 'false');
+        } else {
+            sessionStorage.setItem("LCModel_IsClose", LCModel_IsClose_value);
+        }
+
+
+        $('#FileNo').change(function () {
+
+            sessionStorage.setItem("LCModel_FileNo", $('#FileNo').val());
+        });
+
+        $('#LCNo').change(function () {
+
+            sessionStorage.setItem("LCModel_LCNo", $('#LCNo').val());
+        });
+
+        $('#LCType').change(function () {
+
+            sessionStorage.setItem("LCModel_LCType", $('#LCType').val());
+        });
+
+      
+
+        $('#LCDate').change(function () {
+
+            sessionStorage.setItem("LCModel_LCDate", $('#LCDate').val());
+        });
+        $('#BankName').change(function () {
+
+            sessionStorage.setItem("LCModel_BankName", $('#BankName').val());
+
+        });
+
+
+
+
+        $('#BranchName').change(function () {
+
+            sessionStorage.setItem("LCModel_BranchName", $('#BranchName').val());
+
+        });
+
+        $('#LCValue').change(function () {
+
+            sessionStorage.setItem("LCModel_LCValue", $('#LCValue').val());
+
+        });
+
+        $('#IsClose').change(function () {
+
+            sessionStorage.setItem("LCModel_IsClose", $('#IsClose').val());
+
+        });
+
+      
+
+
+        $("#SearchInfoTable tr").each(function () {
+                $(this).hide();
+        });
+
+        $("#selectionItems").change(function () {
+
+            $("#SearchInfoTable tr").each(function () {
+                var row_index = $(this).index();
+                var ddlValue = $("#selectionItems").val();
+                if (ddlValue.toString() == row_index.toString())
+                {
+                    $(this).show();
+                }
+                else
+                {
+                    $(this).hide();
+                }
+
+            });
+
+
+            var FileNo = sessionStorage.getItem("LCModel_FileNo");
+            var LCNo = sessionStorage.getItem("LCModel_LCNo");
+            var LCType = sessionStorage.getItem("LCModel_LCType");
+            
+            var LCDate = sessionStorage.getItem("LCModel_LCDate");
+            var BankName = sessionStorage.getItem("LCModel_BankName");
+            var BranchName = sessionStorage.getItem("LCModel_BranchName");
+            var LCValue = sessionStorage.getItem("LCModel_LCValue");
+            var IsClose = sessionStorage.getItem("LCModel_IsClose");
+            
+
+
+            var ListOfSelectedValue = 'Item LC No : ' + LCNo + '||  LC Type : ' + LCType + '||  File  : ' + FileNo + '||  LCDate  : ' + LCDate + '||  BankName : ' + BankName + '||  BranchName : ' + BranchName
+            + '||LC Value : ' + LCValue + '||  Is Close : ' + IsClose ;
+
+             $('#selectionDivToShow').html(ListOfSelectedValue.toString());
+
+
+        });
+
+
+
+
+
+    });
+</script>
+
+
+
+
+
+
+
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table-bordered" style="background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+    <tr>
+        <th>
+           FileNo
+        </th>
+        <th>
+          LCType
+        </th>
+      
+        <th>
+           LCNo
+        </th>
+        <th>
+           LCDate
+        </th>
+        <th>
+           BankName
+        </th>
+        <th>
+           BranchName
+        </th>
+        <th>
+           LCValue
+        </th>
+        
+        <th>
+           IsClose
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.FileNo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LCType)
+        </td>
+      
+        <td>
+            @Html.DisplayFor(modelItem => item.LCNo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LCDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BankName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BranchName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LCValue)
+        </td>
+       
+        <td>
+            @Html.DisplayFor(modelItem => item.IsClose)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("M.Details", "Details", new { id=item.Id }) |
+            <a href="@Url.Action("MultiDetails", "LCModelDetails", new { id = item.Id })" >  D.Details</a> |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>
+
+<br/>
+
+ Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index", new
+{
+    page,
+
+    FileNo = ViewBag.FileNo,
+    LCType = ViewBag.LCType,
+    LCNo = ViewBag.LCNo,
+    LCDate = ViewBag.LCDate,
+    BankName = ViewBag.BankName,
+    BranchName = ViewBag.BranchName,
+    LCValue = ViewBag.LCValue,
+    IsClose = ViewBag.IsClose
+
+}))

@@ -1,0 +1,1136 @@
+﻿@model PagedList.IPagedList<SilGlobalFashion.Models.SupplierMasterModel>
+
+@using PagedList.Mvc;
+@using SilGlobalFashion.Repository;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Html.RenderPartial("MenuView");
+    ViewBag.Title = "Supplier Master Info";
+}
+
+@*<div style="width: 100%;">
+    <img src="~/Logo/butterflyFour.gif" id="bird" style="position:relative;" />
+</div>*@
+
+    <h2>Supplier Info </h2>
+
+    <link href="~/Content/TableStyle.css" rel="stylesheet" />
+
+    <div class="alert-primary">
+
+        @using (Html.BeginForm("Index", "SupplierMasterModels", FormMethod.Get))
+        {
+
+
+        <table>
+            <tr>
+                <td width="30%">
+                    Select Parameter : @Html.DropDownList("selectionItems", (SelectList)ViewBag.selectionItems)
+
+                    <br />
+
+                    <input type="submit" value="Search" class="btn-danger" />
+                    <input type="button" value="Reset" class="btn-success" id="bReset" />
+
+                </td>
+                <td width="70%">
+
+                    <div id="selectionDivToShow" style="border:dotted; color:black; background-color:Highlight;">
+
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+        <p>
+
+
+
+
+
+            <table id="SearchInfoTable" class="table" style="color:black;">
+                <tr>
+                    <td>
+
+                        Supplier Code : @Html.TextBox("SupplierCode", ViewBag.SupplierCode as string)
+
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+
+                        Supplier Name : @Html.TextBox("SupplierName", ViewBag.SupplierName as string)
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+
+                        Country Or Origin : @Html.TextBox("CountryOfOrigin", ViewBag.CountryOfOrigin as string)
+
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+
+                        Country Of Manufacturer : @Html.TextBox("CountryOfManufacturer", ViewBag.CountryOfManufacturer as string)
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+
+                        Lead Day : @Html.TextBox("lcLeadDays", ViewBag.lcLeadDays as string)
+
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+
+                        Mode of Transport : @Html.TextBox("ModeOfTransport", ViewBag.ModeOfTransport as string)
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+
+                        Currency Unit : @Html.TextBox("CurrencyUnit", ViewBag.CurrencyUnit as string)
+
+                    </td>
+                </tr>
+
+
+
+
+                <tr>
+                    <td>
+
+                        MOMA   Street Address : @Html.TextBox("MOMA_StreetAddress", ViewBag.MOMA_StreetAddress as string)
+
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+
+                        LOMA     Name : @Html.TextBox("LOMA_Name", ViewBag.LOMA_Name as string)
+                    </td>
+
+                </tr>
+
+
+                <tr>
+                    <td>
+
+                        MOMA   City : @Html.TextBox("MOMA_City", ViewBag.MOMA_City as string)
+
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+
+                        LOMA   Email : @Html.TextBox("LOMA_Email", ViewBag.LOMA_Email as string)
+                    </td>
+
+                </tr>
+
+
+                <tr>
+                    <td>
+
+                        MOMA  State : @Html.TextBox("MOMA_State", ViewBag.MOMA_State as string)
+
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+
+                        LOMA    Street Address : @Html.TextBox("LOMA_StreetAddress", ViewBag.LOMA_StreetAddress as string)
+                    </td>
+
+                </tr>
+
+
+
+                <tr>
+                    <td>
+
+                        MOMA   ZipCode : @Html.TextBox("MOMA_ZipCode", ViewBag.MOMA_ZipCode as string)
+
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+
+                        LOMA   City : @Html.TextBox("LOMA_City", ViewBag.LOMA_City as string)
+                    </td>
+
+                </tr>
+
+
+                <tr>
+                    <td>
+
+                        MOMA    Country : @Html.TextBox("MOMA_Country", ViewBag.MOMA_Country as string)
+
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        LOMA  Zip Code : @Html.TextBox("LOMA_ZipCode", ViewBag.LOMA_ZipCode as string)
+
+
+                    </td>
+
+                </tr>
+
+                <tr>
+                    <td>
+
+                        MOMA   Supplier Type : @Html.TextBox("MOMA_Supplier_Type", ViewBag.MOMA_Supplier_Type as string)
+
+
+
+
+
+
+
+
+
+
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+
+                        MOMA   supplier working procedure details : @Html.TextBox("MOMA_Sup_Work_Proc_Details", ViewBag.MOMA_Sup_Work_Proc_Details as string)
+
+
+
+                    </td>
+
+                </tr>
+
+                <tr>
+                    <td>
+
+                        LOMA  State : @Html.TextBox("LOMA_State", ViewBag.LOMA_State as string)
+
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+
+                        LOMA Country : @Html.TextBox("LOMA_Country", ViewBag.LOMA_Country as string)
+
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+
+                        Contract Name : @Html.TextBox("CP_Name", ViewBag.CP_Name as string)
+                    </td>
+
+                </tr>
+
+                <tr>
+                    <td>
+
+                        Contract Designation : @Html.TextBox("CP_Designation", ViewBag.CP_Designation as string)
+                    </td>
+
+                </tr>
+
+                <tr>
+                    <td>
+
+                        Contract Email Address : @Html.TextBox("CP_EmailAddress", ViewBag.CP_EmailAddress as string)
+                    </td>
+
+                </tr>
+
+                <tr>
+                    <td>
+
+                        ContactNo : @Html.TextBox("CP_ContactNo", ViewBag.CP_ContactNo as string)
+                    </td>
+
+                </tr>
+
+                <tr>
+                    <td>
+
+                        Reference : @Html.TextBox("CP_Reference", ViewBag.CP_Reference as string)
+                    </td>
+
+                </tr>
+
+
+
+            </table>
+
+
+
+        </p>
+        }
+
+    </div>
+
+    <script type="text/javascript">
+
+       
+
+        $(document).ready(function () {
+
+           // animateImage();
+            
+
+
+
+        $('#bReset').click(function () {
+
+
+             $('#SupplierCode').val();
+             $('#SupplierName').val();
+             $('#CountryOfOrigin').val();
+             $('#CountryOfManufacturer').val();
+             $('#lcLeadDays').val();
+             $('#ModeOfTransport').val();
+             $('#CurrencyUnit').val();
+             $('#SupplierComission').val();
+
+             $('#MOMA_StreetAddress').val();
+             $('#MOMA_City').val();
+             $('#MOMA_State').val();
+             $('#MOMA_ZipCode').val();
+             $('#MOMA_Country').val();
+             $('#MOMA_Supplier_Type').val();
+             $('#LOMA_Name').val();
+             $('#LOMA_Email').val();
+             $('#LOMA_StreetAddress').val();
+
+             $('#LOMA_City').val();
+             $('#LOMA_State').val();
+             $('#LOMA_ZipCode').val();
+             $('#LOMA_Country').val();
+             $('#CP_Name').val();
+             $('#CP_Designation').val();
+             $('#CP_EmailAddress').val();
+             $('#CP_ContactNo').val();
+             $('#CP_Reference').val();
+
+
+            sessionStorage.setItem("SupplierMaster_SupplierCode",'');
+            sessionStorage.setItem("SupplierMaster_SupplierName",'');
+            sessionStorage.setItem("SupplierMaster_CountryOfOrigin",'');
+            sessionStorage.setItem("SupplierMaster_CountryOfManufacturer",'');
+            sessionStorage.setItem("SupplierMaster_lcLeadDays",'');
+            sessionStorage.setItem("SupplierMaster_ModeOfTransport",'');
+            sessionStorage.setItem("SupplierMaster_CurrencyUnit",'');
+            sessionStorage.setItem("SupplierMaster_SupplierComission",'');
+            sessionStorage.setItem("SupplierMaster_MOMA_StreetAddress",'');
+            sessionStorage.setItem("SupplierMaster_MOMA_City",'');
+            sessionStorage.setItem("SupplierMaster_MOMA_State",'');
+            sessionStorage.setItem("SupplierMaster_MOMA_ZipCode",'');
+            sessionStorage.setItem("SupplierMaster_MOMA_Country",'');
+            sessionStorage.setItem("SupplierMaster_MOMA_Supplier_Type",'');
+            sessionStorage.setItem("SupplierMaster_LOMA_Name",'');
+            sessionStorage.setItem("SupplierMaster_LOMA_Email",'');
+            sessionStorage.setItem("SupplierMaster_LOMA_StreetAddress",'');
+            sessionStorage.setItem("SupplierMaster_LOMA_City",'');
+            sessionStorage.setItem("SupplierMaster_LOMA_State",'');
+            sessionStorage.setItem("SupplierMaster_LOMA_ZipCode",'');
+            sessionStorage.setItem("SupplierMaster_LOMA_Country",'');
+            sessionStorage.setItem("SupplierMaster_CP_Name",'');
+            sessionStorage.setItem("SupplierMaster_CP_Designation",'');
+            sessionStorage.setItem("SupplierMaster_CP_EmailAddress",'');
+            sessionStorage.setItem("SupplierMaster_CP_ContactNo",'');
+            sessionStorage.setItem("SupplierMaster_CP_Reference",'');
+
+
+
+
+        });
+
+
+
+
+        var SupplierMaster_SupplierCode_value = sessionStorage.getItem("SupplierMaster_SupplierCode");
+        if (SupplierMaster_SupplierCode_value == null)
+        {
+            sessionStorage.setItem("SupplierMaster_SupplierCode", '');
+        } else
+        {
+            sessionStorage.setItem("SupplierMaster_SupplierCode", SupplierMaster_SupplierCode_value);
+        }
+
+        var SupplierMaster_SupplierName_value = sessionStorage.getItem("SupplierMaster_SupplierName");
+        if (SupplierMaster_SupplierName_value == null) {
+            sessionStorage.setItem("SupplierMaster_SupplierName", '');
+        } else {
+            sessionStorage.setItem("SupplierMaster_SupplierName", SupplierMaster_SupplierName_value);
+        }
+
+
+        var SupplierMaster_CountryOfOrigin_value = sessionStorage.getItem("SupplierMaster_CountryOfOrigin");
+        if (SupplierMaster_CountryOfOrigin_value == null) {
+            sessionStorage.setItem("SupplierMaster_CountryOfOrigin", '');
+        } else {
+            sessionStorage.setItem("SupplierMaster_CountryOfOrigin", SupplierMaster_CountryOfOrigin_value);
+        }
+
+
+        var SupplierMaster_CountryOfManufacturer_value = sessionStorage.getItem("SupplierMaster_CountryOfManufacturer");
+        if (SupplierMaster_CountryOfManufacturer_value == null) {
+            sessionStorage.setItem("SupplierMaster_CountryOfManufacturer", '');
+        } else {
+            sessionStorage.setItem("SupplierMaster_CountryOfManufacturer", SupplierMaster_CountryOfManufacturer_value);
+        }
+
+        var SupplierMaster_lcLeadDays_value = sessionStorage.getItem("SupplierMaster_lcLeadDays");
+        if (SupplierMaster_lcLeadDays_value == null) {
+            sessionStorage.setItem("SupplierMaster_lcLeadDays", '');
+        } else {
+            sessionStorage.setItem("SupplierMaster_lcLeadDays", SupplierMaster_lcLeadDays_value);
+        }
+
+        var SupplierMaster_ModeOfTransport_value = sessionStorage.getItem("SupplierMaster_ModeOfTransport");
+        if (SupplierMaster_ModeOfTransport_value == null) {
+            sessionStorage.setItem("SupplierMaster_ModeOfTransport", '');
+        } else {
+            sessionStorage.setItem("SupplierMaster_ModeOfTransport", SupplierMaster_ModeOfTransport_value);
+        }
+
+        var SupplierMaster_CurrencyUnit_value = sessionStorage.getItem("SupplierMaster_CurrencyUnit");
+        if (SupplierMaster_CurrencyUnit_value == null) {
+            sessionStorage.setItem("SupplierMaster_CurrencyUnit", '');
+        } else {
+            sessionStorage.setItem("SupplierMaster_CurrencyUnit", SupplierMaster_CurrencyUnit_value);
+        }
+
+        var SupplierMaster_MOMA_StreetAddress_value = sessionStorage.getItem("SupplierMaster_MOMA_StreetAddress");
+        if (SupplierMaster_MOMA_StreetAddress_value == null) {
+            sessionStorage.setItem("SupplierMaster_MOMA_StreetAddress", '');
+        } else {
+            sessionStorage.setItem("SupplierMaster_MOMA_StreetAddress", SupplierMaster_MOMA_StreetAddress_value);
+        }
+
+        var SupplierMaster_MOMA_City_value = sessionStorage.getItem("SupplierMaster_MOMA_City");
+        if (SupplierMaster_MOMA_City_value == null) {
+            sessionStorage.setItem("SupplierMaster_MOMA_City", '');
+        } else {
+            sessionStorage.setItem("SupplierMaster_MOMA_City", SupplierMaster_MOMA_City_value);
+        }
+
+        var SupplierMaster_MOMA_State_value = sessionStorage.getItem("SupplierMaster_MOMA_State");
+        if (SupplierMaster_MOMA_State_value == null) {
+            sessionStorage.setItem("SupplierMaster_MOMA_State", '');
+        } else {
+            sessionStorage.setItem("SupplierMaster_MOMA_State", SupplierMaster_MOMA_State_value);
+        }
+
+        var SupplierMaster_MOMA_ZipCode_value = sessionStorage.getItem("SupplierMaster_MOMA_ZipCode");
+        if (SupplierMaster_MOMA_ZipCode_value == null) {
+            sessionStorage.setItem("SupplierMaster_MOMA_ZipCode", '');
+        } else {
+            sessionStorage.setItem("SupplierMaster_MOMA_ZipCode", SupplierMaster_MOMA_ZipCode_value);
+        }
+
+        var SupplierMaster_MOMA_Country_value = sessionStorage.getItem("SupplierMaster_MOMA_Country");
+        if (SupplierMaster_MOMA_Country_value == null) {
+            sessionStorage.setItem("SupplierMaster_MOMA_Country", '');
+        } else {
+            sessionStorage.setItem("SupplierMaster_MOMA_Country", SupplierMaster_MOMA_Country_value);
+        }
+
+        var SupplierMaster_MOMA_Supplier_Type_value = sessionStorage.getItem("SupplierMaster_MOMA_Supplier_Type");
+        if (SupplierMaster_MOMA_Supplier_Type_value == null) {
+            sessionStorage.setItem("SupplierMaster_MOMA_Supplier_Type", '');
+        } else {
+            sessionStorage.setItem("SupplierMaster_MOMA_Supplier_Type", SupplierMaster_MOMA_Supplier_Type_value);
+        }
+
+        var SupplierMaster_MOMA_Sup_Work_Proc_Details_value = sessionStorage.getItem("SupplierMaster_MOMA_Sup_Work_Proc_Details");
+        if (SupplierMaster_MOMA_Sup_Work_Proc_Details_value == null) {
+            sessionStorage.setItem("SupplierMaster_MOMA_Sup_Work_Proc_Details", '');
+        } else {
+            sessionStorage.setItem("SupplierMaster_MOMA_Sup_Work_Proc_Details", SupplierMaster_MOMA_Sup_Work_Proc_Details_value);
+        }
+
+        var SupplierMaster_LOMA_Name_value = sessionStorage.getItem("SupplierMaster_LOMA_Name");
+        if (SupplierMaster_LOMA_Name_value == null) {
+            sessionStorage.setItem("SupplierMaster_LOMA_Name", '');
+        } else {
+            sessionStorage.setItem("SupplierMaster_LOMA_Name", SupplierMaster_LOMA_Name_value);
+        }
+
+        var SupplierMaster_LOMA_Email_value = sessionStorage.getItem("SupplierMaster_LOMA_Email");
+        if (SupplierMaster_LOMA_Email_value == null) {
+            sessionStorage.setItem("SupplierMaster_LOMA_Email", '');
+        } else {
+            sessionStorage.setItem("SupplierMaster_LOMA_Email", SupplierMaster_LOMA_Email_value);
+        }
+
+        var SupplierMaster_LOMA_StreetAddress_value = sessionStorage.getItem("SupplierMaster_LOMA_StreetAddress");
+        if (SupplierMaster_LOMA_StreetAddress_value == null) {
+            sessionStorage.setItem("SupplierMaster_LOMA_StreetAddress", '');
+        } else {
+            sessionStorage.setItem("SupplierMaster_LOMA_StreetAddress", SupplierMaster_LOMA_StreetAddress_value);
+        }
+
+        var SupplierMaster_LOMA_City_value = sessionStorage.getItem("SupplierMaster_LOMA_City");
+        if (SupplierMaster_LOMA_City_value == null) {
+            sessionStorage.setItem("SupplierMaster_LOMA_City", '');
+        } else {
+            sessionStorage.setItem("SupplierMaster_LOMA_City", SupplierMaster_LOMA_City_value);
+        }
+
+        var SupplierMaster_LOMA_State_value = sessionStorage.getItem("SupplierMaster_LOMA_State");
+        if (SupplierMaster_LOMA_State_value == null) {
+            sessionStorage.setItem("SupplierMaster_LOMA_State", '');
+        } else {
+            sessionStorage.setItem("SupplierMaster_LOMA_State", SupplierMaster_LOMA_State_value);
+        }
+
+        var SupplierMaster_LOMA_ZipCode_value = sessionStorage.getItem("SupplierMaster_LOMA_ZipCode");
+        if (SupplierMaster_LOMA_ZipCode_value == null) {
+            sessionStorage.setItem("SupplierMaster_LOMA_ZipCode", '');
+        } else {
+            sessionStorage.setItem("SupplierMaster_LOMA_ZipCode", SupplierMaster_LOMA_ZipCode_value);
+        }
+
+        var SupplierMaster_LOMA_Country_value = sessionStorage.getItem("SupplierMaster_LOMA_Country");
+        if (SupplierMaster_LOMA_Country_value == null) {
+            sessionStorage.setItem("SupplierMaster_LOMA_Country", '');
+        } else {
+            sessionStorage.setItem("SupplierMaster_LOMA_Country", SupplierMaster_LOMA_Country_value);
+        }
+
+        var SupplierMaster_CP_Name_value = sessionStorage.getItem("SupplierMaster_CP_Name");
+        if (SupplierMaster_CP_Name_value == null) {
+            sessionStorage.setItem("SupplierMaster_CP_Name", '');
+        } else {
+            sessionStorage.setItem("SupplierMaster_CP_Name", SupplierMaster_CP_Name_value);
+        }
+
+        var SupplierMaster_CP_Designation_value = sessionStorage.getItem("SupplierMaster_CP_Designation");
+        if (SupplierMaster_CP_Designation_value == null) {
+            sessionStorage.setItem("SupplierMaster_CP_Designation", '');
+        } else {
+            sessionStorage.setItem("SupplierMaster_CP_Designation", SupplierMaster_CP_Designation_value);
+        }
+
+        var SupplierMaster_CP_EmailAddress_value = sessionStorage.getItem("SupplierMaster_CP_EmailAddress");
+        if (SupplierMaster_CP_EmailAddress_value == null) {
+            sessionStorage.setItem("SupplierMaster_CP_EmailAddress", '');
+        } else {
+            sessionStorage.setItem("SupplierMaster_CP_EmailAddress", SupplierMaster_CP_EmailAddress_value);
+        }
+
+        var SupplierMaster_CP_ContactNo_value = sessionStorage.getItem("SupplierMaster_CP_ContactNo");
+        if (SupplierMaster_CP_ContactNo_value == null) {
+            sessionStorage.setItem("SupplierMaster_CP_ContactNo", '');
+        } else {
+            sessionStorage.setItem("SupplierMaster_CP_ContactNo", SupplierMaster_CP_ContactNo_value);
+        }
+
+        var SupplierMaster_CP_Reference_value = sessionStorage.getItem("SupplierMaster_CP_Reference");
+        if (SupplierMaster_CP_Reference_value == null) {
+            sessionStorage.setItem("SupplierMaster_CP_Reference", '');
+        } else {
+            sessionStorage.setItem("SupplierMaster_CP_Reference", SupplierMaster_CP_Reference_value);
+        }
+
+
+
+
+
+        $('#SupplierCode').change(function () {
+
+            sessionStorage.setItem("SupplierMaster_SupplierCode", $('#SupplierCode').val());
+        });
+
+        $('#SupplierName').change(function () {
+
+            sessionStorage.setItem("SupplierMaster_SupplierName", $('#SupplierName').val());
+        });
+
+        $('#CountryOfOrigin').change(function () {
+
+            sessionStorage.setItem("SupplierMaster_CountryOfOrigin", $('#CountryOfOrigin').val());
+        });
+
+        $('#CountryOfManufacturer').change(function () {
+
+            sessionStorage.setItem("SupplierMaster_CountryOfManufacturer", $('#CountryOfManufacturer').val());
+        });
+
+        $('#lcLeadDays').change(function () {
+
+            sessionStorage.setItem("SupplierMaster_lcLeadDays", $('#lcLeadDays').val());
+        });
+
+        $('#ModeOfTransport').change(function () {
+
+            sessionStorage.setItem("SupplierMaster_ModeOfTransport", $('#ModeOfTransport').val());
+        });
+
+        $('#CurrencyUnit').change(function () {
+
+            sessionStorage.setItem("SupplierMaster_CurrencyUnit", $('#CurrencyUnit').val());
+        });
+
+        $('#MOMA_StreetAddress').change(function () {
+
+            sessionStorage.setItem("SupplierMaster_MOMA_StreetAddress", $('#MOMA_StreetAddress').val());
+        });
+
+        $('#MOMA_City').change(function () {
+
+            sessionStorage.setItem("SupplierMaster_MOMA_City", $('#MOMA_City').val());
+        });
+
+        $('#MOMA_State').change(function () {
+
+            sessionStorage.setItem("SupplierMaster_MOMA_State", $('#MOMA_State').val());
+        });
+
+        $('#MOMA_ZipCode').change(function () {
+
+            sessionStorage.setItem("SupplierMaster_MOMA_ZipCode", $('#MOMA_ZipCode').val());
+        });
+
+        $('#MOMA_Country').change(function () {
+
+            sessionStorage.setItem("SupplierMaster_MOMA_Country", $('#MOMA_Country').val());
+        });
+
+        $('#MOMA_Supplier_Type').change(function () {
+
+            sessionStorage.setItem("SupplierMaster_MOMA_Supplier_Type", $('#MOMA_Supplier_Type').val());
+        });
+
+        $('#MOMA_Sup_Work_Proc_Details').change(function () {
+
+            sessionStorage.setItem("SupplierMaster_MOMA_Sup_Work_Proc_Details", $('#MOMA_Sup_Work_Proc_Details').val());
+        });
+
+        $('#LOMA_Name').change(function () {
+
+            sessionStorage.setItem("SupplierMaster_LOMA_Name", $('#LOMA_Name').val());
+        });
+
+        $('#LOMA_Email').change(function () {
+
+            sessionStorage.setItem("SupplierMaster_LOMA_Email", $('#LOMA_Email').val());
+        });
+
+        $('#LOMA_StreetAddress').change(function () {
+
+            sessionStorage.setItem("SupplierMaster_LOMA_StreetAddress", $('#LOMA_StreetAddress').val());
+        });
+
+        $('#LOMA_City').change(function () {
+
+            sessionStorage.setItem("SupplierMaster_LOMA_City", $('#LOMA_City').val());
+        });
+
+        $('#LOMA_State').change(function () {
+
+            sessionStorage.setItem("SupplierMaster_LOMA_State", $('#LOMA_State').val());
+        });
+
+        $('#LOMA_ZipCode').change(function () {
+
+            sessionStorage.setItem("SupplierMaster_LOMA_ZipCode", $('#LOMA_ZipCode').val());
+        });
+
+
+        $('#LOMA_Country').change(function () {
+
+            sessionStorage.setItem("SupplierMaster_LOMA_Country", $('#LOMA_Country').val());
+        });
+
+        $('#CP_Name').change(function () {
+
+            sessionStorage.setItem("SupplierMaster_CP_Name", $('#CP_Name').val());
+        });
+
+        $('#CP_Designation').change(function () {
+
+            sessionStorage.setItem("SupplierMaster_CP_Designation", $('#CP_Designation').val());
+        });
+
+        $('#CP_EmailAddress').change(function () {
+
+            sessionStorage.setItem("SupplierMaster_CP_EmailAddress", $('#CP_EmailAddress').val());
+        });
+
+
+        $('#CP_ContactNo').change(function () {
+
+            sessionStorage.setItem("SupplierMaster_CP_ContactNo", $('#CP_ContactNo').val());
+        });
+
+        $('#CP_Reference').change(function () {
+
+            sessionStorage.setItem("SupplierMaster_CP_Reference", $('#CP_Reference').val());
+        });
+
+
+
+
+
+        $("#SearchInfoTable tr").each(function () {
+                $(this).hide();
+        });
+
+        $("#selectionItems").change(function () {
+
+            $("#SearchInfoTable tr").each(function () {
+                var row_index = $(this).index();
+                var ddlValue = $("#selectionItems").val();
+                if (ddlValue.toString() == row_index.toString())
+                {
+                    $(this).show();
+                }
+                else
+                {
+                    $(this).hide();
+                }
+
+            });
+
+
+          var SupplierCode =    sessionStorage.getItem("SupplierMaster_SupplierCode");
+          var SupplierName =    sessionStorage.getItem("SupplierMaster_SupplierName");
+          var CountryOfOrigin =  sessionStorage.getItem("SupplierMaster_CountryOfOrigin");
+          var CountryOfManufacturer =  sessionStorage.getItem("SupplierMaster_CountryOfManufacturer");
+          var lcLeadDays =  sessionStorage.getItem("SupplierMaster_lcLeadDays");
+          var ModeOfTransport =  sessionStorage.getItem("SupplierMaster_ModeOfTransport");
+          var CurrencyUnit =  sessionStorage.getItem("SupplierMaster_CurrencyUnit");
+          var SupplierComission =  sessionStorage.getItem("SupplierMaster_SupplierComission");
+          var MOMA_StreetAddress =   sessionStorage.getItem("SupplierMaster_MOMA_StreetAddress");
+          var MOMA_City = sessionStorage.getItem("SupplierMaster_MOMA_City");
+          var MOMA_State =  sessionStorage.getItem("SupplierMaster_MOMA_State");
+          var MOMA_ZipCode = sessionStorage.getItem("SupplierMaster_MOMA_ZipCode");
+          var MOMA_Country =  sessionStorage.getItem("SupplierMaster_MOMA_Country");
+          var MOMA_Supplier_Type =  sessionStorage.getItem("SupplierMaster_MOMA_Supplier_Type");
+          var LOMA_Name =  sessionStorage.getItem("SupplierMaster_LOMA_Name");
+          var LOMA_Email =   sessionStorage.getItem("SupplierMaster_LOMA_Email");
+          var LOMA_StreetAddress =  sessionStorage.getItem("SupplierMaster_LOMA_StreetAddress");
+          var LOMA_City =  sessionStorage.getItem("SupplierMaster_LOMA_City");
+          var LOMA_State =  sessionStorage.getItem("SupplierMaster_LOMA_State");
+          var LOMA_ZipCode =  sessionStorage.getItem("SupplierMaster_LOMA_ZipCode");
+          var LOMA_Country = sessionStorage.getItem("SupplierMaster_LOMA_Country");
+          var CP_Name =  sessionStorage.getItem("SupplierMaster_CP_Name");
+          var CP_Designation =  sessionStorage.getItem("SupplierMaster_CP_Designation");
+          var CP_EmailAddress =  sessionStorage.getItem("SupplierMaster_CP_EmailAddress");
+          var CP_ContactNo =  sessionStorage.getItem("SupplierMaster_CP_ContactNo");
+          var CP_Reference =  sessionStorage.getItem("SupplierMaster_CP_Reference");
+
+
+
+
+
+          var ListOfSelectedValue = 'Suppler Code : ' + SupplierCode + '||  Suppler Name : ' + SupplierName + '||  Country Of Origin : ' + CountryOfOrigin + '||  Country Of Manufacturer : ' + CountryOfManufacturer + '||  lcLeadDays : ' + lcLeadDays + '||  ModeOfTransport : ' + ModeOfTransport +
+                                    'Currency Unit : ' + CurrencyUnit + '||  MOMA Street Address : ' + MOMA_StreetAddress + '||  MOMA City : ' + MOMA_City + '||  MOMA State : ' + MOMA_State + '||  MOMA Zip Code : ' + MOMA_ZipCode + '||  MOMA Country : ' + MOMA_Country +
+                                    'MOMA Supplier Type : ' + MOMA_Supplier_Type + '||  LOMA Name : ' + LOMA_Name + '||  LOMA Email : ' + LOMA_Email + '||  LOMA Street Address : ' + LOMA_StreetAddress + '||  LOMA City : ' + LOMA_City + '||  LOMA State : ' + LOMA_State +
+                                     'LOMA Zip Code : ' + LOMA_ZipCode + '||  LOMA Country : ' + LOMA_Country + '||  CP Name : ' + CP_Name + '||  CP Designation : ' + CP_Designation + '||  CP EmailAddress : ' + CP_EmailAddress + '||  CP ContactNo : ' + CP_ContactNo +  '||  CP Reference : ' + CP_Reference;
+
+             $('#selectionDivToShow').html(ListOfSelectedValue.toString());
+
+
+        });
+
+
+    });
+    </script>
+
+
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+
+    <div>
+
+
+        <table class="table-bordered" style="background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+            <tr>
+                <th>
+                    Suppler Code
+                </th>
+                <th>
+                    Suppler Name
+                </th>
+                <th>
+                    Country Of Origin
+                </th>
+                <th>
+                    Country Of Manufacturer
+                </th>
+                <th>
+                    lc Lead Days
+                </th>
+                <th>
+                    Mode Of Transport
+                </th>
+                <th>
+                    Currency Unit
+                </th>
+                <th>
+                    Supplier Comission
+                </th>
+                <th>
+                    MOMA Street Address
+                </th>
+                <th>
+                    MOMA City
+                </th>
+                <th>
+                    MOMA State
+                </th>
+                <th>
+                    MOMA Zip Code
+                </th>
+                <th>
+                    MOMA Country
+                </th>
+                <th>
+                    MOMA Supplier Type
+                </th>
+                <th>
+                    MOMA Sup Work Proc Details
+                </th>
+                <th>
+                    LOMA Name
+                </th>
+                <th>
+                    LOMA Email
+                </th>
+                <th>
+                    LOMA Street Address
+                </th>
+                <th>
+                    LOMA City
+                </th>
+                <th>
+                    LOMA State
+                </th>
+                <th>
+                    LOMA Zip Code
+                </th>
+                <th>
+                    LOMA Country
+                </th>
+                <th>
+                    CP Name
+                </th>
+                <th>
+                    CP Designation
+                </th>
+                <th>
+                    CP Email Address
+                </th>
+                <th>
+                    CP Contact No
+                </th>
+                <th>
+                    CP Reference
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SupplierCode)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SupplierName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CountryOfOrigin)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CountryOfManufacturer)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.lcLeadDays)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ModeOfTransport)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CurrencyUnit)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SupplierComission)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MOMA_StreetAddress)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MOMA_City)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MOMA_State)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MOMA_ZipCode)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MOMA_Country)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MOMA_Supplier_Type)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MOMA_Sup_Work_Proc_Details)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LOMA_Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LOMA_Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LOMA_StreetAddress)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LOMA_City)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LOMA_State)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LOMA_ZipCode)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LOMA_Country)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CP_Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CP_Designation)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CP_EmailAddress)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CP_ContactNo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CP_Reference)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                </td>
+            </tr>
+            }
+
+        </table>
+
+
+        @*<table class="table-bordered" style="background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+        <tr>
+        <th>
+        <h5>Spr Or Ind. No</h5>
+
+        </th>
+        <th>
+        <h5>Spr Or Ind. Date</h5>
+
+        </th>
+        <th>
+        <h5>Req. By Sec Or Dep</h5>
+
+        </th>
+        <th>
+        <h5> Item       Name</h5>
+
+        </th>
+        <th>
+        <h5> Item Code </h5>
+
+        </th>
+        <th>
+        <h5> UOM </h5>
+
+        </th>
+        <th>
+        <h5>Present  Req</h5>
+
+
+        </th>
+        <th>
+        <h5>Stock In Hand</h5>
+
+        </th>
+        <th>
+        <h5>Ave. Consump.</h5>
+
+        </th>
+        <th>
+        <h5>Est. Rate</h5>
+
+        </th>
+        <th>
+        <h5>Last Purch Rate </h5>
+
+        </th>
+        <th>
+        <h5>Estimate Value </h5>
+
+        </th>
+        <th>
+        <h5>.      Remarks   .</h5>
+
+        </th>
+        <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+        <tr>
+        <td>
+        @Html.DisplayFor(modelItem => item.SprOrIndentNo)
+        </td>
+        <td>
+        @Html.DisplayFor(modelItem => item.SprOrIndentDate)
+        </td>
+        <td>
+        @Html.DisplayFor(modelItem => item.ReqBySecOrDep)
+        </td>
+        <td>
+        @Html.DisplayFor(modelItem => item.ItemName)
+        </td>
+        <td>
+        @Html.DisplayFor(modelItem => item.ItemCode)
+        </td>
+        <td>
+        @Html.DisplayFor(modelItem => item.UOM)
+        </td>
+        <td>
+        @Html.DisplayFor(modelItem => item.PresentRequirement)
+        </td>
+        <td>
+        @Html.DisplayFor(modelItem => item.StockInHand)
+        </td>
+        <td>
+        @Html.DisplayFor(modelItem => item.AverageConsumption)
+        </td>
+        <td>
+        @Html.DisplayFor(modelItem => item.EstimateRate)
+        </td>
+        <td>
+        @Html.DisplayFor(modelItem => item.LastPurchaseRate)
+        </td>
+        <td>
+        @Html.DisplayFor(modelItem => item.EstimateValue)
+        </td>
+        <td>
+        @Html.DisplayFor(modelItem => item.Remarks)
+        </td>
+        <td>
+        @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+        @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+        @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+        </td>
+        </tr>
+        }
+
+        </table>*@
+
+    </div>
+
+    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+    @Html.PagedListPager(Model, page => Url.Action("Index", new
+    {
+    page,
+    SupplierCode = ViewBag.SupplierCode,
+    SupplierName = ViewBag.SupplierName,
+    CountryOfOrigin = ViewBag.CountryOfOrigin,
+    CountryOfManufacturer = ViewBag.CountryOfManufacturer,
+    lcLeadDays = ViewBag.lcLeadDays,
+    ModeOfTransport = ViewBag.ModeOfTransport,
+    CurrencyUnit = ViewBag.CurrencyUnit,
+
+    MOMA_StreetAddress = ViewBag.MOMA_StreetAddress,
+    MOMA_City = ViewBag.MOMA_City,
+    MOMA_State = ViewBag.MOMA_State,
+    MOMA_ZipCode = ViewBag.MOMA_ZipCode,
+    MOMA_Country = ViewBag.MOMA_Country,
+    MOMA_Supplier_Type = ViewBag.MOMA_Supplier_Type,
+    LOMA_Name = ViewBag.LOMA_Name,
+    LOMA_Email = ViewBag.LOMA_Email,
+    LOMA_StreetAddress = ViewBag.LOMA_StreetAddress,
+
+    LOMA_City = ViewBag.LOMA_City,
+    LOMA_State = ViewBag.LOMA_State,
+    LOMA_ZipCode = ViewBag.LOMA_ZipCode,
+    LOMA_Country = ViewBag.LOMA_Country,
+
+    CP_Name = ViewBag.CP_Name,
+    CP_Designation = ViewBag.CP_Designation,
+    CP_EmailAddress = ViewBag.CP_EmailAddress,
+    CP_ContactNo = ViewBag.CP_ContactNo,
+    CP_Reference = ViewBag.CP_Reference
+
+    }))
+
+
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        $("#SupplierName").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("GetSupplierNameFromSupplier")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        SupplierName: $('#SupplierName').val()
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                        );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+
+    });
+
+</script>
+
+
+
+
+
+
+
+

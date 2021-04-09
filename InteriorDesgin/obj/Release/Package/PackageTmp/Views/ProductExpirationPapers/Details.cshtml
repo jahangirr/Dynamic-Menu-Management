@@ -1,0 +1,47 @@
+﻿@model SilGlobalFashion.Models.ProductExpirationPaper
+
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+    <div>
+        <h4>OpenCosting</h4>
+        <hr />
+        <dl class="dl-horizontal btn-success" style="background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+            <dt>
+                @Html.DisplayNameFor(model => model.ProdLongTerm)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.ProdLongTerm)
+            </dd>
+    
+            
+
+            <dt>
+                @Html.DisplayNameFor(model => model.ImageData)
+            </dt>
+    
+            <dd>
+
+                <img src="@Url.Action("GetThumbnailImage", "ProductExpirationPapers", new {Id =  Model.Id })" alt="Document Image" />
+              
+            </dd>
+    
+           
+           
+    
+        </dl>
+    </div>
+    <p>
+        @Html.ActionLink(".", "Edit", "ProductExpirationPapers", new { id = Model.Id }, new { @class = "glyphicon glyphicon-edit" })
+
+        @Html.ActionLink(".", "Index", "ProductExpirationPapers", new {  }, new { @class = "glyphicon glyphicon-eye-open" })
+
+
+        
+    </p>

@@ -1,0 +1,211 @@
+﻿@model SilGlobalFashion.Models.ItemStatusDashboard
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>ItemStatusDashboard</h4>
+    <hr />
+    <dl class="dl-horizontal" style="background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+        <dt>
+            @Html.DisplayNameFor(model => model.StoreLocation)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StoreLocation)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ItemType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ItemType)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AsOnDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AsOnDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NameOfItem)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NameOfItem)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SupplierName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SupplierName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TotalStockKg)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TotalStockKg)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MonthlyAvgConsump)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MonthlyAvgConsump)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MonthlyMaxConsump)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MonthlyMaxConsump)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.StockAvailDays)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StockAvailDays)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TotalStockRunOutDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TotalStockRunOutDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ReorderDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ReorderDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RateBdtPerKg)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RateBdtPerKg)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LoanPosition)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LoanPosition)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PreStockWithSprQty)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PreStockWithSprQty)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ReorderLavel)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ReorderLavel)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SPRQuantity)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SPRQuantity)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SPRDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SPRDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LeadTimeDays)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LeadTimeDays)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.StockValueBDT)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StockValueBDT)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MonthUptoDateConsumptionKg)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MonthUptoDateConsumptionKg)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MonthUptoDateConsumptionBDT)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MonthUptoDateConsumptionBDT)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LastDateConsumptionKG)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LastDateConsumptionKG)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LastDateConsumptionBDT)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LastDateConsumptionBDT)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Remarks)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Remarks)
+        </dd>
+
+    </dl>
+</div>
+<p>
+   
+    @Html.ActionLink("Back to List", "ItemStatusCreation")
+</p>

@@ -1,0 +1,682 @@
+﻿@model PagedList.IPagedList<SilGlobalFashion.Models.InfoApprovedInfo>
+
+@using PagedList.Mvc;
+@using SilGlobalFashion.Repository;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Html.RenderPartial("MenuView");
+    ViewBag.Title = " Info Approved Info";
+}
+
+
+
+    @if(Session["mailNotGoingMsg"] != null)
+    {
+            @Html.Raw(Session["mailNotGoingMsg"].ToString())
+    }
+
+    @if (Session["mailNotGoingMsg"] != null)
+    {
+        Session["mailNotGoingMsg"] = null;
+    }
+
+<h2> Approved </h2>
+
+<link href="~/Content/TableStyle.css" rel="stylesheet" />
+
+<div class="alert-primary">
+
+    @using (Html.BeginForm("Index", "InfoApprovedInfoes", FormMethod.Get))
+    {
+
+        <table>
+            <tr>
+                <td width="30%">
+                    Select Parameter : @Html.DropDownList("selectionItems", (SelectList)ViewBag.selectionItems)
+
+                    <br />
+
+                    <input type="submit" value="Search" class="btn-danger" />
+                    <input type="button" value="Reset" class="btn-success" id="bReset" />
+
+                </td>
+                <td width="70%">
+
+                    <div id="selectionDivToShow" style="border:dotted; color:black; background-color:Highlight;">
+
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+        <p>
+
+            @{
+                GlobCreatedFunction globbCreFunc = new GlobCreatedFunction();
+                DateTime? ApproveDateVar = null;
+
+                try
+                {
+                    ApproveDateVar = Convert.ToDateTime(globbCreFunc.GetDate(ViewBag.ApproveDate));
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+
+            }
+
+
+            <table id="SearchInfoTable" class="table" style="color:black;">
+
+                <tr>
+                    <td>
+                        Find by ModuleName : @Html.TextBox("ModuleName", ViewBag.ModuleName as string)
+                    </td>
+
+                </tr>
+
+                <tr>
+                    <td>
+                        Find by Location : @Html.TextBox("Location", ViewBag.Location as string)
+                    </td>
+
+                </tr>
+
+                <tr>
+                    <td>
+                        Find by DepartmentName: @Html.TextBox("DepartmentName", ViewBag.DepartmentName as string)
+
+                    </td>
+
+
+                </tr>
+
+                <tr>
+                    <td>
+                        Find by Role : @Html.TextBox("Role", ViewBag.Role as string)
+                    </td>
+                </tr>
+
+                <tr>
+
+                    <td>
+                        Find by MOMSprOrIndentNo : @Html.TextBox("MOMSprOrIndentNo", ViewBag.MOMSprOrIndentNo as string)
+
+                    </td>
+                </tr>
+                <tr>
+
+                    <td>
+                        Find by SprOrIndentNo : @Html.TextBox("SprOrIndentNo", ViewBag.SprOrIndentNo as string)
+
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Find by PONumber : @Html.TextBox("PONumber", ViewBag.PONumber as string)
+
+
+                    </td>
+
+                </tr>
+
+                <tr>
+                    <td>
+                        Find by SupplierName : @Html.TextBox("SupplierName", ViewBag.SupplierName as string)
+
+
+                    </td>
+
+                </tr>
+
+                <tr>
+                    <td>
+                        Find by ItemName : @Html.TextBox("ItemName", ViewBag.ItemName as string)
+
+
+                    </td>
+
+                </tr>
+
+                <tr>
+                    <td>
+                        Find by MRRNo : @Html.TextBox("MRRNo", ViewBag.MRRNo as string)
+
+
+                    </td>
+
+                </tr>
+
+                <tr>
+                    <td>
+                        Find By ApproveDate:    @Html.JQueryUI().Datepicker("ApproveDate", ApproveDateVar)
+
+
+                    </td>
+
+                </tr>
+
+                <tr>
+                    <td>
+                        Find by Is Approved : @Html.CheckBox("IsApproved", Convert.ToBoolean(ViewBag.IsApproved as string))
+
+
+                    </td>
+
+                </tr>
+
+                <tr>
+                    <td>
+                        Find by Approve Process Name : @Html.CheckBox("ItemType", ViewBag.ItemType as string)
+
+
+                    </td>
+
+                </tr>
+
+
+
+            </table>
+
+
+
+        </p>
+                }
+
+</div>
+
+
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+
+
+        $('#bReset').click(function () {
+
+            $('#ModuleName').val('');
+            $('#ItemName').val('');
+            $('#SprOrIndentNo').val('');
+            $('#MOMSprOrIndentNo').val('');
+            $('#ApproveDate').val('');
+            $('#Location').val('');
+            $('#ItemType').val('');
+            $('#IsApproved').val('false');
+
+            $('#DepartmentName').val('');
+            $('#Role').val('');
+            $('#PONumber').val('');
+            $('#SupplierName').val('');
+            $('#MRRNo').val('');
+
+
+
+
+
+
+
+            sessionStorage.setItem("InfoApprovedInfo_ModuleName", '');
+            sessionStorage.setItem("InfoApprovedInfo_ItemName", '');
+            sessionStorage.setItem("InfoApprovedInfo_SprOrIndentNo", '');
+            sessionStorage.setItem("InfoApprovedInfo_MOMSprOrIndentNo", '');
+            sessionStorage.setItem("InfoApprovedInfo_ApproveDate", '');
+            sessionStorage.setItem("InfoApprovedInfo_Location", '');
+            sessionStorage.setItem("InfoApprovedInfo_ItemType", '');
+            sessionStorage.setItem("InfoApprovedInfo_IsApproved", 'false');
+
+
+
+
+            sessionStorage.setItem("InfoApprovedInfo_DepartmentName", '');
+            sessionStorage.setItem("InfoApprovedInfo_Role", '');
+            sessionStorage.setItem("InfoApprovedInfo_PONumber", '');
+            sessionStorage.setItem("InfoApprovedInfo_SupplierName", '');
+            sessionStorage.setItem("InfoApprovedInfo_MRRNo", '');
+
+
+
+
+        });
+
+
+
+
+        var InfoApprovedInfo_ModuleName_value = sessionStorage.getItem("InfoApprovedInfo_ModuleName");
+        if (InfoApprovedInfo_ModuleName_value == null) {
+            sessionStorage.setItem("InfoApprovedInfo_ModuleName", '');
+        } else {
+            sessionStorage.setItem("InfoApprovedInfo_ModuleName", InfoApprovedInfo_ModuleName_value);
+        }
+
+
+        var InfoApprovedInfo_ItemName_value = sessionStorage.getItem("InfoApprovedInfo_ItemName");
+        if (InfoApprovedInfo_ItemName_value == null) {
+            sessionStorage.setItem("InfoApprovedInfo_ItemName", '');
+        } else {
+            sessionStorage.setItem("InfoApprovedInfo_ItemName", InfoApprovedInfo_ItemName_value);
+        }
+
+
+
+
+        var InfoApprovedInfo_SprOrIndentNo_value = sessionStorage.getItem("InfoApprovedInfo_SprOrIndentNo");
+        if (InfoApprovedInfo_SprOrIndentNo_value == null) {
+            sessionStorage.setItem("InfoApprovedInfo_SprOrIndentNo", '');
+        } else {
+            sessionStorage.setItem("InfoApprovedInfo_SprOrIndentNo", InfoApprovedInfo_SprOrIndentNo_value);
+        }
+
+        var InfoApprovedInfo_MOMSprOrIndentNo_value = sessionStorage.getItem("InfoApprovedInfo_MOMSprOrIndentNo");
+        if (InfoApprovedInfo_MOMSprOrIndentNo_value == null) {
+            sessionStorage.setItem("InfoApprovedInfo_MOMSprOrIndentNo", '');
+        } else {
+            sessionStorage.setItem("InfoApprovedInfo_MOMSprOrIndentNo", InfoApprovedInfo_MOMSprOrIndentNo_value);
+        }
+
+
+        var InfoApprovedInfo_ApproveDate_value = sessionStorage.getItem("InfoApprovedInfo_ApproveDate");
+        if (InfoApprovedInfo_ApproveDate_value == null) {
+            sessionStorage.setItem("InfoApprovedInfo_ApproveDate", '');
+        } else {
+            sessionStorage.setItem("InfoApprovedInfo_ApproveDate", InfoApprovedInfo_ApproveDate_value);
+        }
+
+
+
+
+
+        var InfoApprovedInfo_Location_value = sessionStorage.getItem("InfoApprovedInfo_Location");
+        if (InfoApprovedInfo_Location_value == null) {
+            sessionStorage.setItem("InfoApprovedInfo_Location", '');
+        } else {
+            sessionStorage.setItem("InfoApprovedInfo_Location", InfoApprovedInfo_Location_value);
+        }
+
+
+
+
+
+
+        var InfoApprovedInfo_ItemType_value = sessionStorage.getItem("InfoApprovedInfo_ItemType");
+        if (InfoApprovedInfo_ItemType_value == null) {
+            sessionStorage.setItem("InfoApprovedInfo_ItemType", '');
+        } else {
+            sessionStorage.setItem("InfoApprovedInfo_ItemType", InfoApprovedInfo_ItemType_value);
+        }
+
+
+
+
+
+
+        var InfoApprovedInfo_DepartmentName_value = sessionStorage.getItem("InfoApprovedInfo_DepartmentName");
+        if (InfoApprovedInfo_DepartmentName_value == null) {
+            sessionStorage.setItem("InfoApprovedInfo_DepartmentName", '');
+        } else {
+            sessionStorage.setItem("InfoApprovedInfo_DepartmentName", InfoApprovedInfo_DepartmentName_value);
+        }
+
+        var InfoApprovedInfo_Role_value = sessionStorage.getItem("InfoApprovedInfo_Role");
+        if (InfoApprovedInfo_Role_value == null) {
+            sessionStorage.setItem("InfoApprovedInfo_Role", '');
+        } else {
+            sessionStorage.setItem("InfoApprovedInfo_Role", InfoApprovedInfo_Role_value);
+        }
+
+
+        var InfoApprovedInfo_PONumber_value = sessionStorage.getItem("InfoApprovedInfo_PONumber");
+        if (InfoApprovedInfo_PONumber_value == null) {
+            sessionStorage.setItem("InfoApprovedInfo_PONumber", '');
+        } else {
+            sessionStorage.setItem("InfoApprovedInfo_PONumber", InfoApprovedInfo_PONumber_value);
+        }
+
+
+
+
+
+        var InfoApprovedInfo_SupplierName_value = sessionStorage.getItem("InfoApprovedInfo_SupplierName");
+        if (InfoApprovedInfo_SupplierName_value == null) {
+            sessionStorage.setItem("InfoApprovedInfo_SupplierName", '');
+        } else {
+            sessionStorage.setItem("InfoApprovedInfo_SupplierName", InfoApprovedInfo_SupplierName_value);
+        }
+
+
+
+
+
+
+        var InfoApprovedInfo_MRRNo_value = sessionStorage.getItem("InfoApprovedInfo_MRRNo");
+        if (InfoApprovedInfo_MRRNo_value == null) {
+            sessionStorage.setItem("InfoApprovedInfo_MRRNo", '');
+        } else {
+            sessionStorage.setItem("InfoApprovedInfo_MRRNo", InfoApprovedInfo_MRRNo_value);
+        }
+
+
+
+
+        var InfoApprovedInfo_IsApproved_value = sessionStorage.getItem("InfoApprovedInfo_IsApproved");
+        if (InfoApprovedInfo_IsApproved_value == null) {
+            sessionStorage.setItem("InfoApprovedInfo_IsApproved", 'false');
+        } else {
+            sessionStorage.setItem("InfoApprovedInfo_IsApproved", InfoApprovedInfo_IsApproved_value);
+        }
+
+
+
+
+
+        $('#ModuleName').change(function () {
+
+            sessionStorage.setItem("InfoApprovedInfo_ModuleName", $('#ModuleName').val());
+        });
+
+        $('#ItemName').change(function () {
+
+            sessionStorage.setItem("InfoApprovedInfo_ItemName", $('#ItemName').val());
+        });
+
+        $('#SprOrIndentNo').change(function () {
+
+            sessionStorage.setItem("InfoApprovedInfo_SprOrIndentNo", $('#SprOrIndentNo').val());
+        });
+
+        $('#MOMSprOrIndentNo').change(function () {
+
+            sessionStorage.setItem("InfoApprovedInfo_MOMSprOrIndentNo", $('#MOMSprOrIndentNo').val());
+        });
+
+        $('#ApproveDate').change(function () {
+
+            sessionStorage.setItem("InfoApprovedInfo_ApproveDate", $('#ApproveDate').val());
+        });
+        $('#Location').change(function () {
+
+            sessionStorage.setItem("InfoApprovedInfo_Location", $('#Location').val());
+
+        });
+
+        $('#ItemType').change(function () {
+
+            sessionStorage.setItem("InfoApprovedInfo_ItemType", $('#ItemType').val());
+
+        });
+
+
+        $('#IsApproved').change(function () {
+
+
+            if ($(this).prop("checked")) {
+                sessionStorage.setItem("InfoApprovedInfo_IsApproved", 'true');
+
+            } else {
+                sessionStorage.setItem("InfoApprovedInfo_IsApproved", 'false');
+
+            }
+
+          
+
+        });
+
+
+
+        $('#DepartmentName').change(function () {
+
+            sessionStorage.setItem("InfoApprovedInfo_DepartmentName", $('#DepartmentName').val());
+        });
+
+        $('#Role').change(function () {
+
+            sessionStorage.setItem("InfoApprovedInfo_Role", $('#Role').val());
+        });
+        $('#PONumber').change(function () {
+
+            sessionStorage.setItem("InfoApprovedInfo_PONumber", $('#PONumber').val());
+
+        });
+
+        $('#SupplierName').change(function () {
+
+            sessionStorage.setItem("InfoApprovedInfo_SupplierName", $('#SupplierName').val());
+
+        });
+
+
+        $('#MRRNo').change(function () {
+
+            sessionStorage.setItem("InfoApprovedInfo_MRRNo", $('#MRRNo').val());
+
+        });
+
+
+
+
+
+
+
+        $("#SearchInfoTable tr").each(function () {
+            $(this).hide();
+        });
+
+        $("#selectionItems").change(function () {
+
+            $("#SearchInfoTable tr").each(function () {
+                var row_index = $(this).index();
+                var ddlValue = $("#selectionItems").val();
+                if (ddlValue.toString() == row_index.toString()) {
+                    $(this).show();
+                }
+                else {
+                    $(this).hide();
+                }
+
+            });
+
+
+            var ModuleName = sessionStorage.getItem("InfoApprovedInfo_ModuleName");
+            var ItemName = sessionStorage.getItem("InfoApprovedInfo_ItemName");
+            var SprOrIndentNo = sessionStorage.getItem("InfoApprovedInfo_SprOrIndentNo");
+            var MOMSprOrIndentNo = sessionStorage.getItem("InfoApprovedInfo_MOMSprOrIndentNo");
+
+            var ApproveDate = sessionStorage.getItem("InfoApprovedInfo_ApproveDate");
+            var Location = sessionStorage.getItem("InfoApprovedInfo_Location");
+            var ItemType = sessionStorage.getItem("InfoApprovedInfo_ItemType");
+
+            var IsApproved = sessionStorage.getItem("InfoApprovedInfo_IsApproved");
+
+
+            var DepartmentName = sessionStorage.getItem("InfoApprovedInfo_DepartmentName");
+            var Role = sessionStorage.getItem("InfoApprovedInfo_Role");
+
+            var PONumber = sessionStorage.getItem("InfoApprovedInfo_PONumber");
+            var SupplierName = sessionStorage.getItem("InfoApprovedInfo_SupplierName");
+            var MRRNo = sessionStorage.getItem("InfoApprovedInfo_MRRNo");
+
+
+
+
+            var ListOfSelectedValue = 'Item Code : ' + ModuleName + '||  Item Name : ' + ItemName + '|| Mother SPR Or Indent No :' + MOMSprOrIndentNo + '  Spr Or Indent No : ' + SprOrIndentNo + '||  System Date : ' + ApproveDate + '||  Location : ' + Location + '||  Item Type : ' + ItemType + '||  DepartmentName : ' + DepartmentName + '||  Role : ' + Role + '||  PONumber : ' + PONumber + '||  SupplierName : ' + SupplierName + '||  MRRNo : ' + MRRNo + '||  Is Approved : ' + IsApproved.toString();
+
+            $('#selectionDivToShow').html(ListOfSelectedValue.toString());
+
+
+        });
+
+
+
+        $("input[name^='Date']").each(function (i, e) {
+
+            var tempDate = $(e).val().toString();
+            if (tempDate.lenght > 9) {
+                var DateToShow = tempDate.substring(1, 10);
+                $(e).val(DateToShow);
+
+            }
+        });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    });
+</script>
+
+
+
+
+
+
+<p>
+    @Html.ActionLink("Go To Approve", "InfoApprovedCreate")
+</p>
+<table class="table-bordered" style="background-color:#C0C0C0;border:2px; border-color:blue;color:black;">
+    <tr>
+        <th>
+            ModuleName
+        </th>
+
+        <th>
+            ItemType
+        </th>
+        <th>
+            Location
+        </th>
+
+        <th>
+            ItemName
+        </th>
+
+        <th>
+            PONumber
+        </th>
+        <th>
+            SupplierName
+        </th>
+
+        <th>
+            MRRNo
+        </th>
+
+        <th>
+            DepartmentName
+        </th>
+        <th>
+            Role
+        </th>
+        <th>
+            MOMSprOrIndentNo
+        </th>
+        <th>
+            SprOrIndentNo
+        </th>
+        <th>
+            ApproveDate
+        </th>
+        <th>
+            IsApproved
+        </th>
+
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ModuleName)
+            </td>
+
+           
+
+            <td>
+                @Html.DisplayFor(modelItem => item.ItemType)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Location)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.ItemName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PONumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SupplierName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MRRNo)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.DepartmentName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Role)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.MOMSprOrIndentNo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SprOrIndentNo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ApproveDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsApproved)
+            </td>
+
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+    }
+
+</table>
+
+
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index", new
+{
+    page,
+
+    ModuleName = ViewBag.ModuleName,
+    Location = ViewBag.Location,
+
+    DepartmentName = ViewBag.DepartmentName,
+    Role = ViewBag.Role,
+    MOMSprOrIndentNo = ViewBag.MOMSprOrIndentNo,
+    SprOrIndentNo = ViewBag.SprOrIndentNo,
+
+    PONumber = ViewBag.PONumber,
+    SupplierName = ViewBag.SupplierName,
+    ItemName = ViewBag.ItemName,
+    MRRNo = ViewBag.MRRNo,
+    ApproveDate = ViewBag.ApproveDate,
+    IsApproved = ViewBag.IsApproved,
+    ItemType = ViewBag.ItemType
+
+
+}))

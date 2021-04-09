@@ -1,0 +1,637 @@
+﻿@model SilGlobalFashion.Models.ProductExpiration
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    table {
+        border-collapse: collapse;
+        background-color: burlywood;
+    }
+
+    tr {
+        border: solid thin;
+        border-color: blue;
+    }
+</style>
+
+<h4> Product Expiration </h4>
+
+@using (Html.BeginForm("Edit", "ProductExpirations", FormMethod.Post, new { @id = "form" }))
+{
+    @Html.AntiForgeryToken()
+
+    @(ViewContext.ClientValidationEnabled = false)
+
+    @Html.Hidden("Id",ViewBag.Id as string)
+
+    <table>
+
+        <tr>
+            <td>
+                MRR No :
+
+            </td>
+            <td>
+                @Html.TextBox("MRRNo", ViewBag.MRRNo as string, new {  })
+
+            </td>
+            <td>
+                Lot No  :
+            </td>
+            <td>
+                @Html.TextBox("LotNo", ViewBag.LotNo as string, new {  })
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                Expiration ID :
+
+            </td>
+            <td>
+                @Html.TextBox("ProdLongTerm", ViewBag.ProdLongTerm as string, new { @readonly = "readonly" })
+                @Html.Hidden("ProdLongTermHidden", ViewBag.ProdLongTerm as string)
+            </td>
+            <td>
+                Item Name :
+            </td>
+
+
+            <td>
+                @Html.TextBox("ItemName",  ViewBag.ItemName as string, new { @readonly = "readonly" })
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Supplier Name :
+            </td>
+            <td>
+
+                @Html.TextBox("SupplierName", ViewBag.SupplierName as string, new { @readonly = "readonly" })
+
+            </td>
+            <td>
+                Mother SPR No  :
+
+            </td>
+            <td>
+                @Html.TextBox("MOMSprOrIndentNo", ViewBag.MOMSprOrIndentNo as string, new { @readonly = "readonly" })
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+                SPR No :
+            </td>
+
+            <td>
+                @Html.TextBox("SPRNoOrIndentNo", ViewBag.SPRNoOrIndentNo as string, new { @readonly = "readonly" })
+
+            </td>
+            <td>
+                SPR Date  :
+            </td>
+            <td>
+                @Html.TextBox("SPRDateOrIndentDate", ViewBag.SPRDateOrIndentDate as string, new { @readonly = "readonly" })
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                Quantity :
+            <td>
+                @Html.TextBox("Quantity", ViewBag.Quantity as string, new { @readonly = "readonly" })
+
+            </td>
+            <td></td>
+        </tr>
+
+        <tr>
+            <td>
+                Has Guarantee :
+            </td>
+            <td>
+                @Html.CheckBox("HasGuarantee", Convert.ToBoolean(ViewBag.HasGuarantee as string))
+
+            </td>
+            <td>
+                Has Life Time Guarantee :
+            </td>
+            <td>
+                @Html.CheckBox("HasLifeTimeGuarantee", Convert.ToBoolean(ViewBag.HasLifeTimeGuarantee as string))
+            </td>
+        </tr>
+
+
+        <tr>
+            <td>
+                @{
+                    DateTime? dtGuaranteeStartDate = null;
+
+                    try
+                    {
+                        dtGuaranteeStartDate = Convert.ToDateTime(ViewBag.GuaranteeStartDate as string);
+                    }
+                    catch (Exception ex)
+                    {
+
+                    }
+                }
+
+                Guarantee Start Date:
+            </td>
+            <td>
+                @Html.JQueryUI().Datepicker("GuaranteeStartDate", dtGuaranteeStartDate)
+
+            </td>
+            <td>
+
+                @{
+                    DateTime? dtGuaranteeEndDate = null;
+
+                    try
+                    {
+                        dtGuaranteeEndDate = Convert.ToDateTime(ViewBag.GuaranteeEndDate as string);
+                    }
+                    catch (Exception ex)
+                    {
+
+                    }
+                }
+
+                Guarantee End Date:
+            </td>
+            <td>
+                @Html.JQueryUI().Datepicker("GuaranteeEndDate", dtGuaranteeEndDate)
+
+            </td>
+        </tr>
+
+
+        <tr>
+            <td>
+                Description :
+            </td>
+            <td>
+
+
+                @Html.TextArea("HasGuaranteeDescription", ViewBag.HasGuaranteeDescription as string, 5, 55, null)
+
+            </td>
+            <td>
+
+                Guarantee In Days :
+            </td>
+
+            <td>
+                @Html.TextBox("GuaranteeIndays", ViewBag.GuaranteeIndays as string, new { @readonly = "readonly" })
+
+            </td>
+        </tr>
+
+
+
+        <tr>
+            <td>
+                Has Warranty :
+            </td>
+            <td>
+                @Html.CheckBox("HasWarranty",Convert.ToBoolean(ViewBag.HasWarranty as string))
+
+            </td>
+            <td>
+                Has Life Time Warranty :
+            </td>
+            <td>
+                @Html.CheckBox("HasLifeTimeWarranty", Convert.ToBoolean(ViewBag.HasLifeTimeWarranty as string))
+            </td>
+        </tr>
+
+
+        <tr>
+            <td>
+                @{
+                    DateTime? dtWarrantyStartDate = null;
+
+                    try
+                    {
+                        dtWarrantyStartDate = Convert.ToDateTime(ViewBag.WarrantyStartDate as string);
+                    }
+                    catch (Exception ex)
+                    {
+
+                    }
+                }
+
+                Warranty Start Date:
+            </td>
+            <td>
+                @Html.JQueryUI().Datepicker("WarrantyStartDate", dtWarrantyStartDate)
+
+            </td>
+            <td>
+
+                @{
+                    DateTime? dtWarrantyEndDate = null;
+
+                    try
+                    {
+                        dtWarrantyEndDate = Convert.ToDateTime(ViewBag.WarrantyEndDate as string);
+                    }
+                    catch (Exception ex)
+                    {
+
+                    }
+                }
+
+                Warranty End Date:
+            </td>
+            <td>
+                @Html.JQueryUI().Datepicker("WarrantyEndDate", dtWarrantyEndDate)
+
+            </td>
+        </tr>
+
+
+        <tr>
+            <td>
+                Description :
+            </td>
+            <td>
+                @Html.TextArea("HasWarrantyDescription", ViewBag.HasWarrantyDescription as string, 5, 55, null)
+
+
+            </td>
+            <td>
+
+                Warranty In Days :
+            </td>
+            <td>
+                @Html.TextBox("WarrantyIndays", ViewBag.WarrantyIndays as string, new { @readonly = "readonly" })
+
+            </td>
+        </tr>
+
+    </table>
+
+    <div class="form-horizontal">
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Edit" class="btn btn-default" />
+
+
+            </div>
+        </div>
+    </div>
+                    }
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+
+        $("#ProdLongTerm").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("GetProdLongTerm")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        ProdLongTerm: $('#ProdLongTerm').val()
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                        );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+
+        $("#ItemName").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("GetItemName")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        ItemName: $('#ItemName').val()
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                        );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+
+        $("#SupplierName").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("GetSupplierName")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        SupplierName: $('#SupplierName').val()
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                        );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+        $("#MOMSprOrIndentNo").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("GetMOMSprOrIndentNo")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        MOMSprOrIndentNo: $('#MOMSprOrIndentNo').val()
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                        );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+        $("#SPRNoOrIndentNo").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("GetSPRNoOrIndentNo")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        SPRNoOrIndentNo: $('#SPRNoOrIndentNo').val()
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                        );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+
+        $("#MRRNo").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("GetMRRNo")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        MRRNo: $('#MRRNo').val()
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                        );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+        $("#LotNo").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("GetLotNo")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        LotNo: $('#LotNo').val(),
+                        MRRNo: $('#MRRNo').val()
+
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                        );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+
+        $('#LotNo').change(function () {
+            $.ajax({
+                url: '@Url.Action("GetConcernedInfoLotNo", "ProductExpirations")',
+                type: "GET",
+                dataType: "JSON",
+                data: {
+                    MRRNo: $('#MRRNo').val(),
+                    LotNo: $("#LotNo").val()
+                },
+                success: function (data) {
+                    $('#ItemName').val(data.ItemName);
+                    $('#SupplierName').val(data.SupplierName);
+                    $('#MOMSprOrIndentNo').val(data.MOMSprOrIndentNo);
+                    $('#SPRNoOrIndentNo').val(data.SPRNoOrIndentNo);
+                    $('#SPRDateOrIndentDate').val(data.SPRDateOrIndentDate);
+                    $('#Quantity').val(data.ReceiveQty);
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    //debugger;
+                    alert(textStatus);
+                }
+            });
+        });
+
+
+        $('#GuaranteeStartDate').change(function () {
+
+            var start = $('#GuaranteeStartDate').val();
+            var start_date_array = start.split('-')
+            var start_formatted_date = start_date_array[2] + '-' + start_date_array[1] + '-' + start_date_array[0];
+            var start_date_format = new Date(start_formatted_date);
+
+            var end = $('#GuaranteeEndDate').val();
+            var end_date_array = end.split('-')
+            var end_formatted_date = end_date_array[2] + '-' + end_date_array[1] + '-' + end_date_array[0];
+            var end_date_format = new Date(end_formatted_date);
+            // end - start returns difference in milliseconds
+            var diff = new Date(end_date_format - start_date_format);
+             // get days
+            var days = (diff / 1000 / 60 / 60 / 24)+1;
+            $('#GuaranteeIndays').val(days);
+
+        });
+
+        $('#GuaranteeEndDate').change(function () {
+
+            var start = $('#GuaranteeStartDate').val();
+            var start_date_array = start.split('-')
+            var start_formatted_date = start_date_array[2] + '-' + start_date_array[1] + '-' + start_date_array[0];
+            var start_date_format = new Date(start_formatted_date);
+
+            var end = $('#GuaranteeEndDate').val();
+            var end_date_array = end.split('-')
+            var end_formatted_date = end_date_array[2] + '-' + end_date_array[1] + '-' + end_date_array[0];
+            var end_date_format = new Date(end_formatted_date);
+            // end - start returns difference in milliseconds
+            var diff = new Date(end_date_format - start_date_format);
+            // get days
+            var days = (diff / 1000 / 60 / 60 / 24)+1;
+            $('#GuaranteeIndays').val(days);
+
+        });
+
+
+
+        $('#WarrantyStartDate').change(function () {
+
+            var start = $('#WarrantyStartDate').val();
+            var start_date_array = start.split('-')
+            var start_formatted_date = start_date_array[2] + '-' + start_date_array[1] + '-' + start_date_array[0];
+            var start_date_format = new Date(start_formatted_date);
+
+            var end = $('#WarrantyEndDate').val();
+            var end_date_array = end.split('-')
+            var end_formatted_date = end_date_array[2] + '-' + end_date_array[1] + '-' + end_date_array[0];
+            var end_date_format = new Date(end_formatted_date);
+            // end - start returns difference in milliseconds
+            var diff = new Date(end_date_format - start_date_format);
+            // get days
+            var days = (diff / 1000 / 60 / 60 / 24) + 1;
+            $('#WarrantyIndays').val(days);
+
+        });
+
+        $('#WarrantyEndDate').change(function () {
+
+            var start = $('#WarrantyStartDate').val();
+            var start_date_array = start.split('-')
+            var start_formatted_date = start_date_array[2] + '-' + start_date_array[1] + '-' + start_date_array[0];
+            var start_date_format = new Date(start_formatted_date);
+
+            var end = $('#WarrantyEndDate').val();
+            var end_date_array = end.split('-')
+            var end_formatted_date = end_date_array[2] + '-' + end_date_array[1] + '-' + end_date_array[0];
+            var end_date_format = new Date(end_formatted_date);
+            // end - start returns difference in milliseconds
+            var diff = new Date(end_date_format - start_date_format);
+            // get days
+            var days = (diff / 1000 / 60 / 60 / 24) + 1;
+            $('#WarrantyIndays').val(days);
+
+        });
+
+
+
+
+    })
+</script>
+

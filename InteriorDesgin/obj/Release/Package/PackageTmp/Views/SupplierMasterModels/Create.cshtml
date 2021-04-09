@@ -1,0 +1,480 @@
+﻿@model List<SilGlobalFashion.Models.SupplierMasterModel>
+@using SilGlobalFashion.Repository;
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Supplier Create</h2>
+
+<link href="~/Content/TableStyle.css" rel="stylesheet" />
+
+@using (Html.BeginForm("GetAddedSupplierMasterModel", "SupplierMasterModels", FormMethod.Get, new { id = "GetAddedForm" }))
+{
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+
+    <div class="alert-success">
+
+
+
+        <div class="alert-warning">
+
+            <table class="table" width="100%" style="color:black;border:double;border-color:green;">
+
+                <tr>
+                    <td>
+
+                        <div class="form-group">
+                            @Html.Label("Suppler Code ", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.TextBox("SupplierCodeShow", ViewBag.SupplierCode as string, htmlAttributes: new { disabled = "disabled", @class = "form-control" })
+                                @Html.Hidden("SupplierCode", ViewBag.SupplierCode as string)
+
+                            </div>
+                        </div>
+
+                    </td>
+                    <td>
+
+                        Supplier Name : @Html.TextBox("SupplierName", ViewBag.SupplierName as string , htmlAttributes: new { tabindex = "1" })
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+
+                        Country Or Origin : @Html.TextBox("CountryOfOrigin", ViewBag.CountryOfOrigin as string, htmlAttributes: new { tabindex = "2" })
+
+                    </td>
+                    <td>
+
+                        Country Of Manufacturer : @Html.TextBox("CountryOfManufacturer", ViewBag.CountryOfManufacturer as string, htmlAttributes: new { tabindex = "3" })
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+
+                        Lead Days : @Html.TextBox("lcLeadDays", ViewBag.lcLeadDays as string, htmlAttributes: new { tabindex = "4" })
+
+                    </td>
+                    <td>
+
+                        Mode of Transport : @Html.TextBox("ModeOfTransport", ViewBag.ModeOfTransport as string, htmlAttributes: new { tabindex = "5" })
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+
+                        Currency Unit : @Html.TextBox("CurrencyUnit", ViewBag.CurrencyUnit as string, htmlAttributes: new { tabindex = "6" })
+
+                    </td>
+                    <td>
+
+                        Supplier Comission : @Html.TextBox("SupplierComission", ViewBag.SupplierComission as string, htmlAttributes: new { tabindex = "7" })
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+
+                        <h3> MAIN OFFICE MAILING ADDRESS </h3>
+
+                    </td>
+                    <td>
+
+                        <h3>  AGENT / LOCAL OFFICE MAILING ADDRESS </h3>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+
+                        Street Address : @Html.TextBox("MOMA_StreetAddress", ViewBag.MOMA_StreetAddress as string, htmlAttributes: new { tabindex = "8" })
+
+                    </td>
+                    <td>
+
+                        Name : @Html.TextBox("LOMA_Name", ViewBag.LOMA_Name as string, htmlAttributes: new { tabindex = "16" })
+                    </td>
+
+                </tr>
+
+
+                <tr>
+                    <td>
+
+                        City : @Html.TextBox("MOMA_City", ViewBag.MOMA_City as string, htmlAttributes: new { tabindex = "9" })
+
+                    </td>
+                    <td>
+
+                        Email : @Html.TextBox("LOMA_Email", ViewBag.LOMA_Email as string, htmlAttributes: new { tabindex = "17" })
+                    </td>
+
+                </tr>
+
+
+                <tr>
+                    <td>
+
+                        State : @Html.TextBox("MOMA_State", ViewBag.MOMA_State as string, htmlAttributes: new { tabindex = "10" })
+
+                    </td>
+                    <td>
+
+                        Street Address : @Html.TextBox("LOMA_StreetAddress", ViewBag.LOMA_StreetAddress as string, htmlAttributes: new { tabindex = "18" })
+                    </td>
+
+                </tr>
+
+
+
+                <tr>
+                    <td>
+
+                        ZipCode : @Html.TextBox("MOMA_ZipCode", ViewBag.MOMA_ZipCode as string, htmlAttributes: new { tabindex = "11" })
+
+                    </td>
+                    <td>
+
+                        City : @Html.TextBox("LOMA_City", ViewBag.LOMA_City as string, htmlAttributes: new { tabindex = "19" })
+                    </td>
+
+                </tr>
+
+
+                <tr>
+                    <td>
+
+                        Country : @Html.TextBox("MOMA_Country", ViewBag.MOMA_Country as string, htmlAttributes: new { tabindex = "12" })
+
+                    </td>
+                    <td>
+
+                        State : @Html.TextBox("LOMA_State", ViewBag.LOMA_State as string, htmlAttributes: new { tabindex = "20" })
+                    </td>
+
+                </tr>
+
+
+                <tr>
+                    <td>
+
+
+
+                        Supplier Type :  @Html.DropDownList("MOMA_Supplier_Type", (SelectList)ViewBag.MOMA_Supplier_Type, htmlAttributes: new { tabindex = "14" })
+
+
+
+                    </td>
+                    <td>
+
+                        Zip Code : @Html.TextBox("LOMA_ZipCode", ViewBag.LOMA_ZipCode as string, htmlAttributes: new { tabindex = "21" })
+
+
+                    </td>
+
+                </tr>
+
+                <tr>
+                    <td>
+
+                        Supplier Working Procedure Details : @Html.DropDownList("MOMA_Sup_Work_Proc_Details", (SelectList)ViewBag.MOMA_Sup_Work_Proc_Details, htmlAttributes: new { tabindex = "15" })
+
+                    </td>
+                    <td>
+
+
+
+                        Country : @Html.TextBox("LOMA_Country", ViewBag.LOMA_Country as string, htmlAttributes: new { tabindex = "22" })
+                    </td>
+
+                </tr>
+
+
+            </table>
+
+        </div>
+
+        <p>
+            <table class="table" style="color:black;">
+
+                <tr>
+                    <td colspan="2"> Contact Person </td>
+
+                </tr>
+                <tr>
+
+                    <td>
+                        Name: @Html.TextBox("CP_Name",null, htmlAttributes: new { tabindex = "23" })
+                    </td>
+
+                    <td>
+                        Contact No: @Html.TextBox("CP_ContactNo",null, htmlAttributes: new { tabindex = "24" })
+
+                    </td>
+
+
+
+                </tr>
+
+                <tr>
+                    <td>
+                        Designation : @Html.TextBox("CP_Designation",null, htmlAttributes: new { tabindex = "25" })
+                    </td>
+                    <td>
+                        Reference : @Html.TextBox("CP_Reference",null, htmlAttributes: new { tabindex = "26" })
+                    </td>
+                </tr>
+
+
+
+                <tr>
+
+                    <td> Email Address : @Html.TextBox("CP_EmailAddress", null, htmlAttributes: new { tabindex = "26" })</td>
+                    <td>
+                        @{
+
+                            if (Session["DataStore_Supplier"] == null)
+                            {
+
+                                <input type="button" id="btnGetAddedForm" value="Add" tabindex="27" />
+                            }
+                        }
+                    </td>
+
+                </tr>
+            </table>
+
+        </p>
+    </div>
+                            }
+
+<script>
+    $(document).ready(function () {
+
+
+        $("#btnGetAddedForm").click(function () {
+
+            $('#GetAddedForm').submit();
+
+
+
+        });
+    });
+</script>
+
+
+
+
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "form" }))
+{
+    @Html.AntiForgeryToken()
+
+    int TotalSupplierMaster = 0;
+
+    if (Session["DataStore_Supplier"] != null)
+    {
+        TotalSupplierMaster = ((List<SilGlobalFashion.Models.SupplierMasterModel>)Session["DataStore_Supplier"]).Count;
+    }
+
+    <div class="alert-info">
+
+        <table class="table" style="color:black;">
+
+            <tr>
+                <th>
+                    <h3> Name</h3>
+                </th>
+                <th>
+                    <h3> Designation </h3>
+
+                </th>
+                <th>
+                    <h3>Email Address </h3>
+                </th>
+                <th>
+                    <h3>Contract No</h3>
+
+                </th>
+                <th>
+                    <h3> Reference </h3>
+                </th>
+
+
+            </tr>
+
+            @for (var i = 0; i < TotalSupplierMaster; i++)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(it => it[i].CP_Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(it => it[i].CP_Designation)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(it => it[i].CP_EmailAddress)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(it => it[i].CP_ContactNo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(it => it[i].CP_Reference)
+                    </td>
+
+                </tr>
+
+
+            }
+
+            <tr>
+
+                <th>
+
+
+                </th>
+                <th>
+
+                </th>
+                <th>
+                    @Html.ActionLink("Refresh", "PageRefresh")
+
+                </th>
+                <th>
+
+                </th>
+
+                <th>
+
+                    <input type="submit" value="Save" class="btn btn-success" tabindex="28" />
+
+
+                </th>
+
+
+            </tr>
+        </table>
+
+    </div>
+}
+
+
+
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+
+        $(document).on('submit', 'form', function () {
+            var buttons = $(this).find('[type="submit"]');
+            if ($(this).valid()) {
+                buttons.each(function (btn) {
+                    $(buttons[btn]).prop('disabled', true);
+                });
+            } else {
+                buttons.each(function (btn) {
+                    $(buttons[btn]).prop('disabled', false);
+                });
+            }
+        });
+
+
+
+        $("#ItemCodeS").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("GetItemCode")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        ItemCode: $('#ItemCodeS').val()
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                        );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+
+        $("#ItemNameS").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("GetItemName")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        ItemName: $('#ItemNameS').val()
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                        );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+            }
+        });
+
+
+        if ($('#CP_Name').val() == '') {
+            $('#CP_Name').val('later');
+        }
+
+        if ($('#CP_ContactNo').val() == '') {
+            $('#CP_ContactNo').val('later');
+        }
+
+        if ($('#CP_Designation').val() == '') {
+            $('#CP_Designation').val('later');
+        }
+
+        if ($('#CP_Reference').val() == '') {
+            $('#CP_Reference').val('later');
+        }
+        if ($('#CP_EmailAddress').val() == '') {
+            $('#CP_EmailAddress').val('later');
+        }
+
+
+
+    });
+</script>
