@@ -10,8 +10,6 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace InteriorDesign.Models
 {
    
-
-
     public class ReportSetup
     {
 
