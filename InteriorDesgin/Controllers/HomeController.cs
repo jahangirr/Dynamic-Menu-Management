@@ -14,7 +14,9 @@ namespace InteriorDesign.Controllers
     {
 
       
-
+      public void kaka()
+      {
+      }
 
         public ActionResult Index()
         {
